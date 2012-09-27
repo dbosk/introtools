@@ -11,11 +11,13 @@
 \usepackage{natbib}
 \usepackage{listings}
 \usepackage{color}
+\usepackage{subfig}
 \usepackage[binary,amssymb]{SIunits}
 \usepackage[varioref,prettyref,listings]{miunmisc}
 \setcitestyle{numbers,square}
 \bibliographystyle{swealpha}
 
+% default style for listings is code and default language is TeX
 \lstset{style=code,language=tex}
 
 \svnInfo $Id$
@@ -44,10 +46,12 @@
 }
 \date{\svnId}
 
+% use the logotype in the slides
 \pgfdeclareimage[height=0.65cm]{university-logo}{MU_logotyp_int_CMYK.pdf}
 \logo{\pgfuseimage{university-logo}}
 
 \AtBeginSection[]{%
+	% show table of contents at beginning of every section
 	\begin{frame}<beamer>{Översikt}
 		\tableofcontents[currentsection]
 	\end{frame}
@@ -64,8 +68,8 @@
 
 \section{Historia}
 
-\subsection{Metafont och \TeX}
-\begin{frame}{Metafontm, \TeX{} och \LaTeX}
+\subsection{Metafont, \TeX{} och \LaTeX{}}
+\begin{frame}{Metafont, \TeX{} och \LaTeX{}}
 	\begin{itemize}
 		\item \TeX{} skapades av Donald E. Knuth, Standford University, i slutet av 
 			1970-talet.
@@ -75,7 +79,7 @@
 			\end{itemize}
 		\item \LaTeX{} skapades av Leslie Lamport 1985.
 			\begin{itemize}
-				\item Skapat för att enkelt skriva dokument av olika slag.
+				\item Skapat för att enkelt typsätta dokument av olika slag.
 				\item Används flitigt inom akademin.
 			\end{itemize}
 	\end{itemize}
@@ -84,15 +88,23 @@
 \subsection{Några exempel}
 \begin{frame}{Några exempel}{The \TeX{} Showcase}
 	Några exempel hämtade från \emph{The \TeX{} Showcase} \citep{TUG2012tsc}:
-	\par
-	\vspace{1cm}
-	\includegraphics[width=0.2\linewidth]{maps.jpg}
-	\hfill
-	\includegraphics[width=0.2\linewidth]{music.jpg}
-	\hfill
-	\includegraphics[width=0.2\linewidth]{circular_margin.jpg}
-	\hfill
-	\includegraphics[width=0.2\linewidth]{tengwar.jpg}
+	\begin{figure}
+		\subfloat[Kartor.]{%
+			\includegraphics[width=0.2\linewidth]{maps.jpg}
+		}
+		\hfill
+		\subfloat[Musik och noter.]{%
+			\includegraphics[width=0.2\linewidth]{music.jpg}
+		}
+		\hfill
+		\subfloat[Cirkulär marginal.]{%
+			\includegraphics[width=0.2\linewidth]{circular_margin.jpg}
+		}
+		\hfill
+		\subfloat[Tolkiens tengwar.]{%
+			\includegraphics[width=0.2\linewidth]{tengwar.jpg}
+		}
+	\end{figure}
 \end{frame}
 
 
@@ -162,6 +174,8 @@
 \usepackage{natbib}
 ...
 Enligt Knuth \cite{Knuth1997tao} finns ingen algoritm för att lösa problemet.
+...
+\bibliography{literature}
 	\end{lstlisting}
 	Ger resultatet:
 	\begin{quote}
@@ -169,18 +183,20 @@ Enligt Knuth \cite{Knuth1997tao} finns ingen algoritm för att lösa problemet.
 		problemet.
 	\end{quote}
 \end{frame}
-\begin{frame}[fragile]{Bib\TeX}
-	\lstinputlisting[firstline=222,lastline=236]{../../literature.bib}
+\begin{frame}[fragile]{Bib\TeX}{literature.bib}
+	\lstinputlisting[firstline=73,lastline=90]{../../literature.bib}
 \end{frame}
 
 \subsection{Matematik}
 \begin{frame}[fragile]{Matematik}
 	\begin{lstlisting}
-		\( \sum_{i=1}^n i = \frac{n (n + 1)}{2} \)
+		Vi har summan \( \sum_{i=1}^n i = \frac{n (n + 1)}{2} \).
+		Men sedan har vi även summan \[ \sum_{i=1}^n i = \frac{n (n + 1)}{2} \].
 	\end{lstlisting}
 	Ger resultatet:
 	\begin{quote}
-		\( \sum_{i=1}^n i = \frac{n (n + 1)}{2} \)
+		Vi har summan \( \sum_{i=1}^n i = \frac{n (n + 1)}{2} \).
+		Men sedan har vi även summan \[ \sum_{i=1}^n i = \frac{n (n + 1)}{2} \].
 	\end{quote}
 \end{frame}
 \begin{frame}[fragile]{Matematik}
@@ -202,35 +218,68 @@ Enligt Knuth \cite{Knuth1997tao} finns ingen algoritm för att lösa problemet.
 	\right\} = f^{-1}(a), \]
 	\end{quote}
 \end{frame}
+\begin{frame}{\TeX{} math mode}
+	\begin{itemize}
+		\item I en del kod kan man stöta på att matematiken avgränsas med 
+			dollartecken (\$), detta är \TeX-motsvarigheten till 
+			\texttt{\textbackslash (} och \texttt{\textbackslash )}.
+		\item På samma sätt dubbla dollartecken (\$\$) för \texttt{\textbackslash 
+			[} och \texttt{\textbackslash ]}.
+	\end{itemize}
+\end{frame}
 
 \subsection{Figurer och tabeller}
 \begin{frame}[fragile]{Figurer}
 	\begin{lstlisting}
+\usepackage{graphicx}
+...
 \begin{figure}
-	\centering
-	\includegraphics[width=0.5\linewidth]{pic.pdf}
-	\caption{En bild föreställande en bild.}
-	\label{fig:bild}
+  \centering
+  \includegraphics[width=0.2\linewidth]{tengwar.jpg}
+  \caption{En bild föreställande J. R. R. Tolkiens tengwar.}
+  \label{fig:bild}
 \end{figure}
 	\end{lstlisting}
+\end{frame}
+\begin{frame}{Figurer}{Den resulterande figuren}
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.2\linewidth]{tengwar.jpg}
+		\caption{En bild föreställande J. R. R. Tolkiens tengwar.}
+		\label{fig:bild}
+	\end{figure}
 \end{frame}
 \begin{frame}[fragile,allowframebreaks]{Tabeller}
 	\begin{lstlisting}
 \begin{table}
-	\centering
-	\begin{tabular}{r|cccccccccc}
-		\hline\hline
-		\(\alpha\) & a & b & c & d & e & f & g & h & i & j \\
-		\(P_E(\alpha)\) & 8.2  & 1.5 & 2.8 & 4.3 & 12.7 & 2.2 & 2.0 & 6.1 & 7.0 & 0.2 \\
-		\(P_S(\alpha)\) & 9.3  & 1.3 & 1.3 & 4.5 & 9.9 & 2.0 & 3.3 & 2.1 & 5.1 & 0.7 \\
-		\hline\hline
-		...
-		\hline\hline
-	\end{tabular}
-	\caption{Tabell av sannolikhetsfunktionen för bokstäver i det engelska och det svenska språket, \(P_E\) respektive \(P_S\), angiven i procent med en decimals noggrannhet.}
-	\label{tbl:SannolikhetstabellSpråk}
+  \centering
+  \begin{tabular}{r|cccccccccc}
+    \hline\hline
+    \(\alpha\) & a & b & c & d & e & f & g & h & i & j \\
+    \(P_E(\alpha)\) & 8.2  & 1.5 & 2.8 & 4.3 & 12.7 & 2.2 & 2.0 & 6.1 & 7.0 & 0.2 \\
+    \(P_S(\alpha)\) & 9.3  & 1.3 & 1.3 & 4.5 & 9.9 & 2.0 & 3.3 & 2.1 & 5.1 & 0.7 \\
+    \hline\hline
+  \end{tabular}
+  \caption{Tabell av sannolikhetsfunktionen för bokstäver i det engelska och det svenska språket, \(P_E\) respektive \(P_S\), angiven i procent med en decimals noggrannhet.}
+  \label{tbl:SannolikhetstabellSpråk}
 \end{table}
 	\end{lstlisting}
+\end{frame}
+\begin{frame}{Tabeller}{Den resulterande tabellen}
+	\begin{table}
+		\centering
+		\begin{tabular}{r|cccccccccc}
+			\hline\hline
+			\(\alpha\) & a & b & c & d & e & f & g & h & i & j \\
+			\(P_E(\alpha)\) & 8.2  & 1.5 & 2.8 & 4.3 & 12.7 & 2.2 & 2.0 & 6.1 & 7.0 & 0.2 \\
+			\(P_S(\alpha)\) & 9.3  & 1.3 & 1.3 & 4.5 & 9.9 & 2.0 & 3.3 & 2.1 & 5.1 & 0.7 \\
+			\hline\hline
+		\end{tabular}
+		\caption{Tabell av sannolikhetsfunktionen för bokstäver i det engelska och 
+		det svenska språket, \(P_E\) respektive \(P_S\), angiven i procent med en 
+		decimals noggrannhet.}
+		\label{tbl:SannolikhetstabellSpråk}
+	\end{table}
 \end{frame}
 
 \subsection{Cross-referencing}
