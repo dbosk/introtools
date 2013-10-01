@@ -1,18 +1,24 @@
 CATEGORY=	itgrund/lectures
-latexsrc=	latex.tex literature.bib theory.tex thesis.tex \
-			circular_margin.jpg maps.jpg tengwar.jpg music.jpg
+latexsrc=	latex.tex literature.bib theory.tex thesis.tex
+latexsrc+=	circular_margin.jpg maps.jpg tengwar.jpg music.jpg
+latexsrc+= 	example1.pdf examples.pdf
 examplessrc=examples.tex literature.bib
-FILES=		${latexsrc} ${examplessrc}
+FILES=		${latexsrc} ${examplessrc} example1.tex
 DOCUMENTS=	latex.pdf latex-examples.pdf
 
 PACKAGE=		latex-src
 TARBALL_FILES=	${FILES}
 
+USE_BIBLATEX= 	yes
+USE_LATEXMK= 	yes
+
 PUB_FILES=	${PACKAGE}.tar.gz ${DOCUMENTS}
 
-latex.pdf: ${latexsrc}
+latex.pdf: ${latexsrc} example1.pdf
 latex-examples.pdf: examples.pdf ${examplessrc}
 	mv examples.pdf $@
+
+examples.pdf: examples.tex literature.bib
 
 #export no
 literature.bib: ../../literature.bib

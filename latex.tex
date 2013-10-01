@@ -43,13 +43,10 @@
 	\url{http://creativecommons.org/licenses/by-sa/2.5/se/}.
 }}
 \institute[MIUN ITM]{%
-	%Division of Information and Communication Systems (ICS),\\
-	%Department of Information Technology and Media (ITM),\\
-	%Mid Sweden University, Sundsvall.
-	%
-	%Avdelningen för informations- och kommunikationssytem (IKS),\\
-	Institutionen för informationsteknologi och medier (ITM),\\
-	Mittuniversitetet, Sundsvall.
+  %Department of Information and Communication Systems (ICS),\\
+  %Mid Sweden University, Sundsvall.
+  Avdelningen för informations- och kommunikationssytem (IKS),\\
+  Mittuniversitetet, Sundsvall.
 }
 \date{\svnId}
 
@@ -75,16 +72,17 @@
 
 \section{Historia}
 
-\subsection{Metafont, \TeX{} och \LaTeX{}}
-\begin{frame}{Metafont, \TeX{} och \LaTeX{}}
-	\begin{itemize}
-		\item \TeX{} skapades av Donald E. Knuth, Standford University, i slutet av 
-			1970-talet.
+\subsection{Metafont, \TeX\ och \LaTeX}
+
+\begin{frame}{\insertsubsectionhead}
+  \begin{itemize}
+    \item \TeX\ skapades av Donald E. Knuth, Standford University, i slutet av 
+      1970-talet.
 			\begin{itemize}
 				\item Ville att \emph{The Art of Computer Programming} 
 					\citep{Knuth1997tao} skulle typsättas vackrare.
 			\end{itemize}
-		\item \LaTeX{} skapades av Leslie Lamport 1985.
+    \item \LaTeX\ skapades av Leslie Lamport 1985.
 			\begin{itemize}
 				\item Skapat för att enkelt typsätta dokument av olika slag.
 				\item Används flitigt inom akademin.
@@ -93,8 +91,9 @@
 \end{frame}
 
 \subsection{Några exempel}
-\begin{frame}{Några exempel}{The \TeX{} Showcase}
-	Några exempel hämtade från \emph{The \TeX{} Showcase} \citep{TUG2012tsc}:
+
+\begin{frame}{\insertsubsectionhead}{The \TeX\ Showcase}
+  Några exempel hämtade från \emph{The \TeX\ Showcase} \citep{TUG2012tsc}:
 	\begin{figure}
 		\subfloat[Kartor.]{%
 			\includegraphics[width=0.2\linewidth]{maps.jpg}
@@ -118,8 +117,9 @@
 \section[Dokumentstruktur]{Övergripande dokumentstruktur}
 
 \subsection{Preamble}
-\begin{frame}[fragile]{Preamble}
-	\begin{lstlisting}
+
+\begin{frame}[fragile]{\insertsubsectionhead}
+  \begin{lstlisting}
 \documentclass[a4paper]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
@@ -132,8 +132,9 @@
 \end{frame}
 
 \subsection{Textinnehållet}
-\begin{frame}[fragile]{Textinnehållet}
-	\begin{lstlisting}
+
+\begin{frame}[fragile]{\insertsubsectionhead}
+  \begin{lstlisting}
 \begin{document}
 	\maketitle
 	\tableofcontents
@@ -143,30 +144,47 @@
 	\end{lstlisting}
 \end{frame}
 
+\subsection{Exempeldokumentet}
+
+\begin{frame}{\insertsubsectionhead}
+  \begin{figure}
+    \includegraphics[height=0.7\textheight]{example1.pdf}
+    \caption{Koden från föregående kompilerad till en PDF.}
+  \end{figure}
+\end{frame}
+
 
 \section[Innehåll]{Dokumentets innehåll}
 
 \subsection{Paragrafer och avsnitt}
+
 \begin{frame}{Paragrafer}
 	\begin{itemize}
 		\item Skrivs som vanlig text.
+
 		\item Olika paragrafer separeras med en blankrad eller kommandot 
 			\texttt{\textbackslash par}.
+
 	\end{itemize}
 \end{frame}
+
 \begin{frame}{Avsnitt}
 	Finns olika typer av avsnitt beroende på vilken dokumentklass som används.
 	\begin{description}
 		\item[chapter] Betecknar kapitel.
 			Finns i klasser som avser större dokument, exempelvis book, report, 
 			miunthes.
+
 		\item[section] Betecknar ett avsnitt.
 			Finns i alla klasser.
+
 		\item[subsection] Betecknar ett delavsnitt.
 			Finns i alla klasser.
+
 		\item[subsubsection] Betecknar den minsta typen av avsnitt som bör 
 			användas.
 			Finns i de flesta klasser.
+
 	\end{description}
 	Dessa används på följande vis:
 	\begin{center}
@@ -175,6 +193,7 @@
 \end{frame}
 
 \subsection{Referenser}
+
 \begin{frame}[fragile]{Referenser}
 	\begin{lstlisting}
 ...
@@ -190,11 +209,13 @@ Enligt Knuth \cite{Knuth1997tao} finns ingen algoritm för att lösa problemet.
 		problemet.
 	\end{quote}
 \end{frame}
+
 \begin{frame}[fragile]{Bib\TeX}{literature.bib}
 	\lstinputlisting[firstline=73,lastline=90]{../../literature.bib}
 \end{frame}
 
 \subsection{Matematik}
+
 \begin{frame}[fragile]{Matematik}
 	\begin{lstlisting}
 		Vi har summan \( \sum_{i=1}^n i = \frac{n (n + 1)}{2} \).
@@ -206,6 +227,7 @@ Enligt Knuth \cite{Knuth1997tao} finns ingen algoritm för att lösa problemet.
 		Men sedan har vi även summan \[ \sum_{i=1}^n i = \frac{n (n + 1)}{2} \].
 	\end{quote}
 \end{frame}
+
 \begin{frame}[fragile]{Matematik}
 	\begin{lstlisting}
 \[ f(a) = \left\{
@@ -225,17 +247,21 @@ Enligt Knuth \cite{Knuth1997tao} finns ingen algoritm för att lösa problemet.
 	\right\} = f^{-1}(a), \]
 	\end{quote}
 \end{frame}
-\begin{frame}{\TeX{} math mode}
+
+\begin{frame}{\TeX\ math mode}
 	\begin{itemize}
 		\item I en del kod kan man stöta på att matematiken avgränsas med 
 			dollartecken (\$), detta är \TeX-motsvarigheten till 
 			\texttt{\textbackslash (} och \texttt{\textbackslash )}.
+
 		\item På samma sätt dubbla dollartecken (\$\$) för \texttt{\textbackslash 
 			[} och \texttt{\textbackslash ]}.
+
 	\end{itemize}
 \end{frame}
 
 \subsection{Figurer och tabeller}
+
 \begin{frame}[fragile]{Figurer}
 	\begin{lstlisting}
 \usepackage{graphicx}
@@ -248,6 +274,7 @@ Enligt Knuth \cite{Knuth1997tao} finns ingen algoritm för att lösa problemet.
 \end{figure}
 	\end{lstlisting}
 \end{frame}
+
 \begin{frame}{Figurer}{Den resulterande figuren}
 	\begin{figure}
 		\centering
@@ -256,6 +283,7 @@ Enligt Knuth \cite{Knuth1997tao} finns ingen algoritm för att lösa problemet.
 		\label{fig:bild}
 	\end{figure}
 \end{frame}
+
 \begin{frame}[fragile,allowframebreaks]{Tabeller}
 	\begin{lstlisting}
 \begin{table}
@@ -272,6 +300,7 @@ Enligt Knuth \cite{Knuth1997tao} finns ingen algoritm för att lösa problemet.
 \end{table}
 	\end{lstlisting}
 \end{frame}
+
 \begin{frame}{Tabeller}{Den resulterande tabellen}
 	\begin{table}
 		\centering
@@ -290,6 +319,7 @@ Enligt Knuth \cite{Knuth1997tao} finns ingen algoritm för att lösa problemet.
 \end{frame}
 
 \subsection{Cross-referencing}
+
 \begin{frame}[fragile]{Cross-referencing}
 	\begin{lstlisting}
 För att förstå denna text bör du se tabell \ref{tbl:SannolikhetstabellSpråk}.
@@ -307,21 +337,27 @@ För att förstå denna text bör du se \prettyref{tbl:SannolikhetstabellSpråk}
 
 \section[Klasser och paket]{Användbara klasser och paket}
 
-\subsection{miunthes}
-\begin{frame}[fragile,allowframebreaks]{miunthes}
-	\lstinputlisting{thesis.tex}
-	\lstinputlisting[lastline=5]{theory.tex}
-\end{frame}
+%\subsection{miunthes}
+%
+%\begin{frame}[fragile,allowframebreaks]{miunthes}
+%	\lstinputlisting{thesis.tex}
+%	\lstinputlisting[lastline=5]{theory.tex}
+%\end{frame}
 
 \subsection[Standardklasser och paket]{Några standardklasser och paket}
+
 \begin{frame}{Några standardklasser och paket}
 	\begin{description}
 		\item[SIunits] Används för att korrekt typsätta enheter.
+
 		\item[natbib] Används för att förenkla referenshantering.
 			Får exempelvis kommandot \texttt{\textbackslash citet}.
+
 		\item[listings] Används för att lista kod, likt i dessa slides.
+
 	\end{description}
 \end{frame}
+
 \begin{frame}[fragile]{SIunits}
 	\begin{lstlisting}
 ...
@@ -337,27 +373,42 @@ En linjal i standardutförande är \unit{30}{\centi\metre}, medan
 	\end{quote}
 \end{frame}
 
-\subsection{miunmisc}
-\begin{frame}[fragile]{miunmisc}
-	\begin{lstlisting}
-\usepackage{natbib}
-\usepackage{listings}
-\usepackage{prettyref}
-\usepackage{varioref}
-\usepackage[natbib,listings,varioref,prettyref]{miunmisc}
-	\end{lstlisting}
+%\subsection{miunmisc}
+%
+%\begin{frame}[fragile]{miunmisc}
+%	\begin{lstlisting}
+%\usepackage{natbib}
+%\usepackage{listings}
+%\usepackage{prettyref}
+%\usepackage{varioref}
+%\usepackage[natbib,listings,varioref,prettyref]{miunmisc}
+%	\end{lstlisting}
+%\end{frame}
+
+\subsection{Exempeldokument}
+
+\begin{frame}[fragile,allowframebreaks]{\insertsubsectionhead}
+  \lstinputlisting{examples.tex}
 \end{frame}
 
-\subsection{beamer}
-\begin{frame}[allowframebreaks]{beamer}
-	\lstinputlisting{latex.tex}
+\begin{frame}{\insertsubsectionhead}
+  \begin{figure}
+    \includegraphics[height=0.7\textheight]{examples.pdf}
+    \caption{Resultatet av exempelkoden.}
+  \end{figure}
 \end{frame}
+
+%\subsection{beamer}
+%
+%\begin{frame}[allowframebreaks]{beamer}
+%	\lstinputlisting{latex.tex}
+%\end{frame}
 
 
 %%%%%%%%%%%%%%%%%%%%%%
 
 \begin{frame}{Referenser}
-	\bibliography{../../literature}
+  \bibliography{literature}
 \end{frame}
 
 \end{document}
