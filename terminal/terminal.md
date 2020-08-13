@@ -15,7 +15,8 @@ n=10 cat hitch-hikers-guide.txt | \
 This is a one-line command that we have broken over several lines for 
 readability. It outputs the 10 most common words in the Hitch-Hikers Guide to 
 the Galaxy (provided we have the file `hitch-hikers-guide.txt` containing a 
-text copy of that book).
+text copy of that book). By the end of this exercise you will understand 
+exactly why this line achieves what it does.
 
 In 1986, [Jon Bentley][bentley] posed a problem to [Donald Knuth][knuth] (the 
 father of modern computer science). The problem was to write a [literate 
