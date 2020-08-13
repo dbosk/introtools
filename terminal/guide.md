@@ -22,7 +22,7 @@ run Windows 10, just go ahead and [install Windows Subsystem for Linux][WSL]
 Again, if you run a UNIX-like system, such as Linux, MacOS or WSL (as above); 
 then you can use the `ssh` command in the terminal to access a KTH system 
 remotely. Just run
-```bash
+```
 ssh student-shell.sys.kth.se
 ```
 and log in with your normal username and password.
