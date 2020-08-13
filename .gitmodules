@@ -1,0 +1,3 @@
+[submodule "latex/learnlatex"]
+	path = latex/learnlatex
+	url = https://github.com/learnlatex/learnlatex.github.io.git
