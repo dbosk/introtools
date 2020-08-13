@@ -53,5 +53,6 @@ directory. As with PuTTY, just give `student-shell.sys.kth.se` as the hostname.
 If you succeeded, you should have window that looks something like 
 +@fig:terminal.
 
-![A terminal window](terminal.png){#fig:terminal}
+![A terminal 
+window](https://github.com/dbosk/introtools/raw/master/terminal/terminal.png){#fig:terminal}
 
