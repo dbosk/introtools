@@ -3,7 +3,7 @@
 The terminal provides a *command-line interface*. This means that we can type 
 commands which the computer will execute. It provides some very powerful 
 constructions that allows us to do incredible things, for example:
-```bash
+```
 n=10 cat hitch-hikers-guide.txt | \
   tr -cs A-Za-z '\n' | \
 	tr A-Z a-z | \
@@ -86,7 +86,7 @@ meaning there shouldn't be anything before on a matching line). From there,
 either scroll down or search again, but this time for `/cd`.
 
 Let's have an example to look at.
-```bash
+```
 mkdir testdir
 cd testdir
 touch testfile
@@ -126,7 +126,7 @@ There are two possible redirections, `<` and `>`. The first, `<`, reads the
 input to a program from a specified file, while the second, `>` redirects the 
 output from a program to a specified file. For instance:
 
-```bash
+```
 echo 1 2 3 > testfile
 cat testfile
 wc < testfile
@@ -143,7 +143,7 @@ would give the same result as `wc < testfile`.
 
 Let's return the example in the beginning, what does it do exactly? The code 
 was this:
-```sh
+```
 n=10 cat hitch-hikers-guide.txt | \
   tr -cs A-Za-z '\n' | \
 	tr A-Z a-z | \
