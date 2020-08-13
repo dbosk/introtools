@@ -36,5 +36,13 @@ just give `student-shell.sys.kth.se` as the hostname in PuTTY.
 
 WinSCP is used for copying files between the your local system and the remote 
 KTH system. This allows you to upload or download files from your KTH home 
-directory. As with PuTTY, just give the hostname `student-shell.sys.kth.se`.
+directory. As with PuTTY, just give `student-shell.sys.kth.se` as the hostname.
+
+
+## The end result
+
+If you succeeded, you should have window that looks something like 
++@fig:terminal.
+
+![A terminal window](terminal.png){#fig:terminal}
 

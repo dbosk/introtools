@@ -1,4 +1,7 @@
 .PHONY: html
 html: ${target}
-	pandoc -f markdown -t html $<
+	pandoc ${PANDOCFLAGS} -t html $<
+
+%.html: %.md
+	pandoc --standalone ${PANDOCFLAGS} -o $@ $<
 

@@ -1,10 +1,14 @@
 HTML_FILES= 	terminal.html guide.html
 
+PANDOCFLAGS= 	--filter pandoc-xnos
+
 .PHONY: all
 all: ${HTML_FILES}
 
-${HTML_FILES}: ${HTML_FILES:.html=.md}
-	pandoc -s -o $@ $<
+
+.PHONY: clean
+clean:
+	${RM} ${HTML_FILES}
 
 
 include ../html.mk
