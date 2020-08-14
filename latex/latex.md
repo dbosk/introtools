@@ -32,7 +32,8 @@ Run through [this tutorial][learnlatex]. We recommend that you start out with
 [Overleaf][overleaf] as editor, since that is an option for easy 
 experimentation in the tutorial. [KTH provides Overleaf Professional for all 
 students][overleaf-kth], you just need to register an account using your KTH 
-email address. (Or add your KTH address, if you already have an account.)
+email address. (Or add your KTH address, if you've already signed up for the 
+free version.)
 
 [learnlatex]: https://learnlatex.org
 [overleaf]: https://overleaf.com
