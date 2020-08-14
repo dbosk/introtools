@@ -1,0 +1,12 @@
+This is the documentation for the grading script for the [[guide]] assignment.
+
+The end goal of the [[guide]] assignment is that the students log into the 
+[[student-shell]] system over SSH. We can run a shell script which queries the 
+users who've signed in and simply tick our students off.
+
+<<grade-guide.sh>>=
+ssh student-shell.sys.kth.se last > loggedin
+<<tick students off>>
+rm loggedin
+@
+
