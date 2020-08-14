@@ -29,12 +29,13 @@ better results than one might initially think.
 ## Learning LaTeX
 
 Run through [this tutorial][learnlatex]. We recommend that you start out with 
-Overleaf as editor, since that is an option for easy experimentation in the 
-tutorial. [KTH provides Overleaf Professional for all students][overleaf-kth], 
-you just need to register an account using your KTH email address. (Or add your 
-KTH address, if you already have an account.)
+[Overleaf][overleaf] as editor, since that is an option for easy 
+experimentation in the tutorial. [KTH provides Overleaf Professional for all 
+students][overleaf-kth], you just need to register an account using your KTH 
+email address. (Or add your KTH address, if you already have an account.)
 
 [learnlatex]: https://learnlatex.org
+[overleaf]: https://overleaf.com
 [overleaf-kth]: https://www.overleaf.com/edu/kth
 
 With Overleaf Professional you can [use Overleaf with Git][overleaf-git]. 
@@ -46,9 +47,10 @@ syntax highlighting and auto-completion support for LaTeX.
 
 The material has talked about producing books and reports so far. It's also 
 possible to use LaTeX to produce slides. One way to do that is with 
-[beamer][beamer]. Overleaf has a short [tutorial][overleaf-beamer]. But we 
-recommend the [documentation for beamer][beamerguide], that documentation is 
-actually written as a guide to good presentations in general.
+[beamer][beamer]. Overleaf has a short [tutorial][overleaf-beamer], but we 
+recommend the [documentation for beamer][beamerguide] --- that documentation is 
+actually written as a guide to good presentations in general, well worth 
+reading.
 
 [beamer]: https://ctan.org/pkg/beamer
 [overleaf-beamer]: https://www.overleaf.com/learn/latex/beamer
@@ -64,7 +66,7 @@ with the following requirements: it must contain
   - a table of contents,
   - a figure,
   - a citation with a reference, you can use [Libris][libris] (web) or 
-    [libris.sh][libris.sh] (terminal) to create a reference to a book;
+    [libris.sh][libris.sh] (terminal) to create a BibTeX reference to a book;
   - a listing, using the [listings package][listings], that contains your 
     command line history (the output of the `history` command).
 
