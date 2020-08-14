@@ -38,10 +38,16 @@ and log in with your normal username and password.
 
 If you run Windows without WSL, you'll need [PuTTY][putty] and 
 [WinSCP][winscp]. PuTTY will open a terminal that's running on KTH's servers, 
-just give `student-shell.sys.kth.se` as the hostname in PuTTY.
+just give `student-shell.sys.kth.se` as the hostname in PuTTY, see 
++@fig:puttyconf and +@fig:puttyterm. Then you just type in your KTH username 
+and password (note that you won't see anything when typing in the password, 
+UNIX-like systems don't output the bullets or asterisks when typing passwords).
+
+![The PuTTY start-up screen][puttyconf]{#fig:puttyconf}
 
 [putty]: https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html
 [winscp]: https://winscp.net/eng/download.php
+[puttyconf]: https://github.com/dbosk/introtools/raw/master/terminal/puttyconf.png
 
 WinSCP is used for copying files between the your local system and the remote 
 KTH system. This allows you to upload or download files from your KTH home 
@@ -51,8 +57,11 @@ directory. As with PuTTY, just give `student-shell.sys.kth.se` as the hostname.
 ## The end result
 
 If you succeeded, you should have window that looks something like 
-+@fig:terminal.
++@fig:terminal or +@fig:puttyterm.
 
-![A terminal 
-window](https://github.com/dbosk/introtools/raw/master/terminal/terminal.png){#fig:terminal}
+![A terminal window with an SSH session on a UNIX-like system][terminal]{#fig:terminal}
 
+![A terminal window in PuTTY][puttyterm]{#fig:puttyterm}
+
+[terminal]: https://github.com/dbosk/introtools/raw/master/terminal/terminal.png
+[puttyterm]: https://github.com/dbosk/introtools/raw/master/terminal/puttyterm.png
