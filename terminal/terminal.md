@@ -172,5 +172,10 @@ replaced by the value of `n`, which we had set to `10` on the first line.
 
 ## Assessment
 
-Log into the remote system, create a directory called `datintro20`. (We suggest 
-that you work in this directory for this course from now on.)
+Log into the remote system, create a directory called `datintro20` in your home 
+directory (the home directory is where you start when you just log in, you can 
+also get there if you type `cd` without any arguments). We suggest that you 
+work in the `datintro20` directory for this course from now on. (Note that we 
+can check that this directory exists, so ensure that you've created it in your 
+home directory.)
+
