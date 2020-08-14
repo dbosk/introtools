@@ -172,10 +172,16 @@ replaced by the value of `n`, which we had set to `10` on the first line.
 
 ## Assessment
 
-Log into the remote system, create a directory called `datintro20` in your home 
-directory (the home directory is where you start when you just log in, you can 
-also get there if you type `cd` without any arguments). We suggest that you 
-work in the `datintro20` directory for this course from now on. (Note that we 
-can check that this directory exists, so ensure that you've created it in your 
-home directory.)
+Log into the remote system (`student-shell`) and do the following:
+
+  1) Create a directory called `datintro20` in your home directory; the home 
+  directory is where you start when you just log in, you can also get there if 
+  you type `cd` without any arguments. We suggest that you work in the 
+  `datintro20` directory for this course from now on.
+  
+  2) In the `datintro20` directory, redirect the output of the `history` 
+  command to a file called `terminal-exercise.txt`.
+  
+Note that we can check that this directory and file exists, so ensure that 
+you've created them in your home directory.
 
