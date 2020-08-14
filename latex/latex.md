@@ -1,0 +1,83 @@
+# Writing reports with LaTeX
+
+[LaTeX][latex] is a document preparation system. LaTeX is based on [TeX][tex], 
+which is a typesetting engine that can [do anything][tex-showcase].
+
+[latex]: https://en.wikipedia.org/wiki/LaTeX
+[tex]: https://en.wikipedia.org/wiki/TeX
+[tex-showcase]: https://www.tug.org/texshowcase/
+
+The main purpose of these systems, and the reason we want you to learn this, is 
+to prepare high quality documents and reports. LaTeX lets you focus on the 
+contents of the report: you say what should go in, if anything should be 
+*emphasized*, what's the contents of figures, the data for references etc. and 
+LaTeX will put this content together in a form that is *comforable* to read and 
+aesthetically pleasing.
+
+So what about [word processors][word-processor] like Microsoft Word of 
+LibreOffice Writer? Well, word processors are to readability as food processors 
+are to restaurant critiques. Of course, it's possible to achieve good results 
+with a word processor too, it's just that it requires much more effort than 
+most people imagine ([this][memdesign] brings up a few of the things that one 
+must consider). So using a system like LaTeX is actually easier and achieves 
+better results than one might initially think.
+
+[word-processor]: https://en.wikipedia.org/wiki/Word_processor
+[memdesign]: http://tug.ctan.org/info/memdesign/memdesign.pdf
+
+
+## Learning LaTeX
+
+Run through [this tutorial][learnlatex]. We recommend that you start out with 
+Overleaf as editor, since that is an option for easy experimentation in the 
+tutorial. [KTH provides Overleaf Professional for all students][overleaf-kth], 
+you just need to register an account using your KTH email address. (Or add your 
+KTH address, if you already have an account.)
+
+[learnlatex]: https://learnlatex.org
+[overleaf-kth]: https://www.overleaf.com/edu/kth
+
+With Overleaf Professional you can [use Overleaf with Git][overleaf-git]. 
+However, to use branching and pull-requests to their full extent, it's probably 
+easier to use a local editor instead of Overleaf. All powerful text editors has 
+syntax highlighting and auto-completion support for LaTeX.
+
+[overleaf-git]: https://www.overleaf.com/learn/how-to/How_do_I_connect_an_Overleaf_project_with_a_repo_on_GitHub,_GitLab_or_BitBucket%3F
+
+The material has talked about producing books and reports so far. It's also 
+possible to use LaTeX to produce slides. One way to do that is with 
+[beamer][beamer]. Overleaf has a short [tutorial][overleaf-beamer]. But we 
+recommend the [documentation for beamer][beamerguide], that documentation is 
+actually written as a guide to good presentations in general.
+
+[beamer]: https://ctan.org/pkg/beamer
+[overleaf-beamer]: https://www.overleaf.com/learn/latex/beamer
+[beamerguide]: http://mirrors.ctan.org/macros/latex/contrib/beamer/doc/beameruserguide.pdf
+
+
+## Assessment
+
+Write a short document (article, using the `article` document class) in LaTeX 
+with the following requirements: it must contain
+
+  - a title,
+  - a table of contents,
+  - a figure,
+  - a citation with a reference, you can use [Libris][libris] (web) or 
+    [libris.sh][libris.sh] (terminal) to create a reference to a book;
+  - a listing, using the [listings package][listings], that contains your 
+    command line history (the output of the `history` command).
+
+[libris]: https://libris.kb.se
+[libris.sh]: https://github.com/dbosk/libris.sh
+[listings]: https://ctan.org/pkg/listings
+
+The document must be committed and pushed to a repository on [KTH 
+GitHub][github-kth]. Note that the repository must be owned by the `datintro20` 
+organization. See [here][repo-tranfer] for instructions how to fix that for an 
+existing repo. (It's also possible to select the organization as owner directly 
+when the repo is created.)
+
+[github-kth]: https://gits-15.sys.kth.se/datintro20
+[repo-transfer]: https://docs.github.com/en/github/administering-a-repository/transferring-a-repository#transferring-a-repository-owned-by-your-user-account
+
