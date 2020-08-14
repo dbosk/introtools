@@ -1,6 +1,5 @@
 HTML_FILES= 	latex.html
 
-PANDOCFLAGS= 	--filter pandoc-xnos
 
 .PHONY: all
 all: ${HTML_FILES}
