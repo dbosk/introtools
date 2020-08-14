@@ -16,11 +16,11 @@ aesthetically pleasing.
 
 So what about [word processors][word-processor] like Microsoft Word of 
 LibreOffice Writer? Well, word processors are to readability as food processors 
-are to restaurant critiques. Of course, it's possible to achieve good results 
+are to restaurant critics. Of course, it's possible to achieve good results 
 with a word processor too, it's just that it requires much more effort than 
 most people imagine ([this][memdesign] brings up a few of the things that one 
-must consider). So using a system like LaTeX is actually easier and achieves 
-better results than one might initially think.
+must ensure manually with the word processor). So using a system like LaTeX is 
+actually makes better results more easy to achieve.
 
 [word-processor]: https://en.wikipedia.org/wiki/Word_processor
 [memdesign]: http://tug.ctan.org/info/memdesign/memdesign.pdf
