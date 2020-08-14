@@ -169,3 +169,8 @@ time on the numbers rather than the words.
 
 Finally, `head` will output the first `n` counts and words. The `$n` will be 
 replaced by the value of `n`, which we had set to `10` on the first line.
+
+## Assessment
+
+Log into the remote system, create a directory called `datintro20`. (We suggest 
+that you work in this directory for this course from now on.)

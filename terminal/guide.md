@@ -65,3 +65,9 @@ If you succeeded, you should have window that looks something like
 
 [terminal]: https://github.com/dbosk/introtools/raw/master/terminal/terminal.png
 [puttyterm]: https://github.com/dbosk/introtools/raw/master/terminal/puttyterm.png
+
+## Assessment
+
+We can see whether you've never logged into the `student-shell` server or not, 
+so ensure that you successfully log in.
+
