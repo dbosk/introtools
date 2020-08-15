@@ -1,4 +1,4 @@
-HTML_FILES= 	terminal.html guide.html
+HTML_FILES= 	guide.html terminal.html tmate.html
 
 PANDOCFLAGS= 	--filter pandoc-xnos
 
