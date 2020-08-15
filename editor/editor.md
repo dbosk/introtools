@@ -61,3 +61,5 @@ other features through plug-ins. Some of the most popular are
  - [Sublime Text](https://www.sublimetext.com/),
  - [Visual Studio Code (VS Code)](https://code.visualstudio.com/).
 
+However, note that these editors don't work with tmate, only the host will see 
+the window.
