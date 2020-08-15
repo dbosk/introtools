@@ -17,22 +17,22 @@ remote lab sessions, tmate might be useful.
 
 Video chat:
 
-	- [Zoom][zoom]
-	- [Jitsi][jitsi]
-	- [Teams][teams]
-	- [Discord][discord]
+ - [Zoom][zoom]
+ - [Jitsi][jitsi]
+ - [Teams][teams]
+ - [Discord][discord]
 
 Asynchronous chat:
 
-	- [Zulip][zulip]
-	- [Slack][slack]
-	- [Teams][teams]
-	- [Discord][discord]
+ - [Zulip][zulip]
+ - [Slack][slack]
+ - [Teams][teams]
+ - [Discord][discord]
 
 Terminal sharing and pair programming:
 
-  - [tmate][tmate]
-  - plugins for [various][pairprog1] [editors][pairprog2]
+ - [tmate][tmate]
+ - plugins for [various][pairprog1] [editors][pairprog2]
 
 You can also see [this guide][pairprog3] on pair programming.
 
