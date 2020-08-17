@@ -84,3 +84,6 @@ when the repo is created.)
 [github-kth]: https://gits-15.sys.kth.se/datintro20
 [repo-transfer]: https://docs.github.com/en/github/administering-a-repository/transferring-a-repository#transferring-a-repository-owned-by-your-user-account
 
+We assess that by doing this you can *create and compile technical reports* and 
+*handle submissions of (program) code with version control tools*.
+
