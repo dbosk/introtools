@@ -24,10 +24,17 @@ The course consists of three modules. Each module containing a lecture and one
 or more lab assignments. You can find the modules under the Modules button in 
 the navigation to the left.
 
-The lectures are given live, you can find the date and time in [your 
-schedule][schedule].
+The lectures are given live on Zoom, you can find the date and time in [your 
+schedule][schedule]. To join, click [this link][zoom-room] or enter 633 069 655 
+31 as the meeting ID in the Zoom client. There are numerous Zoom clients that 
+you can access [here][zoom-clients].
+
+The lectures will be recorded and published here once they've passed.
 
 [schedule]: https://www.kth.se/social/home/personal-menu/schema/
+[zoom-room]: https://kth-se.zoom.us/j/63306965531
+[zoom-web]: https://kth-se.zoom.us/join
+[zoom-clients]: https://zoom.us/download
 
 There are also lab sessions scheduled. During these sessions you can get help 
 with the lab assignments. The dates and times for the lab sessions can also be 
