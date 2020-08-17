@@ -1,8 +1,8 @@
 # introtools: An intro to some basic (CS) tools
 
-We introduce
+The course material:
 
-  - the terminal (bash),
-  - Git,
-  - tools for collaborating remotely (SSH, tmate),
-  - LaTeX.
+ - `terminal` introduces the terminal (`bash`).
+ - `collaboration` introduces `tmate` and other remote tools and `git`.
+ - `latex` introduces report writing using LaTeX.
+
