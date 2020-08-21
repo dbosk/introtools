@@ -2,5 +2,5 @@ SUBDIR+= 	terminal
 SUBDIR+= 	collaboration
 SUBDIR+= 	latex
 
-MAKEFILES_INCLUDE=./makefiles
-include ${MAKEFILES_INCLUDE}/subdir.mk
+INCLUDE_MAKEFILES=./makefiles
+include ${INCLUDE_MAKEFILES}/subdir.mk

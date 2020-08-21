@@ -19,5 +19,5 @@ clean:
 
 include ../html.mk
 
-MAKEFILES_INCLUDE?=../makefiles
-include ${MAKEFILES_INCLUDE}/tex.mk
+INCLUDE_MAKEFILES?=../makefiles
+include ${INCLUDE_MAKEFILES}/tex.mk
