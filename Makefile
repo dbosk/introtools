@@ -1,3 +1,4 @@
+SUBDIR+= 	overview
 SUBDIR+= 	terminal
 SUBDIR+= 	collaboration
 SUBDIR+= 	latex
