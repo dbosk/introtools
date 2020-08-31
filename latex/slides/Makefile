@@ -1,40 +1,28 @@
-CATEGORY=	itgrund/lectures
-latexsrc=	latex.tex literature.bib theory.tex thesis.tex
-latexsrc+=	circular_margin.jpg maps.jpg tengwar.jpg music.jpg
-latexsrc+= 	example1.pdf examples.pdf
-examplessrc=examples.tex literature.bib
-FILES=		${latexsrc} ${examplessrc} example1.tex
-DOCUMENTS=	latex.pdf latex-examples.pdf
+SRC=	latex.tex literature.bib theory.tex thesis.tex
+SRC+=	circular_margin.jpg maps.jpg tengwar.jpg music.jpg
+SRC+= 	example1.pdf examples.pdf
 
-PACKAGE=		latex-src
-TARBALL_FILES=	${FILES}
+DEPENDS= 	example1.pdf examples.pdf
 
-USE_BIBLATEX= 	yes
-USE_LATEXMK= 	yes
+.PHONY: all
+all: notes.pdf slides.pdf
 
-PUB_FILES=	${PACKAGE}.tar.gz ${DOCUMENTS}
+SRC+=		preamble.tex
+SRC+=		abstract.tex contents.tex
 
-latex.pdf: ${latexsrc} example1.pdf examples.pdf
-latex-examples.pdf: examples.pdf
-	mv examples.pdf $@
+notes.pdf: notes.tex
+notes.pdf: ${SRC} ${DEPENDS}
+
+slides.pdf: slides.tex
+slides.pdf: ${SRC} ${DEPENDS}
 
 examples.pdf: examples.tex literature.bib
 
-#export no
-literature.bib: ../../literature.bib
-	${CP} $^ $@
-Makefile.export: Makefile
 
+.PHONY: clean
 clean:
-	${RM} literature.bib
+	${RM} notes.pdf slides.pdf examples.pdf example1.pdf
 
-TARBALL_FILES= 	${FILES:.tex=.exporttex} Makefile.export
-PUB_FILES= 	${DOCUMENTS} ${PACKAGE}.tar.gz
-#endexport
 
-miun.depend.mk:
-	wget http://ver.miun.se/build/$@
-
-include miun.depend.mk
-include miun.course.mk
-include miun.package.mk
+INCLUDE_MAKEFILES=../../makefiles
+include ${INCLUDE_MAKEFILES}/tex.mk
