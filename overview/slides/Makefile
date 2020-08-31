@@ -1,10 +1,12 @@
 PDF_FILES= 		slides.pdf
+FIGS=			figs/canvas.png figs/sauron.jpg figs/version-tree.png
 
 
 .PHONY: all
 all: ${HTML_FILES} ${PDF_FILES}
 
-slides.pdf: slides.tex contents.tex preamble.tex slides.tex version-tree.png
+slides.pdf: slides.tex contents.tex preamble.tex slides.tex
+slides.pdf: ${FIGS}
 
 
 .PHONY: clean
