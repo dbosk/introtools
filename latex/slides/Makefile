@@ -1,8 +1,7 @@
-SRC=	latex.tex literature.bib theory.tex thesis.tex
-SRC+=	circular_margin.jpg maps.jpg tengwar.jpg music.jpg
-SRC+= 	example1.pdf examples.pdf
+SRC=	contents.tex literature.bib
 
 DEPENDS= 	example1.pdf examples.pdf
+DEPENDS+=	circular_margin.jpg maps.jpg tengwar.jpg music.jpg
 
 .PHONY: all
 all: notes.pdf slides.pdf
