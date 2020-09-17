@@ -58,7 +58,7 @@ We check if the student has logged in, if not we continue to the next.
 Otherwise we grade the student and remove it from the list.
 <<grade remaining students>>=
 for s in $$(cat students-to-grade.tsv | cut -f 2); do \
-  grep "^$$(echo $$s | sed 's/@kth.se//')$" last.out || continue; \
+  grep "^$$(echo $$s | sed 's/@kth.se//')$$" last.out || continue; \
   canvas grade -c "${COURSE_CODE}" -a "${ASSIGNMENT}" \
     -u $$(grep $$s students-to-grade.tsv | cut -f 1) -g 1; \
   sed -i "/$$s/d" students-to-grade.tsv; \
