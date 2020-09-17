@@ -1,6 +1,5 @@
-HTML_FILES= 	guide.html terminal.html editor.html
+HTML_FILES= 	editor.html
 
-PANDOCFLAGS= 	--filter pandoc-xnos
 
 .PHONY: all
 all: ${HTML_FILES}

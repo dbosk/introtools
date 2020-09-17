@@ -185,3 +185,6 @@ Log into the remote system (`student-shell`) and do the following:
 Note that we can check that this directory and file exists, so ensure that 
 you've created them in your home directory.
 
+We assess that by this you can *control the computer environment via the 
+command line*.
+

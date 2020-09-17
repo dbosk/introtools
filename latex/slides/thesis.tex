@@ -1,0 +1,66 @@
+% $Id$
+% Author: Daniel Bosk <daniel.bosk@miun.se>
+%
+% This file may freely be used by students for their theses.  If you make some 
+% improvements, please send a unified diff (`diff -u`) to the author and it 
+% might be included in future revisions.
+%
+\documentclass[a4paper,knd,final]{miunthes} % kandidat
+%\documentclass[a4paper,bsc,final]{miunthes} % same as knd, B.Sc.
+%\documentclass[a4paper,mag,final]{miunthes} % magister
+%\documentclass[a4paper,msc,final]{miunthes} % same as magister, M.Sc.
+%\documentclass[a4paper,mst,final]{miunthes} % bologna master, M.Sc.
+%\documentclass[a4paper,project,final]{miunthes} % generic project report
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english,swedish]{babel}
+\usepackage{nomencl}
+\usepackage{varioref,prettyref}
+\usepackage{natbib}
+\usepackage{url}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{listings}
+\usepackage[varioref,prettyref,natbib,listings]{miunmisc}
+
+\subject{datateknik}
+\title{En teknisk rapport}
+\subtitle{En anpassning av rapportmallen för LibreOffice\\
+till dokumentklassen \texttt{miunthes} för \LaTeX}
+\author{Daniel Bosk}
+
+\begin{document}
+	\begin{titlingpage}
+		\maketitle
+	\end{titlingpage}
+	\frontmatter
+	\include{abstract-sv}
+	\cleardoublepage
+	\include{abstract-en}
+	\cleardoublepage
+	\include{preface}
+	\cleardoublepage
+	\tableofcontents
+	\cleardoublepage
+	\listoffigures
+	\cleardoublepage
+	\listoftables
+	\cleardoublepage
+	\printnomenclature
+
+	\mainmatter
+	\include{introduction}
+	\include{theory}
+	\include{methodology}
+	\include{implementation}
+	\include{results}
+	\include{analysis}
+	\include{discussion}
+
+	\bibliography{thesis.bib}
+
+	\appendix
+	\include{sourcecode}
+
+	\backmatter
+	% index etc.
+\end{document}
