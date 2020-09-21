@@ -1,0 +1,122 @@
+Now we should grade the LaTeX assignment.
+
+We will use the [[canvas]] command to report the grades.
+This must be installed from
+\begin{center}
+  \texttt{https://github.com/dbosk/canvasy}.
+\end{center}
+
+We will use the [[repobee]] command to clone the repos containing the LaTeX 
+reports.
+This must be installed from
+\begin{center}
+  \texttt{https://repobee.org}.
+\end{center}
+
+This script will be a make include file to be able to keep state more easily.
+The main target is [[grade]].
+<<grade.mk>>=
+# This file is generated from grade.mk.nw
+<<variables>>
+
+.PHONY: grade
+grade:
+	<<grade remaining students>>
+
+<<set up students to grade>>
+<<clone repos>>
+
+.PHONY: distclean
+distclean:
+	<<distclean recipe>>
+@
+
+
+\section{Setup}
+
+We will keep students who must be graded in [[students-to-grade.tsv]].
+Once we've reported them to Canvas, we can remove them from that list.
+This list will contain their Canvas ID (first column) and their KTH username 
+(second column).
+We add [[students-to-grade.tsv]] as a prerequisite to [[grade]], then it will 
+be created when necessary.
+<<set up students to grade>>=
+students-to-grade.tsv:
+	canvas users -c ${COURSE_CODE} -s | cut -f 1,2 > $@
+
+grade: students-to-grade.tsv
+@ We set the course code in the [[<<variables>>]] block.
+<<variables>>=
+COURSE_CODE?= DD1301HT201
+@
+
+The LaTeX reports that we should grade are found in repos on KTH GitHub, in the 
+datintro20 organization:
+\begin{center}
+  \texttt{https://gits-15.sys.kth.se/datintro20}.
+\end{center}
+We'll use [[repobee]] to clone those repos.
+<<clone repos>>=
+repos:: students-to-grade.tsv
+	mkdir -p repos
+	cut -f 2 students-to-grade.tsv | \
+	  sed "s/@kth.se//" > repos/students-to-grade.tsv
+	cd repos && \
+	  repobee repos clone \
+	    --sf students-to-grade.tsv -o datintro20 --discover-repos
+@
+
+We add cleaning as part of the [[distclean]] target.
+<<distclean recipe>>=
+${RM} -R repos
+@
+
+
+\section{Grading}
+
+To grade, we iterate through the remaining students.
+We check if the student has solved the assignment, if not we continue to the 
+next.
+Otherwise we grade the student and remove it from the list.
+<<grade remaining students>>=
+for s in $$(cat students-to-grade.tsv | cut -f 2 | sed "s/@kth.se//"); \
+do \
+  <<check the repo, continue if bad>>
+  canvas grade -c "${COURSE_CODE}" -a "${ASSIGNMENT}" \
+    -u $$(grep $$s students-to-grade.tsv | cut -f 1) -g 1; \
+  sed -i "/$$s/d" students-to-grade.tsv; \
+done
+@ We must set the [[ASSIGNMENT]] variable.
+We will set it to a regular expression matching both terminal assignments.
+<<variables>>=
+ASSIGNMENT?=  (Git|LaTeX)
+@
+
+We must check the repo for the required parts in the LaTeX report.
+The requirements specifies
+\begin{itemize}
+\item a title,
+\item a table of contents,
+\item a figure,
+\item a citations with a reference,
+\item a listing containing the output of the history command.
+\end{itemize}
+We will search for a [[.tex]] file and simply grep(1) that file for the 
+requirements.
+We must remember that this is part of the for iteration in
+[[<<grade remaining students>>]], so we must break every line with [[\]].
+<<check the repo, continue if bad>>=
+[ -d repos/$$s ] || continue; \
+find repos/$$s -type f -name \*.tex -print0 > texfiles-$$s; \
+cat texfiles-$$s | xargs -0 grep documentclass || continue; \
+cat texfiles-$$s | xargs -0 grep "\\\\title" || continue; \
+cat texfiles-$$s | xargs -0 grep "\\\\maketitle" || continue; \
+cat texfiles-$$s | xargs -0 grep "\\\\tableofcontents" || continue; \
+cat texfiles-$$s | xargs -0 grep "\\\\begin{figure}" || continue; \
+cat texfiles-$$s | xargs -0 grep "\\\\[a-z]*cite" || continue; \
+cat texfiles-$$s | xargs -0 egrep "\\\\.*lst(input)?listing" || continue; \
+${RM} texfiles-$$s; \
+find repos/$$s -type f -print0 > allfiles-$$s; \
+cat allfiles-$$s | xargs -0 grep history || continue; \
+${RM} allfiles-$$s; \
+@
