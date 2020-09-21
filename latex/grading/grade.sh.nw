@@ -15,20 +15,15 @@ This must be installed from
 
 This script will be a make include file to be able to keep state more easily.
 The main target is [[grade]].
-<<grade.mk>>=
-# This file is generated from grade.mk.nw
+<<grade.sh>>=
+# This file is generated from grade.sh.nw
 <<variables>>
-
-.PHONY: grade
-grade:
-	<<grade remaining students>>
+<<functions>>
 
 <<set up students to grade>>
 <<clone repos>>
-
-.PHONY: distclean
-distclean:
-	<<distclean recipe>>
+<<grade remaining students>>
+<<clean up>>
 @
 
 
@@ -41,13 +36,12 @@ This list will contain their Canvas ID (first column) and their KTH username
 We add [[students-to-grade.tsv]] as a prerequisite to [[grade]], then it will 
 be created when necessary.
 <<set up students to grade>>=
-students-to-grade.tsv:
-	canvas users -c ${COURSE_CODE} -s | cut -f 1,2 > $@
-
-grade: students-to-grade.tsv
-@ We set the course code in the [[<<variables>>]] block.
+[ -e ${REMAINING_STUDENTS} ] || \
+  canvas users -c ${COURSE_CODE} -s | cut -f 1,2 > ${REMAINING_STUDENTS}
+@ We set the variables in the [[<<variables>>]] block.
 <<variables>>=
-COURSE_CODE?= DD1301HT201
+COURSE_CODE=DD1301HT201
+REMAINING_STUDENTS=students-to-grade.tsv
 @
 
 The LaTeX reports that we should grade are found in repos on KTH GitHub, in the 
@@ -57,18 +51,26 @@ datintro20 organization:
 \end{center}
 We'll use [[repobee]] to clone those repos.
 <<clone repos>>=
-repos:: students-to-grade.tsv
-	mkdir -p repos
-	cut -f 2 students-to-grade.tsv | \
-	  sed "s/@kth.se//" > repos/students-to-grade.tsv
-	cd repos && \
-	  repobee repos clone \
-	    --sf students-to-grade.tsv -o datintro20 --discover-repos
+[ -d repos ] || \
+  clone_repos
+@
+<<functions>>=
+function clone_repos() {
+  mkdir -p repos
+  cut -f 2 ${REMAINING_STUDENTS} | \
+    sed "s/@kth.se//" > repos/students-to-grade.tsv
+  cd repos && \
+    repobee repos clone \
+      --sf students-to-grade.tsv -o ${GH_ORG} --discover-repos
+}
+@
+<<variables>>=
+GH_ORG=datintro20
 @
 
 We add cleaning as part of the [[distclean]] target.
-<<distclean recipe>>=
-${RM} -R repos
+<<clean up>>=
+#rm -f -R repos
 @
 
 
@@ -79,17 +81,17 @@ We check if the student has solved the assignment, if not we continue to the
 next.
 Otherwise we grade the student and remove it from the list.
 <<grade remaining students>>=
-for s in $$(cat students-to-grade.tsv | cut -f 2 | sed "s/@kth.se//"); \
-do \
+for s in $(cat students-to-grade.tsv | cut -f 2 | sed "s/@kth.se//");
+do
   <<check the repo, continue if bad>>
   canvas grade -c "${COURSE_CODE}" -a "${ASSIGNMENT}" \
-    -u $$(grep $$s students-to-grade.tsv | cut -f 1) -g 1; \
-  sed -i "/$$s/d" students-to-grade.tsv; \
+    -u $(grep $s students-to-grade.tsv | cut -f 1) -g 1
+  sed -i "/$s/d" students-to-grade.tsv
 done
 @ We must set the [[ASSIGNMENT]] variable.
 We will set it to a regular expression matching both terminal assignments.
 <<variables>>=
-ASSIGNMENT?=  (Git|LaTeX)
+ASSIGNMENT="(Git|LaTeX)"
 @
 
 We must check the repo for the required parts in the LaTeX report.
@@ -103,20 +105,38 @@ The requirements specifies
 \end{itemize}
 We will search for a [[.tex]] file and simply grep(1) that file for the 
 requirements.
-We must remember that this is part of the for iteration in
-[[<<grade remaining students>>]], so we must break every line with [[\]].
 <<check the repo, continue if bad>>=
-[ -d repos/$$s ] || continue; \
-find repos/$$s -type f -name \*.tex -print0 > texfiles-$$s; \
-cat texfiles-$$s | xargs -0 grep documentclass || continue; \
-cat texfiles-$$s | xargs -0 grep "\\\\title" || continue; \
-cat texfiles-$$s | xargs -0 grep "\\\\maketitle" || continue; \
-cat texfiles-$$s | xargs -0 grep "\\\\tableofcontents" || continue; \
-cat texfiles-$$s | xargs -0 grep "\\\\begin{figure}" || continue; \
-cat texfiles-$$s | xargs -0 grep "\\\\[a-z]*cite" || continue; \
-cat texfiles-$$s | xargs -0 egrep "\\\\.*lst(input)?listing" || continue; \
-${RM} texfiles-$$s; \
-find repos/$$s -type f -print0 > allfiles-$$s; \
-cat allfiles-$$s | xargs -0 grep history || continue; \
-${RM} allfiles-$$s; \
+[ -d repos/$s ] || continue
+find repos/$s -type f -name \*.tex > texfiles-$s
+pass=0
+[ $(wc -l texfiles-$s | cut -f 1 -d " ") -gt 0 ] || \
+  echo $s has no tex files && continue
+check_student $s texfiles-$s "documentclass" || pass=1
+check_student $s texfiles-$s "\\\\title" || pass=1
+check_student $s texfiles-$s "\\\\maketitle" || pass=1
+check_student $s texfiles-$s "\\\\tableofcontents" || pass=1
+check_student $s texfiles-$s "\\\\begin{(.*figure|table)}" || pass=1
+check_student $s texfiles-$s "\\\[a-z\]*cite" || pass=1
+check_student $s texfiles-$s "\\\\.*lst(input)?listing" || pass=1
+rm -f texfiles-$s
+find repos/$s -type f > allfiles-$s
+check_student $s allfiles-$s "history" || pass=1
+rm -f allfiles-$s
+if [ $pass = 1 ]; then
+  continue
+fi
+@
+
+The [[check_student]] function will grep(1) the files for the provided regex.
+It will print and return false if the test failed.
+<<functions>>=
+function check_student() {
+  cat "$2" | xargs -d "\n" egrep "$3" > /dev/null
+  if [ $? = 0 ]; then
+    true
+  else
+    echo "$1 failed $3"
+    false
+  fi
+}
 @
