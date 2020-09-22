@@ -103,7 +103,7 @@ file.
 We will put any feedback into the [[feedback-<user>.md]] file.
 <<functions>>=
 function add_feedback() {
-  echo ${@:2} > feedback-$1.md
+  echo ${@:2} >> feedback-$1.md
 }
 function read_feedback() {
   cat feedback-$1.md
@@ -129,26 +129,36 @@ Then we look through all files for the [[history]] command.
 [ -d repos/$s ] || continue
 grade=1
 find repos/$s -type f -name \*.tex > texfiles-$s
-[ $(wc -l texfiles-$s | cut -f 1 -d " ") -gt 0 ] || \
+if ! [ $(wc -l texfiles-$s | cut -f 1 -d " ") -gt 0 ]; then
   grade=0 && add_feedback $s no tex files found
-check_student $s texfiles-$s "documentclass" || \
+fi
+if ! check_student $s texfiles-$s "documentclass"; then
   grade=0 && add_feedback $s no documentclass found
-check_student $s texfiles-$s "\\\\title" || \
+fi
+if ! check_student $s texfiles-$s "\\\\title"; then
   grade=0 && add_feedback $s no title found
-check_student $s texfiles-$s "\\\\maketitle" || \
+fi
+if ! check_student $s texfiles-$s "\\\\maketitle"; then
   grade=0 && add_feedback $s no title page generated
-check_student $s texfiles-$s "\\\\tableofcontents" || \
+fi
+if ! check_student $s texfiles-$s "\\\\tableofcontents"; then
   grade=0 && add_feedback $s no table of contents found
-check_student $s texfiles-$s "\\\\begin{(.*figure|table)}" || \
+fi
+if ! check_student $s texfiles-$s "\\\\begin{(.*figure|table)}"; then
   grade=0 && add_feedback $s no figure found
-check_student $s texfiles-$s "\\\[a-z\]*cite" || \
+fi
+if ! check_student $s texfiles-$s "\\\[a-z\]*cite"; then
   grade=0 && add_feedback $s no citation found
-check_student $s texfiles-$s "\\\\.*lst(input)?listing" || \
+fi
+if ! check_student $s texfiles-$s "\\\\.*lst(input)?listing"; then
   grade=0 && add_feedback $s no listing found
+fi
 rm -f texfiles-$s
 find repos/$s -type f > allfiles-$s
-check_student $s allfiles-$s "history" || \
-  grade=0 && add_feedback $s no history found
+if ! check_student $s allfiles-$s "history"; then
+  grade=0
+  add_feedback $s no history found
+fi
 rm -f allfiles-$s
 @
 
