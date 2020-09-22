@@ -109,15 +109,19 @@ requirements.
 [ -d repos/$s ] || continue
 find repos/$s -type f -name \*.tex > texfiles-$s
 pass=0
-[ $(wc -l texfiles-$s | cut -f 1 -d " ") -gt 0 ] || \
-  echo $s has no tex files && continue
-check_student $s texfiles-$s "documentclass" || pass=1
-check_student $s texfiles-$s "\\\\title" || pass=1
-check_student $s texfiles-$s "\\\\maketitle" || pass=1
-check_student $s texfiles-$s "\\\\tableofcontents" || pass=1
-check_student $s texfiles-$s "\\\\begin{(.*figure|table)}" || pass=1
-check_student $s texfiles-$s "\\\[a-z\]*cite" || pass=1
-check_student $s texfiles-$s "\\\\.*lst(input)?listing" || pass=1
+if [ $(wc -l texfiles-$s | cut -f 1 -d " ") -gt 0 ]; then
+  check_student $s texfiles-$s "documentclass" || pass=1
+  check_student $s texfiles-$s "\\\\title" || pass=1
+  check_student $s texfiles-$s "\\\\maketitle" || pass=1
+  check_student $s texfiles-$s "\\\\tableofcontents" || pass=1
+  check_student $s texfiles-$s "\\\\begin{(.*figure|table)}" || pass=1
+  check_student $s texfiles-$s "\\\[a-z\]*cite" || pass=1
+  check_student $s texfiles-$s "\\\\.*lst(input)?listing" || pass=1
+else
+  echo $s has no tex files
+  [ $(find repos/$s -type f -name \*.pdf | wc -l | cut -f 1 -d " ") -gt 0 ] || \
+    pass=1
+fi
 rm -f texfiles-$s
 find repos/$s -type f > allfiles-$s
 check_student $s allfiles-$s "history" || pass=1
