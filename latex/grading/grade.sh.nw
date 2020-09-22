@@ -106,7 +106,7 @@ function add_feedback() {
   echo ${@:2} >> feedback-$1.md
 }
 function read_feedback() {
-  cat feedback-$1.md
+  [ -e feedback-$1.md ] && cat feedback-$1.md
 }
 function clean_feedback() {
   rm -f feedback-$1.md
