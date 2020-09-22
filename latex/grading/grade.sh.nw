@@ -103,7 +103,7 @@ file.
 We will put any feedback into the [[feedback-<user>.md]] file.
 <<functions>>=
 function add_feedback() {
-  echo ${@:2} > feedback-$1.md
+  echo ${@:2} >> feedback-$1.md
 }
 function read_feedback() {
   cat feedback-$1.md
@@ -130,29 +130,48 @@ Then we look through all files for the [[history]] command.
 grade=1
 find repos/$s -type f -name \*.tex > texfiles-$s
 if [ $(wc -l texfiles-$s | cut -f 1 -d " ") -gt 0 ]; then
-  check_student $s texfiles-$s "documentclass" || \
-    grade=0 && add_feedback $s no documentclass found
-  check_student $s texfiles-$s "\\\\title" || \
-    grade=0 && add_feedback $s no title found
-  check_student $s texfiles-$s "\\\\maketitle" || \
-    grade=0 && add_feedback $s no title page generated
-  check_student $s texfiles-$s "\\\\tableofcontents" || \
-    grade=0 && add_feedback $s no table of contents found
-  check_student $s texfiles-$s "\\\\begin{(.*figure|table)}" || \
-    grade=0 && add_feedback $s no figure found
-  check_student $s texfiles-$s "\\\[a-z\]*cite" || \
-    grade=0 && add_feedback $s no citation found
-  check_student $s texfiles-$s "\\\\.*lst(input)?listing" || \
-    grade=0 && add_feedback $s no listing found
+  if ! check_student $s texfiles-$s "documentclass"; then
+    grade=0
+    add_feedback $s no documentclass found
+  fi
+  if ! check_student $s texfiles-$s "\\\\title"; then
+    grade=0
+    add_feedback $s no title found
+  fi
+  if ! check_student $s texfiles-$s "\\\\maketitle"; then
+    grade=0
+    add_feedback $s no title page generated
+  fi
+  if ! check_student $s texfiles-$s "\\\\tableofcontents"; then
+    grade=0
+    add_feedback $s no table of contents found
+  fi
+  if ! check_student $s texfiles-$s "\\\\begin{(.*figure|table)}"; then
+    grade=0
+    add_feedback $s no figure found
+  fi
+  if ! check_student $s texfiles-$s "\\\[a-z\]*cite"; then
+    grade=0
+    add_feedback $s no citation found
+  fi
+  if ! check_student $s texfiles-$s "\\\\.*lst(input)?listing"; then
+    grade=0
+    add_feedback $s no listing found
+  fi
 else
   add_feedback $s no tex files found
-  [ $(find repos/$s -type f -name \*.pdf | wc -l | cut -f 1 -d " ") -gt 0 ] || \
-    grade=0 && add_feedback $s no pdf found
+  if [ $(find repos/$s -type f -name \*.pdf | wc -l | cut -f 1 -d " ") -lt 1 ]
+  then
+    grade=0
+    add_feedback $s no pdf found
+  fi
 fi
 rm -f texfiles-$s
 find repos/$s -type f > allfiles-$s
-check_student $s allfiles-$s "history" || \
-  grade=0 && add_feedback $s no history found
+if ! check_student $s allfiles-$s "history"; then
+  grade=0
+  add_feedback $s no history found
+fi
 rm -f allfiles-$s
 @
 
