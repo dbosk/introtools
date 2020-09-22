@@ -83,15 +83,34 @@ Otherwise we grade the student and remove it from the list.
 <<grade remaining students>>=
 for s in $(cat students-to-grade.tsv | cut -f 2 | sed "s/@kth.se//");
 do
-  <<check the repo, continue if bad>>
+  <<check the repo, set grade variable>>
   canvas grade -c "${COURSE_CODE}" -a "${ASSIGNMENT}" \
-    -u $(grep $s students-to-grade.tsv | cut -f 1) -g 1
+    -u $(grep $s students-to-grade.tsv | cut -f 1) -g ${grade} \
+    -m "$(read_feedback $s)"
+  clean_feedback $s
   sed -i "/$s/d" students-to-grade.tsv
 done
 @ We must set the [[ASSIGNMENT]] variable.
 We will set it to a regular expression matching both terminal assignments.
 <<variables>>=
 ASSIGNMENT="(Git|LaTeX)"
+@
+
+We add a set of functions to deal with feedback.
+The [[add_feedback]] function adds feedback to the student's feedback file,
+[[read_feedback]] reads it out and [[clean_feedback]] removes the feedback 
+file.
+We will put any feedback into the [[feedback-<user>.md]] file.
+<<functions>>=
+function add_feedback() {
+  echo ${@:2} >> feedback-$1.md
+}
+function read_feedback() {
+  [ -e feedback-$1.md ] && cat feedback-$1.md
+}
+function clean_feedback() {
+  rm -f feedback-$1.md
+}
 @
 
 We must check the repo for the required parts in the LaTeX report.
@@ -105,26 +124,42 @@ The requirements specifies
 \end{itemize}
 We will search for a [[.tex]] file and simply grep(1) that file for the 
 requirements.
-<<check the repo, continue if bad>>=
+Then we look through all files for the [[history]] command.
+<<check the repo, set grade variable>>=
 [ -d repos/$s ] || continue
+grade=1
 find repos/$s -type f -name \*.tex > texfiles-$s
-pass=0
-[ $(wc -l texfiles-$s | cut -f 1 -d " ") -gt 0 ] || \
-  echo $s has no tex files && continue
-check_student $s texfiles-$s "documentclass" || pass=1
-check_student $s texfiles-$s "\\\\title" || pass=1
-check_student $s texfiles-$s "\\\\maketitle" || pass=1
-check_student $s texfiles-$s "\\\\tableofcontents" || pass=1
-check_student $s texfiles-$s "\\\\begin{(.*figure|table)}" || pass=1
-check_student $s texfiles-$s "\\\[a-z\]*cite" || pass=1
-check_student $s texfiles-$s "\\\\.*lst(input)?listing" || pass=1
+if ! [ $(wc -l texfiles-$s | cut -f 1 -d " ") -gt 0 ]; then
+  grade=0 && add_feedback $s no tex files found
+fi
+if ! check_student $s texfiles-$s "documentclass"; then
+  grade=0 && add_feedback $s no documentclass found
+fi
+if ! check_student $s texfiles-$s "\\\\title"; then
+  grade=0 && add_feedback $s no title found
+fi
+if ! check_student $s texfiles-$s "\\\\maketitle"; then
+  grade=0 && add_feedback $s no title page generated
+fi
+if ! check_student $s texfiles-$s "\\\\tableofcontents"; then
+  grade=0 && add_feedback $s no table of contents found
+fi
+if ! check_student $s texfiles-$s "\\\\begin{(.*figure|table)}"; then
+  grade=0 && add_feedback $s no figure found
+fi
+if ! check_student $s texfiles-$s "\\\[a-z\]*cite"; then
+  grade=0 && add_feedback $s no citation found
+fi
+if ! check_student $s texfiles-$s "\\\\.*lst(input)?listing"; then
+  grade=0 && add_feedback $s no listing found
+fi
 rm -f texfiles-$s
 find repos/$s -type f > allfiles-$s
-check_student $s allfiles-$s "history" || pass=1
-rm -f allfiles-$s
-if [ $pass = 1 ]; then
-  continue
+if ! check_student $s allfiles-$s "history"; then
+  grade=0
+  add_feedback $s no history found
 fi
+rm -f allfiles-$s
 @
 
 The [[check_student]] function will grep(1) the files for the provided regex.
@@ -140,3 +175,4 @@ function check_student() {
   fi
 }
 @
+
