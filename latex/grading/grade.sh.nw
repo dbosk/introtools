@@ -16,6 +16,7 @@ This must be installed from
 This script will be a make include file to be able to keep state more easily.
 The main target is [[grade]].
 <<grade.sh>>=
+#!/bin/bash
 # This file is generated from grade.sh.nw
 <<variables>>
 <<functions>>
