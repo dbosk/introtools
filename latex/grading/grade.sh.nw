@@ -61,7 +61,7 @@ function clone_repos() {
   cut -f 2 ${REMAINING_STUDENTS} | \
     sed "s/@kth.se//" > repos/students-to-grade.tsv
   cd repos && \
-    repobee repos clone \
+    repobee repos clone -qq \
       --sf students-to-grade.tsv -o ${GH_ORG} --discover-repos
 }
 @
