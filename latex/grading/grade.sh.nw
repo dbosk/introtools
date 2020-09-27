@@ -13,8 +13,7 @@ This must be installed from
   \texttt{https://repobee.org}.
 \end{center}
 
-This script will be a make include file to be able to keep state more easily.
-The main target is [[grade]].
+We'll do this is the form of a shell script.
 <<grade.sh>>=
 #!/bin/bash
 # This file is generated from grade.sh.nw
@@ -24,7 +23,6 @@ The main target is [[grade]].
 <<set up students to grade>>
 <<clone repos>>
 <<grade remaining students>>
-<<clean up>>
 @
 
 
@@ -37,12 +35,12 @@ This list will contain their Canvas ID (first column) and their KTH username
 We add [[students-to-grade.tsv]] as a prerequisite to [[grade]], then it will 
 be created when necessary.
 <<set up students to grade>>=
-[ -e ${REMAINING_STUDENTS} ] || \
-  canvas users -c ${COURSE_CODE} -s | cut -f 1,2 > ${REMAINING_STUDENTS}
+[ -e ${STUDENTS_TO_GRADE} ] || \
+  canvas users -c ${COURSE_CODE} -s | cut -f 1,2 > ${STUDENTS_TO_GRADE}
 @ We set the variables in the [[<<variables>>]] block.
 <<variables>>=
 COURSE_CODE=DD1301HT201
-REMAINING_STUDENTS=students-to-grade.tsv
+STUDENTS_TO_GRADE=students-to-grade.tsv
 @
 
 The LaTeX reports that we should grade are found in repos on KTH GitHub, in the 
@@ -58,20 +56,15 @@ We'll use [[repobee]] to clone those repos.
 <<functions>>=
 function clone_repos() {
   mkdir -p repos
-  cut -f 2 ${REMAINING_STUDENTS} | \
-    sed "s/@kth.se//" > repos/students-to-grade.tsv
+  cut -f 2 ${STUDENTS_TO_GRADE} | \
+    sed "s/@kth.se//" > repos/${STUDENTS_TO_GRADE}
   cd repos && \
     repobee repos clone -qq \
-      --sf students-to-grade.tsv -o ${GH_ORG} --discover-repos
+      --sf ${STUDENTS_TO_GRADE} -o ${GH_ORG} --discover-repos
 }
 @
 <<variables>>=
 GH_ORG=datintro20
-@
-
-We add cleaning as part of the [[distclean]] target.
-<<clean up>>=
-#rm -f -R repos
 @
 
 
@@ -82,19 +75,25 @@ We check if the student has solved the assignment, if not we continue to the
 next.
 Otherwise we grade the student and remove it from the list.
 <<grade remaining students>>=
-for s in $(cat students-to-grade.tsv | cut -f 2 | sed "s/@kth.se//");
+for s in $(cat ${STUDENTS_TO_GRADE} | cut -f 2 | sed "s/@kth.se//");
 do
   <<check the repo, set grade variable>>
   canvas grade -c "${COURSE_CODE}" -a "${ASSIGNMENT}" \
-    -u $(grep $s students-to-grade.tsv | cut -f 1) -g ${grade} \
+    -u $(grep $s ${STUDENTS_TO_GRADE} | cut -f 1) -g ${grade} \
     -m "$(read_feedback $s)"
   clean_feedback $s
-  sed -i "/$s/d" students-to-grade.tsv
+  sed -i "/$s/d" ${STUDENTS_TO_GRADE}
+  if [ $grade -lt 1 ]; then
+    echo \
+      $(grep $s ${STUDENTS_TO_GRADE})\t$(git -C repos/$s log -1 --format=\%cI) \
+        >> ${STUDENTS_TO_REGRADE}
+  fi
 done
-@ We must set the [[ASSIGNMENT]] variable.
+@ We must set the [[ASSIGNMENT]] and [[STUDENTS_TO_REGRADE]] variables.
 We will set it to a regular expression matching both terminal assignments.
 <<variables>>=
 ASSIGNMENT="(Git|LaTeX)"
+STUDENTS_TO_REGRADE=students-to-regrade.tsv
 @
 
 We add a set of functions to deal with feedback.
