@@ -40,7 +40,7 @@ students-to-grade.tsv:
 grade: students-to-grade.tsv
 @ We set the course code in the [[<<variables>>]] block.
 <<variables>>=
-COURSE_CODE?= DD1301HT201
+COURSE_CODE?= DD1337HT201
 @
 
 We'll use a similar construction for the logs of who has logged into 
@@ -79,5 +79,5 @@ done
 @ We must set the [[ASSIGNMENT]] variable.
 We will set it to a regular expression matching both terminal assignments.
 <<variables>>=
-ASSIGNMENT?=  (Preparing the terminal|The terminal)
+ASSIGNMENT?=  (Preparation|Using the terminal)
 @
