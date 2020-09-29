@@ -39,14 +39,14 @@ be created when necessary.
   canvas users -c ${COURSE_CODE} -s | cut -f 1,2 > ${STUDENTS_TO_GRADE}
 @ We set the variables in the [[<<variables>>]] block.
 <<variables>>=
-COURSE_CODE=DD1301HT201
+COURSE_CODE=DD1337HT201
 STUDENTS_TO_GRADE=students-to-grade.tsv
 @
 
 The LaTeX reports that we should grade are found in repos on KTH GitHub, in the 
 datintro20 organization:
 \begin{center}
-  \texttt{https://gits-15.sys.kth.se/datintro20}.
+  \texttt{https://gits-15.sys.kth.se/dd1337-ht20-intro}.
 \end{center}
 We'll use [[repobee]] to clone those repos.
 <<clone repos>>=
@@ -64,7 +64,7 @@ function clone_repos() {
 }
 @
 <<variables>>=
-GH_ORG=datintro20
+GH_ORG=dd1337-ht20-intro
 @
 
 
@@ -92,7 +92,7 @@ done
 @ We must set the [[ASSIGNMENT]] and [[STUDENTS_TO_REGRADE]] variables.
 We will set it to a regular expression matching both terminal assignments.
 <<variables>>=
-ASSIGNMENT="(Git|LaTeX)"
+ASSIGNMENT="(Using Git|Using LaTeX)"
 STUDENTS_TO_REGRADE=students-to-regrade.tsv
 @
 

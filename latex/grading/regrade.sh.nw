@@ -48,8 +48,8 @@ if ! [ -e ${STUDENTS_TO_REGRADE} ]; then
 fi
 @ We set the variables in the [[<<variables>>]] block.
 <<variables>>=
-COURSE_CODE=DD1301HT201
-ASSIGNMENT="LaTeX"
+COURSE_CODE=DD1337HT201
+ASSIGNMENT="Using LaTeX"
 STUDENTS_TO_REGRADE=students-to-regrade.tsv
 @
 
@@ -59,7 +59,7 @@ STUDENTS_TO_REGRADE=students-to-regrade.tsv
 The LaTeX reports that we should grade are found in repos on KTH GitHub, in the 
 datintro20 organization:
 \begin{center}
-  \texttt{https://gits-15.sys.kth.se/datintro20}.
+  \texttt{https://gits-15.sys.kth.se/dd1337-ht20-intro}.
 \end{center}
 We'll use [[repobee]] to clone those repos.
 <<clone repos>>=
@@ -77,7 +77,7 @@ function clone_repos() {
 }
 @
 <<variables>>=
-GH_ORG=datintro20
+GH_ORG=dd1337-ht20-intro
 @
 
 
