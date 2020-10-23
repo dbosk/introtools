@@ -94,7 +94,7 @@ We grade the student and provide the feedback, remove it from the list and
 continue to the next student.
 We use the file [[${GRADED_STUDENTS}]] as a log.
 <<grade remaining students>>=
-$(date) >> ${GRADED_STUDENTS}
+date -Iseconds >> ${GRADED_STUDENTS}
 for s in $(cat ${STUDENTS_TO_GRADE} | cut -f 2 | sed "s/@kth.se//");
 do
   <<check the repo, set grade variable>>
@@ -102,17 +102,17 @@ do
     -u $(egrep "[^a-z]$s([^a-z]|$)" ${STUDENTS_TO_GRADE} | cut -f 1) \
     -g ${grade} \
     -m "$(read_feedback $s)" || exit 1
-  sed -i "/[^a-z]$s\([^a-z]\|$\)/d" ${STUDENTS_TO_GRADE}
   echo $s $grade >> ${GRADED_STUDENTS}
   echo $(read_feedback $s) >> ${GRADED_STUDENTS}
   clean_feedback $s
   <<if failed, add to list for regrading>>
+  sed -i "/[^a-z]$s\([^a-z]\|$\)/d" ${STUDENTS_TO_GRADE}
 done
 @ We must set the [[ASSIGNMENT]] and [[STUDENTS_TO_REGRADE]] variables.
 We will set it to a regular expression matching both terminal assignments.
 <<variables>>=
 STUDENTS_TO_REGRADE=students-to-regrade.tsv
-GRADED_STUDENTS=graded-students.tsv
+GRADED_STUDENTS=graded-students.md
 @
 
 Students who failed should be regraded later.
