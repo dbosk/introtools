@@ -103,7 +103,7 @@ do
     -g ${grade} \
     -m "$(read_feedback $s)" || exit 1
   echo $s $grade >> ${GRADED_STUDENTS}
-  echo $(read_feedback $s) >> ${GRADED_STUDENTS}
+  read_feedback $s >> ${GRADED_STUDENTS}
   clean_feedback $s
   <<if failed, add to list for regrading>>
   sed -i "/[^a-z]$s\([^a-z]\|$\)/d" ${STUDENTS_TO_GRADE}
