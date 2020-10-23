@@ -79,8 +79,9 @@ for s in $(cat ${STUDENTS_TO_GRADE} | cut -f 2 | sed "s/@kth.se//");
 do
   <<check the repo, set grade variable>>
   canvas grade -c "${COURSE_CODE}" -a "${ASSIGNMENT}" \
-    -u $(grep $s ${STUDENTS_TO_GRADE} | cut -f 1) -g ${grade} \
-    -m "$(read_feedback $s)"
+    -u $(egrep "[^a-z]$s([^a-z]|$)" ${STUDENTS_TO_GRADE} | cut -f 1) \
+    -g ${grade} \
+    -m "$(read_feedback $s)" || exit 1
   clean_feedback $s
   sed -i "/$s/d" ${STUDENTS_TO_GRADE}
   if [ $grade -lt 1 ]; then
@@ -92,7 +93,7 @@ done
 @ We must set the [[ASSIGNMENT]] and [[STUDENTS_TO_REGRADE]] variables.
 We will set it to a regular expression matching both terminal assignments.
 <<variables>>=
-ASSIGNMENT="(Using Git|Using LaTeX)"
+ASSIGNMENT="Using LaTeX"
 STUDENTS_TO_REGRADE=students-to-regrade.tsv
 @
 

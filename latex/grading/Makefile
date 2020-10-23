@@ -25,9 +25,10 @@ clean:
 
 .PHONY: grade
 grade: grade.sh regrade.sh
-	./regrade.sh
-	./grade.sh
 	${RM} -R repos
+	./regrade.sh
+	${RM} -R repos
+	./grade.sh
 
 
 INCLUDE_MAKEFILES=../../makefiles
