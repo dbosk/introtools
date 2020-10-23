@@ -102,7 +102,7 @@ do
     -u $(egrep "[^a-z]$s([^a-z]|$)" ${STUDENTS_TO_GRADE} | cut -f 1) \
     -g ${grade} \
     -m "$(read_feedback $s)" || exit 1
-  sed -i "/$s/d" ${STUDENTS_TO_GRADE}
+  sed -i "/[^a-z]$s\([^a-z]\|$\)/d" ${STUDENTS_TO_GRADE}
   echo $s $grade >> ${GRADED_STUDENTS}
   echo $(read_feedback $s) >> ${GRADED_STUDENTS}
   clean_feedback $s
