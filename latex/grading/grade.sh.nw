@@ -76,9 +76,9 @@ function clone_repos() {
   mkdir -p repos
   cut -f 2 ${STUDENTS_TO_GRADE} | \
     sed "s/@kth.se//" > repos/${STUDENTS_TO_GRADE}
-  cd repos && \
+  (cd repos && \
     repobee repos clone -qq \
-      --sf ${STUDENTS_TO_GRADE} -o ${GH_ORG} --discover-repos
+      --sf ${STUDENTS_TO_GRADE} -o ${GH_ORG} --discover-repos)
 }
 @
 <<variables>>=
