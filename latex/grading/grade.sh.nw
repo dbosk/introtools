@@ -121,7 +121,7 @@ We'll use the timestamp in their repo to check if anything has happened.
 So we store the timestamp of the latest commit.
 <<if failed, add to list for regrading>>=
 if [ $grade -lt 1 ]; then
-  echo "$(egrep "[^a-z]$s([^a-z]|$)" ${STUDENTS_TO_GRADE})$'\t'$(git -C repos/$s log -1 --format=\%cI)" \
+  echo -e "$(egrep "[^a-z]$s([^a-z]|$)" ${STUDENTS_TO_GRADE})\t$(git -C repos/$s log -1 --format=\%cI)" \
       >> ${STUDENTS_TO_REGRADE}
 fi
 @

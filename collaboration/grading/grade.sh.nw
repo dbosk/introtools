@@ -90,9 +90,8 @@ do
   read_feedback $s >> ${GRADED_STUDENTS}
   clean_feedback $s
   if [ $grade -lt 1 ]; then
-    echo \
-      "$(egrep "[^a-z]$s([^a-z]|$)" ${STUDENTS_TO_GRADE})$'\t'$(git -C repos/$s 
-      log -1 --format=\%cI)" \
+    echo -e \
+      "$(egrep "[^a-z]$s([^a-z]|$)" ${STUDENTS_TO_GRADE})\t$(git -C repos/$s log -1 --format=\%cI)" \
         >> ${STUDENTS_TO_REGRADE}
   fi
   sed -i "/[^a-z]$s\([^a-z]\|$\)/d" ${STUDENTS_TO_GRADE}
