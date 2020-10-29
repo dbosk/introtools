@@ -26,6 +26,7 @@ We'll do this in the form of a shell script.
 <<find F:ed assignments>>
 <<clone repos>>
 <<check dates on reports>>
+<<ensure to-grade-file has no redundancy>>
 @
 
 
@@ -105,3 +106,11 @@ done
 STUDENTS_TO_GRADE=students-to-grade.tsv
 @
 
+Since we update the grading file, we must ensure it has the proper form: there 
+must be no redundancy.
+If there is redundancy, [[grep]] will return more than one value.
+<<ensure to-grade-file has no redundancy>>=
+mv ${STUDENTS_TO_GRADE} ${STUDENTS_TO_GRADE}.tmp
+sort -u ${STUDENTS_TO_GRADE}.tmp > ${STUDENTS_TO_GRADE}
+rm ${STUDENTS_TO_GRADE}.tmp
+@
