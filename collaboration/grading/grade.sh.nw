@@ -85,13 +85,14 @@ do
   canvas grade -c "${COURSE_CODE}" -a "${ASSIGNMENT}" \
     -u $(egrep "[^a-z]$s([^a-z]|$)" ${STUDENTS_TO_GRADE} | cut -f 1) \
     -g ${grade} \
-    -m "$(read_feedback $s)"
+    -m "$(read_feedback $s)" || exit 1
   echo $s $grade >> ${GRADED_STUDENTS}
   read_feedback $s >> ${GRADED_STUDENTS}
   clean_feedback $s
   if [ $grade -lt 1 ]; then
     echo \
-      $(egrep "[^a-z]$s([^a-z]|$)" ${STUDENTS_TO_GRADE})$'\t'$(git -C repos/$s log -1 --format=\%cI) \
+      "$(egrep "[^a-z]$s([^a-z]|$)" ${STUDENTS_TO_GRADE})$'\t'$(git -C repos/$s 
+      log -1 --format=\%cI)" \
         >> ${STUDENTS_TO_REGRADE}
   fi
   sed -i "/[^a-z]$s\([^a-z]\|$\)/d" ${STUDENTS_TO_GRADE}
