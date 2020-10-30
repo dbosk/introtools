@@ -39,7 +39,7 @@ be created when necessary.
   canvas users -c ${COURSE_CODE} -s | cut -f 1,2 > ${STUDENTS_TO_GRADE}
 @ We set the variables in the [[<<variables>>]] block.
 <<variables>>=
-COURSE_CODE=DD1337HT201
+COURSE_CODE=DD1301HT201
 STUDENTS_TO_GRADE=students-to-grade.tsv
 @
 
@@ -67,7 +67,7 @@ function clone_repos() {
 }
 @
 <<variables>>=
-GH_ORG=dd1337-ht20-intro
+GH_ORG=datintro20
 @
 
 
@@ -99,7 +99,7 @@ done
 @ We must set the [[ASSIGNMENT]] and [[STUDENTS_TO_REGRADE]] variables.
 We will set it to a regular expression matching both terminal assignments.
 <<variables>>=
-ASSIGNMENT="Using Git"
+ASSIGNMENT="Git"
 STUDENTS_TO_REGRADE=students-to-regrade.tsv
 GRADED_STUDENTS=graded-students.md
 @
