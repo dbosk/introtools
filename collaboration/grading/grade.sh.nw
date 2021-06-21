@@ -1,0 +1,155 @@
+Now we should grade the Git assignment.
+
+We will use the [[canvas]] command to report the grades.
+This must be installed from
+\begin{center}
+  \texttt{https://github.com/dbosk/canvasy}.
+\end{center}
+
+We will use the [[repobee]] command to clone the repos containing the LaTeX 
+reports.
+This must be installed from
+\begin{center}
+  \texttt{https://repobee.org}.
+\end{center}
+
+We'll do this is the form of a shell script.
+<<grade.sh>>=
+#!/bin/bash
+# This file is generated from grade.sh.nw
+<<variables>>
+<<functions>>
+
+<<set up students to grade>>
+<<clone repos>>
+<<grade remaining students>>
+@
+
+
+\section{Setup}
+
+We will keep students who must be graded in [[students-to-grade.tsv]].
+Once we've reported them to Canvas, we can remove them from that list.
+This list will contain their Canvas ID (first column) and their KTH username 
+(second column).
+We add [[students-to-grade.tsv]] as a prerequisite to [[grade]], then it will 
+be created when necessary.
+<<set up students to grade>>=
+[ -e ${STUDENTS_TO_GRADE} ] || \
+  canvas users -c ${COURSE_CODE} -s | cut -f 1,2 > ${STUDENTS_TO_GRADE}
+@ We set the variables in the [[<<variables>>]] block.
+<<variables>>=
+COURSE_CODE=DD1301HT201
+STUDENTS_TO_GRADE=students-to-grade.tsv
+@
+
+
+\section{Cloning repos}
+
+The Git repos that we should grade are found in repos on KTH GitHub, in the 
+datintro20 organization:
+\begin{center}
+  \texttt{https://gits-15.sys.kth.se/dd1337-ht20-intro}.
+\end{center}
+We'll use [[repobee]] to clone those repos.
+<<clone repos>>=
+[ -d repos ] || \
+  clone_repos
+@
+<<functions>>=
+function clone_repos() {
+  mkdir -p repos
+  cut -f 2 ${STUDENTS_TO_GRADE} | \
+    sed "s/@kth.se//" > repos/${STUDENTS_TO_GRADE}
+  (cd repos && \
+    repobee repos clone -qq \
+      --sf ${STUDENTS_TO_GRADE} -o ${GH_ORG} --discover-repos)
+}
+@
+<<variables>>=
+GH_ORG=datintro20
+@
+
+
+\section{Grading}
+
+To grade, we iterate through the remaining students.
+We check if the student has solved the assignment, if not we continue to the 
+next.
+Otherwise we grade the student and remove it from the list.
+<<grade remaining students>>=
+date -Iseconds >> ${GRADED_STUDENTS}
+for s in $(cat ${STUDENTS_TO_GRADE} | cut -f 2 | sed "s/@kth.se//");
+do
+  <<check the repo, set grade variable>>
+  canvas grade -c "${COURSE_CODE}" -a "${ASSIGNMENT}" \
+    -u $(egrep "[^a-z]$s([^a-z]|$)" ${STUDENTS_TO_GRADE} | cut -f 1) \
+    -g ${grade} \
+    -m "$(read_feedback $s)" || exit 1
+  echo $s $grade >> ${GRADED_STUDENTS}
+  read_feedback $s >> ${GRADED_STUDENTS}
+  clean_feedback $s
+  if [ $grade -lt 1 ]; then
+    echo -e \
+      "$(egrep "[^a-z]$s([^a-z]|$)" ${STUDENTS_TO_GRADE})\t$(git -C repos/$s log -1 --format=\%cI)" \
+        >> ${STUDENTS_TO_REGRADE}
+  fi
+  sed -i "/[^a-z]$s\([^a-z]\|$\)/d" ${STUDENTS_TO_GRADE}
+done
+@ We must set the [[ASSIGNMENT]] and [[STUDENTS_TO_REGRADE]] variables.
+We will set it to a regular expression matching both terminal assignments.
+<<variables>>=
+ASSIGNMENT="Git"
+STUDENTS_TO_REGRADE=students-to-regrade.tsv
+GRADED_STUDENTS=graded-students.md
+@
+
+
+\section{Feedback and checking repos}
+
+We add a set of functions to deal with feedback.
+The [[add_feedback]] function adds feedback to the student's feedback file,
+[[read_feedback]] reads it out and [[clean_feedback]] removes the feedback 
+file.
+We will put any feedback into the [[feedback-<user>.md]] file.
+<<functions>>=
+function add_feedback() {
+  echo ${@:2} >> feedback-$1.md
+}
+function read_feedback() {
+  [ -e feedback-$1.md ] && cat feedback-$1.md
+}
+function clean_feedback() {
+  rm -f feedback-$1.md
+}
+@
+
+We must check the repo for the required parts: which is only the history file, 
+[[terminal-exercise.txt]].
+However, we look through all files for the [[history]] command.
+<<check the repo, set grade variable>>=
+[ -d repos/$s ] || continue
+grade=1
+find repos/$s -type f > allfiles-$s
+if ! (check_student $s allfiles-$s "^[0-9 ]*history" || \
+      grep -i "my.file\.md" allfiles-$s); then
+  grade=0
+  add_feedback $s no history nor my-file.md found
+fi
+rm -f allfiles-$s
+@
+
+The [[check_student]] function will grep(1) the files for the provided regex.
+It will print and return false if the test failed.
+<<functions>>=
+function check_student() {
+  cat "$2" | xargs -d "\n" egrep "$3" > /dev/null
+  if [ $? = 0 ]; then
+    true
+  else
+    echo "$1 failed $3"
+    false
+  fi
+}
+@
+

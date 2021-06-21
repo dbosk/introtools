@@ -1,0 +1,93 @@
+\section{Overview}
+
+We want to build a Docker image to run all the necessary grading in the course.
+We use RepoBee to work with the students' repos, so we can base our work on 
+that image.
+Then we install the grading scripts and run them all by default.
+<<Dockerfile>>=
+FROM repobee/repobee
+
+WORKDIR grader
+
+RUN pip install --no-cache-dir canvasapi argcomplete
+COPY canvas /usr/local/bin
+
+COPY grade-all.sh git latex .
+
+RUN ["/bin/bash", "grade-all.sh"]
+@
+
+
+\section{Running all grading scripts}
+
+Now we want to run all the grading scripts.
+The [[regrade]] and [[grade]] scripts must be run sequentially, but we can run 
+[[git]] and [[latex]] sequences in parallel.
+<<grade-all.sh>>=
+#!/bin/bash
+
+(cd git && ./regrade.sh && ./grade.sh) &
+(cd latex && ./regrade.sh && ./grade.sh) &
+
+wait
+@
+
+
+\section{Building the needed files}
+
+Now, we need to build those files.
+<<datintro-grade.mk>>=
+TARGETS+= canvas git latex
+
+.PHONY: all
+all: grade-all.sh ${TARGETS}
+all: datintro-grade
+@
+
+The [[<<grade-all.sh>>]] script is documented here, so that script must be 
+generated.
+The other files are documented in their respective assignment directories, so 
+we'll build them there and then copy them here.
+<<datintro-grade.mk>>=
+grade-all.sh: datintro-grade.nw
+	${NOTANGLE.sh}
+
+canvas: /usr/local/bin/canvas
+
+git: ../../collaboration/grading/grade.sh
+git: ../../collaboration/grading/regrade.sh
+
+latex: ../../latex/grading/grade.sh
+latex: ../../latex/grading/regrade.sh
+
+../%:
+	${MAKE} -C $(dir $@) $(notdir $@)
+
+git latex:
+	${CP} $^ $@
+
+.PHONY: clean
+clean:
+	${RM} -R grade-all.sh ${TARGETS}
+@
+
+Next is the Docker image.
+This one requires [[<<Dockerfile>>]], which is also documented below.
+<<datintro-grade.mk>>=
+.PHONY: datintro-grade
+datintro-grade: Dockerfile
+	docker build -t $@ .
+
+Dockerfile: datintro-grade.nw
+	${NOTANGLE}
+
+.PHONY: clean-docker
+clean: clean-docker
+clean-docker:
+	${RM} Dockerfile
+
+.PHONY: distclean
+distclean:
+	-docker image rm datintro-grade
+@
+
