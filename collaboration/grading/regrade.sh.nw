@@ -50,7 +50,7 @@ fi
 @ We set the variables in the [[<<variables>>]] block.
 <<variables>>=
 COURSE_CODE=DD1301HT201
-ASSIGNMENT="LaTeX"
+ASSIGNMENT="Git"
 STUDENTS_TO_REGRADE=students-to-regrade.tsv
 @
 
@@ -82,7 +82,7 @@ GH_ORG=datintro20
 @
 
 
-\section{Check dates on reports}
+\section{Check dates on repos}
 
 Now we must check the date of the last change to the repo and compare to when 
 we graded it the last time.

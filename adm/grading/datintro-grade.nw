@@ -5,14 +5,14 @@ We use RepoBee to work with the students' repos, so we can base our work on
 that image.
 Then we install the grading scripts and run them all by default.
 <<Dockerfile>>=
-FROM dbosk/canvascli
+FROM repobee/repobee
 
 WORKDIR grader
 
-RUN mkdir -p git latex
-COPY grade-all.sh .
-COPY grade-git.sh regrade-git.sh git/
-COPY grade-latex.sh regrade-latex.sh latex/
+RUN pip install --no-cache-dir canvasapi argcomplete
+COPY canvas /usr/local/bin
+
+COPY grade-all.sh git latex .
 
 RUN ["/bin/bash", "grade-all.sh"]
 @
@@ -26,8 +26,8 @@ The [[regrade]] and [[grade]] scripts must be run sequentially, but we can run
 <<grade-all.sh>>=
 #!/bin/bash
 
-(cd git && ./regrade-git.sh && ./grade-git.sh) &
-(cd latex && ./regrade-latex.sh && ./grade-latex.sh) &
+(cd git && ./regrade.sh && ./grade.sh) &
+(cd latex && ./regrade.sh && ./grade.sh) &
 
 wait
 @
@@ -37,8 +37,7 @@ wait
 
 Now, we need to build those files.
 <<datintro-grade.mk>>=
-TARGETS+= grade-git.sh regrade-git.sh
-TARGETS+= grade-latex.sh regrade-latex.sh
+TARGETS+= canvas git latex
 
 .PHONY: all
 all: grade-all.sh ${TARGETS}
@@ -53,18 +52,23 @@ we'll build them there and then copy them here.
 grade-all.sh: datintro-grade.nw
 	${NOTANGLE.sh}
 
-grade-git.sh: ../../collaboration/grading/grade.sh
-regrade-git.sh: ../../collaboration/grading/regrade.sh
+canvas: /usr/local/bin/canvas
 
-grade-latex.sh: ../../latex/grading/grade.sh
-regrade-latex.sh: ../../latex/grading/regrade.sh
+git: ../../collaboration/grading/grade.sh
+git: ../../collaboration/grading/regrade.sh
 
-${TARGETS}:
-  ${CP} $^ $@
+latex: ../../latex/grading/grade.sh
+latex: ../../latex/grading/regrade.sh
+
+../%:
+	${MAKE} -C $(dir $@) $(notdir $@)
+
+git latex:
+	${CP} $^ $@
 
 .PHONY: clean
 clean:
-  ${RM} grade-all.sh ${TARGETS}
+	${RM} -R grade-all.sh ${TARGETS}
 @
 
 Next is the Docker image.
@@ -72,18 +76,18 @@ This one requires [[<<Dockerfile>>]], which is also documented below.
 <<datintro-grade.mk>>=
 .PHONY: datintro-grade
 datintro-grade: Dockerfile
-	docker built -t $@ .
+	docker build -t $@ .
 
 Dockerfile: datintro-grade.nw
-  ${NOTANGLE}
+	${NOTANGLE}
 
 .PHONY: clean-docker
 clean: clean-docker
 clean-docker:
-  ${RM} Dockerfile
+	${RM} Dockerfile
 
 .PHONY: distclean
 distclean:
-  -docker image rm datintro-grade
+	-docker image rm datintro-grade
 @
 
