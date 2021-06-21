@@ -79,5 +79,5 @@ done
 @ We must set the [[ASSIGNMENT]] variable.
 We will set it to a regular expression matching both terminal assignments.
 <<variables>>=
-ASSIGNMENT?=  (Preparing the terminal|The terminal)
+ASSIGNMENT?=  (Preparation|Using the Terminal)
 @

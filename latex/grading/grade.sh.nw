@@ -28,27 +28,45 @@ We'll do this is the form of a shell script.
 
 \section{Setup}
 
-We will keep students who must be graded in [[students-to-grade.tsv]].
-Once we've reported them to Canvas, we can remove them from that list.
-This list will contain their Canvas ID (first column) and their KTH username 
-(second column).
-We add [[students-to-grade.tsv]] as a prerequisite to [[grade]], then it will 
-be created when necessary.
-<<set up students to grade>>=
-[ -e ${STUDENTS_TO_GRADE} ] || \
-  canvas users -c ${COURSE_CODE} -s | cut -f 1,2 > ${STUDENTS_TO_GRADE}
-@ We set the variables in the [[<<variables>>]] block.
+We need to know the course code and the assignment name.
+We set these as variables in the [[<<variables>>]] block.
 <<variables>>=
 COURSE_CODE=DD1301HT201
+ASSIGNMENT="LaTeX"
+@
+
+We will keep students who must be graded in [[students-to-grade.tsv]].
+Once we've reported them to Canvas, we can remove them from that list.
+If this list already exists, we will not create a new one.
+This allows us to resume state.
+<<set up students to grade>>=
+[ -e ${STUDENTS_TO_GRADE} ] || \
+  get_students_to_grade  > ${STUDENTS_TO_GRADE}
+@
+<<variables>>=
 STUDENTS_TO_GRADE=students-to-grade.tsv
 @
+
+We will get the list of students to grade from Canvas.
+This list will contain their Canvas ID (first column) and their KTH username 
+(second column).
+<<functions>>=
+function get_students_to_grade() {
+  canvas users -c ${COURSE_CODE} -s | cut -f 1,2
+}
+@
+
+
+\section{Clone repos}
 
 The LaTeX reports that we should grade are found in repos on KTH GitHub, in the 
 datintro20 organization:
 \begin{center}
-  \texttt{https://gits-15.sys.kth.se/datintro20}.
+  \texttt{https://gits-15.sys.kth.se/dd1337-ht20-intro}.
 \end{center}
-We'll use [[repobee]] to clone those repos.
+We'll use [[repobee]] to clone those repos in to a directory named [[repos]].
+However, if that directory already exists, we will not clone again.
+This allows us to resume state.
 <<clone repos>>=
 [ -d repos ] || \
   clone_repos
@@ -58,9 +76,9 @@ function clone_repos() {
   mkdir -p repos
   cut -f 2 ${STUDENTS_TO_GRADE} | \
     sed "s/@kth.se//" > repos/${STUDENTS_TO_GRADE}
-  cd repos && \
+  (cd repos && \
     repobee repos clone -qq \
-      --sf ${STUDENTS_TO_GRADE} -o ${GH_ORG} --discover-repos
+      --sf ${STUDENTS_TO_GRADE} -o ${GH_ORG} --discover-repos)
 }
 @
 <<variables>>=
@@ -71,30 +89,45 @@ GH_ORG=datintro20
 \section{Grading}
 
 To grade, we iterate through the remaining students.
-We check if the student has solved the assignment, if not we continue to the 
-next.
-Otherwise we grade the student and remove it from the list.
+We check if the student has solved the assignment and generate some feedback.
+We grade the student and provide the feedback, remove it from the list and 
+continue to the next student.
+We use the file [[${GRADED_STUDENTS}]] as a log.
 <<grade remaining students>>=
+date -Iseconds >> ${GRADED_STUDENTS}
 for s in $(cat ${STUDENTS_TO_GRADE} | cut -f 2 | sed "s/@kth.se//");
 do
   <<check the repo, set grade variable>>
   canvas grade -c "${COURSE_CODE}" -a "${ASSIGNMENT}" \
-    -u $(grep $s ${STUDENTS_TO_GRADE} | cut -f 1) -g ${grade} \
-    -m "$(read_feedback $s)"
+    -u $(egrep "[^a-z]$s([^a-z]|$)" ${STUDENTS_TO_GRADE} | cut -f 1) \
+    -g ${grade} \
+    -m "$(read_feedback $s)" || exit 1
+  echo $s $grade >> ${GRADED_STUDENTS}
+  read_feedback $s >> ${GRADED_STUDENTS}
   clean_feedback $s
-  sed -i "/$s/d" ${STUDENTS_TO_GRADE}
-  if [ $grade -lt 1 ]; then
-    echo \
-      $(grep $s ${STUDENTS_TO_GRADE})\t$(git -C repos/$s log -1 --format=\%cI) \
-        >> ${STUDENTS_TO_REGRADE}
-  fi
+  <<if failed, add to list for regrading>>
+  sed -i "/[^a-z]$s\([^a-z]\|$\)/d" ${STUDENTS_TO_GRADE}
 done
 @ We must set the [[ASSIGNMENT]] and [[STUDENTS_TO_REGRADE]] variables.
 We will set it to a regular expression matching both terminal assignments.
 <<variables>>=
-ASSIGNMENT="(Git|LaTeX)"
 STUDENTS_TO_REGRADE=students-to-regrade.tsv
+GRADED_STUDENTS=graded-students.md
 @
+
+Students who failed should be regraded later.
+However, we only want to regrade them once they've updated their repo.
+We'll use the timestamp in their repo to check if anything has happened.
+So we store the timestamp of the latest commit.
+<<if failed, add to list for regrading>>=
+if [ $grade -lt 1 ]; then
+  echo -e "$(egrep "[^a-z]$s([^a-z]|$)" ${STUDENTS_TO_GRADE})\t$(git -C repos/$s log -1 --format=\%cI)" \
+      >> ${STUDENTS_TO_REGRADE}
+fi
+@
+
+
+\section{Feedback and checking their repo}
 
 We add a set of functions to deal with feedback.
 The [[add_feedback]] function adds feedback to the student's feedback file,
