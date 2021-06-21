@@ -1,0 +1,89 @@
+\section{Overview}
+
+We want to build a Docker image to run all the necessary grading in the course.
+We use RepoBee to work with the students' repos, so we can base our work on 
+that image.
+Then we install the grading scripts and run them all by default.
+<<Dockerfile>>=
+FROM dbosk/canvascli
+
+WORKDIR grader
+
+RUN mkdir -p git latex
+COPY grade-all.sh .
+COPY grade-git.sh regrade-git.sh git/
+COPY grade-latex.sh regrade-latex.sh latex/
+
+RUN ["/bin/bash", "grade-all.sh"]
+@
+
+
+\section{Running all grading scripts}
+
+Now we want to run all the grading scripts.
+The [[regrade]] and [[grade]] scripts must be run sequentially, but we can run 
+[[git]] and [[latex]] sequences in parallel.
+<<grade-all.sh>>=
+#!/bin/bash
+
+(cd git && ./regrade-git.sh && ./grade-git.sh) &
+(cd latex && ./regrade-latex.sh && ./grade-latex.sh) &
+
+wait
+@
+
+
+\section{Building the needed files}
+
+Now, we need to build those files.
+<<datintro-grade.mk>>=
+TARGETS+= grade-git.sh regrade-git.sh
+TARGETS+= grade-latex.sh regrade-latex.sh
+
+.PHONY: all
+all: grade-all.sh ${TARGETS}
+all: datintro-grade
+@
+
+The [[<<grade-all.sh>>]] script is documented here, so that script must be 
+generated.
+The other files are documented in their respective assignment directories, so 
+we'll build them there and then copy them here.
+<<datintro-grade.mk>>=
+grade-all.sh: datintro-grade.nw
+	${NOTANGLE.sh}
+
+grade-git.sh: ../../collaboration/grading/grade.sh
+regrade-git.sh: ../../collaboration/grading/regrade.sh
+
+grade-latex.sh: ../../latex/grading/grade.sh
+regrade-latex.sh: ../../latex/grading/regrade.sh
+
+${TARGETS}:
+  ${CP} $^ $@
+
+.PHONY: clean
+clean:
+  ${RM} grade-all.sh ${TARGETS}
+@
+
+Next is the Docker image.
+This one requires [[<<Dockerfile>>]], which is also documented below.
+<<datintro-grade.mk>>=
+.PHONY: datintro-grade
+datintro-grade: Dockerfile
+	docker built -t $@ .
+
+Dockerfile: datintro-grade.nw
+  ${NOTANGLE}
+
+.PHONY: clean-docker
+clean: clean-docker
+clean-docker:
+  ${RM} Dockerfile
+
+.PHONY: distclean
+distclean:
+  -docker image rm datintro-grade
+@
+
