@@ -1,27 +1,10 @@
-# Week 1
+- Week 1
+  - Lecture: Intro to course; terminal and some SSH
+  - Lab: Terminal and SSH
+  - Lecture: Remote tools and pair programming; Git
+  - Lab: Git
 
-Mon:  Lecture
-      Intro to course
-      Terminal and some SSH
-
-Tue:  Lab
-      Terminal and SSH lab
-
-Wed:  Lecture
-      Remote tools and pair programming
-      Git
-
-Fri:  Lab
-      Git lab
-
-
-# Week 2
-
-Mon:  Lecture
-      LaTeX
-
-Tue:  Lab
-      LaTeX
-
-Thu:  Lab
-      Extra
+- Week 2
+  - Lecture: LaTeX
+  - Lab: LaTeX
+  - Lab: Extra session
