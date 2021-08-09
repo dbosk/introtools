@@ -4,24 +4,35 @@ You will need to use the terminal in many cases in the future, most imminently
 for the next coming assignments in this course. In this assignment you'll 
   ensure you have a terminal to use. 
 
-There are several options for accessing a UNIX-like terminal. We'll cover (1) 
-running it on your own system, (2) using a KTH system remotely.
+There are several options for accessing a UNIX-like terminal. We'll cover
+
+  1. running it on your own system,
+  2. using a KTH system remotely.
 
 
 ## On your own system
 
 If you run Linux or MacOS, you're already running a UNIX-like system. Then you 
-can just start the terminal (just search for it).
+can just start the terminal (just search for the word "terminal").
 
 On a Windows system it is a bit more complicated. While Windows also have a 
 command-line interface, it's not compatible with a UNIX-like interface. If you 
-run Windows 10, just go ahead and [install Windows Subsystem for Linux][WSL] 
-(WSL) to run Ubuntu in Windows.
+run Windows 10, just go ahead and install Windows Subsystem for Linux (WSL) to 
+run Ubuntu in Windows. There are various guides:
 
+  - [Microsoft's installation guide][ms-wsl] 
+  - [omg!ubuntu!'s guide][WSL2]
+  - [How-to-geek's guide][WSL]
+
+Pick your favourite!
+
+[ms-wsl]: https://docs.microsoft.com/en-us/windows/wsl/install-win10
 [WSL]: https://www.howtogeek.com/249966/how-to-install-and-use-the-linux-bash-shell-on-windows-10/
+[WSL2]: https://www.omgubuntu.co.uk/how-to-install-wsl2-on-windows-10
 
 For older versions of Windows, you should [install CygWin][cygwin] or use KTH's 
-systems remotely (see below).
+systems remotely (see below) --- we recommend to use KTH's systems remotely in 
+this case.
 
 [cygwin]: https://cygwin.com/install.html
 
@@ -32,22 +43,29 @@ Again, if you run a UNIX-like system, such as Linux, MacOS or WSL (as above);
 then you can use the `ssh` command in the terminal to access a KTH system 
 remotely. Just run
 ```
-ssh student-shell.sys.kth.se
+ssh dbosk@student-shell.sys.kth.se
 ```
-and log in with your normal username and password.
+with your KTH username instead of `dbosk` and your password.
 
-If you run Windows without WSL, you'll need [PuTTY][putty] and 
-[WinSCP][winscp]. PuTTY will open a terminal that's running on KTH's servers, 
-just give `student-shell.sys.kth.se` as the hostname in PuTTY, see 
-+@fig:puttyconf and +@fig:puttyterm. Then you just type in your KTH username 
-and password (note that you won't see anything when typing in the password, 
-UNIX-like systems don't output the bullets or asterisks when typing passwords).
+### For Windows without WSL
 
-![The PuTTY start-up screen][puttyconf]{#fig:puttyconf}
+If you run Windows without WSL (e.g. older than Windows 10), you'll need 
+[PuTTY][putty] and [WinSCP][winscp]. PuTTY will open a terminal that's running 
+on KTH's servers, just give `student-shell.sys.kth.se` as the hostname in 
+PuTTY, something like this:
+
+![The PuTTY start-up screen][puttyconf]
+
+Then you just type in your KTH username and password (note that you won't see 
+anything when typing in the password, UNIX-like systems don't output the 
+bullets or asterisks when typing passwords). It will look something like this:
+
+![A terminal window in PuTTY][puttyterm]
 
 [putty]: https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html
 [winscp]: https://winscp.net/eng/download.php
-[puttyconf]: https://github.com/dbosk/introtools/raw/master/terminal/puttyconf.png
+[puttyconf]: https://github.com/dbosk/introtools/raw/master/modules/terminal/puttyconf.png
+[puttyterm]: https://github.com/dbosk/introtools/raw/master/modules/terminal/puttyterm.png
 
 WinSCP is used for copying files between the your local system and the remote 
 KTH system. This allows you to upload or download files from your KTH home 
@@ -56,21 +74,19 @@ directory. As with PuTTY, just give `student-shell.sys.kth.se` as the hostname.
 
 ## The end result
 
-If you succeeded, you should have window that looks something like 
-+@fig:terminal or +@fig:puttyterm.
+If you succeeded, you should have window that looks something like this or the 
+PuTTY window above:
 
-![A terminal window with an SSH session on a UNIX-like system][terminal]{#fig:terminal}
-
-![A terminal window in PuTTY][puttyterm]{#fig:puttyterm}
+![A terminal window with an SSH session on a UNIX-like system][terminal]
 
 [terminal]: https://github.com/dbosk/introtools/raw/master/terminal/terminal.png
-[puttyterm]: https://github.com/dbosk/introtools/raw/master/terminal/puttyterm.png
+
 
 ## Assessment
 
 We can see whether you've never logged into the `student-shell` server or not, 
-so ensure that you successfully log in.
+so ensure that you successfully log in. Even if you're sitting by a computer in 
+one of the KTH labs, use `ssh` as above to log into `student-shell`.
 
-By this, we assess that you can *access the computer environment at KTH* and 
-*control the computer environment via the command line*.
+By this, we assess that you can *access the computer environment at KTH*.
 
