@@ -1,0 +1,23 @@
+modules:
+  index:
+    title: Innehåll
+    path: /
+    next: overview
+  overview:
+    title: Översikt
+    path: /modules/overview/kurspm
+    prev: index
+    next: terminal
+  terminal:
+    title: The terminal
+    path: /modules/terminal/guide
+    prev: overview
+    next: editor
+  editor:
+    title: The text editor
+    path: modules/editor/editor
+    prev: terminal
+    next: collaboration
+  latex:
+    title: Writing with LaTeX
+    path: modules/latex/latex

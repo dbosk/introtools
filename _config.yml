@@ -1,1 +1,6 @@
-theme: jekyll-theme-slate
+title: Intro to CS tools
+description: An introduction to some CS tools
+repository: dbosk/introtools
+
+exclude: [makefiles, beamer_didactic]
+mathjax: true
