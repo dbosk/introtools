@@ -18,3 +18,10 @@ After this course you should be able to
 - [{{ module[1].title }}]({{ module[1].path | relative_url }}) {% if module[1].path == "/" %}(this page){% endif %}
 {% endfor %}
 
+
+## The missing semester
+
+This course covers part of the ["Missing Semester"][missing-semester].
+
+[missing-semester]: https://missing.csail.mit.edu/
+
