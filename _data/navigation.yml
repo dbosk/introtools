@@ -25,7 +25,7 @@ modules:
     next: git
   git:
     title: Version management
-    path: modules/collaboration/git
+    path: modules/git/git
     prev: collaboration
     next: latex
   latex:
