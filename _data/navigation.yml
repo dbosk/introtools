@@ -4,7 +4,7 @@ modules:
     path: /
     next: overview
   overview:
-    title: Översikt
+    title: Overview
     path: /modules/overview/kurspm
     prev: index
     next: terminal
@@ -18,6 +18,17 @@ modules:
     path: modules/editor/editor
     prev: terminal
     next: collaboration
+  collaboration:
+    title: Collaboration
+    path: modules/collaboration/tmate
+    prev: editor
+    next: git
+  git:
+    title: Version management
+    path: modules/collaboration/git
+    prev: collaboration
+    next: latex
   latex:
     title: Writing with LaTeX
     path: modules/latex/latex
+    prev: git
