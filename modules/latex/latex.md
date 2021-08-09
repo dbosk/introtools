@@ -84,6 +84,8 @@ you've followed the instructions for the Git lab, you can use that repo.
 [team-repo-access]: https://docs.github.com/en/github/setting-up-and-managing-organizations-and-teams/managing-team-access-to-an-organization-repository
 [repo-transfer]: https://docs.github.com/en/github/administering-a-repository/transferring-a-repository#transferring-a-repository-owned-by-your-user-account
 
-We assess that by doing this you can *create and compile technical reports* and 
-*handle submissions of (program) code with version control tools*.
+We assess that by doing this you can *create and compile technical reports*; 
+*handle submissions of (program) code with version control tools* and, finally, 
+*control the computer environment via the command line* (by seeing your command 
+line history).
 

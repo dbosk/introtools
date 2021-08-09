@@ -71,5 +71,6 @@ If you succeeded, you should have window that looks something like
 We can see whether you've never logged into the `student-shell` server or not, 
 so ensure that you successfully log in.
 
-By this, we assess that you can *access the computer environment at KTH*.
+By this, we assess that you can *access the computer environment at KTH* and 
+*control the computer environment via the command line*.
 
