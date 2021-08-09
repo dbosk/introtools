@@ -8,6 +8,11 @@ modules:
     path: /modules/overview/kurspm
     prev: index
     next: terminal
+  ssh:
+    title: Finding the terminal and remote shells
+    path: /modules/ssh/guide
+    prev: overview
+    next: terminal
   terminal:
     title: The terminal
     path: /modules/terminal/terminal
