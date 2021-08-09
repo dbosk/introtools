@@ -10,7 +10,7 @@ modules:
     next: terminal
   terminal:
     title: The terminal
-    path: /modules/terminal/guide
+    path: /modules/terminal/terminal
     prev: overview
     next: editor
   editor:

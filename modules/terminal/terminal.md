@@ -2,7 +2,7 @@
 
 The terminal provides a *command-line interface*. This means that we can type 
 commands which the computer will execute. It provides some very powerful 
-constructions that allows us to do incredible things, for example:
+constructions that allows us to do powerful things, for example:
 ```
 n=10 cat hitch-hikers-guide.txt | \
   tr -cs A-Za-z '\n' | \
@@ -15,8 +15,11 @@ n=10 cat hitch-hikers-guide.txt | \
 This is a one-line command that we have broken over several lines for 
 readability. It outputs the 10 most common words in the Hitch-Hikers Guide to 
 the Galaxy (provided we have the file `hitch-hikers-guide.txt` containing a 
-text copy of that book). By the end of this exercise you will understand 
-exactly why this line achieves what it does.
+text copy of that book). By the end of this exercise you will be able to find 
+out what each part does and understand exactly why this line achieves what it 
+does.
+
+## Some history
 
 In 1986, [Jon Bentley][bentley] posed a problem to [Donald Knuth][knuth] (the 
 father of modern computer science). The problem was to write a [literate 
@@ -28,27 +31,35 @@ respective counts.
 [knuth]: https://en.wikipedia.org/wiki/Donald_Knuth
 [litprog]: https://en.wikipedia.org/wiki/Literate_programming
 
-Of course, Knuth solved the problem. But so did [Douglas McIlroy][mcilroy]. 
-McIlroy proposed the example above, which solved the problem in the terminal. 
-Among McIlroy's numerous contributions, we'll mention two: pipelines (which 
-we'll cover shortly) and high quality manual pages for UNIX.
+Of course, Knuth solved the problem. [Douglas McIlroy][mcilroy] was invited to 
+review and comment on Knuth's solution and proposed the example above, which 
+solved the problem in the terminal. You can find and discuss the original 
+account [here][programming-pearls] (just signup if you don't have a 
+FeedbackFruits account already).
 
 [mcilroy]: https://en.wikipedia.org/wiki/Douglas_McIlroy
+[programming-pearls]: https://eu.feedbackfruits.com/courses/activity-course/cb40f542-14e4-4d84-af09-651c010cba31
+
+Among McIlroy's numerous contributions, we'll mention two that are relevant in 
+our context: pipelines (which we'll cover shortly) and high quality manual 
+pages for UNIX.
 
 Now we'll cover some of the basics of the UNIX-like terminal before we return 
 to our example above. To access the terminal, see [this guide][guide].
 
-[guide]: guide.html
+[guide]: guide
 
 ## Some common commands
 
 The very first command to learn is `man`. All UNIX commands have as short names 
 as possible. `man` is short for manual. Thanks to McIlroy, no command was 
-admitted into the UNIX system until it had a well-written manual page. This 
-manual page is accessed with the `man` command --- including the `man` command 
-itself! To access its manual page, simply type `man man` in the terminal.
+admitted into the UNIX system until it had a *well-written* (he was very strict 
+about the quality) manual page. This manual page is accessed with the `man` 
+command --- including the manual page for the `man` command itself! To access 
+its manual page, simply type `man man` in the terminal.
 
-Use the manual pages to find out what the following commands do:
+Use the manual pages (and go ahead and experiment with them) to find out what 
+the following commands do:
 
   - `ls`
   - `pwd`
@@ -59,8 +70,8 @@ Use the manual pages to find out what the following commands do:
   - `mv`
   - `rm`
 
-The above file management. The following focus more on file contents, see the 
-manual pages to see what they do.
+The above commands focus on file management. The following focus more on file 
+contents, see the manual pages (and experiment) to see what they do.
 
   - `cat`
   - `more` and `less`
@@ -77,14 +88,15 @@ from what's visible on the screen down --- not text that has passed the screen
 before.
 
 One example of a manual page where searching is useful is the manual pages for 
-`bash`. `bash` is the default shell in many systems, and the *shell* is the 
-program that processes your commands. Each command above is provided by a 
-separate program, and each such program has a manual page. Some commands, 
-however, are built into the shell itself --- for instance, `cd`, which changes 
-the current directory. To read about `cd`, run `man bash` and search for 
-`/^shell builtin commands` (the `^` character indicates the start of a line, 
-meaning there shouldn't be anything before on a matching line). From there, 
-either scroll down or search again, but this time for `/cd`.
+`bash`. `bash` is the default shell in many (GNU/Linux) systems, and the 
+*shell* is the program that processes your commands. Each command above is 
+provided by a separate program, and each such program has a manual page. Some 
+commands, however, are built into the shell itself --- for instance, `cd`, 
+which changes the current directory. To read about `cd`, run `man bash` and 
+search for `/^shell builtin commands` (the `^` character indicates the start of 
+a line, meaning there shouldn't be anything before on a matching line). From 
+there, either scroll down or search again, but this time search for `cd` (i.e. 
+type `/cd`).
 
 Let's have an example to look at.
 ```
@@ -140,6 +152,7 @@ screen. `wc` gets its input read from `testfile`.
 We can see that this is equivalent to `echo 1 2 3 | wc`. `cat testfile | wc` 
 would give the same result as `wc < testfile`.
 
+
 ## Explaining the original example above
 
 Let's return the example in the beginning, what does it do exactly? The code 
@@ -155,7 +168,8 @@ n=10 cat hitch-hikers-guide.txt | \
 ```
 The first thing that happens is that we have a variable `n` that we set to the 
 value `10` (we're interested in the 10 most common words). `cat` simply prints 
-the contents of the text, which is piped to the next command (`tr`).
+the contents of the text file (`hitch-hikers-guide.txt`), which is piped to the 
+next command (`tr`).
 
 `tr` will homogenize the text: the first `tr` will reduce non-letter characters 
 and turn them all into a line break (`\n`). This will put each word on its own 
@@ -179,11 +193,13 @@ Log into the remote system (`student-shell`) and do the following:
   you type `cd` without any arguments. We suggest that you work in the 
   `datintro20` directory for this course from now on.
   
-  2) In the `datintro20` directory, redirect the output of the `history` 
-  command to a file called `terminal-exercise.txt`.
+  2) In the `Public` directory in your home directory (the default directory 
+  when you log in), redirect the output of the `history` command to a file 
+  called `datintro-terminal.txt`.
   
-Note that we can check that this directory and file exists, so ensure that 
-you've created them in your home directory.
+Note that we can check that the file exists in this directory, so ensure that 
+you've created the file in the correct folder (try `ls ~/Public` to see that 
+the file is there).
 
 We assess that by this you can *control the computer environment via the 
 command line*.
