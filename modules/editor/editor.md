@@ -50,7 +50,7 @@ Again, [yours truly][dbosk] uses only Vim in terminal mode. So it *is* possible
 to come a long way without a GUI. Vim (and Emacs) has support for syntax 
 highlighting, code completion and integrated debugging through various 
 plug-ins. There are even [services which generate the configuration for 
-Vim][vim-bootstrap] based on your language preferences.
+Vim][vim-bootstrap] based on your (programming) language preferences.
 
 [vim-bootstrap]: https://vim-bootstrap.com/
 
@@ -61,3 +61,5 @@ other features through plug-ins. Some of the most popular are
  - [Sublime Text](https://www.sublimetext.com/),
  - [Visual Studio Code (VS Code)](https://code.visualstudio.com/).
 
+However, note that these editors don't work with tmate, only the host will see 
+the window.
