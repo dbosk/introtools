@@ -1,4 +1,4 @@
-HTML_FILES= 	latex.html
+HTML_FILES= 	editor.html
 
 
 .PHONY: all
@@ -10,4 +10,4 @@ clean:
 	${RM} ${HTML_FILES}
 
 
-include ../html.mk
+include ../../html.mk

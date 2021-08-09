@@ -14,7 +14,7 @@ clean:
 	${RM} ${HTML_FILES} ${PDF_FILES}
 
 
-include ../../html.mk
+include ../../../html.mk
 
-INCLUDE_MAKEFILES?=../../makefiles
+INCLUDE_MAKEFILES?=../../../makefiles
 include ${INCLUDE_MAKEFILES}/tex.mk

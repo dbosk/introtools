@@ -31,7 +31,7 @@ grade: grade.sh regrade.sh
 	./grade.sh
 
 
-INCLUDE_MAKEFILES=../../makefiles
+INCLUDE_MAKEFILES=../../../makefiles
 include ${INCLUDE_MAKEFILES}/noweb.mk
 include ${INCLUDE_MAKEFILES}/tex.mk
 

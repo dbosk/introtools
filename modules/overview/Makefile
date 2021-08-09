@@ -1,10 +1,12 @@
-PDF_FILES= 		slides.pdf
+HTML_FILES= 	overview.html
+
+PANDOCFLAGS= 	--filter pandoc-xnos
 
 
 .PHONY: all
 all: ${HTML_FILES} ${PDF_FILES}
 
-slides.pdf: slides.tex contents.tex preamble.tex slides.tex version-tree.png
+overview.html: overview.md
 
 
 .PHONY: clean
