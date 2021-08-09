@@ -1,6 +1,6 @@
 modules:
   index:
-    title: Innehåll
+    title: Contents
     path: /
     next: overview
   overview:
