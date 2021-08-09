@@ -3,12 +3,6 @@ permalink: /
 ---
 # An introduction to some tools useful for Computer Science
 
-This short course introduces
-
- - the terminal
- - Git and
- - LaTeX
-
 After this course you should be able to
 
   - obtain access to the computational environment on KTH Royal Institute of 
