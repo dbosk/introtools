@@ -194,14 +194,17 @@ replaced by the value of `n`, which we had set to `10` on the first line.
 Log into the remote system (`student-shell`) and do the following:
 
   1. Go to the directory called `Public` in your home directory; the home 
-  directory is where you start when you just log in, you can also get there if 
-  you type `cd` without any arguments.
+     directory is where you start when you just log in, you can also get there 
+     if you type `cd` without any arguments.
   
   2. Create a directory named `datintro` and go into it. We suggest that you 
-  work in the `datintro` directory for this course from now on.
+     work in this `datintro` directory for this course from now on. (Just don't 
+     write anything secret into the files residing there as others can read 
+     them.)
   
   3. In the `datintro` directory, after you've done your experiments above, 
-  redirect the output of the `history` command to a file called `history.txt`.
+     redirect the output of the `history` command to a file called 
+     `history.txt`.
   
 Note that we can check that the file exists in this directory, so ensure that 
 you've created the file in the correct folder (try `ls ~/Public/datintro` to 
