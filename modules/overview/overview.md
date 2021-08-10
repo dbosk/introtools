@@ -62,8 +62,8 @@ immediately.
 Once per week, complete results are reported to LADOK. Then you get credits. 
 The date reported to LADOK is when you completed the last assignment.
 
-Thanks to this automation, you can complete the assignments of the course at 
-any time you like to get credits --- even next year. But you should study the 
+Due to this automation, you can complete the assignments of the course at any 
+time you like to get credits --- even next year. But you should study the 
 material already now, since you're expected to know how to use the computer 
 systems in courses you take now.
 
