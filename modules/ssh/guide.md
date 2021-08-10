@@ -19,8 +19,10 @@ There are several options for accessing a UNIX-like terminal. We'll cover
 ## On your own system
 
 **MacOS and Linux:** If you run Linux or MacOS, you're already running a 
-UNIX-like system. Then you can just start the terminal (just search for the 
-word "terminal").
+UNIX-like system (see the [family tree][unix-family]). Then you can just start 
+the terminal (just search for the word "terminal").
+
+[unix-family]: https://www.levenez.com/unix/
 
 **Windows:** On a Windows system it is a bit more complicated. While Windows 
 also have a command-line interface, it's not compatible with a UNIX-like 
@@ -60,9 +62,9 @@ else*.
 
 ## Use a KTH system remotely
 
-Again, if you run a UNIX-like system, such as Linux, MacOS or WSL (as above); 
-then you can use the `ssh` command in the terminal to access a KTH system 
-remotely. Just run
+Again, if you run a UNIX-like system, such as Linux, MacOS or WSL (on Windows 
+10 as above); then you can use the `ssh` command in the terminal to access a 
+KTH system remotely. Just run
 ```
 ssh dbosk@student-shell.sys.kth.se
 ```
