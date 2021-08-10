@@ -5,7 +5,7 @@ modules:
     next: overview
   overview:
     title: Overview
-    path: /modules/overview/kurspm
+    path: /modules/overview/overview
     prev: index
     next: terminal
   ssh:
