@@ -38,6 +38,8 @@
           {% for author in page.authors -%}
             <li class="p-name">
               {{ author }}
+              {{ author[0] }}
+              {{ author[1] }}
               {{ author[0] | escape }}
               {% if author[1] -%}
                 &lt;<a class="u-email" href="mailto:{{ author[1] }}">{{ author[1] }}</a>&gt;
