@@ -71,7 +71,7 @@ systems in courses you take now.
 
 After the course (i.e. after the first two weeks of the semester), help within 
 the course is limited to other students replying in the Canvas forum. But you 
-can find help from the tutors of [Allmänhandledningen][allänhandledningen].
+can find help from the tutors of [Allmänhandledningen][allmänhandledningen].
 
 [allmänhandledningen]: https://www.kth.se/social/group/allmanhandledning/
 
