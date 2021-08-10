@@ -15,6 +15,7 @@ from the beginning.
 
 Go to [KTH GitHub][gits] and **login to activate your account.**
 
+[github]: https://github.com
 [gits]: https://gits-15.sys.kth.se/
 
 
