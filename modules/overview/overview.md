@@ -12,16 +12,6 @@ special focus on control of a computer from the command line (Bash), remote
 access to KTH systems (SSH), version control of course work (Git and GitHub) 
 and production of technical reports (LaTeX).
 
-After passing the course, you should be able to
-
- - access the computer environment at KTH,
- - control the computer environment via the command line,
- - handle submissions of program code with version control tools, and
- - create and compile technical reports
-
-in order to successfully work in the computer environment at KTH during your 
-studies.
-
 
 ## Structure
 
