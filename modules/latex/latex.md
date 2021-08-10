@@ -81,11 +81,11 @@ with the following requirements: it must contain
 [listings]: https://ctan.org/pkg/listings
 
 The document *and its source files* must be committed and pushed to a 
-repository on [KTH GitHub][github-kth]. It must also be in the `datintro20` 
+repository on [KTH GitHub][github-kth]. It must also be in the `datintro21` 
 organization belonging to a team with the same name as your own username. If 
 you've followed the instructions for the Git lab, you can use that repo.
 
-[github-kth]: https://gits-15.sys.kth.se/datintro20
+[github-kth]: https://gits-15.sys.kth.se/datintro21
 [team-repo-access]: https://docs.github.com/en/github/setting-up-and-managing-organizations-and-teams/managing-team-access-to-an-organization-repository
 [repo-transfer]: https://docs.github.com/en/github/administering-a-repository/transferring-a-repository#transferring-a-repository-owned-by-your-user-account
 
