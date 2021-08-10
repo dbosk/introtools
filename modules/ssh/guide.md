@@ -6,8 +6,9 @@ authors:
 # Guide to accessing the terminal
 
 You will need to use the terminal in many cases in the future, most imminently 
-for the next coming assignments in this course. In this assignment you'll 
-  ensure you have a terminal to use. 
+for the next coming assignments in this course. (But you'll need it in many 
+  future courses too). In this assignment you'll ensure you have a terminal to 
+  use. 
 
 There are several options for accessing a UNIX-like terminal. We'll cover
 
@@ -17,29 +18,44 @@ There are several options for accessing a UNIX-like terminal. We'll cover
 
 ## On your own system
 
-If you run Linux or MacOS, you're already running a UNIX-like system. Then you 
-can just start the terminal (just search for the word "terminal").
+**MacOS and Linux:** If you run Linux or MacOS, you're already running a 
+UNIX-like system. Then you can just start the terminal (just search for the 
+word "terminal").
 
-On a Windows system it is a bit more complicated. While Windows also have a 
-command-line interface, it's not compatible with a UNIX-like interface. If you 
-run Windows 10, just go ahead and install Windows Subsystem for Linux (WSL) to 
-run Ubuntu in Windows. There are various guides:
+**Windows:** On a Windows system it is a bit more complicated. While Windows 
+also have a command-line interface, it's not compatible with a UNIX-like 
+interface. If you run Windows 10, just go ahead and install Windows Subsystem 
+for Linux (WSL) to run Ubuntu in Windows. There are various guides:
 
   - [Microsoft's installation guide][ms-wsl] 
+  - [Ubuntu's installation guide][ubuntu-wsl]
   - [omg!ubuntu!'s guide][WSL2]
   - [How-to-geek's guide][WSL]
 
 Pick your favourite!
 
 [ms-wsl]: https://docs.microsoft.com/en-us/windows/wsl/install-win10
+[ubuntu-wsl]: https://ubuntu.com/tutorials/ubuntu-on-windows#1-overview
 [WSL]: https://www.howtogeek.com/249966/how-to-install-and-use-the-linux-bash-shell-on-windows-10/
 [WSL2]: https://www.omgubuntu.co.uk/how-to-install-wsl2-on-windows-10
 
-For older versions of Windows, you should [install CygWin][cygwin] or use KTH's 
-systems remotely (see below) --- we recommend to use KTH's systems remotely in 
-this case.
+For older versions of Windows, there are no really convenient option, you can
 
+  - use KTH's systems remotely (see below, recommended),
+  - [run Ubuntu as a virtual machine][vm],
+  - [install Ubuntu][install-ubuntu] on your computer (be careful: some 
+    students *accidentally erased* all their photos/data by making a mistake!),
+  - [install CygWin][cygwin].
+
+[vm]: https://multipass.run/
+[install-ubuntu]: https://ubuntu.com/download/desktop
 [cygwin]: https://cygwin.com/install.html
+
+**Old computers:** Note that if you have an old computer that you perceive as 
+slow, then it might be worth installing Ubuntu on it. After that the computer 
+usually feels much faster again. See [how to install Ubuntu][install-ubuntu]. 
+But *make sure to back up any data on that computer before you do anything 
+else*.
 
 
 ## Use a KTH system remotely
@@ -50,7 +66,7 @@ remotely. Just run
 ```
 ssh dbosk@student-shell.sys.kth.se
 ```
-with your KTH username instead of `dbosk` and your password.
+with your KTH username instead of `dbosk` and your KTH password.
 
 ### For Windows without WSL
 
@@ -79,8 +95,8 @@ directory. As with PuTTY, just give `student-shell.sys.kth.se` as the hostname.
 
 ## The end result
 
-If you succeeded, you should have window that looks something like this or the 
-PuTTY window above:
+If you succeeded, you should have window that looks something like this (or the 
+PuTTY window above):
 
 ![A terminal window with an SSH session on a UNIX-like system][terminal]
 
