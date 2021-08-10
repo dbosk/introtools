@@ -12,12 +12,11 @@ War][editor-war], one of the Holy Wars of Computer Science.
 We've already encountered the `nano` editor. A small editor that runs entirely 
 in the terminal. An editor that runs in the terminal is an important tool, 
 because you can use it in all terminal interfaces, e.g. on remote systems over 
-SSH or systems which doesn't have any *graphical* user interface (e.g. 
+SSH or systems which doesn't have any *graphical* user interface (GUI, e.g. 
 servers).
 
 However, in most cases you'll be using the editor on your own system, which 
-will usually have a graphical user interface (GUI). So it might be worth having 
-two editors of choice.
+will usually have a GUI. So it might be worth having two editors of choice.
 
 Below we give a list of some commons editors, both terminal and GUI.
 
@@ -26,14 +25,14 @@ Below we give a list of some commons editors, both terminal and GUI.
 
 As mentioned above, we've already encountered `nano`.
 
-We also mentioned the Editor War, which is usually fought between `vi` (or 
+We also mentioned the Editor War, which is usually fought between `vi` (or the 
 newer Vim or NeoVim) on one side and Emacs on the other. Both of these run in 
 the terminal, but they also have GUI versions.
 
 You can access a tutorial on Vim by running `vimtutor` in the terminal. That's 
-the safest way to start with Vim, since [many have problems to exit 
-Vim][sx-exit-vim]. Emacs offers the possibility to enter a tutorial when it's 
-started.
+the safest way to start with Vim, since Vim is renowned for [many having 
+problems to exit Vim][sx-exit-vim]. Emacs offers the possibility to enter a 
+tutorial when it's started.
 
 [sx-exit-vim]: https://stackoverflow.blog/2017/05/23/stack-overflow-helping-one-million-developers-exit-vim/
 
@@ -65,5 +64,5 @@ other features through plug-ins. Some of the most popular are
  - [Sublime Text](https://www.sublimetext.com/),
  - [Visual Studio Code (VS Code)](https://code.visualstudio.com/).
 
-However, note that these editors don't work with tmate, only the host will see 
-the window.
+However, note that these editors "don't work" (it's complicated) over SSH.
+
