@@ -1,3 +1,8 @@
+---
+authors:
+  - Daniel Bosk: dbosk@kth.se
+---
+
 # Guide to accessing the terminal
 
 You will need to use the terminal in many cases in the future, most imminently 

@@ -1,3 +1,9 @@
+---
+authors:
+  - Ric Glassey: glassey@kth.se
+  - Daniel Bosk: dbosk@kth.se
+---
+
 # Activate your KTH GitHub account
 
 At KTH, we have an enterprise edition of GitHub running locally. As a

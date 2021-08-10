@@ -1,3 +1,8 @@
+---
+authors:
+  - Daniel Bosk: dbosk@kth.se
+---
+
 # Party in the terminal
 
 Sometimes (most times, actually) it's nice to have someone to work with, to air 

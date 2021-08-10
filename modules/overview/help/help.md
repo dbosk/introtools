@@ -1,3 +1,8 @@
+---
+authors:
+  - Daniel Bosk: dbosk@kth.se
+---
+
 ## Any time
 
 Use the discussions feature in Canvas. Post your question and you will 

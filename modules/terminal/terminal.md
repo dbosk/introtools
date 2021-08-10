@@ -1,3 +1,8 @@
+---
+authors:
+  - Daniel Bosk: dbosk@kth.se
+---
+
 # The terminal
 
 The terminal provides a *command-line interface*. This means that we can type 

@@ -1,3 +1,7 @@
+---
+authors:
+  - Daniel Bosk: dbosk@kth.se
+---
 
 We cannot emphasize enough how valuable a good (text) editor is. "A good 
 editor" is, of course, subjective. That's why we're still fighting the [Editor 

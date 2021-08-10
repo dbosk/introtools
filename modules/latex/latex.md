@@ -1,3 +1,8 @@
+---
+authors:
+  - Daniel Bosk: dbosk@kth.se
+---
+
 # Writing reports with LaTeX
 
 [LaTeX][latex] is a document preparation system. LaTeX is based on [TeX][tex], 

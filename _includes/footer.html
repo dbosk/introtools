@@ -33,16 +33,13 @@
     <div class="footer-col-wrapper">
       <div class="footer-col">
       {%- if page.authors %}
-        Författat av:
+        Authored by:
         <ul class="contact-list">
           {% for author in page.authors -%}
             <li class="p-name">
-              {% if author[1].url -%}
-                <a href="{{ author[1].url }}">
-              {% endif -%}
-              {{ author[1].name | escape }}
-              {% if author[1].email -%}
-                &lt;<a class="u-email" href="mailto:{{ author[1].email }}">{{ author[1].email }}</a>&gt;
+              {{ author[0] | escape }}
+              {% if author[1] -%}
+                &lt;<a class="u-email" href="mailto:{{ author[1] }}">{{ author[1] }}</a>&gt;
               {%- endif %}
             </li>
           {% endfor -%}

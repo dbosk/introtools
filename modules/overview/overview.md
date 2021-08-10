@@ -1,3 +1,8 @@
+---
+authors:
+  - Daniel Bosk: dbosk@kth.se
+---
+
 # Course outline
 
 This is a short course given the first two weeks of the autumn semester.
