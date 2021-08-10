@@ -13,7 +13,9 @@ private to KTH users. Several courses make use of version control (Git)
 and project management tools (GitHub), so it is good to have it setup
 from the beginning.
 
-Go to [KTH GitHub][gits] and **login to activate your account.**
+Go to [KTH GitHub][gits] and **login to activate your account.** Our automation 
+cannot find you until you've logged in a first time, so log in as soon as 
+possible.
 
 [github]: https://github.com
 [gits]: https://gits-15.sys.kth.se/
