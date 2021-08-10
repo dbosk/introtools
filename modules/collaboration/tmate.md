@@ -75,7 +75,7 @@ programming.
 
 ## Assignment
 
-Set up a *remote* pair-programming environment with your lab partner. (There's 
-nothing to hand in, just take the opportunity to explore this now while you 
-have the chance.)
+Set up a *remote* pair-programming environment with someone. (There's nothing 
+to hand in, just take the opportunity to explore this now while you have the 
+chance.)
 
