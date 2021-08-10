@@ -193,18 +193,19 @@ replaced by the value of `n`, which we had set to `10` on the first line.
 
 Log into the remote system (`student-shell`) and do the following:
 
-  1) Create a directory called `datintro20` in your home directory; the home 
+  1. Go to the directory called `Public` in your home directory; the home 
   directory is where you start when you just log in, you can also get there if 
-  you type `cd` without any arguments. We suggest that you work in the 
-  `datintro20` directory for this course from now on.
+  you type `cd` without any arguments.
   
-  2) In the `Public` directory in your home directory (the default directory 
-  when you log in), redirect the output of the `history` command to a file 
-  called `datintro-terminal.txt`.
+  2. Create a directory named `datintro` and go into it. We suggest that you 
+  work in the `datintro` directory for this course from now on.
+  
+  3. In the `datintro` directory, after you've done your experiments above, 
+  redirect the output of the `history` command to a file called `history.txt`.
   
 Note that we can check that the file exists in this directory, so ensure that 
-you've created the file in the correct folder (try `ls ~/Public` to see that 
-the file is there).
+you've created the file in the correct folder (try `ls ~/Public/datintro` to 
+see that the file `history.txt` is listed there).
 
 We assess that by this you can *control the computer environment via the 
 command line*.
