@@ -1,6 +1,6 @@
 ---
 authors:
-  - Daniel Bosk: dbosk@kth.se
+  - Daniel Bosk <dbosk@kth.se>
 ---
 
 We cannot emphasize enough how valuable a good (text) editor is. "A good 

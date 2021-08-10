@@ -1,6 +1,6 @@
 ---
 authors:
-  - Daniel Bosk: dbosk@kth.se
+  - Daniel Bosk <dbosk@kth.se>
 ---
 
 # Writing reports with LaTeX
