@@ -80,9 +80,12 @@ for the first time, our bot will have created a repo for you. You can find it
 # Clone your repo and add a file
 
 Now go back to your repo's main page (click the "Code" tab farthest to the 
-left) and copy the clone URL, it should look something like this:
+left) and copy the clone URL. You should copy the SSH URL, it should look 
+something like this:
 
 ![Copy the URL for SSH][gh-clone]
+
+Or like this:
 
 [gh-clone]: https://github.com/dbosk/introtools/raw/master/collaboration/gh-clone.png
 
