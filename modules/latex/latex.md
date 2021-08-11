@@ -92,6 +92,5 @@ for the Git lab, you can use that repo.
 
 We assess that by doing this you can *create and compile technical reports*; 
 *handle submissions of (program) code with version control tools* and, finally, 
-*control the computer environment via the command line* (by seeing your command 
-line history).
+*control the computer environment via the command line*.
 
