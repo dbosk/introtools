@@ -21,7 +21,8 @@ After this course you should be able to
 
 ## The missing semester
 
-This course covers part of ["the Missing Semester"][missing-semester].
+This course covers part of the MIT students' ["Missing 
+Semester"][missing-semester].
 
 [missing-semester]: https://missing.csail.mit.edu/
 
