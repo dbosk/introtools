@@ -18,9 +18,9 @@ There are several options for accessing a UNIX-like terminal. We'll cover
 
 ## On your own system
 
-**MacOS and Linux:** If you run Linux or MacOS, you're already running a 
-UNIX-like system (see the [family tree][unix-family]). Then you can just start 
-the terminal (just search for the word "terminal").
+**MacOS and Ubuntu (Linux):** If you run Linux or MacOS, you're already running 
+a UNIX-like system (see the [family tree][unix-family]). Then you can just 
+start the terminal (just search for the word "terminal").
 
 [unix-family]: https://www.levenez.com/unix/
 
