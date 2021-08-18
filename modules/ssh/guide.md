@@ -24,6 +24,15 @@ start the terminal (just search for the word "terminal").
 
 [unix-family]: https://www.levenez.com/unix/
 
+[![Video: Finding terminal in Ubuntu][ftupic]][ftuvid]
+[![Video: Finding terminal in macOS][ftmpic]][ftmvid]
+
+[ftupic]: https://img.youtube.com/vi/tR_cBiLfnVI/hqdefault.jpg
+[ftuvid]: https://eu.feedbackfruits.com/courses/activity-course/44d376d9-1423-4a13-97f3-11f8d19d5bd0
+
+[ftmpic]: https://img.youtube.com/vi/mxdXJs4qN3o/hqdefault.jpg
+[ftmvid]: https://eu.feedbackfruits.com/courses/activity-course/9fdbc81b-7836-42aa-a84b-a90851d18c34
+
 **Windows:** On a Windows system it is a bit more complicated. While Windows 
 also have a command-line interface, it's not compatible with a UNIX-like 
 interface. If you run Windows 10, just go ahead and install Windows Subsystem 
@@ -70,6 +79,22 @@ ssh dbosk@student-shell.sys.kth.se
 ```
 with your KTH username instead of `dbosk` and your KTH password.
 
+For verifying the key fingerprint when connecting the first time, you can find 
+the official key fingerprints [here][kth-ssh-fps].
+
+[kth-ssh-fps]: https://intra.kth.se/en/it/arbeta-pa-distans/unix/servers-1.971157
+
+The entire process will look something like this:
+
+[![Video: SSH on Ubuntu][sshupic]][sshuvid]
+[![Video: SSH on macOS][sshmpic]][sshmvid]
+
+[sshupic]: https://img.youtube.com/vi/ky-nnBsNIl8/hqdefault.jpg
+[sshuvid]: https://eu.feedbackfruits.com/courses/activity-course/55dd8376-a042-4211-ac8e-486fd1cfde34
+
+[sshmpic]: https://img.youtube.com/vi/uUrCXqxDMQI/hqdefault.jpg
+[sshmvid]: https://eu.feedbackfruits.com/courses/activity-course/febefd53-2780-498a-a6a8-929bb4c6e7c0
+
 ### For Windows without WSL
 
 If you run Windows without WSL (e.g. older than Windows 10), you'll need 
@@ -78,6 +103,11 @@ on KTH's servers, just give `student-shell.sys.kth.se` as the hostname in
 PuTTY, something like this:
 
 ![The PuTTY start-up screen][puttyconf]
+
+For verifying the key fingerprint when connecting the first time, you can find 
+the official key fingerprints [here][kth-ssh-fps].
+
+[kth-ssh-fps]: https://intra.kth.se/en/it/arbeta-pa-distans/unix/servers-1.971157
 
 Then you just type in your KTH username and password (note that you won't see 
 anything when typing in the password, UNIX-like systems don't output the 
