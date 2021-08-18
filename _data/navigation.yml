@@ -7,7 +7,7 @@ modules:
     title: Overview
     path: /modules/overview/overview
     prev: index
-    next: terminal
+    next: ssh
   ssh:
     title: Finding the terminal and remote shells
     path: /modules/ssh/guide
@@ -16,7 +16,7 @@ modules:
   terminal:
     title: The terminal
     path: /modules/terminal/terminal
-    prev: overview
+    prev: ssh
     next: editor
   editor:
     title: The text editor
