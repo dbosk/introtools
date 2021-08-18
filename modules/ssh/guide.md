@@ -20,7 +20,8 @@ There are several options for accessing a UNIX-like terminal. We'll cover
 
 **MacOS and Ubuntu (Linux):** If you run Linux or MacOS, you're already running 
 a UNIX-like system (see the [family tree][unix-family]). Then you can just 
-start the terminal (just search for the word "terminal").
+start the terminal (just search for the word "terminal"). You can see the 
+process in these videos:
 
 [unix-family]: https://www.levenez.com/unix/
 
