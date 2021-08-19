@@ -136,7 +136,7 @@ PuTTY window above):
 
 ![A terminal window with an SSH session on a UNIX-like system][terminal]
 
-[terminal]: https://github.com/dbosk/introtools/raw/master/ssh/terminal.png
+[terminal]: https://github.com/dbosk/introtools/raw/master/modules/ssh/terminal.png
 
 
 ## Assessment
