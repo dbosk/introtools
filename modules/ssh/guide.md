@@ -46,12 +46,13 @@ for Linux (WSL) to run Ubuntu in Windows. There are various guides:
 
 Pick your favourite!
 
-[ms-wsl]: https://docs.microsoft.com/en-us/windows/wsl/install-win10
+[ms-wsl]: https://aka.ms/wsl2-install
 [ubuntu-wsl]: https://ubuntu.com/tutorials/ubuntu-on-windows#1-overview
 [WSL]: https://www.howtogeek.com/249966/how-to-install-and-use-the-linux-bash-shell-on-windows-10/
 [WSL2]: https://www.omgubuntu.co.uk/how-to-install-wsl2-on-windows-10
 
-For older versions of Windows, there are no really convenient option, you can
+For older versions of Windows (or if you don't want to/can't install WSL), 
+there is no really convenient option, you can
 
   - use KTH's systems remotely (see below, recommended),
   - [run Ubuntu as a virtual machine][vm],
@@ -66,8 +67,8 @@ For older versions of Windows, there are no really convenient option, you can
 **Old computers:** Note that if you have an old computer that you perceive as 
 slow, then it might be worth installing Ubuntu on it. After that the computer 
 usually feels much faster again. See [how to install Ubuntu][install-ubuntu]. 
-But *make sure to back up any data on that computer before you do anything 
-else*.
+But *make sure you don't have any important data on that computer before you do 
+anything*, you might lose it depending on how you choose to install Ubuntu.
 
 
 ## Use a KTH system remotely
