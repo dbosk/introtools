@@ -4,7 +4,8 @@ PDF_FILES= 		slides.pdf
 .PHONY: all
 all: ${HTML_FILES} ${PDF_FILES}
 
-slides.pdf: slides.tex contents.tex preamble.tex slides.tex
+slides.pdf: slides.tex contents.tex preamble.tex
+slides.pdf: names.csv phone.csv phonebook.sh
 
 
 .PHONY: clean
