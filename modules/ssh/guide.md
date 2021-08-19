@@ -106,6 +106,10 @@ PuTTY, something like this:
 
 ![The PuTTY start-up screen][puttyconf]
 
+[putty]: https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html
+[winscp]: https://winscp.net/eng/download.php
+[puttyconf]: https://github.com/dbosk/introtools/raw/master/modules/terminal/puttyconf.png
+
 For verifying the key fingerprint when connecting the first time, you can find 
 the official key fingerprints [here][kth-ssh-fps].
 
@@ -116,11 +120,11 @@ anything when typing in the password, UNIX-like systems don't output the
 bullets or asterisks when typing passwords). It will look something like this:
 
 ![A terminal window in PuTTY][puttyterm]
+[![Video: Using PuTTY on Windows 10][sshwpic]][sshwvid]
 
-[putty]: https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html
-[winscp]: https://winscp.net/eng/download.php
-[puttyconf]: https://github.com/dbosk/introtools/raw/master/modules/terminal/puttyconf.png
 [puttyterm]: https://github.com/dbosk/introtools/raw/master/modules/terminal/puttyterm.png
+[sshwpic]: https://img.youtube.com/vi/JBgn51W5Umc/default.jpg
+[sshwvid]: https://eu.feedbackfruits.com/courses/activity-course/3ef9ff0a-077d-4739-9e2f-40a1901ff57a
 
 WinSCP is used for copying files between the your local system and the remote 
 KTH system. This allows you to upload or download files from your KTH home 
