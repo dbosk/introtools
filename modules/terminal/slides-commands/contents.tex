@@ -21,9 +21,7 @@
 \end{frame}
 
 
-\section{Some useful commands}
-
-\subsection{Manual pages}
+\section{Manual pages}
 
 \begin{frame}[fragile]
   \begin{center}
@@ -32,7 +30,8 @@
   \end{center}
 \end{frame}
 
-\subsection{The file system}
+
+\section{The file system}
 
 \begin{frame}
   \begin{figure}
@@ -109,16 +108,45 @@
 \end{frame}
 
 
-\subsection{An exercise}
+\section{An exercise}
 
-\begin{frame}
-  \begin{block}{What we've learned}
+\begin{frame}[fragile]
+  \begin{block}<+>{What we've learned}
     \begin{description}
       \item[Navigation] \lstinline{pwd cd ls .. .}
       \item[Files] \lstinline{mkdir rmdir touch cp mv rm}
       \item[Contents] \lstinline{cat less head tail grep file nano}
     \end{description}
   \end{block}
+
+  \begin{exercise}
+    \begin{itemize}
+      \item Which commands must you run (and in which order) to get the same 
+        output?
+    \end{itemize}
+    \begin{lstlisting}[numbers=none]
+$ grep "contents" testfiles/testfile.txt
+contents of testfile.txt
+contents of testfile.txt
+contents of testfile.txt
+    \end{lstlisting}
+  \end{exercise}
+\end{frame}
+
+\begin{frame}[fragile]
+  \begin{solution}<+>[One alternative]
+    \begin{lstlisting}[numbers=none]
+$ mkdir testfiles
+$ cp testfile.txt testfiles/
+$ nano testfiles/testfile.txt
+    \end{lstlisting}
+  \end{solution}
+  \begin{solution}<+>[Another alternative]
+    \begin{lstlisting}[numbers=none]
+$ mkdir testfiles
+$ nano testfiles/testfile.txt
+    \end{lstlisting}
+  \end{solution}
 \end{frame}
 
 
