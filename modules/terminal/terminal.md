@@ -9,13 +9,13 @@ The terminal provides a *command-line interface*. This means that we can type
 commands which the computer will execute. It provides some very powerful 
 constructions that allows us to do powerful things, for example:
 ```
-n=10 cat hitch-hikers-guide.txt | \
+cat hitch-hikers-guide.txt | \
   tr -cs A-Za-z '\n' | \
 	tr A-Z a-z | \
 	sort | \
 	uniq -c | \
 	sort -rn | \
-  head -n $n
+  head -n 10
 ```
 This is a one-line command that we have broken over several lines for 
 readability. It outputs the 10 most common words in the Hitch-Hikers Guide to 
