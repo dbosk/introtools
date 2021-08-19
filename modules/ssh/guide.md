@@ -119,10 +119,8 @@ Then you just type in your KTH username and password (note that you won't see
 anything when typing in the password, UNIX-like systems don't output the 
 bullets or asterisks when typing passwords). It will look something like this:
 
-![A terminal window in PuTTY][puttyterm]
 [![Video: Using PuTTY on Windows 10][sshwpic]][sshwvid]
 
-[puttyterm]: https://github.com/dbosk/introtools/raw/master/modules/terminal/puttyterm.png
 [sshwpic]: https://img.youtube.com/vi/JBgn51W5Umc/default.jpg
 [sshwvid]: https://eu.feedbackfruits.com/courses/activity-course/3ef9ff0a-077d-4739-9e2f-40a1901ff57a
 
@@ -138,7 +136,7 @@ PuTTY window above):
 
 ![A terminal window with an SSH session on a UNIX-like system][terminal]
 
-[terminal]: https://github.com/dbosk/introtools/raw/master/terminal/terminal.png
+[terminal]: https://github.com/dbosk/introtools/raw/master/guide/terminal.png
 
 
 ## Assessment
