@@ -71,7 +71,7 @@ the following commands do:
   - `mkdir`
   - `rmdir`
   - `touch`
-  - `cp`
+  - `cp` and `scp`
   - `mv`
   - `rm`
 
