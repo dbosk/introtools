@@ -4,11 +4,13 @@ all: notes.pdf slides.pdf
 SRC+=		preamble.tex
 SRC+=		abstract.tex contents.tex
 
+FIGS+=		figs/version-tree.png
+
 notes.pdf: notes.tex
-notes.pdf: ${SRC}
+notes.pdf: ${SRC} ${FIGS}
 
 slides.pdf: slides.tex
-slides.pdf: ${SRC}
+slides.pdf: ${SRC} ${FIGS}
 
 
 .PHONY: clean
