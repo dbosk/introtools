@@ -138,7 +138,7 @@ these steps using the command line interface.
 
 You'll find your assessment repository in the [datintro20 
 organization][datintro-org] (replace `20` with the year your start the course).
-In it, you'll find the rest of the assignment instruction.
+In this repo, you'll find the rest of the assignment instruction.
 
 [datintro-org]: https://gits-15.sys.kth.se/datintro20
 
