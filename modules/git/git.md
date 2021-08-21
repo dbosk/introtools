@@ -59,7 +59,11 @@ Git][github-changeeditor], so that it uses your editor of choice.
 [github-changeeditor]: https://help.github.com/articles/associating-text-editors-with-git/
 
 
-# Repos
+# Working with Git
+
+We'll now go through now to work with Git.
+
+## Repos
 
 You can [create][github-makerepo] as many repos on KTH Github as you like, and 
 they can be public or private. The best way to think of a repo is a place for 
@@ -78,7 +82,7 @@ repo for you. You can find it in the [course organization
 datintro21][gits-datintro].
 
 
-# Clone your repo and add a file
+## Clone your repo and add a file
 
 Now go back to your repo's main page (click the "Code" tab farthest to the 
 left) and copy the clone URL. You should copy the SSH URL, it should look 
@@ -88,23 +92,17 @@ something like this:
 
 Or like this:
 
-[gh-clone]: https://github.com/dbosk/introtools/raw/master/collaboration/gh-clone.png
+[gh-clone]: https://github.com/dbosk/introtools/raw/master/modules/git/gh-clone.png
 
 ![Copy the URL for SSH on a non-empty repo][gh-clone-nonempty]
 
-[gh-clone-nonempty]: https://github.com/dbosk/introtools/raw/master/collaboration/gh-clone-nonempty.png
-
-To complete this assignment, you must show that you know how to interact with 
-the repo through Git: Add new files to your repo and create new versions which 
-must be committed and pushed to the repo. It is important that you complete 
-these steps using the command line interface.
+[gh-clone-nonempty]: https://github.com/dbosk/introtools/raw/master/modules/git/gh-clone-nonempty.png
 
 Clone your repository with the URL you copied, e.g.:
 ```bash
 $ git clone git@gits-15.sys.kth.se:datintro20/datintro20-dbosk.git
 [some output]
 ```
-
 Now, that should've produced a new subdirectory in your current working 
 directory.
 ```bash
@@ -112,19 +110,38 @@ $ ls
 datintro20-dbosk
 ```
 
-Go into that directory and create a file `history.txt` by redirecting the 
-output of the `history` command into the file. (You should've learned how to do 
-this, now prove it!)
-
-Add and commit that file to your *local* repository. Then push it to the 
-*remote* repository on KTH GitHub.
+Go into the directory and create a file.
+```bash
+$ cd datintro20-dbosk
+$ echo some text > myfile.md
 ```
-$ git add history.txt
+
+To add the file to the repo, you must *add* it and then *commit* it.
+```bash
+$ git add myfile.md
 $ git commit
-$ git push
-[some output]
 ```
 
-By doing this we assess that you can *handle submissions of (program)
-code with version control tools*.
+Now the file is added to the *local* copy of the repository. To make this 
+change available in the *remote* repository, we must *push* the changes.
+```bash
+$ git push
+```
+
+
+# Assessment
+
+To complete this assignment, you must show that you know how to interact with 
+the repo through Git: Add new files to your repo and create new versions which 
+must be committed and pushed to the repo. It is important that you complete 
+these steps using the command line interface.
+
+You'll find your assessment repository in the [datintro20 
+organization][datintro-org] (replace `20` with the year your start the course).
+In it, you'll find the rest of the assignment instruction.
+
+[datintro-org]: https://gits-15.sys.kth.se/datintro20
+
+By doing this assignment we assess that you can *handle submissions of 
+(program) code with version control tools*.
 
