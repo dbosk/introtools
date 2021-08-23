@@ -46,19 +46,19 @@
   \footnotetext{From \emph{The \TeX{} Showcase}~\cite{TUG2012tsc}.}
 	\begin{figure}
     \subfloat[Maps]{%
-			\includegraphics[width=0.2\linewidth]{maps.jpg}
+      \includegraphics[width=0.2\linewidth]{figs/maps.jpg}
 		}
 		\hfill
     \subfloat[Musical notes]{%
-			\includegraphics[width=0.2\linewidth]{music.jpg}
+      \includegraphics[width=0.2\linewidth]{figs/music.jpg}
 		}
 		\hfill
     \subfloat[Circular margin]{%
-			\includegraphics[width=0.2\linewidth]{circular_margin.jpg}
+      \includegraphics[width=0.2\linewidth]{figs/circular_margin.jpg}
 		}
 		\hfill
     \subfloat[Tolkien's Tengwar]{%
-			\includegraphics[width=0.2\linewidth]{tengwar.jpg}
+      \includegraphics[width=0.2\linewidth]{figs/tengwar.jpg}
 		}
 	\end{figure}
 \end{frame}
@@ -66,23 +66,51 @@
 
 \section{Document structure}
 
-\subsection{Preamble}
-
 \begin{frame}[fragile]
-  \lstinputlisting[lastline=9]{example1.tex}
+  \begin{columns}
+    \begin{column}{0.4\columnwidth}
+      \begin{center}
+        \LARGE
+        name.tex
+      \end{center}
+    \end{column}
+    \begin{column}{0.6\columnwidth}
+      \lstinputlisting[language={[latex]tex}]{examples/example1.tex}
+    \end{column}
+  \end{columns}
 \end{frame}
 
-\subsection{The contents}
-
 \begin{frame}[fragile]
-  \lstinputlisting[firstline=9,firstnumber=9]{example1.tex}
+  \begin{columns}
+    \begin{column}{0.4\columnwidth}
+      \begin{center}
+        \LARGE
+        Preamble
+      \end{center}
+    \end{column}
+    \begin{column}{0.6\columnwidth}
+      \lstinputlisting[language={[latex]tex},lastline=9]{examples/example1.tex}
+    \end{column}
+  \end{columns}
 \end{frame}
 
-\subsection{The example document}
+\begin{frame}[fragile]
+  \begin{columns}
+    \begin{column}{0.4\columnwidth}
+      \begin{center}
+        \LARGE
+        Contents
+      \end{center}
+    \end{column}
+    \begin{column}{0.6\columnwidth}
+      \lstinputlisting[language={[latex]tex},firstline=9,firstnumber=9]{examples/example1.tex}
+    \end{column}
+  \end{columns}
+\end{frame}
 
 \begin{frame}
   \begin{figure}
-    \includegraphics[height=0.7\textheight]{example1.pdf}
+    \includegraphics[height=0.8\textheight]{examples/example1.pdf}
     \caption{Above code compiled to PDF.}
   \end{figure}
 \end{frame}
@@ -252,7 +280,7 @@ We have the sum \(
 ...
 \begin{figure}
   \centering
-  \includegraphics[width=0.2\linewidth]{tengwar.jpg}
+  \includegraphics[width=0.2\linewidth]{figs/tengwar.jpg}
   \caption{An example from J.~R.~R.~Tolkien's Tengwar.}
   \label{fig:bild}
 \end{figure}
@@ -263,7 +291,7 @@ We have the sum \(
 \begin{frame}
 	\begin{figure}
 		\centering
-		\includegraphics[width=0.2\linewidth]{tengwar.jpg}
+    \includegraphics[width=0.2\linewidth]{figs/tengwar.jpg}
     \caption{An example from J.~R.~R.~Tolkien's Tengwar.}
     \label{fig:bild}
 	\end{figure}
@@ -330,7 +358,7 @@ To understand this text you should see \cref{tbl:probabilities}.
 
 \begin{frame}
 	\begin{description}
-    \item[siunitx] Used to correctly typesetting units.
+    \item[siunitx] Used to correctly typeset units.
 
     \item[biblatex] Used for reference management.
 
@@ -345,7 +373,8 @@ To understand this text you should see \cref{tbl:probabilities}.
 \usepackage[binary-units]{siunitx}
 ...
 A standard ruler is \si{30}{\centi\metre}.
-It cannot measure data since that unit is in \SI{\kilo\byte}.
+It cannot measure data since that unit is in \SI{\kibi\byte} or 
+\si{\kilo\byte}.
     \end{lstlisting}
   \end{example}
 
@@ -354,7 +383,8 @@ It cannot measure data since that unit is in \SI{\kilo\byte}.
   \begin{example}
     \begin{quote}
       A standard ruler is \SI{30}{\centi\metre}.
-      It cannot measure data since that unit is in \si{\kibi\byte}.
+      It cannot measure data since that unit is in \si{\kibi\byte} or 
+      \si{\kilo\byte}.
     \end{quote}
   \end{example}
 \end{frame}
@@ -363,12 +393,12 @@ It cannot measure data since that unit is in \SI{\kilo\byte}.
 \subsection{An example document}
 
 \begin{frame}[fragile,allowframebreaks]
-  \lstinputlisting{examples.tex}
+  \lstinputlisting{examples/examples.tex}
 \end{frame}
 
 \begin{frame}
   \begin{figure}
-    \includegraphics[height=0.7\textheight]{examples.pdf}
+    \includegraphics[height=0.8\textheight]{examples/examples.pdf}
     \caption{The result}
   \end{figure}
 \end{frame}

@@ -1,7 +1,11 @@
 SRC=	contents.tex literature.bib
 
-DEPENDS= 	example1.pdf examples.pdf
-DEPENDS+=	circular_margin.jpg maps.jpg tengwar.jpg music.jpg
+DEPENDS+= 	examples/example1.pdf
+DEPENDS+=	examples/examples.pdf
+DEPENDS+=	figs/circular_margin.jpg
+DEPENDS+=	figs/maps.jpg
+DEPENDS+=	figs/tengwar.jpg
+DEPENDS+=	figs/music.jpg
 
 .PHONY: all
 all: notes.pdf slides.pdf
@@ -15,12 +19,18 @@ notes.pdf: ${SRC} ${DEPENDS}
 slides.pdf: slides.tex
 slides.pdf: ${SRC} ${DEPENDS}
 
-examples.pdf: examples.tex literature.bib
+${DEPENDS}:
+	${MAKE} -C $(dir $@) $(notdir $@)
 
 
 .PHONY: clean
 clean:
-	${RM} notes.pdf slides.pdf examples.pdf example1.pdf
+	${RM} notes.pdf slides.pdf
+
+.PHONY: distclean
+distclean:
+	${MAKE} -C figs clean distclean
+	${MAKE} -C examples clean distclean
 
 
 INCLUDE_MAKEFILES=../../../makefiles
