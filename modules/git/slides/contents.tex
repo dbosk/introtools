@@ -71,6 +71,11 @@
   \includegraphics[width=\columnwidth]{figs/version-tree.png}
 \end{frame}
 
+\begin{frame}
+  \centering
+  \includegraphics[height=\textheight]{figs/github-introtools.png}
+\end{frame}
+
 \subsection{Version control systems}
 
 \begin{frame}
@@ -146,6 +151,10 @@
 $ mkdir project
 $ cd project
 $ git init
+$ vim myfile.md
+[nice edits]
+$ git add myfile.md
+$ git commit -v
     \end{lstlisting}
   \end{example}
 
@@ -182,7 +191,7 @@ $ git commit
 $ vim README.md
 [make further improvements]
 $ git add -p
-$ git commit
+$ git commit -v
 $ git push
     \end{lstlisting}
   \end{example}
@@ -206,6 +215,7 @@ $ vim README.md
 [continue]
 $ git add -p
 $ git commit
+$ git push --all
     \end{lstlisting}
   \end{example}
 \end{frame}
