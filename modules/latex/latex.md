@@ -6,7 +6,7 @@ authors:
 # Writing reports with LaTeX
 
 [LaTeX][latex] is a document preparation system. LaTeX is based on [TeX][tex], 
-which is a typesetting engine that can [do anything][tex-showcase].
+which is a typesetting engine that [can do anything][tex-showcase].
 
 [latex]: https://en.wikipedia.org/wiki/LaTeX
 [tex]: https://en.wikipedia.org/wiki/TeX
