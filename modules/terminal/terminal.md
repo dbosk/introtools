@@ -56,6 +56,14 @@ to our example above. To access the terminal, see [this guide][guide].
 
 ## Some common commands
 
+The following video introduces some useful commands. The text following 
+summarizes the video and expands on it slightly.
+
+[![Video: Some useful commands][cmdpic]][cmdvid]
+
+[cmdpic]: https://img.youtube.com/vi/TS5aCg9JZU4b/default.jpg
+[cmdvid]: https://eu.feedbackfruits.com/courses/activity-course/a62de361-585d-42ff-a3c1-f546601443fc
+
 The very first command to learn is `man`. All UNIX commands have as short names 
 as possible. `man` is short for manual. Thanks to McIlroy, no command was 
 admitted into the UNIX system until it had a *well-written* (he was very strict 
