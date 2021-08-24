@@ -61,7 +61,7 @@ summarizes the video and expands on it slightly.
 
 [![Video: Some useful commands][cmdpic]][cmdvid]
 
-[cmdpic]: https://img.youtube.com/vi/TS5aCg9JZU4b/default.jpg
+[cmdpic]: https://img.youtube.com/vi/TS5aCg9JZU4/default.jpg
 [cmdvid]: https://eu.feedbackfruits.com/courses/activity-course/a62de361-585d-42ff-a3c1-f546601443fc
 
 The very first command to learn is `man`. All UNIX commands have as short names 
