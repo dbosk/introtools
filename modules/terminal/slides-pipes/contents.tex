@@ -47,7 +47,7 @@ cat hitch-hikers-guide.txt | \
 \section{Pipes}
 
 \begin{frame}[fragile]
-  \begin{block}<+>{Pipes and function composition}
+  \begin{block}<+->{Pipes and function composition}
     \begin{description}
       \item[Composition] \(
           (g \circ f)(x) = g(f(x))
@@ -305,7 +305,7 @@ cat hitch-hikers-guide.txt | \
       \item \lstinline{cat} just provides contents of 
         \lstinline{hitch-hikers-guide.txt}.
       \item \lstinline{tr -cs} turns all characters other than A--Z and a-z 
-        into \lstinline{\n} (new line, meaning all words are on their own 
+        into \lstinline{\\n} (new line, meaning all words are on their own 
         line).
       \item \lstinline{tr} turns all words into lower case (translates A--Z 
         into a--z).
