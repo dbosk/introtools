@@ -139,6 +139,15 @@ apropos`) for more details.
 
 ## Pipelines and redirections
 
+The following video introduces pipelines (pipes) and redirections (redirects), 
+two aspects of a very useful concept. The text following summarizes the video 
+and expands on it slightly.
+
+[![Video: Pipes and redirects][pipepic]][pipevid]
+
+[pipepic]: https://img.youtube.com/vi/bpsOklUsFFE/default.jpg
+[pipevid]: https://eu.feedbackfruits.com/courses/activity-course/8587bb17-43d5-4857-a595-7237465938a3
+
 A [pipeline][pipe] (`|`) takes the output of the preceding command and provides 
 as input to the proceeding command. For instance, `echo a b c` will print `a b 
 c` to the output; `wc` will count lines, words and characters of its input; 
