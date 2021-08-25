@@ -1,7 +1,7 @@
 ---
 authors:
-  - Ric Glassey <glassey@kth.se>
   - Daniel Bosk <dbosk@kth.se>
+  - Ric Glassey <glassey@kth.se>
 ---
 
 # Activate your KTH GitHub account
