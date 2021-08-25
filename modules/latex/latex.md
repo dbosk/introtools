@@ -33,6 +33,34 @@ actually makes better results more easy to achieve.
 
 ## Learning LaTeX
 
+The following videos give a basic introduction to LaTeX. Then you can proceed 
+with the text below which provides some more details.
+
+[![Video: Intro to LaTeX][intropic]][introvid]
+
+[![Video: References/Bibliography][bibpic]][bibvid]
+
+[![Video: Mathematics][mathpic]][mathvid]
+
+[![Video: Figures and Tables][figpic]][figvid]
+
+[![Video: Other packages and classes][otherpic]][othervid]
+
+[intropic]: https://img.youtube.com/vi/7rWdpflo3UE/default.jpg
+[introvid]: https://eu.feedbackfruits.com/courses/activity-course/c5ee7be4-e53f-4ebc-ae43-84c46b97860e
+
+[bibpic]: https://img.youtube.com/vi/L5zsBee7FxA/default.jpg
+[bibvid]: https://eu.feedbackfruits.com/courses/activity-course/2b012cee-db36-4a81-8fbd-d39a48491aec
+
+[mathpic]: https://img.youtube.com/vi/yguF69QPb84/default.jpg
+[mathvid]: https://eu.feedbackfruits.com/courses/activity-course/40c16b4f-4c2b-453f-b318-3cb628fc647f
+
+[figpic]: https://img.youtube.com/vi/aUlahJTEG7I/default.jpg
+[figvid]: https://eu.feedbackfruits.com/courses/activity-course/920200f2-157e-4a53-ac4c-2d8d30a5012e
+
+[otherpic]: https://img.youtube.com/vi/QiE_0NFc1wg/default.jpg
+[othervid]: https://eu.feedbackfruits.com/courses/activity-course/860d65cb-d17d-4dca-b970-5f4b7cfbf711
+
 Run through [this tutorial][learnlatex]. We recommend that you start out with 
 [Overleaf][overleaf] as editor, since that is an option for easy 
 experimentation in the tutorial. [KTH provides Overleaf Professional for all 
