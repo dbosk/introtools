@@ -63,6 +63,11 @@ Git][github-changeeditor], so that it uses your editor of choice.
 
 We'll now go through now to work with Git.
 
+[![Video: Version control overview][vcpic]][vcvid]
+
+[vcpic]: https://img.youtube.com/vi/NZmD7uVDCAA/default.jpg
+[vcvid]: https://eu.feedbackfruits.com/courses/activity-course/77c81f23-1fa9-4ea8-b72c-e1295ee80f55
+
 ## Repos
 
 You can [create][github-makerepo] as many repos on KTH Github as you like, and 
