@@ -37,13 +37,9 @@ The following videos give a basic introduction to LaTeX. Then you can proceed
 with the text below which provides some more details.
 
 [![Video: Intro to LaTeX][intropic]][introvid]
-
 [![Video: References/Bibliography][bibpic]][bibvid]
-
 [![Video: Mathematics][mathpic]][mathvid]
-
 [![Video: Figures and Tables][figpic]][figvid]
-
 [![Video: Other packages and classes][otherpic]][othervid]
 
 [intropic]: https://img.youtube.com/vi/7rWdpflo3UE/default.jpg
