@@ -23,9 +23,10 @@ more lab assignments.
 ### Interactive tutorial sessions
 
 The interactive tutorial sessions are given live on Zoom, you can find the date 
-and time in [your schedule][schedule]. To join, click [this link][zoom-room] or 
-enter 633 069 655 31 as the meeting ID in the Zoom client. There are numerous 
-Zoom clients that you can access [here][zoom-clients].
+and time in [your schedule][schedule]. You can join the session by going to the 
+[course's Zoom room][zoom-room] or enter 633 069 655 31 as the meeting ID in 
+the Zoom client. There are numerous [Zoom clients][zoom-clients] that you can 
+use.
 
 [schedule]: https://www.kth.se/social/home/personal-menu/schema/
 [zoom-room]: https://kth-se.zoom.us/j/63306965531
@@ -46,6 +47,9 @@ To get help, go to the [queue][queue]. To enter the queue:
      field.
   4. Click "Join queue".
 
+You can find some figures detailing the steps above on the Getting Help page 
+(next page).
+
 [queue]: https://queue.csc.kth.se/Queue/DD1301
 
 
@@ -65,7 +69,7 @@ The date reported to LADOK is when you completed the last assignment.
 Due to this automation, you can complete the assignments of the course at any 
 time you like to get credits --- even next year. But you should study the 
 material already now, since you're expected to know how to use the computer 
-systems in courses you take now.
+systems in other courses that you take now.
 
 ### Help after the course
 
