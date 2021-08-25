@@ -79,7 +79,7 @@ automatically. This is because we need particular settings to allow our grading
 bot to automatically check that you've completed the assignment. A while after 
 you've logged into KTH GitHub for the first time, our bot will have created a 
 repo for you. You can find it in the [course organization 
-datintro21][gits-datintro].
+datintro21][datintro-org].
 
 
 ## Clone your repo and add a file
