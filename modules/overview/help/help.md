@@ -31,17 +31,17 @@ your turn, a tutor will join your Zoom meeting.
 
 ![Start a new meeting][new-meeting]{#fig:new}
 
-[new-meeting]: https://github.com/dbosk/introtools/raw/master/overview/new-meeting.png
+[new-meeting]: https://github.com/dbosk/introtools/raw/master/modules/overview/help/new-meeting.png
 
 ![Find invite link][participants]{#fig:participants}
 
-[participants]: https://github.com/dbosk/introtools/raw/master/overview/participants.png
+[participants]: https://github.com/dbosk/introtools/raw/master/modules/overview/help/participants.png
 
 ![Copy the invitation link][invite]{#fig:invite}
 
-[invite]: https://github.com/dbosk/introtools/raw/master/overview/invite.png
+[invite]: https://github.com/dbosk/introtools/raw/master/modules/overview/help/invite.png
 
 ![Join the queue for help][queuefig]{#fig:queue}
 
-[queuefig]: https://github.com/dbosk/introtools/raw/master/overview/queue.png
+[queuefig]: https://github.com/dbosk/introtools/raw/master/modules/overview/help/queue.png
 
