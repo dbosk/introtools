@@ -57,8 +57,8 @@ with the text below which provides some more details.
 [otherpic]: https://img.youtube.com/vi/QiE_0NFc1wg/default.jpg
 [othervid]: https://eu.feedbackfruits.com/courses/activity-course/860d65cb-d17d-4dca-b970-5f4b7cfbf711
 
-Run through [this tutorial][learnlatex]. We recommend that you start out with 
-[Overleaf][overleaf] as editor, since that is an option for easy 
+Run through the [LearnLaTeX tutorial][learnlatex]. We recommend that you try 
+the [Overleaf][overleaf] editor, since that is an option for easy 
 experimentation in the tutorial. [KTH provides Overleaf Professional for all 
 students][overleaf-kth], you just need to register an account using your KTH 
 email address. (Or add your KTH address, if you've already signed up for the 
@@ -69,9 +69,10 @@ free version.)
 [overleaf-kth]: https://www.overleaf.com/edu/kth
 
 With Overleaf Professional you can [use Overleaf with Git][overleaf-git]. 
-However, to use branching and pull-requests to their full extent, it's probably 
-easier to use a local editor instead of Overleaf. All powerful text editors has 
-syntax highlighting and auto-completion support for LaTeX.
+However, to use branching and pull-requests to their full extent, you'll have 
+to use a local editor (as in the videos above) instead of Overleaf. All 
+powerful text editors have syntax highlighting and auto-completion support for 
+LaTeX.
 
 [overleaf-git]: https://www.overleaf.com/learn/how-to/How_do_I_connect_an_Overleaf_project_with_a_repo_on_GitHub,_GitLab_or_BitBucket%3F
 
@@ -104,15 +105,11 @@ with the following requirements: it must contain
 [libris.sh]: https://github.com/dbosk/libris.sh
 [listings]: https://ctan.org/pkg/listings
 
-The document (PDF) *and its source files* (i.e. the LaTeX files) must be 
-committed and pushed to a repository on [KTH GitHub][github-kth] (not as e.g. a 
-zip file). It must also be in the `datintro21` organization belonging to a team 
-with the same name as your own username. If you've followed the instructions 
-for the Git lab, you can use that repo.
+The document *source files* (i.e. the LaTeX files, and not as e.g. a zip file) 
+must be committed and pushed to your repository on [KTH GitHub][github-kth] for 
+the course. We'll compile the PDF ourselves to see that it works.
 
 [github-kth]: https://gits-15.sys.kth.se/datintro21
-[team-repo-access]: https://docs.github.com/en/github/setting-up-and-managing-organizations-and-teams/managing-team-access-to-an-organization-repository
-[repo-transfer]: https://docs.github.com/en/github/administering-a-repository/transferring-a-repository#transferring-a-repository-owned-by-your-user-account
 
 We assess that by doing this you can *create and compile technical reports*; 
 *handle submissions of (program) code with version control tools* and, finally, 
