@@ -46,8 +46,8 @@ with the text below which provides some more details.
 
 [![Video: Other packages and classes][otherpic]][othervid]
 
-[intropic]:
-[introvid]:
+[intropic]: https://img.youtube.com/vi/7rWdpflo3UE/default.jpg
+[introvid]: https://eu.feedbackfruits.com/courses/activity-course/c5ee7be4-e53f-4ebc-ae43-84c46b97860e
 
 [bibpic]: https://img.youtube.com/vi/L5zsBee7FxA/default.jpg
 [bibvid]: https://eu.feedbackfruits.com/courses/activity-course/2b012cee-db36-4a81-8fbd-d39a48491aec
