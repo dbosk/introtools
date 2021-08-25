@@ -64,9 +64,13 @@ Git][github-changeeditor], so that it uses your editor of choice.
 We'll now go through now to work with Git.
 
 [![Video: Version control overview][vcpic]][vcvid]
+[![Video: Git commands and workflow][gitpic]][gitvid]
 
 [vcpic]: https://img.youtube.com/vi/NZmD7uVDCAA/default.jpg
 [vcvid]: https://eu.feedbackfruits.com/courses/activity-course/77c81f23-1fa9-4ea8-b72c-e1295ee80f55
+
+[gitpic]: https://img.youtube.com/vi/gVtsRvTpsIM/default.jpg
+[gitvid]: https://eu.feedbackfruits.com/courses/activity-course/c6643f70-2027-4a5c-af1f-85059cff7477
 
 ## Repos
 
