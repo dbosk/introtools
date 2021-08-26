@@ -40,6 +40,13 @@ are typing (measure twice, cut once!)*
 *N.b. make sure you are in KTH Github - https://gits-15.sys.kth.se/ and
 not Public Github - https://www.github.com*
 
+The process is visualized in the following video.
+
+[![Video: SSH keys for KTH GitHub][gitskeypic]][gitskey]
+
+[gitskeypic]: https://img.youtube.com/vi/Sp5AASmX4no/default.jpg
+[gitskey]: https://eu.feedbackfruits.com/courses/activity-course/4f236e8e-61bb-41ff-8c4b-7ba8dbaf362f
+
 
 # Choose a Text Editor
 
