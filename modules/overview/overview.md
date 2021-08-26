@@ -20,6 +20,23 @@ version control, and finally, report writing with LaTeX. Each module contains
 video material, reading material, an interactive tutorial session, and one or 
 more lab assignments.
 
+### Video material
+
+The video material is provided through the [FeedbackFruits platform][fbf]. This 
+allows you to ask questions while watching the video. It also allows your 
+teachers to insert quizzes to see how well you understand the material.
+
+However, for this to work, you need to register an account the first time you 
+use it. Just register with any email address of your choice, however, we 
+suggest that you use your KTH email address. Then you can use that email to log 
+in in the future.
+
+![FeedbackFruits login screen with "Sign Up" and "Log in with email" 
+highlighted][fbf-login]
+
+[fbf]: https://feedbackfruits.com/interactive-video
+[fbf-login]: https://github.com/dbosk/introtools/raw/master/modules/overview/fbf.png
+
 ### Interactive tutorial sessions
 
 The interactive tutorial sessions are given live on Zoom, you can find the date 
