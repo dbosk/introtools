@@ -23,16 +23,16 @@ a UNIX-like system (see the [family tree][unix-family]). Then you can just
 start the terminal (just search for the word "terminal"). You can see the 
 process in these videos:
 
+ - [Video: Finding the terminal in macOS][ftmvid]
+ - [Video: Finding the terminal in Ubuntu][ftuvid]
+
 [unix-family]: https://www.levenez.com/unix/
-
-[![Video: Finding terminal in Ubuntu][ftupic]][ftuvid]
-[![Video: Finding terminal in macOS][ftmpic]][ftmvid]
-
-[ftupic]: https://img.youtube.com/vi/tR_cBiLfnVI/default.jpg
-[ftuvid]: https://eu.feedbackfruits.com/courses/activity-course/44d376d9-1423-4a13-97f3-11f8d19d5bd0
 
 [ftmpic]: https://img.youtube.com/vi/mxdXJs4qN3o/default.jpg
 [ftmvid]: https://eu.feedbackfruits.com/courses/activity-course/9fdbc81b-7836-42aa-a84b-a90851d18c34
+
+[ftupic]: https://img.youtube.com/vi/tR_cBiLfnVI/default.jpg
+[ftuvid]: https://eu.feedbackfruits.com/courses/activity-course/44d376d9-1423-4a13-97f3-11f8d19d5bd0
 
 **Windows:** On a Windows system it is a bit more complicated. While Windows 
 also have a command-line interface, it's not compatible with a UNIX-like 
@@ -88,8 +88,8 @@ the official key fingerprints [here][kth-ssh-fps].
 
 The entire process will look something like this:
 
-[![Video: SSH on Ubuntu][sshupic]][sshuvid]
-[![Video: SSH on macOS][sshmpic]][sshmvid]
+ - [Video: SSH on Ubuntu][sshuvid]
+ - [Video: SSH on macOS][sshmvid]
 
 [sshupic]: https://img.youtube.com/vi/ky-nnBsNIl8/default.jpg
 [sshuvid]: https://eu.feedbackfruits.com/courses/activity-course/55dd8376-a042-4211-ac8e-486fd1cfde34
@@ -119,7 +119,7 @@ Then you just type in your KTH username and password (note that you won't see
 anything when typing in the password, UNIX-like systems don't output the 
 bullets or asterisks when typing passwords). It will look something like this:
 
-[![Video: Using PuTTY on Windows 10][sshwpic]][sshwvid]
+ - [Video: Using PuTTY on Windows 10][sshwvid]
 
 [sshwpic]: https://img.youtube.com/vi/JBgn51W5Umc/default.jpg
 [sshwvid]: https://eu.feedbackfruits.com/courses/activity-course/3ef9ff0a-077d-4739-9e2f-40a1901ff57a
