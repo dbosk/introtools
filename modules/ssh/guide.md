@@ -108,7 +108,7 @@ PuTTY, something like this:
 
 [putty]: https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html
 [winscp]: https://winscp.net/eng/download.php
-[puttyconf]: https://github.com/dbosk/introtools/raw/master/modules/terminal/puttyconf.png
+[puttyconf]: https://github.com/dbosk/introtools/raw/master/modules/ssh/puttyconf.png
 
 For verifying the key fingerprint when connecting the first time, you can find 
 the official key fingerprints [here][kth-ssh-fps].
