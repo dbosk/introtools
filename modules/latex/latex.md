@@ -36,11 +36,11 @@ actually makes better results more easy to achieve.
 The following videos give a basic introduction to LaTeX. Then you can proceed 
 with the text below which provides some more details.
 
-[![Video: Intro to LaTeX][intropic]][introvid]
-[![Video: References/Bibliography][bibpic]][bibvid]
-[![Video: Mathematics][mathpic]][mathvid]
-[![Video: Figures and Tables][figpic]][figvid]
-[![Video: Other packages and classes][otherpic]][othervid]
+ - [Video: Intro to LaTeX][introvid]
+ - [Video: References/Bibliography][bibvid]
+ - [Video: Mathematics][mathvid]
+ - [Video: Figures and Tables][figvid]
+ - [Video: Other packages and classes][othervid]
 
 [intropic]: https://img.youtube.com/vi/7rWdpflo3UE/default.jpg
 [introvid]: https://eu.feedbackfruits.com/courses/activity-course/c5ee7be4-e53f-4ebc-ae43-84c46b97860e
