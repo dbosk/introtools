@@ -50,9 +50,10 @@ our context: pipelines (which we'll cover shortly) and high quality manual
 pages for UNIX.
 
 Now we'll cover some of the basics of the UNIX-like terminal before we return 
-to our example above. To access the terminal, see [this guide][guide].
+to our example above. To access the terminal, see [Guide to accessing the 
+terminal][guide].
 
-[guide]: guide
+[guide]: ../ssh/guide
 
 ## Some common commands
 
