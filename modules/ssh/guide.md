@@ -28,10 +28,10 @@ process in these videos:
 [![Video: Finding terminal in Ubuntu][ftupic]][ftuvid]
 [![Video: Finding terminal in macOS][ftmpic]][ftmvid]
 
-[ftupic]: https://img.youtube.com/vi/tR_cBiLfnVI/hqdefault.jpg
+[ftupic]: https://img.youtube.com/vi/tR_cBiLfnVI/default.jpg
 [ftuvid]: https://eu.feedbackfruits.com/courses/activity-course/44d376d9-1423-4a13-97f3-11f8d19d5bd0
 
-[ftmpic]: https://img.youtube.com/vi/mxdXJs4qN3o/hqdefault.jpg
+[ftmpic]: https://img.youtube.com/vi/mxdXJs4qN3o/default.jpg
 [ftmvid]: https://eu.feedbackfruits.com/courses/activity-course/9fdbc81b-7836-42aa-a84b-a90851d18c34
 
 **Windows:** On a Windows system it is a bit more complicated. While Windows 
@@ -91,10 +91,10 @@ The entire process will look something like this:
 [![Video: SSH on Ubuntu][sshupic]][sshuvid]
 [![Video: SSH on macOS][sshmpic]][sshmvid]
 
-[sshupic]: https://img.youtube.com/vi/ky-nnBsNIl8/hqdefault.jpg
+[sshupic]: https://img.youtube.com/vi/ky-nnBsNIl8/default.jpg
 [sshuvid]: https://eu.feedbackfruits.com/courses/activity-course/55dd8376-a042-4211-ac8e-486fd1cfde34
 
-[sshmpic]: https://img.youtube.com/vi/uUrCXqxDMQI/hqdefault.jpg
+[sshmpic]: https://img.youtube.com/vi/uUrCXqxDMQI/default.jpg
 [sshmvid]: https://eu.feedbackfruits.com/courses/activity-course/febefd53-2780-498a-a6a8-929bb4c6e7c0
 
 ### For Windows without WSL
@@ -121,7 +121,7 @@ bullets or asterisks when typing passwords). It will look something like this:
 
 [![Video: Using PuTTY on Windows 10][sshwpic]][sshwvid]
 
-[sshwpic]: https://img.youtube.com/vi/JBgn51W5Umc/hqdefault.jpg
+[sshwpic]: https://img.youtube.com/vi/JBgn51W5Umc/default.jpg
 [sshwvid]: https://eu.feedbackfruits.com/courses/activity-course/3ef9ff0a-077d-4739-9e2f-40a1901ff57a
 
 WinSCP is used for copying files between the your local system and the remote 
