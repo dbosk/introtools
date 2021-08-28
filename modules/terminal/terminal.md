@@ -50,9 +50,10 @@ our context: pipelines (which we'll cover shortly) and high quality manual
 pages for UNIX.
 
 Now we'll cover some of the basics of the UNIX-like terminal before we return 
-to our example above. To access the terminal, see [this guide][guide].
+to our example above. To access the terminal, see [Guide to accessing the 
+terminal][guide].
 
-[guide]: guide
+[guide]: ../ssh/guide
 
 ## Some common commands
 
@@ -180,18 +181,16 @@ would give the same result as `wc < testfile`.
 Let's return the example in the beginning, what does it do exactly? The code 
 was this:
 ```
-n=10 cat hitch-hikers-guide.txt | \
+cat hitch-hikers-guide.txt | \
   tr -cs A-Za-z '\n' | \
 	tr A-Z a-z | \
 	sort | \
 	uniq -c | \
 	sort -rn | \
-  head -n $n
+  head -n 10
 ```
-The first thing that happens is that we have a variable `n` that we set to the 
-value `10` (we're interested in the 10 most common words). `cat` simply prints 
-the contents of the text file (`hitch-hikers-guide.txt`), which is piped to the 
-next command (`tr`).
+`cat` simply prints the contents of the text file (`hitch-hikers-guide.txt`), 
+which is piped to the next command (`tr`).
 
 `tr` will homogenize the text: the first `tr` will reduce non-letter characters 
 and turn them all into a line break (`\n`). This will put each word on its own 
