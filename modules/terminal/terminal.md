@@ -181,18 +181,16 @@ would give the same result as `wc < testfile`.
 Let's return the example in the beginning, what does it do exactly? The code 
 was this:
 ```
-n=10 cat hitch-hikers-guide.txt | \
+cat hitch-hikers-guide.txt | \
   tr -cs A-Za-z '\n' | \
 	tr A-Z a-z | \
 	sort | \
 	uniq -c | \
 	sort -rn | \
-  head -n $n
+  head -n 10
 ```
-The first thing that happens is that we have a variable `n` that we set to the 
-value `10` (we're interested in the 10 most common words). `cat` simply prints 
-the contents of the text file (`hitch-hikers-guide.txt`), which is piped to the 
-next command (`tr`).
+`cat` simply prints the contents of the text file (`hitch-hikers-guide.txt`), 
+which is piped to the next command (`tr`).
 
 `tr` will homogenize the text: the first `tr` will reduce non-letter characters 
 and turn them all into a line break (`\n`). This will put each word on its own 
