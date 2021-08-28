@@ -40,9 +40,9 @@ are typing (measure twice, cut once!)*
 *N.b. make sure you are in KTH Github - https://gits-15.sys.kth.se/ and
 not Public Github - https://www.github.com*
 
-The process is visualized in the following video.
+The process is visualized in the following video:
 
-[![Video: SSH keys for KTH GitHub][gitskeypic]][gitskey]
+ - [Video: SSH keys for KTH GitHub][gitskey]
 
 [gitskeypic]: https://img.youtube.com/vi/Sp5AASmX4no/default.jpg
 [gitskey]: https://eu.feedbackfruits.com/courses/activity-course/4f236e8e-61bb-41ff-8c4b-7ba8dbaf362f
@@ -68,10 +68,11 @@ Git][github-changeeditor], so that it uses your editor of choice.
 
 # Working with Git
 
-We'll now go through now to work with Git.
+We'll now go through how to work with Git. First we give two videos. Then we 
+summarize, and briefly expand on some parts, in the text below.
 
-[![Video: Version control overview][vcpic]][vcvid]
-[![Video: Git commands and workflow][gitpic]][gitvid]
+ - [Video: Version control overview][vcvid]
+ - [Video: Git commands and workflow][gitvid]
 
 [vcpic]: https://img.youtube.com/vi/NZmD7uVDCAA/default.jpg
 [vcvid]: https://eu.feedbackfruits.com/courses/activity-course/77c81f23-1fa9-4ea8-b72c-e1295ee80f55
@@ -106,9 +107,9 @@ something like this:
 
 ![Copy the URL for SSH][gh-clone]
 
-Or like this:
-
 [gh-clone]: https://github.com/dbosk/introtools/raw/master/modules/git/gh-clone.png
+
+Or like this:
 
 ![Copy the URL for SSH on a non-empty repo][gh-clone-nonempty]
 
