@@ -5,7 +5,7 @@ FIGS=			figs/canvas.png figs/sauron.jpg figs/version-tree.png
 .PHONY: all
 all: ${HTML_FILES} ${PDF_FILES}
 
-slides.pdf: slides.tex contents.tex preamble.tex slides.tex
+slides.pdf: slides.tex contents.tex preamble.tex slides.tex advice.tex
 slides.pdf: ${FIGS}
 
 
