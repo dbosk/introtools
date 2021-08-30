@@ -21,17 +21,17 @@
 \subsection{Terminal}
 
 \begin{frame}
-  \includegraphics[width=\columnwidth]{../../terminal/terminal.png}
+  \includegraphics[width=\columnwidth]{../../ssh/terminal.png}
 \end{frame}
 
 \begin{frame}[fragile]
   \begin{lstlisting}[numbers=none]
-n=10 cat hitch-hikers-guide.txt | \
+cat hitch-hikers-guide.txt | \
   tr -cs A-Za-z '\n' | tr A-Z a-z | \
   sort | \
   uniq -c | \
   sort -rn | \
-  head -n \$n
+  head -n 10
   \end{lstlisting}
 \end{frame}
 
