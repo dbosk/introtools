@@ -10,11 +10,11 @@ FROM repobee/repobee
 WORKDIR grader
 
 RUN pip install --no-cache-dir canvasapi argcomplete
-COPY canvas /usr/local/bin
+COPY canvas grade-all.sh ./
+ADD git ./git
+ADD latex ./latex
 
-COPY grade-all.sh git latex .
-
-RUN ["/bin/bash", "grade-all.sh"]
+CMD ["/bin/bash", "grade-all.sh"]
 @
 
 
@@ -26,8 +26,8 @@ The [[regrade]] and [[grade]] scripts must be run sequentially, but we can run
 <<grade-all.sh>>=
 #!/bin/bash
 
-(cd git && ./regrade.sh && ./grade.sh) &
-(cd latex && ./regrade.sh && ./grade.sh) &
+(cd git && /bin/bash regrade.sh && /bin/bash grade.sh) &
+(cd latex && /bin/bash regrade.sh && /bin/bash grade.sh) &
 
 wait
 @
@@ -37,10 +37,10 @@ wait
 
 Now, we need to build those files.
 <<datintro-grade.mk>>=
-TARGETS+= canvas git latex
+TARGETS+= grade-all.sh canvas git latex
 
 .PHONY: all
-all: grade-all.sh ${TARGETS}
+all: ${TARGETS}
 all: datintro-grade
 @
 
@@ -53,17 +53,19 @@ grade-all.sh: datintro-grade.nw
 	${NOTANGLE.sh}
 
 canvas: /usr/local/bin/canvas
+	sed "s;^#\!/.*;#\!/usr/local/bin/python3;" $^ > $@
 
-git: ../../collaboration/grading/grade.sh
-git: ../../collaboration/grading/regrade.sh
+git: ../../modules/git/grading/grade.sh
+git: ../../modules/git/grading/regrade.sh
 
-latex: ../../latex/grading/grade.sh
-latex: ../../latex/grading/regrade.sh
+latex: ../../modules/latex/grading/grade.sh
+latex: ../../modules/latex/grading/regrade.sh
 
 ../%:
 	${MAKE} -C $(dir $@) $(notdir $@)
 
 git latex:
+	mkdir $@
 	${CP} $^ $@
 
 .PHONY: clean
@@ -75,7 +77,7 @@ Next is the Docker image.
 This one requires [[<<Dockerfile>>]], which is also documented below.
 <<datintro-grade.mk>>=
 .PHONY: datintro-grade
-datintro-grade: Dockerfile
+datintro-grade: Dockerfile ${TARGETS}
 	docker build -t $@ .
 
 Dockerfile: datintro-grade.nw
