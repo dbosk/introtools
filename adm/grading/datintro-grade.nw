@@ -7,89 +7,153 @@ Then we install the grading scripts and run them all by default.
 <<Dockerfile>>=
 FROM repobee/repobee
 
+USER root
 WORKDIR grader
 
-RUN pip install --no-cache-dir canvasapi argcomplete
-COPY canvas grade-all.sh ./
-ADD git ./git
-ADD latex ./latex
-
-CMD ["/bin/bash", "grade-all.sh"]
+<<set up SSH in container>>
+<<set up canvas in container>>
+<<set up grade scripts in container>>
 @
 
-
-\section{Running all grading scripts}
-
-Now we want to run all the grading scripts.
-The [[regrade]] and [[grade]] scripts must be run sequentially, but we can run 
-[[git]] and [[latex]] sequences in parallel.
-<<grade-all.sh>>=
-#!/bin/bash
-
-(cd git && /bin/bash regrade.sh && /bin/bash grade.sh) &
-(cd latex && /bin/bash regrade.sh && /bin/bash grade.sh) &
-
-wait
-@
-
-
-\section{Building the needed files}
-
-Now, we need to build those files.
+Next is building the Docker image.
 <<datintro-grade.mk>>=
-TARGETS+= grade-all.sh canvas git latex
+TARGETS=  canvas grade-all.sh
+TARGETS+= grade-ssh.sh
 
 .PHONY: all
-all: ${TARGETS}
 all: datintro-grade
-@
 
-The [[<<grade-all.sh>>]] script is documented here, so that script must be 
-generated.
-The other files are documented in their respective assignment directories, so 
-we'll build them there and then copy them here.
-<<datintro-grade.mk>>=
-grade-all.sh: datintro-grade.nw
-	${NOTANGLE.sh}
-
-canvas: /usr/local/bin/canvas
-	sed "s;^#\!/.*;#\!/usr/local/bin/python3;" $^ > $@
-
-git: ../../modules/git/grading/grade.sh
-git: ../../modules/git/grading/regrade.sh
-
-latex: ../../modules/latex/grading/grade.sh
-latex: ../../modules/latex/grading/regrade.sh
-
-../%:
-	${MAKE} -C $(dir $@) $(notdir $@)
-
-git latex:
-	mkdir $@
-	${CP} $^ $@
-
-.PHONY: clean
-clean:
-	${RM} -R grade-all.sh ${TARGETS}
-@
-
-Next is the Docker image.
-This one requires [[<<Dockerfile>>]], which is also documented below.
-<<datintro-grade.mk>>=
 .PHONY: datintro-grade
-datintro-grade: Dockerfile ${TARGETS}
+datintro-grade: Dockerfile
 	docker build -t $@ .
 
 Dockerfile: datintro-grade.nw
 	${NOTANGLE}
 
-.PHONY: clean-docker
+<<generate SSH keys>>
+<<get canvas and modify for container>>
+<<build the grading scripts>>
+
+.PHONY: clean clean-docker
 clean: clean-docker
 clean-docker:
 	${RM} Dockerfile
 
-.PHONY: distclean
-distclean:
+.PHONY: distclean distclean-docker
+distclean: distclean-docker
+distclean-docker:
 	-docker image rm datintro-grade
+
+<<clean targets>>
+@
+
+\section{Set up SSH}
+
+We need to have SSH inside the container.
+<<set up SSH in container>>=
+RUN apk update && apk add openssh
+COPY config id_rsa id_rsa.pub /root/.ssh/
+@
+
+To do this we need the [[Makefile]] to generate the SSH keys.
+When they are generated, we also configure student-shell to accept them.
+<<generate SSH keys>>=
+id_rsa id_rsa.pub:
+	ssh-keygen -f id_rsa -N ""
+	ssh-copy-id -i id_rsa.pub student-shell.sys.kth.se
+
+config: ${HOME}/.ssh/config
+	${CP} $^ $@
+
+datintro-grade: id_rsa id_rsa.pub config
+@
+
+We don't want to clean these keys.
+
+\section{Set up Canvas}
+
+We need the [[canvas]] command inside the container.
+We must also install [[canvas]]'s Python dependencies.
+For the scripts to be able to use [[canvas]] we must make sure it's on the 
+[[PATH]].
+<<set up canvas in container>>=
+COPY canvas /root/bin/canvas
+ENV PATH="/root/bin:${PATH}"
+RUN pip install --no-cache-dir canvasapi argcomplete && chmod +x /root/bin/canvas
+@
+
+We copy the local [[canvas]] command.
+However, the container runs alpine, so we must change the location of the 
+Python 3 binary.
+<<get canvas and modify for container>>=
+canvas: /usr/local/bin/canvas
+	sed "s;^#\!/.*;#\!/usr/local/bin/python3;" $^ > $@
+
+datintro-grade: canvas
+@
+
+Finally, we do cleaning.
+<<clean targets>>=
+.PHONY: clean-canvas
+clean: clean-canvas
+clean-canvas:
+	${RM} canvas
+@
+
+
+\section{All grading scripts}
+
+We have a separate grading script for each assignment.
+When we run the container we'd like all those scripts to run, so we create the 
+[[grade-all.sh]] script that runs them all.
+This script will also set up the required SSH agent.
+<<grade-all.sh>>=
+#!/bin/bash
+
+eval $(ssh-agent -s)
+ssh-add
+
+./grade-ssh.sh &
+
+wait
+@
+
+Now, we must copy all those scripts into the container and set the executable 
+bit.
+These scripts also need the standard commands, which are not included in 
+alpine.
+Then we make sure to execute [[grade-all.sh]] by default when the container is 
+run.
+<<set up grade scripts in container>>=
+COPY grade-all.sh grade-ssh.sh ./
+RUN chmod +x grade-all.sh grade-ssh.sh
+
+RUN apk update && apk add util-linux coreutils findutils grep binutils acct
+
+CMD ["/bin/bash", "grade-all.sh"]
+@
+
+To build the container we need [[make]] to first build local copies of all 
+scripts.
+<<build the grading scripts>>=
+grade-all.sh: datintro-grade.nw
+	${NOTANGLE.sh}
+
+grade-ssh.sh: ../../modules/ssh/grading/grade.sh
+	${CP} $^ $@
+
+../%:
+	${MAKE} -C $(dir $@) $(notdir $@)
+
+datintro-grade: grade-all.sh grade-ssh.sh
+@
+
+Finally, we add some cleaning.
+<<clean targets>>=
+.PHONY: clean-scripts
+clean: clean-scripts
+clean-scripts:
+	${RM} grade-all.sh
+	${RM} grade-ssh.sh
 @
 

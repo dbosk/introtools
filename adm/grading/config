@@ -1,0 +1,7 @@
+AddKeysToAgent yes
+
+Host student-shell.sys.kth.se student-shell-1.sys.kth.se student-shell-2.sys.kth.se student-shell-3.sys.kth.se faculty-shell.sys.kth.se priv-shell.csc.kth.se
+  PreferredAuthentications publickey
+	ForwardX11 yes
+	User dbosk
+  Compression yes

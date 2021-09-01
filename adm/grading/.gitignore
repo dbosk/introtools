@@ -4,3 +4,6 @@ datintro-grade.mk
 git/
 grade-all.sh
 latex/
+grade-ssh.sh
+id_rsa
+id_rsa.pub
