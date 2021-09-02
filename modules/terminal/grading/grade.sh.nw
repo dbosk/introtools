@@ -110,7 +110,7 @@ grade_students() {
     for s in $(cat ${students} | cut -f 2); do
       get_history "$s" | check_history || continue
 
-      echo $s
+      echo $s (terminal)
 
       canvas grade -c "${course}" -a "${assignment}" \
         -u $(grep $s ${students} | cut -f 1) -g P &
