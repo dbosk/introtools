@@ -114,10 +114,12 @@ grade_students() {
     for s in $(cat ${students} | cut -f 2); do
       grep "^$s\$" ${signed_in} > /dev/null || continue
 
-      echo $s (ssh)
+      echo "$s (ssh)"
 
       canvas grade -c "${course}" -a "${assignment}" \
         -u $(grep $s ${students} | cut -f 1) -g P &
+
+      sleep 0.1
     done
   done
 
