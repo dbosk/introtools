@@ -14,8 +14,7 @@ We will do this as a shell script.
 # This file is generated from grade.sh.nw
 <<configuration variables>>
 <<function returning students to grade>>
-<<function returning a student's history.txt>>
-<<function checking a student's history.txt>>
+<<function taking a list of students and returning passes>>
 <<grade students>>
 @
 
@@ -29,11 +28,6 @@ COURSE_CODE="DD1301HT20 DD1301HT21 DD1337HT21"
 We must set the [[ASSIGNMENT]] variable. This is a regular expression.
 <<configuration variables>>=
 ASSIGNMENT="(The terminal)"
-@
-
-We also need to specify the path of the assignment file.
-<<configuration variables>>=
-HISTORY_PATH="Public/datintro/history.txt"
 @
 
 
@@ -61,28 +55,33 @@ students_to_grade() {
 @
 
 
-\section{Get and check the public history file}
+\section{Get and check the public history files}
 
-We construct the following function to fetch and print the contents of the 
-history file of a given user.
-<<function returning a student's history.txt>>=
-get_history() {
-  local hist_file=$(mktemp)
+We can't [[scp]] each student's file to us and check, that will enable some DoS 
+protection.
+So we must send a list of students to the server and do the checks there, then 
+receive back who passed.
 
-  scp faculty-shell.sys.kth.se:~${1}/${HISTORY_PATH} ${hist_file} \
-    2>/dev/null || return 1
+This means that we must run a script on the server.
+We send the script over, then we run it and pass all the students to it.
+It will output the passes only.
+<<function taking a list of students and returning passes>>=
+check_valid_histories() {
+  local script='
+    read students;
+    for s in $students; do
+      dir=$(getent passwd $s | cut -d : -f 6);
+      cat ${dir}/Public/datintro/history.txt 2>/dev/null |
+        egrep " *[0-9]+.* history .*>>? history.txt" > /dev/null &&
+          echo $s;
+    done
+  '
+  local n=$(shuf -i 1-3 -n 1)
+  local scriptname=$(echo $script | ssh student-shell-${n}.sys.kth.se \
+    'read script; fn=$(mktemp); echo $script > $fn; echo $fn' 2> /dev/null)
 
-  cat ${hist_file}
-  rm ${hist_file}
-}
-@
-
-We also want to do basic checks on the history file.
-Particularly, the command generating history.txt should be inside history.txt, 
-so we can check for it.
-<<function checking a student's history.txt>>=
-check_history() {
-  egrep " *[0-9]+.* history .*> history.txt" > /dev/null
+  echo $* | ssh student-shell-${n}.sys.kth.se /bin/bash ${scriptname} \
+    2> /dev/null
 }
 @
 
@@ -95,9 +94,11 @@ constitutes a list of courses.
 
 To grade, we iterate through the remaining students, given by 
 [[students_to_grade]].
-We fetch the history file, if it exists, check that it contains the expected 
-history command itself.
-If it does, we pass the student.
+We send the list of students to [[check_valid_histories]], which returns only 
+those who passed.
+Then we can simply report those with [[canvas]].
+We run [[canvas]] in parallel to save time, but we need to add a delay to not 
+run in to Canvas' DoS protection.
 <<grade students>>=
 grade_students() {
   local assignment="$1"
@@ -107,13 +108,13 @@ grade_students() {
     local students=$(mktemp)
     students_to_grade "${course}" "${assignment}" > ${students}
 
-    for s in $(cat ${students} | cut -f 2); do
-      get_history "$s" | check_history || continue
-
-      echo $s (terminal)
+    for s in $(check_valid_histories $(cat ${students} | cut -f 2)); do
+      echo "$s (terminal)"
 
       canvas grade -c "${course}" -a "${assignment}" \
         -u $(grep $s ${students} | cut -f 1) -g P &
+
+      sleep 0.1
     done
   done
 
