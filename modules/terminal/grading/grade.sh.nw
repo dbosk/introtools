@@ -1,0 +1,124 @@
+We want to grade the \emph{The terminal} assignment, that is, the students 
+should place a file containing the output of their [[history]] command in 
+[[~/Public/datintro/history.txt]].
+
+We will use the [[canvas]] command to report the grades. This must be installed 
+from
+\begin{center}
+  \texttt{https://github.com/dbosk/canvasy}.
+\end{center}
+
+We will do this as a shell script.
+<<grade.sh>>=
+#!/bin/bash
+# This file is generated from grade.sh.nw
+<<configuration variables>>
+<<function returning students to grade>>
+<<function returning a student's history.txt>>
+<<function checking a student's history.txt>>
+<<grade students>>
+@
+
+\section{Settings}
+
+We need a few variables as settings.
+We must set the course code. This is a regular expression.
+<<configuration variables>>=
+COURSE_CODE="DD1301HT20 DD1301HT21 DD1337HT21"
+@
+We must set the [[ASSIGNMENT]] variable. This is a regular expression.
+<<configuration variables>>=
+ASSIGNMENT="(The terminal)"
+@
+
+We also need to specify the path of the assignment file.
+<<configuration variables>>=
+HISTORY_PATH="Public/datintro/history.txt"
+@
+
+
+\section{Students to grade}
+
+We will construct a function that returns a list of students who need grading 
+for a given assignment.
+
+This function will take the course code as first argument, the assignment title 
+as the second.
+This list will contain their Canvas ID (first column) and their KTH username 
+(second column).
+<<function returning students to grade>>=
+students_to_grade() {
+  local students=$(mktemp)
+
+  canvas users -sc "${1}" | cut -f 1,2 | sort -k 1 | \
+    sed "s/@kth.se//" > ${students}
+
+  canvas submissions -c "${1}" -a "${2}" | grep -v P | \
+    cut -f 1 | sort | join -t $'\t' ${students} -
+
+  rm ${students}
+}
+@
+
+
+\section{Get and check the public history file}
+
+We construct the following function to fetch and print the contents of the 
+history file of a given user.
+<<function returning a student's history.txt>>=
+get_history() {
+  local hist_file=$(mktemp)
+
+  scp faculty-shell.sys.kth.se:~${1}/${HISTORY_PATH} ${hist_file} \
+    2>/dev/null || return 1
+
+  cat ${hist_file}
+  rm ${hist_file}
+}
+@
+
+We also want to do basic checks on the history file.
+Particularly, the command generating history.txt should be inside history.txt, 
+so we can check for it.
+<<function checking a student's history.txt>>=
+check_history() {
+  egrep " *[0-9]+.* history .*> history.txt" > /dev/null
+}
+@
+
+
+\section{Grading}
+
+Now we provide a function [[grade_students]] which takes the assignment name as 
+the first argument (it's a regex passed to [[canvas]]). The remaining arguments 
+constitutes a list of courses.
+
+To grade, we iterate through the remaining students, given by 
+[[students_to_grade]].
+We fetch the history file, if it exists, check that it contains the expected 
+history command itself.
+If it does, we pass the student.
+<<grade students>>=
+grade_students() {
+  local assignment="$1"
+  shift
+
+  for course in $*; do
+    local students=$(mktemp)
+    students_to_grade "${course}" "${assignment}" > ${students}
+
+    for s in $(cat ${students} | cut -f 2); do
+      get_history "$s" | check_history || continue
+
+      echo $s
+
+      canvas grade -c "${course}" -a "${assignment}" \
+        -u $(grep $s ${students} | cut -f 1) -g P &
+    done
+  done
+
+  wait
+}
+
+grade_students "${ASSIGNMENT}" ${COURSE_CODE}
+@
