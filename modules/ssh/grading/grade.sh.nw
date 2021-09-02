@@ -36,9 +36,8 @@ ASSIGNMENT="(Guide to accessing the terminal)"
 
 \section{Students to grade}
 
-We will keep students who must be graded in [[students-to-grade.tsv]].
-The students who must be graded are those who hasn't already passed the 
-assignment.
+We will construct a function that returns a list of students who need grading 
+for a given assignment.
 
 This function will take the course code as first argument, the assignment title 
 as the second.
@@ -114,6 +113,7 @@ grade_students() {
 
     for s in $(cat ${students} | cut -f 2); do
       grep "^$s\$" ${signed_in} || continue
+
       canvas grade -c "${course}" -a "${assignment}" \
         -u $(grep $s ${students} | cut -f 1) -g P &
     done
