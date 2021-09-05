@@ -47,7 +47,7 @@ This list will contain their Canvas ID (first column) and their KTH username
 students_to_grade() {
   local students=$(mktemp)
 
-  canvas users -sc "${1}" | cut -f 1,2 | sort -k 1 | \
+  canvas users -sc "${1}" 2> /dev/null | cut -f 1,2 | sort -k 1 | \
     sed "s/@kth.se//" > ${students}
 
   canvas submissions -c "${1}" -a "${2}" | grep -v P | \
