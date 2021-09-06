@@ -223,7 +223,10 @@ check_student() {
 
 \section{Grading}
 
-To grade, we iterate through the remaining students.
+To grade, we iterate through the remaining students, given by 
+[[students_to_actually_grade]].
+We run [[canvas]] as a background job, since it's so slow.
+However, we need a small delay to not run into Canvas' DoS protection.
 <<grade students>>=
 grade_students() {
   local assignm="$1"; shift
@@ -249,15 +252,17 @@ grade_students() {
           -u $(echo "$students_w_times" | \
             egrep "[^a-z]$s([^a-z]|$)" | cut -f 1) \
           -g F \
-          -m "$feedback"
+          -m "$feedback" &
       else
         echo "$s (latex)"
 
         canvas grade -c "${canvas}" -a "${assignm}" \
           -u $(echo "$students_w_times" | \
             egrep "[^a-z]$s([^a-z]|$)" | cut -f 1) \
-          -g P
+          -g P &
       fi
+
+      sleep 0.1
     done
   done
 }
