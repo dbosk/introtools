@@ -130,7 +130,7 @@ students_to_actually_grade() {
   for s in $(echo "$students_w_times" | cut -f 2); do
     time=$(echo "$students_w_times" | egrep "[^a-z]$s[^a-z]" | cut -f 3)
 
-    for r in $(find $repos/$s -mindepth 1 -maxdepth 1 -type d); do
+    for r in $(find $repos/$s -mindepth 1 -maxdepth 1 -type d 2>/dev/null); do
       if [[ "$time" < "$(git -C $r log -1 --format=\%cI 2>/dev/null)" ]]; then
         echo $s
       fi
