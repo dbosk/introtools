@@ -262,7 +262,7 @@ grade_students() {
           -g P &
       fi
 
-      sleep 0.1
+      sleep 0.2
     done
   done
 }
