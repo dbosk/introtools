@@ -33,7 +33,7 @@ COURSE_CODE="${COURSE_CODE} DD1337HT21:dd1337-ht21-intro"
 @
 We must set the [[ASSIGNMENT]] variable. This is a regular expression.
 <<configuration variables>>=
-ASSIGNMENT="(Git)"
+ASSIGNMENT="^(Git)$"
 @
 
 
