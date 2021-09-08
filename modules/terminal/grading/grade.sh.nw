@@ -72,7 +72,7 @@ check_valid_histories() {
     for s in $students; do
       dir=$(getent passwd $s | cut -d : -f 6);
       cat ${dir}/Public/datintro/history.txt 2>/dev/null |
-        egrep " *[0-9]+.* history *>>? *history.txt" > /dev/null &&
+        egrep " *[0-9]+.* history *>>? *([^ ]+/)?history.txt" > /dev/null &&
           echo $s;
     done
   '
