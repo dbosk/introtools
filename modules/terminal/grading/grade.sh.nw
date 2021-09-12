@@ -55,37 +55,6 @@ students_to_grade() {
 @
 
 
-\section{Get and check the public history files}
-
-We can't [[scp]] each student's file to us and check, that will enable some DoS 
-protection.
-So we must send a list of students to the server and do the checks there, then 
-receive back who passed.
-
-This means that we must run a script on the server.
-We send the script over, then we run it and pass all the students to it.
-It will output the passes only.
-<<function taking a list of students and returning passes>>=
-check_valid_histories() {
-  local script='
-    read students;
-    for s in $students; do
-      dir=$(getent passwd $s | cut -d : -f 6);
-      cat ${dir}/Public/datintro/history.txt 2>/dev/null |
-        egrep " *[0-9]+.* history *>>? *([^ ]+/)?history.txt" > /dev/null &&
-          echo $s;
-    done
-  '
-  local n=$(shuf -i 1-3 -n 1)
-  local scriptname=$(echo $script | ssh student-shell-${n}.sys.kth.se \
-    'read script; fn=$(mktemp); echo $script > $fn; echo $fn' 2> /dev/null)
-
-  echo $* | ssh student-shell-${n}.sys.kth.se /bin/bash ${scriptname} \
-    2> /dev/null
-}
-@
-
-
 \section{Grading}
 
 Now we provide a function [[grade_students]] which takes the assignment name as 
@@ -105,17 +74,14 @@ grade_students() {
   shift
 
   for course in $*; do
-    local students=$(mktemp)
-    students_to_grade "${course}" "${assignment}" > ${students}
+    students_to_grade "${course}" "${assignment}" | \
+      generate_feedback_for_students | report_feedback
 
-    for s in $(check_valid_histories $(cat ${students} | cut -f 2)); do
-      echo "$s (terminal)"
+    (cd $feedback; for s in *; do
+      cat $s | report_feedback $s
+    done)
 
-      canvas grade -c "${course}" -a "${assignment}" \
-        -u $(grep $s ${students} | cut -f 1) -g P &
-
-      sleep 0.1
-    done
+    rm -Rf $feedback
   done
 
   wait
@@ -123,3 +89,100 @@ grade_students() {
 
 grade_students "${ASSIGNMENT}" ${COURSE_CODE}
 @
+
+
+\section{Report feedback for the public history files}
+
+We can't [[scp]] each student's file to us and check, that will enable some DoS 
+protection at KTH.
+So we must send a list of students to the server and do the checks there, then 
+receive the feedback and who passed.
+
+We send the script over, then we run it and pass all the students to it.
+Note that the script will end up on one line, hence the semi-colons.
+The script will output the feedback to files, use [[tar]] to compress the files 
+and deliver them back (meaning printing the tarball to stdout).
+On the receiving end, we'll use tar to change them into files again.
+Then we can use the files for feedback.
+
+The function [[generate_feedback_for_students]] takes the list of students on 
+stdin.
+Then it returns a directory where the feedback for each student is located in a 
+file named by the student's username.
+<<function taking a list of students and returning passes>>=
+generate_feedback_for_students() {
+  local script='
+    <<script to run on remote server>>
+  '
+  local n=$(shuf -i 1-3 -n 1)
+  local scriptname=$(echo $script | ssh student-shell-${n}.sys.kth.se \
+    'script=$(cat); fn=$(mktemp); echo "$script" > $fn; echo $fn' 2> /dev/null)
+  local results=$(mktemp -d)
+
+  cd $results
+  echo $* | ssh student-shell-${n}.sys.kth.se /bin/bash ${scriptname} \
+    2> /dev/null | tar -zxf -
+
+  echo $results
+}
+
+report_feedback() {
+  local feedback_dir=$(cat)
+
+  cd $feedback_dir
+
+  for s in $(ls); do
+    <<check the feedback for student s>>
+  done
+  
+  cd .. && rm -Rf $feedback_dir
+}
+@
+
+The students must be read from stdin, so the first command must to that.
+Then we create a temporary directory, iterate through the students and put any 
+feedback into a file named by the student's username.
+If the student passes, we must create an empty feedback file.
+Students who don't have a file should be ignored.
+<<script to run on remote server>>=
+students=$(cat)
+results=$(mkdtemp -d)
+
+for s in $students; do
+  dir=$(getent passwd $s | cut -d : -f 6)
+  if ! [[ -e ${dir}/Public/datintro/history.txt ]]; then
+    continue
+  fi
+  if ! egrep " *[0-9]+.* history *>>? *([^ ]+/)?history.txt" \
+        ${dir}/Public/datintro/history.txt > /dev/null; then
+    echo "The contents of history.txt doesn't seem correct." > $results/$s
+  else
+    touch $results/$s
+  fi
+done
+
+tar -zcf - $results/*
+
+rm -Rf $results
+@
+
+We receive the feedback in the [[feedback]] variable and the student identifier 
+in the [[s]] variable.
+Now we need to check if the feedback is empty, which is a pass.
+Any feedback is a fail and should be included as a comment to the student.
+<<check the feedback for student s>>=
+if [[ $(wc -l $s) -gt 0 ]]; then
+  echo "$s (attempted terminal)"
+
+  canvas grade -c "${course}" -a "${assignment}" \
+    -u $(grep $s ${students} | cut -f 1) -g F -m "$(cat $s)" &
+else
+  echo "$s (terminal)"
+
+  canvas grade -c "${course}" -a "${assignment}" \
+    -u $(grep $s ${students} | cut -f 1) -g P &
+fi
+
+sleep 0.1
+@
+
