@@ -265,6 +265,10 @@ grade_students() {
       sleep 0.2
     done
   done
+
+  rm -Rf $repos
+
+  wait
 }
 
 grade_students "${ASSIGNMENT}" ${COURSE_CODE}
