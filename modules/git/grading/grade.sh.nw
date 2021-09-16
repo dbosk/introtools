@@ -218,6 +218,8 @@ grade_students() {
     done
   done
 
+  rm -Rf $repos
+
   wait
 }
 
