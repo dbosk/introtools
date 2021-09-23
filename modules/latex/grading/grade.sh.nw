@@ -185,7 +185,8 @@ generate_feedback() {
     echo "No table of contents found."
   fi
   if ! check_student $s $texfiles "\\\\begin{(.*figure|table)}"; then
-    echo "No figure found."
+    echo "No figure found. Hint: an image is not a figure,"
+    echo "but a figure can contain an image."
   fi
   if ! check_student $s $texfiles "\\\[a-z\]*cite"; then
     echo "No citation found."
