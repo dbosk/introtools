@@ -121,7 +121,11 @@ grade_students() {
 
       sleep 0.1
     done
+
+    rm -Rf ${students}
   done
+
+  rm ${signed_in}
 
   wait
 }

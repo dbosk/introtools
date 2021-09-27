@@ -82,6 +82,8 @@ check_valid_histories() {
 
   echo $* | ssh student-shell-${n}.sys.kth.se /bin/bash ${scriptname} \
     2> /dev/null
+
+  ssh student-shell-${n}.sys.kth.se rm -Rf ${scriptname}
 }
 @
 
@@ -116,6 +118,8 @@ grade_students() {
 
       sleep 0.1
     done
+
+    rm ${students}
   done
 
   wait

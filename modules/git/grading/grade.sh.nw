@@ -216,9 +216,9 @@ grade_students() {
 
       sleep 0.2
     done
-  done
 
-  rm -Rf $repos
+    rm -Rf $repos
+  done
 
   wait
 }
