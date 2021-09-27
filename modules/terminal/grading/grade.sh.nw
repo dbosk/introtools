@@ -83,7 +83,7 @@ check_valid_histories() {
   echo $* | ssh student-shell-${n}.sys.kth.se /bin/bash ${scriptname} \
     2> /dev/null
 
-  ssh student-shell-${n}.sys.kth.se rm -Rf ${scriptname}
+  ssh student-shell-${n}.sys.kth.se rm -Rf ${scriptname} 2> /dev/null
 }
 @
 
