@@ -170,29 +170,61 @@ generate_feedback() {
   find "$1" -type f -name \*.tex > $texfiles
 
   if ! [ $(wc -l $texfiles | cut -f 1 -d " ") -gt 0 ]; then
-    echo "No LaTeX files found."
+    echo "No LaTeX files found. Make sure that you commit the source file."
+    echo "We don't care about the PDF, with the source files we can build"
+    echo "that one by ourselves."
+    echo
   else
     if ! check_student $s $texfiles "documentclass"; then
-      echo "No document class found."
+      echo "No document class found:
+      echo "See the first video lecture (Video: Intro to LaTeX) from"
+      echo "https://daniel.bosk.se/introtools/modules/latex/latex"
+      echo "and read Lesson 5 from LearnLaTeX"
+      echo "https://www.learnlatex.org/en/lesson-05"
+      echo
     fi
     if ! check_student $s $texfiles "\\\\title"; then
       echo "No title found."
+      echo "See the first video lecture (Video: Intro to LaTeX) from"
+      echo "https://daniel.bosk.se/introtools/modules/latex/latex"
+      echo
     fi
     if ! check_student $s $texfiles "\\\\maketitle"; then
       echo "No title page generated."
+      echo "See the first video lecture (Video: Intro to LaTeX) from"
+      echo "https://daniel.bosk.se/introtools/modules/latex/latex"
+      echo
     fi
     if ! check_student $s $texfiles "\\\\tableofcontents"; then
       echo "No table of contents found."
+      echo "See the first video lecture (Video: Intro to LaTeX) from"
+      echo "https://daniel.bosk.se/introtools/modules/latex/latex"
+      echo
     fi
     if ! check_student $s $texfiles "\\\\begin{(.*figure|table)}"; then
       echo "No figure found. Hint: an image is not a figure,"
       echo "but a figure can contain an image."
+      echo "See the fourth video lecture (Video: Figures and Tables) from"
+      echo "https://daniel.bosk.se/introtools/modules/latex/latex"
+      echo "and read Lesson 7 from LearnLaTeX"
+      echo "https://www.learnlatex.org/en/lesson-07"
+      echo "particularly about floats."
+      echo
     fi
     if ! check_student $s $texfiles "\\\[a-z\]*cite"; then
       echo "No citation found."
+      echo "See the second video lecture (Video: References/Bibliography) from"
+      echo "https://daniel.bosk.se/introtools/modules/latex/latex"
+      echo "and read Lesson 12 from LearnLaTeX"
+      echo "https://www.learnlatex.org/en/lesson-12"
+      echo
     fi
     if ! check_student $s $texfiles "\\\\.*lst(input)?listing"; then
       echo "No listing found."
+      echo "See the documentation of the listings package linked in the"
+      echo "assessment section of"
+      echo "https://daniel.bosk.se/introtools/modules/latex/latex"
+      echo
     fi
   fi
 
@@ -203,6 +235,11 @@ generate_feedback() {
   find "$1" -type f > $allfiles
   if ! check_student $s $allfiles "history"; then
     echo "No command-line history found."
+    echo "See the requirements in the assessment section of"
+    echo "https://daniel.bosk.se/introtools/modules/latex/latex"
+    echo "and the assessment section of The Terminal assignment"
+    echo "https://daniel.bosk.se/introtools/modules/terminal/terminal"
+    echo
   fi
 
   rm -f $allfiles
