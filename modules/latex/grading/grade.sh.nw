@@ -171,28 +171,29 @@ generate_feedback() {
 
   if ! [ $(wc -l $texfiles | cut -f 1 -d " ") -gt 0 ]; then
     echo "No LaTeX files found."
-  fi
-  if ! check_student $s $texfiles "documentclass"; then
-    echo "No document class found."
-  fi
-  if ! check_student $s $texfiles "\\\\title"; then
-    echo "No title found."
-  fi
-  if ! check_student $s $texfiles "\\\\maketitle"; then
-    echo "No title page generated."
-  fi
-  if ! check_student $s $texfiles "\\\\tableofcontents"; then
-    echo "No table of contents found."
-  fi
-  if ! check_student $s $texfiles "\\\\begin{(.*figure|table)}"; then
-    echo "No figure found. Hint: an image is not a figure,"
-    echo "but a figure can contain an image."
-  fi
-  if ! check_student $s $texfiles "\\\[a-z\]*cite"; then
-    echo "No citation found."
-  fi
-  if ! check_student $s $texfiles "\\\\.*lst(input)?listing"; then
-    echo "No listing found."
+  else
+    if ! check_student $s $texfiles "documentclass"; then
+      echo "No document class found."
+    fi
+    if ! check_student $s $texfiles "\\\\title"; then
+      echo "No title found."
+    fi
+    if ! check_student $s $texfiles "\\\\maketitle"; then
+      echo "No title page generated."
+    fi
+    if ! check_student $s $texfiles "\\\\tableofcontents"; then
+      echo "No table of contents found."
+    fi
+    if ! check_student $s $texfiles "\\\\begin{(.*figure|table)}"; then
+      echo "No figure found. Hint: an image is not a figure,"
+      echo "but a figure can contain an image."
+    fi
+    if ! check_student $s $texfiles "\\\[a-z\]*cite"; then
+      echo "No citation found."
+    fi
+    if ! check_student $s $texfiles "\\\\.*lst(input)?listing"; then
+      echo "No listing found."
+    fi
   fi
 
   rm -f $texfiles
