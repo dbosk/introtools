@@ -1,18 +1,18 @@
 .PHONY: all
-all: grade.mk grade.pdf
+all: grade.sh grade.pdf
 
-grade.pdf: grade.mk.nw
+grade.pdf: grade.sh.nw
 	${NOWEAVE.pdf}
 
-grade.mk: grade.mk.nw
+grade.sh: grade.sh.nw
 	${NOTANGLE.mk}
+	chmod +x grade.sh
 
 .PHONY: clean
 clean:
-	${RM} grade.mk grade.pdf
+	${RM} grade.sh grade.pdf
 	${RM} grade.aux grade.fdb_latexmk grade.fls grade.log grade.tex
 
-include grade.mk
 
 INCLUDE_MAKEFILES=../../../makefiles
 include ${INCLUDE_MAKEFILES}/noweb.mk

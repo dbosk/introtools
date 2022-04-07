@@ -1,150 +1,155 @@
-Now we should grade the LaTeX assignment.
+We want to grade the \emph{Writing a report in LaTeX} assignment.
+The students should add a \LaTeX{} report to their designated repo.
+In short, the instructions is: Write a short document (article, using the 
+article document class) in LaTeX with the following requirements: it must 
+contain a title, a table of contents, a figure, a citation with a reference, a 
+listing (using the listings package) that contains your command line history 
+(the output of the history command).
 
-We will use the [[canvas]] command to report the grades.
-This must be installed from
+We will use the [[canvas]] command to report the grades. This must be installed 
+from
 \begin{center}
   \texttt{https://github.com/dbosk/canvasy}.
 \end{center}
 
-We will use the [[repobee]] command to clone the repos containing the LaTeX 
-reports.
-This must be installed from
-\begin{center}
-  \texttt{https://repobee.org}.
-\end{center}
-
-We'll do this is the form of a shell script.
+We will do this as a shell script.
 <<grade.sh>>=
 #!/bin/bash
 # This file is generated from grade.sh.nw
-<<variables>>
-<<functions>>
-
-<<set up students to grade>>
+<<configuration variables>>
+<<function returning students to grade>>
+<<find F:ed assignments>>
 <<clone repos>>
-<<grade remaining students>>
+<<check dates on repos>>
+<<generate grade and feedback>>
+<<grade students>>
+@
+
+\section{Settings}
+
+We need a few variables as settings.
+We must set the course code (Canvas) and the organization (GitHub).
+We set them in one string, colon separated.
+<<configuration variables>>=
+COURSE_CODE="DD1301HT20:datintro20"
+COURSE_CODE="${COURSE_CODE} DD1301HT21:datintro21"
+COURSE_CODE="${COURSE_CODE} DD1337HT21:dd1337-ht21-intro"
+@
+We must set the [[ASSIGNMENT]] variable. This is a regular expression.
+<<configuration variables>>=
+ASSIGNMENT="(Writing a report in LaTeX)"
 @
 
 
-\section{Setup}
+\section{Students to grade}
 
-We need to know the course code and the assignment name.
-We set these as variables in the [[<<variables>>]] block.
-<<variables>>=
-COURSE_CODE=DD1301HT201
-ASSIGNMENT="LaTeX"
+We will construct a function that returns a list of students who need grading 
+for a given assignment.
+However, we only want to grade those who have never submitted before and those 
+who have updated their repo since the last grading.
+
+This function will take the course code as first argument, the assignment title 
+as the second.
+It will return a list that will contain their Canvas ID (first column) and 
+their KTH username (second column).
+<<function returning students to grade>>=
+students_to_grade() {
+  local students=$(mktemp)
+
+  canvas users -sc "${1}" 2> /dev/null | cut -f 1,2 | sort -k 1 | \
+    sed "s/@kth.se//" > ${students}
+
+  canvas submissions -c "${1}" -a "${2}" | grep -v P | \
+    cut -f 1 | sort | join -t $'\t' ${students} -
+
+  rm ${students}
+}
 @
 
-We will keep students who must be graded in [[students-to-grade.tsv]].
-Once we've reported them to Canvas, we can remove them from that list.
-If this list already exists, we will not create a new one.
-This allows us to resume state.
-<<set up students to grade>>=
-[ -e ${STUDENTS_TO_GRADE} ] || \
-  get_students_to_grade  > ${STUDENTS_TO_GRADE}
-@
-<<variables>>=
-STUDENTS_TO_GRADE=students-to-grade.tsv
-@
+We want to find out which repos have been graded before and at what time.
+This function takes the course as first argument, assignment as the second; it 
+returns the student Canvas identifier (first column), student KTH identifier 
+(second column) and a time stamp of last grading (all zeroes for those who 
+haven't been graded before, third column).
+<<find F:ed assignments>>=
+students_with_grading_time() {
+  local submission_times=$(mktemp)
 
-We will get the list of students to grade from Canvas.
-This list will contain their Canvas ID (first column) and their KTH username 
-(second column).
-<<functions>>=
-function get_students_to_grade() {
-  canvas users -c ${COURSE_CODE} -s | cut -f 1,2
+  canvas submissions -c "$1" -a "$2" | \
+    grep -v P | cut -f 1,3 | sort -k 1 | sed "s/None/0000-00-00/" \
+      > $submission_times
+
+  students_to_grade "$1" "$2" | sort -k 1 | join -t $'\t' - $submission_times \
+    | sort -k 1 -u
+
+  rm $submission_times
 }
 @
 
 
 \section{Clone repos}
 
-The LaTeX reports that we should grade are found in repos on KTH GitHub, in the 
-datintro20 organization:
-\begin{center}
-  \texttt{https://gits-15.sys.kth.se/dd1337-ht20-intro}.
-\end{center}
-We'll use [[repobee]] to clone those repos in to a directory named [[repos]].
-However, if that directory already exists, we will not clone again.
-This allows us to resume state.
+The LaTeX reports that we should grade are found in repos on KTH GitHub.
+We'll use [[repobee]] to clone those repos to a temporary directory.
+The first argument to the function is the GitHub organization name.
+The remaining arguments are the students' usernames.
+The function returns the path to the cloned repos.
 <<clone repos>>=
-[ -d repos ] || \
-  clone_repos
-@
-<<functions>>=
-function clone_repos() {
-  mkdir -p repos
-  cut -f 2 ${STUDENTS_TO_GRADE} | \
-    sed "s/@kth.se//" > repos/${STUDENTS_TO_GRADE}
-  (cd repos && \
+clone_repos() {
+  local org=$1; shift
+  local repos=$(mktemp -d)
+  local students=$(mktemp)
+
+  mkdir -p $repos
+
+  for s in $*; do
+    echo $s >> $students
+  done
+
+  (cd $repos && \
     repobee repos clone -qq \
-      --sf ${STUDENTS_TO_GRADE} -o ${GH_ORG} --discover-repos)
+      --sf $students -o $org --discover-repos)
+
+  rm $students
+
+  echo $repos
 }
 @
-<<variables>>=
-GH_ORG=datintro20
-@
 
 
-\section{Grading}
+\section{Check dates on repos}
 
-To grade, we iterate through the remaining students.
-We check if the student has solved the assignment and generate some feedback.
-We grade the student and provide the feedback, remove it from the list and 
-continue to the next student.
-We use the file [[${GRADED_STUDENTS}]] as a log.
-<<grade remaining students>>=
-date -Iseconds >> ${GRADED_STUDENTS}
-for s in $(cat ${STUDENTS_TO_GRADE} | cut -f 2 | sed "s/@kth.se//");
-do
-  <<check the repo, set grade variable>>
-  canvas grade -c "${COURSE_CODE}" -a "${ASSIGNMENT}" \
-    -u $(egrep "[^a-z]$s([^a-z]|$)" ${STUDENTS_TO_GRADE} | cut -f 1) \
-    -g ${grade} \
-    -m "$(read_feedback $s)" || exit 1
-  echo $s $grade >> ${GRADED_STUDENTS}
-  read_feedback $s >> ${GRADED_STUDENTS}
-  clean_feedback $s
-  <<if failed, add to list for regrading>>
-  sed -i "/[^a-z]$s\([^a-z]\|$\)/d" ${STUDENTS_TO_GRADE}
-done
-@ We must set the [[ASSIGNMENT]] and [[STUDENTS_TO_REGRADE]] variables.
-We will set it to a regular expression matching both terminal assignments.
-<<variables>>=
-STUDENTS_TO_REGRADE=students-to-regrade.tsv
-GRADED_STUDENTS=graded-students.md
-@
+Now we must check the date of the last change to the repo and compare to when 
+we graded it the last time.
+If the repo is newer, it should be graded.
 
-Students who failed should be regraded later.
-However, we only want to regrade them once they've updated their repo.
-We'll use the timestamp in their repo to check if anything has happened.
-So we store the timestamp of the latest commit.
-<<if failed, add to list for regrading>>=
-if [ $grade -lt 1 ]; then
-  echo -e "$(egrep "[^a-z]$s([^a-z]|$)" ${STUDENTS_TO_GRADE})\t$(git -C repos/$s log -1 --format=\%cI)" \
-      >> ${STUDENTS_TO_REGRADE}
-fi
+The function takes the path to the downloaded repos as first parameter.
+It reads the students with times stamps from standard input.
+It then outputs only those who should be graded.
+<<check dates on repos>>=
+students_to_actually_grade() {
+  local students_w_times=$(cat)
+  local repos=$1
+
+  for s in $(echo "$students_w_times" | cut -f 2); do
+    time=$(echo "$students_w_times" | egrep "[^a-z]$s[^a-z]" | cut -f 3)
+
+    for r in $(find $repos/$s -mindepth 1 -maxdepth 1 -type d 2>/dev/null); do
+      if [[ "$time" < "$(git -C $r log -1 --format=\%cI 2>/dev/null)" ]]; then
+        echo $s
+      fi
+    done
+  done
+}
 @
 
 
 \section{Feedback and checking their repo}
 
-We add a set of functions to deal with feedback.
-The [[add_feedback]] function adds feedback to the student's feedback file,
-[[read_feedback]] reads it out and [[clean_feedback]] removes the feedback 
-file.
-We will put any feedback into the [[feedback-<user>.md]] file.
-<<functions>>=
-function add_feedback() {
-  echo ${@:2} >> feedback-$1.md
-}
-function read_feedback() {
-  [ -e feedback-$1.md ] && cat feedback-$1.md
-}
-function clean_feedback() {
-  rm -f feedback-$1.md
-}
-@
+We provide a function [[generate_feedback]].
+It takes the path to a repo.
+Its output is the feedback for the student.
+If the feedback is zero, the student passes.
 
 We must check the repo for the required parts in the LaTeX report.
 The requirements specifies
@@ -158,54 +163,153 @@ The requirements specifies
 We will search for a [[.tex]] file and simply grep(1) that file for the 
 requirements.
 Then we look through all files for the [[history]] command.
-<<check the repo, set grade variable>>=
-[ -d repos/$s ] || continue
-grade=1
-find repos/$s -type f -name \*.tex > texfiles-$s
-if ! [ $(wc -l texfiles-$s | cut -f 1 -d " ") -gt 0 ]; then
-  grade=0 && add_feedback $s no tex files found
-fi
-if ! check_student $s texfiles-$s "documentclass"; then
-  grade=0 && add_feedback $s no documentclass found
-fi
-if ! check_student $s texfiles-$s "\\\\title"; then
-  grade=0 && add_feedback $s no title found
-fi
-if ! check_student $s texfiles-$s "\\\\maketitle"; then
-  grade=0 && add_feedback $s no title page generated
-fi
-if ! check_student $s texfiles-$s "\\\\tableofcontents"; then
-  grade=0 && add_feedback $s no table of contents found
-fi
-if ! check_student $s texfiles-$s "\\\\begin{(.*figure|table)}"; then
-  grade=0 && add_feedback $s no figure found
-fi
-if ! check_student $s texfiles-$s "\\\[a-z\]*cite"; then
-  grade=0 && add_feedback $s no citation found
-fi
-if ! check_student $s texfiles-$s "\\\\.*lst(input)?listing"; then
-  grade=0 && add_feedback $s no listing found
-fi
-rm -f texfiles-$s
-find repos/$s -type f > allfiles-$s
-if ! check_student $s allfiles-$s "history"; then
-  grade=0
-  add_feedback $s no history found
-fi
-rm -f allfiles-$s
+<<generate grade and feedback>>=
+generate_feedback() {
+  local texfiles=$(mktemp)
+
+  find "$1" -type f -name \*.tex > $texfiles
+
+  if ! [ $(wc -l $texfiles | cut -f 1 -d " ") -gt 0 ]; then
+    echo "No LaTeX files found. Make sure that you commit the source file."
+    echo "We don't care about the PDF, with the source files we can build"
+    echo "that one by ourselves."
+    echo
+  else
+    if ! check_student $s $texfiles "documentclass"; then
+      echo "No document class found:"
+      echo "See the first video lecture (Video: Intro to LaTeX) from"
+      echo "https://daniel.bosk.se/introtools/modules/latex/latex"
+      echo "and read Lesson 5 from LearnLaTeX"
+      echo "https://www.learnlatex.org/en/lesson-05"
+      echo
+    fi
+    if ! check_student $s $texfiles "\\\\title"; then
+      echo "No title found:"
+      echo "See the first video lecture (Video: Intro to LaTeX) from"
+      echo "https://daniel.bosk.se/introtools/modules/latex/latex"
+      echo
+    fi
+    if ! check_student $s $texfiles "\\\\maketitle"; then
+      echo "No title page generated:"
+      echo "See the first video lecture (Video: Intro to LaTeX) from"
+      echo "https://daniel.bosk.se/introtools/modules/latex/latex"
+      echo
+    fi
+    if ! check_student $s $texfiles "\\\\tableofcontents"; then
+      echo "No table of contents found:"
+      echo "See the first video lecture (Video: Intro to LaTeX) from"
+      echo "https://daniel.bosk.se/introtools/modules/latex/latex"
+      echo
+    fi
+    if ! check_student $s $texfiles "\\\\begin{(.*figure|table)}"; then
+      echo "No figure found:"
+      echo "Hint: an image is not a figure, but a figure can contain an image."
+      echo "See the fourth video lecture (Video: Figures and Tables) from"
+      echo "https://daniel.bosk.se/introtools/modules/latex/latex"
+      echo "and read Lesson 7 from LearnLaTeX"
+      echo "https://www.learnlatex.org/en/lesson-07"
+      echo "particularly about floats."
+      echo
+    fi
+    if ! check_student $s $texfiles "\\\[a-z\]*cite"; then
+      echo "No citation found:"
+      echo "See the second video lecture (Video: References/Bibliography) from"
+      echo "https://daniel.bosk.se/introtools/modules/latex/latex"
+      echo "and read Lesson 12 from LearnLaTeX"
+      echo "https://www.learnlatex.org/en/lesson-12"
+      echo
+    fi
+    if ! check_student $s $texfiles "\\\\.*lst(input)?listing"; then
+      echo "No listing found:"
+      echo "See the documentation of the listings package linked in the"
+      echo "assessment section of"
+      echo "https://daniel.bosk.se/introtools/modules/latex/latex"
+      echo
+    fi
+  fi
+
+  rm -f $texfiles
+
+  local allfiles=$(mktemp)
+
+  find "$1" -type f > $allfiles
+  if ! check_student $s $allfiles "history"; then
+    echo "No command-line history found:"
+    echo "See the requirements in the assessment section of"
+    echo "https://daniel.bosk.se/introtools/modules/latex/latex"
+    echo "and the assessment section of The Terminal assignment"
+    echo "https://daniel.bosk.se/introtools/modules/terminal/terminal"
+    echo
+  fi
+
+  rm -f $allfiles
+}
 @
 
 The [[check_student]] function will grep(1) the files for the provided regex.
 It will print and return false if the test failed.
-<<functions>>=
-function check_student() {
+<<generate grade and feedback>>=
+check_student() {
   cat "$2" | xargs -d "\n" egrep "$3" > /dev/null
   if [ $? = 0 ]; then
     true
   else
-    echo "$1 failed $3"
     false
   fi
 }
+@
+
+
+\section{Grading}
+
+To grade, we iterate through the remaining students, given by 
+[[students_to_actually_grade]].
+We run [[canvas]] as a background job, since it's so slow.
+However, we need a small delay to not run into Canvas' DoS protection.
+<<grade students>>=
+grade_students() {
+  local assignm="$1"; shift
+
+  for course in $*; do
+    local canvas=$(echo $course | cut -f 1 -d :)
+    local github=$(echo $course | cut -f 2 -d :)
+
+    local students_w_times=$(students_with_grading_time "$canvas" "$assignm")
+
+    local repos=$(clone_repos $github $(echo "$students_w_times" | cut -f 2))
+
+    local students=$(echo "$students_w_times" | \
+      students_to_actually_grade $repos)
+
+    for s in $students; do
+      local feedback=$(generate_feedback $repos/$s)
+
+      if [[ $(echo -n "$feedback" | wc -c) -gt 0 ]]; then
+        echo "$s (attempted latex)"
+
+        canvas grade -c "${canvas}" -a "${assignm}" \
+          -u $(echo "$students_w_times" | \
+            egrep "[^a-z]$s([^a-z]|$)" | cut -f 1) \
+          -g F \
+          -m "$feedback" &
+      else
+        echo "$s (latex)"
+
+        canvas grade -c "${canvas}" -a "${assignm}" \
+          -u $(echo "$students_w_times" | \
+            egrep "[^a-z]$s([^a-z]|$)" | cut -f 1) \
+          -g P &
+      fi
+
+      sleep 0.2
+    done
+
+    rm -Rf $repos
+  done
+
+  wait
+}
+
+grade_students "${ASSIGNMENT}" ${COURSE_CODE}
 @
 

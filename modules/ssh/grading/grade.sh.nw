@@ -15,7 +15,7 @@ We will do this as a shell script.
 <<grade.sh>>=
 #!/bin/bash
 # This file is generated from grade.sh.nw
-<<variables>>
+<<configuration variables>>
 <<set up students to grade>>
 <<get last(1) output from student-shell>>
 <<grade remaining students>>
@@ -25,20 +25,19 @@ We will do this as a shell script.
 
 We need a few variables as settings.
 We must set the course code. This is a regular expression.
-<<variables>>=
+<<configuration variables>>=
 COURSE_CODE="DD1301HT20 DD1301HT21 DD1337HT21"
 @
 We must set the [[ASSIGNMENT]] variable. This is a regular expression.
-<<variables>>=
+<<configuration variables>>=
 ASSIGNMENT="(Guide to accessing the terminal)"
 @
 
 
 \section{Students to grade}
 
-We will keep students who must be graded in [[students-to-grade.tsv]].
-The students who must be graded are those who hasn't already passed the 
-assignment.
+We will construct a function that returns a list of students who need grading 
+for a given assignment.
 
 This function will take the course code as first argument, the assignment title 
 as the second.
@@ -48,7 +47,7 @@ This list will contain their Canvas ID (first column) and their KTH username
 students_to_grade() {
   local students=$(mktemp)
 
-  canvas users -sc "${1}" | cut -f 1,2 | sort -k 1 | \
+  canvas users -sc "${1}" 2> /dev/null | cut -f 1,2 | sort -k 1 | \
     sed "s/@kth.se//" > ${students}
 
   canvas submissions -c "${1}" -a "${2}" | grep -v P | \
@@ -76,7 +75,8 @@ students_that_signed_in() {
   for shell in student-shell-1 student-shell-2 student-shell-3; do
     local wtmp_dir=$(mktemp -d)
 
-    scp ${shell}.sys.kth.se:/var/log/wtmp\* ${wtmp_dir} 2> /dev/null
+    scp_out=$(scp ${shell}.sys.kth.se:/var/log/wtmp\* ${wtmp_dir} 2>&1) || \
+      (echo $scp_out; exit 1)
 
     for f in ${wtmp_dir}/*; do
       last -f $f
@@ -112,11 +112,20 @@ grade_students() {
     students_to_grade "${course}" "${assignment}" > ${students}
 
     for s in $(cat ${students} | cut -f 2); do
-      grep "^$s\$" ${signed_in} || continue
+      grep "^$s\$" ${signed_in} > /dev/null || continue
+
+      echo "$s (ssh)"
+
       canvas grade -c "${course}" -a "${assignment}" \
         -u $(grep $s ${students} | cut -f 1) -g P &
+
+      sleep 0.1
     done
+
+    rm -Rf ${students}
   done
+
+  rm ${signed_in}
 
   wait
 }

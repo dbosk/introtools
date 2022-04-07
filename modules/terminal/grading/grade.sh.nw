@@ -1,0 +1,129 @@
+We want to grade the \emph{The terminal} assignment, that is, the students 
+should place a file containing the output of their [[history]] command in 
+[[~/Public/datintro/history.txt]].
+
+We will use the [[canvas]] command to report the grades. This must be installed 
+from
+\begin{center}
+  \texttt{https://github.com/dbosk/canvasy}.
+\end{center}
+
+We will do this as a shell script.
+<<grade.sh>>=
+#!/bin/bash
+# This file is generated from grade.sh.nw
+<<configuration variables>>
+<<function returning students to grade>>
+<<function taking a list of students and returning passes>>
+<<grade students>>
+@
+
+\section{Settings}
+
+We need a few variables as settings.
+We must set the course code. This is a regular expression.
+<<configuration variables>>=
+COURSE_CODE="DD1301HT20 DD1301HT21 DD1337HT21"
+@
+We must set the [[ASSIGNMENT]] variable. This is a regular expression.
+<<configuration variables>>=
+ASSIGNMENT="(The terminal)"
+@
+
+
+\section{Students to grade}
+
+We will construct a function that returns a list of students who need grading 
+for a given assignment.
+
+This function will take the course code as first argument, the assignment title 
+as the second.
+This list will contain their Canvas ID (first column) and their KTH username 
+(second column).
+<<function returning students to grade>>=
+students_to_grade() {
+  local students=$(mktemp)
+
+  canvas users -sc "${1}" 2> /dev/null | cut -f 1,2 | sort -k 1 | \
+    sed "s/@kth.se//" > ${students}
+
+  canvas submissions -c "${1}" -a "${2}" | grep -v P | \
+    cut -f 1 | sort | join -t $'\t' ${students} -
+
+  rm ${students}
+}
+@
+
+
+\section{Get and check the public history files}
+
+We can't [[scp]] each student's file to us and check, that will enable some DoS 
+protection.
+So we must send a list of students to the server and do the checks there, then 
+receive back who passed.
+
+This means that we must run a script on the server.
+We send the script over, then we run it and pass all the students to it.
+It will output the passes only.
+<<function taking a list of students and returning passes>>=
+check_valid_histories() {
+  local script='
+    read students;
+    for s in $students; do
+      dir=$(getent passwd $s | cut -d : -f 6);
+      cat ${dir}/Public/datintro/history.txt 2>/dev/null |
+        egrep " *[0-9]+.* history *>>? *([^ ]+/)?history.txt" > /dev/null &&
+          echo $s;
+    done
+  '
+  local n=$(shuf -i 1-3 -n 1)
+  local scriptname=$(echo $script | ssh student-shell-${n}.sys.kth.se \
+    'read script; fn=$(mktemp); echo $script > $fn; echo $fn' 2> /dev/null)
+
+  echo $* | ssh student-shell-${n}.sys.kth.se /bin/bash ${scriptname} \
+    2> /dev/null
+
+  ssh student-shell-${n}.sys.kth.se rm -Rf ${scriptname} 2> /dev/null
+}
+@
+
+
+\section{Grading}
+
+Now we provide a function [[grade_students]] which takes the assignment name as 
+the first argument (it's a regex passed to [[canvas]]). The remaining arguments 
+constitutes a list of courses.
+
+To grade, we iterate through the remaining students, given by 
+[[students_to_grade]].
+We send the list of students to [[check_valid_histories]], which returns only 
+those who passed.
+Then we can simply report those with [[canvas]].
+We run [[canvas]] in parallel to save time, but we need to add a delay to not 
+run in to Canvas' DoS protection.
+<<grade students>>=
+grade_students() {
+  local assignment="$1"
+  shift
+
+  for course in $*; do
+    local students=$(mktemp)
+    students_to_grade "${course}" "${assignment}" > ${students}
+
+    for s in $(check_valid_histories $(cat ${students} | cut -f 2)); do
+      echo "$s (terminal)"
+
+      canvas grade -c "${course}" -a "${assignment}" \
+        -u $(grep $s ${students} | cut -f 1) -g P &
+
+      sleep 0.1
+    done
+
+    rm ${students}
+  done
+
+  wait
+}
+
+grade_students "${ASSIGNMENT}" ${COURSE_CODE}
+@
