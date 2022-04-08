@@ -5,10 +5,10 @@ The end goal of the guide.md assignment is that the students log into the
 [[student-shell]] system over SSH. We can run a shell script 
 which queries the users who've signed in and simply tick our students off.
 
-We will use the [[canvas]] command to report the grades. This must be installed 
+We will use the [[canvaslms]] command to report the grades. This must be installed 
 from
 \begin{center}
-  \texttt{https://github.com/dbosk/canvasy}.
+  \texttt{https://github.com/dbosk/canvaslms}.
 \end{center}
 
 We will do this as a shell script.
@@ -47,10 +47,10 @@ This list will contain their Canvas ID (first column) and their KTH username
 students_to_grade() {
   local students=$(mktemp)
 
-  canvas users -sc "${1}" 2> /dev/null | cut -f 1,2 | sort -k 1 | \
+  canvaslms users -sc "${1}" 2> /dev/null | cut -f 1,2 | sort -k 1 | \
     sed "s/@kth.se//" > ${students}
 
-  canvas submissions -c "${1}" -a "${2}" | grep -v P | \
+  canvaslms submissions -c "${1}" -a "${2}" | grep -v P | \
     cut -f 1 | sort | join -t $'\t' ${students} -
 
   rm ${students}
@@ -91,7 +91,7 @@ students_that_signed_in() {
 \section{Grading}
 
 Now we provide a function [[grade_students]] which takes the assignment name as 
-the first argument (it's a regex passed to [[canvas]]). The remaining arguments 
+the first argument (it's a regex passed to [[canvaslms]]). The remaining arguments 
 constitutes a list of courses.
 
 To grade, we iterate through the remaining students, given by 
@@ -116,7 +116,7 @@ grade_students() {
 
       echo "$s (ssh)"
 
-      canvas grade -c "${course}" -a "${assignment}" \
+      canvaslms grade -c "${course}" -a "${assignment}" \
         -u $(grep $s ${students} | cut -f 1) -g P &
 
       sleep 0.1
