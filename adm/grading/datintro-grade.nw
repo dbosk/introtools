@@ -11,13 +11,13 @@ USER root
 WORKDIR grader
 
 <<set up SSH in container>>
-<<set up canvas in container>>
+<<set up canvaslms in container>>
 <<set up grade scripts in container>>
 @
 
 Next is building the Docker image.
 <<datintro-grade.mk>>=
-TARGETS=  canvas grade-all.sh
+TARGETS=  grade-all.sh
 TARGETS+= grade-ssh.sh
 
 .PHONY: all
@@ -31,7 +31,6 @@ Dockerfile: datintro-grade.nw
 	${NOTANGLE}
 
 <<generate SSH keys>>
-<<get canvas and modify for container>>
 <<build the grading scripts>>
 
 .PHONY: clean clean-docker
@@ -72,32 +71,18 @@ We don't want to clean these keys.
 
 \section{Set up Canvas}
 
-We need the [[canvas]] command inside the container.
-We must also install [[canvas]]'s Python dependencies.
-For the scripts to be able to use [[canvas]] we must make sure it's on the 
-[[PATH]].
-<<set up canvas in container>>=
-COPY canvas /root/bin/canvas
-ENV PATH="/root/bin:${PATH}"
-RUN pip install --no-cache-dir canvasapi argcomplete && chmod +x /root/bin/canvas
-@
-
-We copy the local [[canvas]] command.
-However, the container runs alpine, so we must change the location of the 
-Python 3 binary.
-<<get canvas and modify for container>>=
-canvas: /usr/local/bin/canvas
-	sed "s;^#\!/.*;#\!/usr/local/bin/python3;" $^ > $@
-
-datintro-grade: canvas
-@
-
-Finally, we do cleaning.
-<<clean targets>>=
-.PHONY: clean-canvas
-clean: clean-canvas
-clean-canvas:
-	${RM} canvas
+We need the [[canvaslms]] command inside the container.
+So we install it using [[pip]].
+Now, since it depends on the [[cryptography]] package, we need to install the 
+dependencies\footnote{%
+  See \texttt{https://stackoverflow.com/a/53562393/1305099}.
+}
+<<set up canvaslms in container>>=
+RUN apk add --no-cache build-base rust cargo \
+  libffi-dev libressl-dev musl-dev libffi-dev && \
+  python3 -m pip install --no-cache-dir canvaslms && \
+  apk del build-base rust cargo \
+    libffi-dev libressl-dev musl-dev libffi-dev
 @
 
 
