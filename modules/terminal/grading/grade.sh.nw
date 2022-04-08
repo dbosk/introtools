@@ -2,10 +2,10 @@ We want to grade the \emph{The terminal} assignment, that is, the students
 should place a file containing the output of their [[history]] command in 
 [[~/Public/datintro/history.txt]].
 
-We will use the [[canvas]] command to report the grades. This must be installed 
+We will use the [[canvaslms]] command to report the grades. This must be installed 
 from
 \begin{center}
-  \texttt{https://github.com/dbosk/canvasy}.
+  \texttt{https://github.com/dbosk/canvaslms}.
 \end{center}
 
 We will do this as a shell script.
@@ -44,10 +44,10 @@ This list will contain their Canvas ID (first column) and their KTH username
 students_to_grade() {
   local students=$(mktemp)
 
-  canvas users -sc "${1}" 2> /dev/null | cut -f 1,2 | sort -k 1 | \
+  canvaslms users -sc "${1}" 2> /dev/null | cut -f 1,2 | sort -k 1 | \
     sed "s/@kth.se//" > ${students}
 
-  canvas submissions -c "${1}" -a "${2}" | grep -v P | \
+  canvaslms submissions -c "${1}" -a "${2}" | grep -v P | \
     cut -f 1 | sort | join -t $'\t' ${students} -
 
   rm ${students}
@@ -91,15 +91,15 @@ check_valid_histories() {
 \section{Grading}
 
 Now we provide a function [[grade_students]] which takes the assignment name as 
-the first argument (it's a regex passed to [[canvas]]). The remaining arguments 
+the first argument (it's a regex passed to [[canvaslms]]). The remaining arguments 
 constitutes a list of courses.
 
 To grade, we iterate through the remaining students, given by 
 [[students_to_grade]].
 We send the list of students to [[check_valid_histories]], which returns only 
 those who passed.
-Then we can simply report those with [[canvas]].
-We run [[canvas]] in parallel to save time, but we need to add a delay to not 
+Then we can simply report those with [[canvaslms]].
+We run [[canvaslms]] in parallel to save time, but we need to add a delay to not 
 run in to Canvas' DoS protection.
 <<grade students>>=
 grade_students() {
@@ -113,7 +113,7 @@ grade_students() {
     for s in $(check_valid_histories $(cat ${students} | cut -f 2)); do
       echo "$s (terminal)"
 
-      canvas grade -c "${course}" -a "${assignment}" \
+      canvaslms grade -c "${course}" -a "${assignment}" \
         -u $(grep $s ${students} | cut -f 1) -g P &
 
       sleep 0.1
