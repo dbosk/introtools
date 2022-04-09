@@ -1,3 +1,25 @@
+\section{Usage}
+
+We need to set use the following setup for the Docker container to work.
+We need the following environment variables:
+\begin{itemize}
+\item [[KRB_USER]] and [[KRB_PASS]] containing the Kerberos username (including 
+@realm) and password for the user to access the SSH servers.
+\item [[CANVAS_SERVER]] and [[CANVAS_TOKEN]] to authenticate the [[canvaslms]] 
+command.
+See [[canvaslms login -h]].
+%\item [[LADOK_USER]] and [[LADOK_PASS]] containing the LADOK username and 
+%password to use.
+%See [[ladok login -h]].
+\end{itemize}
+Then we can run this image like this:
+\begin{verbatim}
+docker run -e KRB_USER -e KRB_PASS \
+  -e CANVAS_SERVER -e CANVAS_TOKEN \
+    datintro-grade:latest
+\end{verbatim}
+
+
 \section{Overview}
 
 We want to build a Docker image to run all the necessary grading in the course.
@@ -10,16 +32,13 @@ FROM repobee/repobee
 USER root
 WORKDIR grader
 
-<<set up SSH in container>>
 <<set up canvaslms in container>>
-<<set up grade scripts in container>>
+<<set up grading scripts in container>>
 @
 
 Next is building the Docker image.
+We use the phony target [[datintro-grade]] for this.
 <<datintro-grade.mk>>=
-TARGETS=  grade-all.sh
-TARGETS+= grade-ssh.sh
-
 .PHONY: all
 all: datintro-grade
 
@@ -30,9 +49,6 @@ datintro-grade: Dockerfile
 Dockerfile: datintro-grade.nw
 	${NOTANGLE}
 
-<<generate SSH keys>>
-<<build the grading scripts>>
-
 .PHONY: clean clean-docker
 clean: clean-docker
 clean-docker:
@@ -41,37 +57,17 @@ clean-docker:
 .PHONY: distclean distclean-docker
 distclean: distclean-docker
 distclean-docker:
-	-docker image rm datintro-grade
+	-docker image rm -f datintro-grade
 
+<<build the grading scripts>>
 <<clean targets>>
 @
 
-\section{Set up SSH}
 
-We need to have SSH inside the container.
-<<set up SSH in container>>=
-RUN apk update && apk add openssh
-COPY config id_rsa id_rsa.pub /root/.ssh/
-@
+\section{Set up \texttt{canvaslms}}
 
-To do this we need the [[Makefile]] to generate the SSH keys.
-When they are generated, we also configure student-shell to accept them.
-<<generate SSH keys>>=
-id_rsa id_rsa.pub:
-	ssh-keygen -f id_rsa -N ""
-	ssh-copy-id -i id_rsa.pub student-shell.sys.kth.se
-
-config: ${HOME}/.ssh/config
-	${CP} $^ $@
-
-datintro-grade: id_rsa id_rsa.pub config
-@
-
-We don't want to clean these keys.
-
-\section{Set up Canvas}
-
-We need the [[canvaslms]] command inside the container.
+We need the [[canvaslms]] command inside the container since the scripts rely 
+heavily on this.
 So we install it using [[pip]].
 Now, since it depends on the [[cryptography]] package, we need to install the 
 dependencies\footnote{%
@@ -91,27 +87,34 @@ RUN apk add --no-cache build-base rust cargo \
 We have a separate grading script for each assignment.
 When we run the container we'd like all those scripts to run, so we create the 
 [[grade-all.sh]] script that runs them all.
-This script will also set up the required SSH agent.
+
+This script will also set up the prerequisites for the individual grading 
+scripts.
+For starters, all scripts requires SSH to be set up with an agent to 
+authenticate using public keys.
 <<grade-all.sh>>=
 #!/bin/bash
 
-eval $(ssh-agent -s)
-ssh-add
+<<initialize SSH authentication for run>>
 
-./grade-ssh.sh &
-
-wait
+./grade-ssh.sh
+./grade-terminal.sh
+./grade-git.sh
+./grade-latex.sh
 @
 
 Now, we must copy all those scripts into the container and set the executable 
 bit.
-These scripts also need the standard commands, which are not included in 
-alpine.
+These scripts also need the standard commands, which are not included in alpine 
+(the base Docker image for RepoBee).
 Then we make sure to execute [[grade-all.sh]] by default when the container is 
 run.
-<<set up grade scripts in container>>=
-COPY grade-all.sh grade-ssh.sh ./
-RUN chmod +x grade-all.sh grade-ssh.sh
+<<set up grading scripts in container>>=
+<<set up SSH in container>>
+
+COPY grade-all.sh grade-ssh.sh grade-terminal.sh grade-git.sh grade-latex.sh ./
+RUN chmod +x grade-all.sh grade-ssh.sh grade-terminal.sh \
+  grade-git.sh grade-latex.sh
 
 RUN apk update && apk add util-linux coreutils findutils grep binutils acct
 
@@ -125,12 +128,18 @@ grade-all.sh: datintro-grade.nw
 	${NOTANGLE.sh}
 
 grade-ssh.sh: ../../modules/ssh/grading/grade.sh
+grade-terminal.sh: ../../modules/terminal/grading/grade.sh
+grade-git.sh: ../../modules/git/grading/grade.sh
+grade-latex.sh: ../../modules/latex/grading/grade.sh
+
+grade-ssh.sh grade-terminal.sh grade-git.sh grade-latex.sh:
 	${CP} $^ $@
 
 ../%:
 	${MAKE} -C $(dir $@) $(notdir $@)
 
-datintro-grade: grade-all.sh grade-ssh.sh
+datintro-grade: grade-all.sh
+datintro-grade: grade-ssh.sh grade-terminal.sh grade-git.sh grade-latex.sh
 @
 
 Finally, we add some cleaning.
@@ -139,6 +148,43 @@ Finally, we add some cleaning.
 clean: clean-scripts
 clean-scripts:
 	${RM} grade-all.sh
-	${RM} grade-ssh.sh
+	${RM} grade-ssh.sh grade-terminal.sh grade-git.sh grade-latex.sh
+
+.PHONY: distclean-scripts
+distclean: distclean-scripts
+distclean-scripts:
+	${MAKE} -C ../../modules/ssh/grading clean distclean
+	${MAKE} -C ../../modules/terminal/grading clean distclean
+	${MAKE} -C ../../modules/git/grading clean distclean
+	${MAKE} -C ../../modules/latex/grading clean distclean
 @
 
+
+\section{Set up SSH}
+
+We need to have SSH inside the container.
+Since we want to interact with KTH systems, we also need Kerberos.
+Then we want to have server specific configuration (the [[config]] file).
+<<set up SSH in container>>=
+RUN apk update && apk add openssh heimdal
+COPY config /root/.ssh/
+@
+
+To do this we need the [[Makefile]] to build the [[config]] file.
+<<generate SSH keys>>=
+config: ${HOME}/.ssh/config
+	${CP} $^ $@
+
+datintro-grade: config
+@
+
+To set up the Kerberos authentication, we simply take the credentials from the 
+environment.
+<<initialize SSH authentication for run>>=
+krb_pass_file=$(mktemp)
+
+echo $KRB_PASS > $krb_pass_file
+kinit -f --password-file=$krb_pass_file $KRB_USER
+
+rm $krb_pass_file
+@
