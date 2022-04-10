@@ -3,8 +3,7 @@ We will do this for all course rounds and continue to do it, since we have
 automated all the grading.
 We must thus map course round (on Canvas) to course round on gits-15.
 <<gits-setup.sh>>=
-ROUND_MAP+="DD1301HT201:datintro20 "
-ROUND_MAP+="DD1301HT21:datintro21 "
+ROUND_MAP+="DD1301HT22:datintro22 "
 
 extract_users() {
   round=${1}
@@ -33,8 +32,10 @@ Now we can fetch the users using the [[canvaslms]] command.
 canvaslms users -c "${round}" | cut -f 2 | sed "s/@kth.se//"
 @
 
-We can create teams and add the students using [[repobee]].
+We can create repos, teams and add the students using [[repobee]].
+We use the [[inda-master/datintro]] repo as a template repo.
+The assignment is simply called [[datintro]] since all assignments are done in 
+the same repo.
 <<add users to teams for round>>=
-repobee teams create -qq --org-name ${org} --sf ${users}
+repobee repos setup -qq -a datintro -o ${org} --sf ${users} --to inda-master
 @
-
