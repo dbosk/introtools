@@ -1,0 +1,40 @@
+We need to add the students to the organization on gits-15.
+We will do this for all course rounds and continue to do it, since we have 
+automated all the grading.
+We must thus map course round (on Canvas) to course round on gits-15.
+<<gits-setup.sh>>=
+ROUND_MAP+="DD1301HT201:datintro20 "
+ROUND_MAP+="DD1301HT21:datintro21 "
+
+extract_users() {
+  round=${1}
+  <<print users for round to stdout>>
+}
+
+add_to_org() {
+  org=${1}
+  users=${2}
+  <<add users to teams for round>>
+}
+
+for round in ${ROUND_MAP}; do
+  canvas_id=$(echo $round | cut -d: -f 1)
+  gits_id=$(echo $round | cut -d: -f 2)
+
+  users=$(mktemp)
+  extract_users ${canvas_id} > ${users}
+  add_to_org ${gits_id} ${users}
+  rm $users
+done
+@
+
+Now we can fetch the users using the [[canvaslms]] command.
+<<print users for round to stdout>>=
+canvaslms users -c "${round}" | cut -f 2 | sed "s/@kth.se//"
+@
+
+We can create teams and add the students using [[repobee]].
+<<add users to teams for round>>=
+repobee teams create -qq --org-name ${org} --sf ${users}
+@
+
