@@ -1,7 +1,4 @@
-SUBDIR+= 	overview
-SUBDIR+= 	terminal
-SUBDIR+= 	collaboration
-SUBDIR+= 	latex
+SUBDIR+= 	modules
 
 INCLUDE_MAKEFILES=./makefiles
 include ${INCLUDE_MAKEFILES}/subdir.mk
