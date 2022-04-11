@@ -1,0 +1,22 @@
+We create an include file, [[common.sh]], to be included in other grading 
+scripts.
+<<common.sh>>=
+<<set up students to grade>>
+@
+
+
+\section{Students to grade}
+
+We will construct a function that returns a list of students who need grading 
+for a given assignment.
+
+This function will take the course code as first argument, the assignment title 
+as the second.
+The output will be a list of KTH usernames, that is without @kth.se at the end.
+<<set up students to grade>>=
+students_to_grade() {
+  canvaslms submissions -l -c "${1}" -a "${2}" | grep -v P | \
+    cut -f 3 | sed "s/@kth.se//"
+}
+@
+
