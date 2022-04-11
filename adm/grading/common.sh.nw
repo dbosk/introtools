@@ -9,14 +9,30 @@ scripts.
 
 We will construct a function that returns a list of students who need grading 
 for a given assignment.
+This is based entirely on the grade (or lack of grade).
+However, we also want to provide a function that returns the students to grade 
+with the time of the latest submission (or rather grading time).
 
-This function will take the course code as first argument, the assignment title 
-as the second.
+The first function will take the course code as first argument, the assignment 
+title as the second.
 The output will be a list of KTH usernames, that is without @kth.se at the end.
 <<set up students to grade>>=
 students_to_grade() {
   canvaslms submissions -l -c "${1}" -a "${2}" | grep -v P | \
     cut -f 3 | sed "s/@kth.se//"
+}
+@
+
+For the second function, we want to find out which repos have been graded 
+before and at what time.
+This function takes the course as first argument, assignment as the second; it 
+returns the student Canvas identifier (first column), student KTH identifier 
+(second column) and a time stamp of last grading (all zeroes for those who 
+haven't been graded before, third column).
+<<find F:ed assignments>>=
+students_with_grading_time() {
+  canvaslms submissions -l -c "$1" -a "$2" | \
+    grep -v P | cut -f 3,6 | sed "s/None/0000-00-00/" | sed "s/@kth.se//"
 }
 @
 
