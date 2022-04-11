@@ -74,7 +74,7 @@ dependencies\footnote{%
   See \texttt{https://stackoverflow.com/a/53562393/1305099}.
 }
 <<set up canvaslms in container>>=
-RUN apk add --no-cache build-base rust cargo \
+RUN apk update && apk add --no-cache build-base rust cargo \
   libffi-dev libressl-dev musl-dev && \
   python3 -m pip install --no-cache-dir canvaslms && \
   apk del build-base rust cargo \
