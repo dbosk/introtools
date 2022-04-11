@@ -1,0 +1,98 @@
+We create an include file, [[common.sh]], to be included in other grading 
+scripts.
+<<common.sh>>=
+<<function returning students to grade>>
+<<function returning students to grade with last grading time>>
+<<clone repos>>
+<<check dates on repos>>
+@
+
+
+\section{Students to grade}
+
+We will construct a function that returns a list of students who need grading 
+for a given assignment.
+This is based entirely on the grade (or lack of grade).
+However, we also want to provide a function that returns the students to grade 
+with the time of the latest submission (or rather grading time).
+
+The first function will take the course code as first argument, the assignment 
+title as the second.
+The output will be a list of KTH usernames, that is without @kth.se at the end.
+<<function returning students to grade>>=
+students_to_grade() {
+  canvaslms submissions -l -c "${1}" -a "${2}" | grep -v P | \
+    cut -f 3 | sed "s/@kth.se//"
+}
+@
+
+For the second function, we want to find out which repos have been graded 
+before and at what time.
+This function takes the course as first argument, assignment as the second; it 
+returns the student Canvas identifier (first column), student KTH identifier 
+(second column) and a time stamp of last grading (all zeroes for those who 
+haven't been graded before, third column).
+<<function returning students to grade with last grading time>>=
+students_with_grading_time() {
+  canvaslms submissions -l -c "$1" -a "$2" | \
+    grep -v P | cut -f 3,6 | sed "s/None/0000-00-00/" | sed "s/@kth.se//"
+}
+@
+
+
+\section{Clone repos}
+
+The LaTeX reports that we should grade are found in repos on KTH GitHub.
+We'll use [[repobee]] to clone those repos to a temporary directory.
+The first argument to the function is the GitHub organization name.
+The remaining arguments are the students' usernames.
+The function returns the path to the cloned repos.
+<<clone repos>>=
+clone_repos() {
+  local org=$1; shift
+  local repos=$(mktemp -d)
+  local students=$(mktemp)
+
+  mkdir -p $repos
+
+  for s in $*; do
+    echo $s >> $students
+  done
+
+  (cd $repos && \
+    repobee repos clone -qq \
+      --sf $students -o $org --discover-repos)
+
+  rm $students
+
+  echo $repos
+}
+@
+
+
+\section{Check dates on repos}
+
+Now we must check the date of the last change to the repo and compare to when 
+we graded it the last time.
+If the repo is newer, it should be graded.
+
+The function takes the path to the downloaded repos as first parameter.
+It reads the students with times stamps from standard input.
+It then outputs only those who should be graded.
+<<check dates on repos>>=
+students_to_actually_grade() {
+  local students_w_times=$(cat)
+  local repos=$1
+
+  for s in $(echo "$students_w_times" | cut -f 1); do
+    time=$(echo "$students_w_times" | egrep "^$s[^a-z0-9]" | cut -f 2)
+
+    for r in $(find $repos/$s -mindepth 1 -maxdepth 1 -type d 2>/dev/null); do
+      if [[ "$time" < "$(git -C $r log -1 --format=\%cI 2>/dev/null)" ]]; then
+        echo $s
+      fi
+    done
+  done
+}
+@
+
