@@ -1,0 +1,13 @@
+Dockerfile
+datintro-grade.mk
+git/
+grade-all.sh
+latex/
+grade-ssh.sh
+grade-git.sh
+grade-latex.sh
+grade-terminal.sh
+id_rsa
+id_rsa.pub
+datintro-grade.pdf
+datintro-grade.tex

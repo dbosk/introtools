@@ -2,18 +2,21 @@ We want to grade the \emph{The terminal} assignment, that is, the students
 should place a file containing the output of their [[history]] command in 
 [[~/Public/datintro/history.txt]].
 
-We will use the [[canvas]] command to report the grades. This must be installed 
+We will use the [[canvaslms]] command to report the grades. This must be installed 
 from
 \begin{center}
-  \texttt{https://github.com/dbosk/canvasy}.
+  \texttt{https://github.com/dbosk/canvaslms}.
 \end{center}
 
 We will do this as a shell script.
 <<grade.sh>>=
 #!/bin/bash
 # This file is generated from grade.sh.nw
+
 <<configuration variables>>
-<<function returning students to grade>>
+
+source common.sh
+
 <<function taking a list of students and returning passes>>
 <<grade students>>
 @
@@ -31,49 +34,35 @@ ASSIGNMENT="(The terminal)"
 @
 
 
-\section{Students to grade}
-
-We will construct a function that returns a list of students who need grading 
-for a given assignment.
-
-This function will take the course code as first argument, the assignment title 
-as the second.
-This list will contain their Canvas ID (first column) and their KTH username 
-(second column).
-<<function returning students to grade>>=
-students_to_grade() {
-  local students=$(mktemp)
-
-  canvas users -sc "${1}" 2> /dev/null | cut -f 1,2 | sort -k 1 | \
-    sed "s/@kth.se//" > ${students}
-
-  canvas submissions -c "${1}" -a "${2}" | grep -v P | \
-    cut -f 1 | sort | join -t $'\t' ${students} -
-
-  rm ${students}
-}
-@
-
-
 \section{Get and check the public history files}
 
 We can't [[scp]] each student's file to us and check, that will enable some DoS 
 protection.
-So we must send a list of students to the server and do the checks there, then 
-receive back who passed.
+Then we have two options:
+\begin{enumerate}
+\item\label{scriptonserver} We send a list of students to the server, run a 
+script there to do the checks there, then receive back who passed.
+\item\label{getent} We send a list of students to the server, get the paths to 
+the home directory for each student and pass that back.
+The we can access their home directories through AFS.
+\end{enumerate}
+We've tried option \ref{scriptonserver}.
+The downside with this is that it doesn't allow feedback to be posted for the 
+students.
 
-This means that we must run a script on the server.
-We send the script over, then we run it and pass all the students to it.
-It will output the passes only.
-<<function taking a list of students and returning passes>>=
-check_valid_histories() {
+We opt for option \ref{getent}.
+We pass a list of student usernames to the server and return a list containing 
+user:path.
+We first upload a script to the server, then run it passing the list of 
+students through stdin.
+The function takes the list of students as the list of arguments.
+<<function to get home directory>>=
+get_home_directory() {
   local script='
     read students;
     for s in $students; do
       dir=$(getent passwd $s | cut -d : -f 6);
-      cat ${dir}/Public/datintro/history.txt 2>/dev/null |
-        egrep " *[0-9]+.* history *>>? *([^ ]+/)?history.txt" > /dev/null &&
-          echo $s;
+      echo "$s:$dir"
     done
   '
   local n=$(shuf -i 1-3 -n 1)
@@ -87,36 +76,73 @@ check_valid_histories() {
 }
 @
 
+Now we can check the history files.
+We provide a function that takes a list of students, checks the history file of 
+the student, grades the student (and provides feedback) accordingly.
+The feedback is passed through stdout.
+(For now, we don't provide the feedback since we don't check if the student has 
+already gotten the feedback.)
+The grade is indicated by the return value (1 for fail, 0 for pass).
+<<function taking a list of students and returning passes>>=
+<<function to get home directory>>
+
+grade_history_file() {
+  local student=$1
+  local homedir=$2
+
+  if ! [ -d /afs/kth.se/$homedir/Public/datintro ]; then
+    #echo "Can't find datintro directory in directory Public in your home directory."
+    return 1
+  elif ! [ -f /afs/kth.se/$homedir/Public/datintro/history.txt ]; then
+    #echo "Can't find history.txt located in directory Public/datintro in your home directory."
+    return 1
+  elif ! egrep " *[0-9]+.* history *>>? *([^ ]+/)?history.txt" > /dev/null;
+  then
+    #echo "Found Public/datintro/history.txt in your home directory, but it seems to have the wrong format."
+    return 1
+  fi
+}
+@
+
 
 \section{Grading}
 
 Now we provide a function [[grade_students]] which takes the assignment name as 
-the first argument (it's a regex passed to [[canvas]]). The remaining arguments 
-constitutes a list of courses.
+the first argument (it's a regex passed to [[canvaslms]]). The remaining 
+arguments constitutes a list of courses.
 
 To grade, we iterate through the remaining students, given by 
-[[students_to_grade]].
-We send the list of students to [[check_valid_histories]], which returns only 
-those who passed.
-Then we can simply report those with [[canvas]].
-We run [[canvas]] in parallel to save time, but we need to add a delay to not 
-run in to Canvas' DoS protection.
+[[students_to_grade]] (from [[common.sh]]).
+We get the home directories of the students through [[get_home_directory]].
+Then we can iterate through the student--home directory tuples and grade 
+them.
+Depending on the grade we report P or F.
 <<grade students>>=
 grade_students() {
   local assignment="$1"
   shift
 
+  local feedback=$(mktemp)
+
   for course in $*; do
     local students=$(mktemp)
     students_to_grade "${course}" "${assignment}" > ${students}
 
-    for s in $(check_valid_histories $(cat ${students} | cut -f 2)); do
-      echo "$s (terminal)"
+    for student_home in $(get_home_directory $(cat ${students})); do
+      local student=$(echo $student_home | cut -f 1 -d:)
+      local homedir=$(echo $student_home | cut -f 2 -d:)
 
-      canvas grade -c "${course}" -a "${assignment}" \
-        -u $(grep $s ${students} | cut -f 1) -g P &
+      if grade_history_file $student $homedir > $feedback; then
+        echo "$student (terminal)"
 
-      sleep 0.1
+        canvaslms grade -c "${course}" -a "${assignment}" \
+          -u $student@kth.se -g P &
+
+        sleep 0.1
+      elif [ -s $feedback ]; then
+        canvaslms grade -c "${course}" -a "${assignment}" \
+          -u $student@kth.se -g F -m "$(cat $feedback)" &
+      fi
     done
 
     rm ${students}

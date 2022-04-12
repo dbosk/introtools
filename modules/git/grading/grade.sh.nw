@@ -2,10 +2,10 @@ We want to grade the \emph{Git} assignment.
 The students should add a file and change an already existing file in their 
 designated repo.
 
-We will use the [[canvas]] command to report the grades. This must be installed 
+We will use the [[canvaslms]] command to report the grades. This must be installed 
 from
 \begin{center}
-  \texttt{https://github.com/dbosk/canvasy}.
+  \texttt{https://github.com/dbosk/canvaslms}.
 \end{center}
 
 We will do this as a shell script.
@@ -13,10 +13,7 @@ We will do this as a shell script.
 #!/bin/bash
 # This file is generated from grade.sh.nw
 <<configuration variables>>
-<<function returning students to grade>>
-<<find F:ed assignments>>
-<<clone repos>>
-<<check dates on repos>>
+<<common functions>>
 <<generate grade and feedback>>
 <<grade students>>
 @
@@ -37,106 +34,18 @@ ASSIGNMENT="^(Git|Using Git)$"
 @
 
 
-\section{Students to grade}
+\section{Common functions}
 
-We will construct a function that returns a list of students who need grading 
-for a given assignment.
-However, we only want to grade those who have never submitted before and those 
-who have updated their repo since the last grading.
-
-This function will take the course code as first argument, the assignment title 
-as the second.
-It will return a list that will contain their Canvas ID (first column) and 
-their KTH username (second column).
-<<function returning students to grade>>=
-students_to_grade() {
-  local students=$(mktemp)
-
-  canvas users -sc "${1}" 2> /dev/null | cut -f 1,2 | sort -k 1 | \
-    sed "s/@kth.se//" > ${students}
-
-  canvas submissions -c "${1}" -a "${2}" | grep -v P | \
-    cut -f 1 | sort | join -t $'\t' ${students} -
-
-  rm ${students}
-}
-@
-
-We want to find out which repos have been graded before and at what time.
-This function takes the course as first argument, assignment as the second; it 
-returns the student Canvas identifier (first column), student KTH identifier 
-(second column) and a time stamp of last grading (all zeroes for those who 
-haven't been graded before, third column).
-<<find F:ed assignments>>=
-students_with_grading_time() {
-  local submission_times=$(mktemp)
-
-  canvas submissions -c "$1" -a "$2" | \
-    grep -v P | cut -f 1,3 | sort -k 1 | sed "s/None/0000-00-00/" \
-      > $submission_times
-
-  students_to_grade "$1" "$2" | sort -k 1 | join -t $'\t' - $submission_times \
-    | sort -k 1 -u
-
-  rm $submission_times
-}
-@
-
-
-\section{Clone repos}
-
-The LaTeX reports that we should grade are found in repos on KTH GitHub.
-We'll use [[repobee]] to clone those repos to a temporary directory.
-The first argument to the function is the GitHub organization name.
-The remaining arguments are the students' usernames.
-The function returns the path to the cloned repos.
-<<clone repos>>=
-clone_repos() {
-  local org=$1; shift
-  local repos=$(mktemp -d)
-  local students=$(mktemp)
-
-  mkdir -p $repos
-
-  for s in $*; do
-    echo $s >> $students
-  done
-
-  (cd $repos && \
-    repobee repos clone -qq \
-      --sf $students -o $org --discover-repos)
-
-  rm $students
-
-  echo $repos
-}
-@
-
-
-\section{Check dates on repos}
-
-Now we must check the date of the last change to the repo and compare to when 
-we graded it the last time.
-If the repo is newer, it should be graded.
-
-The function takes the path to the downloaded repos as first parameter.
-It reads the students with times stamps from standard input.
-It then outputs only those who should be graded.
-<<check dates on repos>>=
-students_to_actually_grade() {
-  local students_w_times=$(cat)
-  local repos=$1
-
-  for s in $(echo "$students_w_times" | cut -f 2); do
-    time=$(echo "$students_w_times" | egrep "[^a-z]$s[^a-z]" | cut -f 3)
-
-    for r in $(find $repos/$s -mindepth 1 -maxdepth 1 -type d 2>/dev/null); do
-      if [[ "$time" < "$(git -C $r log -1 --format=\%cI 2>/dev/null)" ]]; then
-        echo $s
-      fi
-    done
-  done
-}
+We will use the following functions from the [[common.sh]] file as a building 
+block:
+\begin{itemize}
+\item [[students_to_grade]]
+\item [[students_with_grading_time]]
+\item [[clone_repos]]
+\item [[students_to_actually_grade]]
+\end{itemize}
+<<common functions>>=
+source common.sh
 @
 
 
@@ -177,7 +86,7 @@ Good luck!" | diff - $repo/README.md > /dev/null \
 
 To grade, we iterate through the remaining students, given by 
 [[students_to_actually_grade]].
-We run [[canvas]] as a background job, since it's so slow.
+We run [[canvaslms]] as a background job, since it's so slow.
 However, we need a small delay to not run into Canvas' DoS protection.
 <<grade students>>=
 grade_students() {
@@ -189,7 +98,7 @@ grade_students() {
 
     local students_w_times=$(students_with_grading_time "$canvas" "$assignm")
 
-    local repos=$(clone_repos $github $(echo "$students_w_times" | cut -f 2))
+    local repos=$(clone_repos $github $(echo "$students_w_times" | cut -f 1))
 
     local students=$(echo "$students_w_times" | \
       students_to_actually_grade $repos)
@@ -200,18 +109,13 @@ grade_students() {
       if [[ $(echo -n "$feedback" | wc -c) -gt 0 ]]; then
         echo "$s (attempted git)"
 
-        canvas grade -c "${canvas}" -a "${assignm}" \
-          -u $(echo "$students_w_times" | \
-            egrep "[^a-z]$s([^a-z]|$)" | cut -f 1) \
-          -g F \
-          -m "$feedback" &
+        canvaslms grade -c "${canvas}" -a "${assignm}" \
+          -u $s@kth.se -g F -m "$feedback" &
       else
         echo "$s (git)"
 
-        canvas grade -c "${canvas}" -a "${assignm}" \
-          -u $(echo "$students_w_times" | \
-            egrep "[^a-z]$s([^a-z]|$)" | cut -f 1) \
-          -g P &
+        canvaslms grade -c "${canvas}" -a "${assignm}" \
+          -u $s@kth.se -g P &
       fi
 
       sleep 0.2

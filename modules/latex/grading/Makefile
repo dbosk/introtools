@@ -4,9 +4,12 @@ all: grade.sh grade.pdf
 grade.pdf: grade.sh.nw
 	${NOWEAVE.pdf}
 
-grade.sh: grade.sh.nw
+grade.sh: grade.sh.nw common.sh
 	${NOTANGLE.mk}
 	chmod +x $@
+
+common.sh: ../../../adm/grading/common.sh.nw
+	${NOTANGLE}
 
 
 .PHONY: clean
