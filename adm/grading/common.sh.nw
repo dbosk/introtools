@@ -43,10 +43,14 @@ students_with_grading_time() {
 \section{Clone repos}
 
 The LaTeX reports that we should grade are found in repos on KTH GitHub.
-We'll use [[repobee]] to clone those repos to a temporary directory.
 The first argument to the function is the GitHub organization name.
 The remaining arguments are the students' usernames.
 The function returns the path to the cloned repos.
+
+We'll use [[repobee]] to clone those repos to a temporary directory.
+There are several ways to pass the necessary settings to [[repobee]]: username, 
+GitHub API URL, access token.
+We will pass them by command line.
 <<clone repos>>=
 clone_repos() {
   local org=$1; shift
@@ -59,9 +63,9 @@ clone_repos() {
     echo $s >> $students
   done
 
-  (cd $repos && \
-    repobee repos clone -qq \
-      --sf $students -o $org --discover-repos)
+  (cd $repos && repobee repos clone \
+    -u $REPOBEE_USER --bu $REPOBEE_URL -t $REPOBEE_TOKEN \
+      -qq --sf $students -o $org --discover-repos)
 
   rm $students
 

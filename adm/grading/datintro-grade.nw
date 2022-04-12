@@ -11,11 +11,23 @@ See [[canvaslms login -h]].
 %\item [[LADOK_USER]] and [[LADOK_PASS]] containing the LADOK username and 
 %password to use.
 %See [[ladok login -h]].
+\item [[REPOBEE_USER]], [[REPOBEE_URL]], [[REPOBEE_TOKEN]] as configuration for 
+RepoBee.
+See the RepoBee documentation for details:
+\begin{center}
+\texttt{https://docs.repobee.org/en/stable/getting\textunderscore{}started.html}
+\end{center}
 \end{itemize}
-Then we can run this image like this:
+We also must mount the AFS root (/afs) in the container (to access 
+/afs/kth.se).
+So if we have set those environment variables and have AFS mounted in /afs, 
+then we can run this image as follows:
 \begin{verbatim}
-docker run -e KRB_USER -e KRB_PASS \
+docker run \
+  -e KRB_USER -e KRB_PASS \
   -e CANVAS_SERVER -e CANVAS_TOKEN \
+  -e REPBEE_USER -e REPOBEE_URL -e REPOBEE_TOKEN \
+  -v /afs:/afs \
     datintro-grade:latest
 \end{verbatim}
 
@@ -27,12 +39,13 @@ We use RepoBee to work with the students' repos, so we can base our work on
 that image.
 Then we install the grading scripts and run them all by default.
 <<Dockerfile>>=
-FROM repobee/repobee
+FROM ubuntu
 
 USER root
 WORKDIR grader
 
 <<set up canvaslms in container>>
+<<set up repobee in container>>
 <<set up grading scripts in container>>
 @
 
@@ -74,11 +87,29 @@ dependencies\footnote{%
   See \texttt{https://stackoverflow.com/a/53562393/1305099}.
 }
 <<set up canvaslms in container>>=
-RUN apk update && apk add --no-cache build-base rust cargo \
-  libffi-dev libressl-dev musl-dev && \
+RUN apt-get update && apt-get install -y \
+  build-essential \
+  libffi-dev musl-dev \
+  python3-pip && \
   python3 -m pip install --no-cache-dir canvaslms && \
-  apk del build-base rust cargo \
-    libffi-dev libressl-dev musl-dev
+  apt-get purge -y build-essential \
+    libffi-dev musl-dev && \
+  apt-get autoremove -y
+@
+
+
+\section{Set up \texttt{repobee}}
+
+We also want RepoBee in the container.
+So we run their install script to install it rather than using their Docker 
+image.
+Their Docker image is based on Alpine, which doesn't have SSH that supports 
+Kerberos.
+<<set up repobee in container>>=
+RUN apt-get update && apt-get install -y curl git python3-venv && \
+  curl -s https://repobee.org/install.sh > repobee-install.sh && \
+  bash repobee-install.sh
+ENV PATH "$PATH:/root/.repobee/bin"
 @
 
 
@@ -112,11 +143,13 @@ run.
 <<set up grading scripts in container>>=
 <<set up SSH in container>>
 
-COPY grade-all.sh grade-ssh.sh grade-terminal.sh grade-git.sh grade-latex.sh ./
-RUN chmod +x grade-all.sh grade-ssh.sh grade-terminal.sh \
-  grade-git.sh grade-latex.sh
+COPY grade-all.sh common.sh \
+  grade-ssh.sh grade-terminal.sh grade-git.sh grade-latex.sh ./
+RUN chmod +x grade-all.sh common.sh \
+  grade-ssh.sh grade-terminal.sh grade-git.sh grade-latex.sh
 
-RUN apk update && apk add util-linux coreutils findutils grep binutils acct
+RUN apt-get update && apt-get install -y util-linux \
+  coreutils findutils grep binutils acct
 
 CMD ["/bin/bash", "grade-all.sh"]
 @
@@ -138,7 +171,7 @@ grade-ssh.sh grade-terminal.sh grade-git.sh grade-latex.sh:
 ../%:
 	${MAKE} -C $(dir $@) $(notdir $@)
 
-datintro-grade: grade-all.sh
+datintro-grade: grade-all.sh common.sh
 datintro-grade: grade-ssh.sh grade-terminal.sh grade-git.sh grade-latex.sh
 @
 
@@ -147,7 +180,7 @@ Finally, we add some cleaning.
 .PHONY: clean-scripts
 clean: clean-scripts
 clean-scripts:
-	${RM} grade-all.sh
+	${RM} grade-all.sh common.sh
 	${RM} grade-ssh.sh grade-terminal.sh grade-git.sh grade-latex.sh
 
 .PHONY: distclean-scripts
@@ -166,8 +199,11 @@ We need to have SSH inside the container.
 Since we want to interact with KTH systems, we also need Kerberos.
 Then we want to have server specific configuration (the [[config]] file).
 <<set up SSH in container>>=
-RUN apk update && apk add openssh heimdal
+RUN apt-get update && \
+  DEBIAN_FRONTEND=noninteractive TZ=Europe/Stockholm apt-get install -y \
+    openssh-client heimdal-clients
 COPY config /root/.ssh/
+RUN chmod -R 0600 /root/.ssh
 @
 
 To do this we need the [[Makefile]] to build the [[config]] file.
