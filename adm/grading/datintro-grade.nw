@@ -224,3 +224,22 @@ kinit -f --password-file=$krb_pass_file $KRB_USER
 
 rm $krb_pass_file
 @
+
+
+\section{Log the runs}
+
+We want to log the runs so that the students can see when the script runs.
+We will do this by writing to a text file that is publicly accessible.
+<<write start time to log>>=
+LOG_FILE="/afs/kth.se/home/d/b/dbosk/public_html/datintro/grader.txt"
+mkdir -p $(dirname $LOG_FILE)
+
+echo -n "Started grading $(date)" >> $LOG_FILE
+@
+<<write end time to log>>=
+echo " -> Finished $(date)" >> $LOG_FILE
+@
+
+However, due to how the container is run by Docker, it doesn't get write access 
+through the user's Kerberos credentials.
+So this code must be run outside of the container.
