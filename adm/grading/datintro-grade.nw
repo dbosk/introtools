@@ -182,14 +182,18 @@ clean: clean-scripts
 clean-scripts:
 	${RM} grade-all.sh common.sh
 	${RM} grade-ssh.sh grade-terminal.sh grade-git.sh grade-latex.sh
+	${MAKE} -C ../../modules/ssh/grading clean
+	${MAKE} -C ../../modules/terminal/grading clean
+	${MAKE} -C ../../modules/git/grading clean
+	${MAKE} -C ../../modules/latex/grading clean
 
 .PHONY: distclean-scripts
 distclean: distclean-scripts
 distclean-scripts:
-	${MAKE} -C ../../modules/ssh/grading clean distclean
-	${MAKE} -C ../../modules/terminal/grading clean distclean
-	${MAKE} -C ../../modules/git/grading clean distclean
-	${MAKE} -C ../../modules/latex/grading clean distclean
+	${MAKE} -C ../../modules/ssh/grading distclean
+	${MAKE} -C ../../modules/terminal/grading distclean
+	${MAKE} -C ../../modules/git/grading distclean
+	${MAKE} -C ../../modules/latex/grading distclean
 @
 
 
