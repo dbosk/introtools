@@ -89,14 +89,17 @@ The grade is indicated by the return value (1 for fail, 0 for pass).
 grade_history_file() {
   local student=$1
   local homedir=$2
+  local path="/afs/kth.se/$homedir/Public/datintro"
+  local filepath="$path/history.txt"
 
-  if ! [ -d /afs/kth.se/$homedir/Public/datintro ]; then
+  if ! [ -d $path ]; then
     #echo "Can't find datintro directory in directory Public in your home directory."
     return 1
-  elif ! [ -f /afs/kth.se/$homedir/Public/datintro/history.txt ]; then
+  elif ! [ -f $filepath ]; then
     #echo "Can't find history.txt located in directory Public/datintro in your home directory."
     return 1
-  elif ! egrep " *[0-9]+.* history *>>? *([^ ]+/)?history.txt" > /dev/null;
+  elif ! egrep " *[0-9]+.* history *>>? *([^ ]+/)?history.txt" $filepath \
+    > /dev/null;
   then
     #echo "Found Public/datintro/history.txt in your home directory, but it seems to have the wrong format."
     return 1
