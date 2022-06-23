@@ -131,6 +131,6 @@ grade_students() {
   wait
 }
 
-grade_students "${ASSIGNMENT}" ${COURSE_CODE}
+grade_students "${ASSIGNMENT}" ${COURSE_CODE_ORG}
 @
 
