@@ -14,6 +14,9 @@ See [[canvaslms login -h]].
 \item [[REPOBEE_USER]], [[REPOBEE_URL]], [[REPOBEE_TOKEN]] as configuration for 
 RepoBee.
 See the RepoBee documentation for details:
+\item [[COURSE_CODE]] containing a space-separated list of regular expressions 
+for the course code, [[COURSE_CODE_ORG]] containing a space-separated list of 
+  course code and GitHub organization name pairs.
 \begin{center}
 \texttt{https://docs.repobee.org/en/stable/getting\textunderscore{}started.html}
 \end{center}
@@ -27,6 +30,7 @@ docker run \
   -e KRB_USER -e KRB_PASS \
   -e CANVAS_SERVER -e CANVAS_TOKEN \
   -e REPBEE_USER -e REPOBEE_URL -e REPOBEE_TOKEN \
+  -e COURSE_CODE -e COURSE_CODE_ORG \
   -v /afs:/afs \
     datintro-grade:latest
 \end{verbatim}

@@ -24,11 +24,11 @@ source common.sh
 \section{Settings}
 
 We need a few variables as settings.
-We must set the course code. This is a regular expression.
-<<configuration variables>>=
-COURSE_CODE="DD1301HT20 DD1301HT21 DD1337HT21"
-@
-We must set the [[ASSIGNMENT]] variable. This is a regular expression.
+We must set the course code, in the [[COURSE_CODE]] variable.
+This is a space-separated list of regular expressions.
+We expect the course code to be set by the environment.
+
+We must also set the [[ASSIGNMENT]] variable. This is a regular expression.
 <<configuration variables>>=
 ASSIGNMENT="(The terminal)"
 @
