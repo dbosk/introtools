@@ -29,10 +29,17 @@
 
 \subsection{Purpose}
 \begin{frame}
+\begin{question}
+    Why should we use commits?
+\end{question}
+    
+\end{frame}
+
+
+\begin{frame}
   \begin{question}
     Why should we use commits?
   \end{question}
-  \pause 
   \begin{block}{Answer}
     They provide stable points that we can revert back to whenever something breaks in our code. Using commits means we can undo any mistakes made, even without knowing what caused them
   \end{block}
@@ -41,12 +48,17 @@
 \section{Intent behind good committing}
 \begin{frame}
 \begin{question}
-    What are we trying to achieve with our commit behaviour and our messages?
+    What are we trying to achieve with our commit behaviour?
+\end{question}
+\pause
+\begin{question}
+    What are we trying to achieve with our commit messages?
 \end{question}
 \end{frame}
 
 
 \subsection{Commit behaviour}
+
 \begin{frame}
 \begin{block}{Commits}
   \begin{itemize}
@@ -78,7 +90,14 @@
 \begin{question}
     How do we best satisfy these intentions?
 \end{question}
-\pause
+\end{frame}
+
+
+
+\begin{frame}
+\begin{question}
+    How do we best satisfy these intentions?
+\end{question}
 \begin{block}{Two simple rules}
     \begin{itemize}
         \item Commit early
@@ -113,7 +132,7 @@
 \begin{block}{Solution}
 \begin{itemize}
     \item We test it!
-    \item Write tests before writing the source code (Test-driven development)
+    \item Write tests before writing source code (Test-driven development)
 \end{itemize}
 \end{block}
 \end{frame}
@@ -150,7 +169,7 @@
   \begin{itemize}
       \item Imperative mood, present tense
       \begin{itemize}
-          \item Should be able to finish the sentence "If applied, this commit will..."
+          \item Should be able to finish the sentence \enquote{If applied, this commit will...}
       \end{itemize}
       \item Not end with a period
   \end{itemize}
@@ -172,7 +191,7 @@
 \begin{block}{Style guide}
   \begin{itemize}
     \item Starts with a blank line
-    \item Can be written in bullet form (using either '-' or '*')
+    \item Can be written in bullet form (using either \enquote{-} or \enquote{*})
     \begin{itemize}
         \item Use proper and consistent indentation in that case
     \end{itemize}
