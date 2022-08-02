@@ -1,0 +1,120 @@
+\title{%
+  Good commits - Exercises
+}
+\author{Amanda Berg}
+\institute{%
+  KTH EECS
+}
+
+\mode<article>{\maketitle}
+\mode<presentation>{%
+  \begin{frame}
+    \maketitle
+  \end{frame}
+}
+
+\mode*
+
+
+\section{Exercise 1 - Commit messages}
+\begin{frame}
+\begin{block}{Sum over list}
+    We wish to add up all non-negative numbers in a list. We have the following piece of code:
+\end{block}
+\begin{block}{Code}
+    \lstinputlisting[]{sum_list.txt}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Code}
+    \lstinputlisting[]{sum_list.txt}
+\end{block}
+
+\begin{alertblock}{Note:}
+    \lstinline{for (int i = 1; i < list.length; i++)}\\
+    We will miss an element in the loop!
+\end{alertblock}
+\end{frame}
+
+
+\begin{frame}
+\begin{block}{Old}
+    \lstinputlisting[]{sum_list.txt}
+\end{block}
+
+\begin{block}{New}
+    We change row 2 to \\
+    \lstinline{for (int i = 0; i < list.length; i++)}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{question}
+What would be a good commit message for this change? Why? %fbf-question
+\end{question}    
+\end{frame}
+
+\begin{frame}
+\begin{block}{Examples}
+    We will now look at three examples and discuss what is good and what is bad in them
+\end{block}
+\end{frame}
+
+\subsection{Examples}
+\begin{frame}
+\begin{block}{Message 1}
+    \enquote{Fixed bug}
+\end{block}
+
+\begin{question}
+\begin{itemize}
+    \pause
+    \item What is good about this message?
+    \pause
+    \item What is bad about it?
+\end{itemize}
+\end{question}
+    
+\end{frame}
+
+\begin{frame}
+\begin{block}{Message 2}
+    \enquote{Fix indexing bug where the first element is missed every time the loop is run in the sum\_positive-function}
+\end{block}
+
+\begin{question}
+\begin{itemize}
+    \pause
+    \item What is good about this message?
+    \pause
+    \item What is bad about it?
+\end{itemize}
+\end{question}
+    
+\end{frame}
+
+
+\begin{frame}
+\begin{block}{Message 3}
+    \enquote{Fix indexing bug in sum\_positive()\\ \vspace{10 pt} 
+    This commit fixes a bug where the first element is missed when iterating over the list in sum\_positive(). The bug was because the iteration started on index 1 rather than index 0}
+\end{block}
+
+\begin{question}
+\begin{itemize}
+    \pause
+    \item What is good about this message?
+    \pause
+    \item What is bad about it?
+\end{itemize}
+\end{question}
+    
+\end{frame}
+
+% Make the students write a new (improved) commit message (fbf)
+
+\section{Exercise 2 - Commit plan}
+
+
+
