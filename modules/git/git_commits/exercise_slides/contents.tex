@@ -1,7 +1,7 @@
 \title{%
   Good commits - Exercises
 }
-\author{Amanda Berg}
+\author{Amanda Berg and Daniel Bosk}
 \institute{%
   KTH EECS
 }
@@ -116,5 +116,97 @@ What would be a good commit message for this change? Why? %fbf-question
 
 \section{Exercise 2 - Commit plan}
 
+\begin{frame}
+  \begin{block}{Golden rule of version management}
+    \begin{itemize}
+      \item Single-purpose commits
+      \item Small commits
+      \item Only commit working code
+    \end{itemize}
+  \end{block}
+\end{frame}
 
+\begin{frame}
+  \begin{exercise}
+    \begin{itemize}
+      \item You should plan the commits for writing three small scripts:
+        \begin{enumerate}
+          \item A script that counts the number of files in the current 
+            directory and its subdirectories.
+          \item A script that counts the number of \emph{(sub)directories} in 
+            the current directory and its subdirectories.
+          \item A script that:
+            \begin{itemize}
+              \item creates a new directory and initializes it as a Git repo.
+              \item creates a base for a LaTeX report in there and commits it.
+            \end{itemize}
+        \end{enumerate}
+      \item When would you commit and what would you include?
+    \end{itemize}
+  \end{exercise}
+\end{frame}
+
+\begin{frame}
+  \begin{solution}
+    \begin{itemize}
+      \item In essence, we can have one commit per point.
+        \begin{enumerate}
+          \item A script that counts the number of files in the current 
+            directory and its subdirectories.
+          \item A script that counts the number of \emph{(sub)directories} in 
+            the current directory and its subdirectories.
+          \item A script that:
+            \begin{itemize}
+              \item creates a new directory and initializes it as a Git 
+                repo.
+              \item creates a base for a LaTeX report in there and commits 
+                it.
+            \end{itemize}
+        \end{enumerate}
+    \end{itemize}
+  \end{solution}
+\end{frame}
+
+\begin{frame}
+  \begin{exercise}
+    \begin{itemize}
+      \item In the same case:
+        \begin{enumerate}
+          \item A script that counts the number of files in the current 
+            directory and its subdirectories.
+          \item A script that counts the number of \emph{(sub)directories} in 
+            the current directory and its subdirectories.
+          \item A script that:
+            \begin{itemize}
+              \item creates a new directory and initializes it as a Git repo.
+              \item creates a base for a LaTeX report in there and commits it.
+            \end{itemize}
+        \end{enumerate}
+      \item When would it be suitable with a branch?
+    \end{itemize}
+  \end{exercise}
+\end{frame}
+
+\begin{frame}
+  \begin{solution}
+    \begin{itemize}
+      \item Script \ref{TwoStepScript} is suitable to make a branch for.
+        \begin{enumerate}
+          \item A script that counts the number of files in the current 
+            directory and its subdirectories.
+          \item A script that counts the number of \emph{(sub)directories} in 
+            the current directory and its subdirectories.
+          \item \label{TwoStepScript} A script that:
+            \begin{itemize}
+              \item creates a new directory and initializes it as a Git 
+                repo.
+              \item creates a base for a LaTeX report in there and commits 
+                it.
+            \end{itemize}
+        \end{enumerate}
+      \item Why?
+        Because it takes more than one commit to complete.
+    \end{itemize}
+  \end{solution}
+\end{frame}
 
