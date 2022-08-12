@@ -4,4 +4,6 @@ There is a presentation in the [slides-directory](slides/). It has been largely 
 
 A recording of the presentation can be found [here](https://www.youtube.com/watch?v=YSXv6-aXWkk)
 
-The recording has then been added to a module on Feedbackfruits where the questions found [here](feedbackfruits_questions.md)
+A recording of the exercise-video can be found [here](https://youtu.be/-xt_bEMTssU)
+
+The recording has then been added to a module on Feedbackfruits where the questions are found [here](feedbackfruits_questions.md)
