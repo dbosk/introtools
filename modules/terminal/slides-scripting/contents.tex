@@ -1,0 +1,61 @@
+\mode*
+
+\section{Programming by CLI}
+
+\begin{frame}[fragile]
+  \begin{solution}[Most important]
+    \begin{itemize}
+      \item GUI is a User Interface (UI).
+      \item The API is an interface for writing programs.
+      \item CLI is a hybrid; it's a UI, but it can easily be used to write 
+        programs.
+    \end{itemize}
+  \end{solution}
+
+  \begin{example}[Counting the number of files]
+    \begin{minted}{bash}
+ls | wc -l
+    \end{minted}
+  \end{example}
+\end{frame}
+
+\begin{frame}
+  \begin{figure}
+    \includegraphics[height=0.5\textheight]{fig/many-reports.png}
+    \caption{file explorer showing many dated report files.}
+  \end{figure}
+
+  \begin{exercise}[Printing contents of specific files across directories]
+    \begin{itemize}
+      \item Take the contents of all reports from summers of 2005--2008.
+      \item Put into one file.
+    \end{itemize}
+  \end{exercise}
+\end{frame}
+
+\begin{frame}[fragile]
+  \begin{figure}
+    \includegraphics[height=0.5\textheight]{fig/many-reports.png}
+    \caption{file explorer showing many dated report files.}
+  \end{figure}
+
+  \begin{solution}[CLI-solution: \texttt{summer.sh}]
+    \inputminted[firstline=3]{bash}{code/summer.sh}
+  \end{solution}
+\end{frame}
+
+
+\section{Scripting}
+
+\begin{frame}
+  \begin{figure}
+    \includegraphics[height=0.5\textheight]{fig/many-reports.png}
+    \caption{file explorer showing many dated report files.}
+  \end{figure}
+
+  \begin{exercise}
+    \begin{itemize}
+      \item test
+    \end{itemize}
+  \end{exercise}
+\end{frame}
