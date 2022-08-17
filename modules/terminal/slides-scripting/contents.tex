@@ -54,8 +54,51 @@ ls | wc -l
   \end{figure}
 
   \begin{exercise}
-    \begin{itemize}
-      \item test
-    \end{itemize}
+    \begin{enumerate}
+      \item Sort the reports into subdirectories, one directory per year.
+      \item For each year, sort the reports into the subdirectories: summer, 
+        autumn, winter and spring.
+    \end{enumerate}
   \end{exercise}
+\end{frame}
+
+\begin{frame}[fragile]
+  \begin{example}[Positional arguments, \texttt{args.sh}]
+    \begin{itemize}
+      \item \texttt{args.sh:}
+    \end{itemize}
+    \inputminted[linenos,highlightlines={2,3}]{bash}{code/args.sh}
+    \begin{itemize}
+      \item \texttt{bash args.sh one two three}
+    \end{itemize}
+    \begin{minted}[highlightlines={2,3}]{text}
+fixed: one two three
+order: one two three
+unorder: three two one
+    \end{minted}
+  \end{example}
+\end{frame}
+
+\begin{frame}[fragile]
+  \begin{example}[\texttt{vars.sh:}]
+    \inputminted[linenos,firstline=3,highlightlines={5,6}]{bash}{code/vars.sh}
+  \end{example}
+\end{frame}
+
+\begin{frame}[fragile]
+  \begin{solution}[Sorting the reports]
+    \inputminted[linenos,firstline=3,lastline=11,highlightlines=3]{bash}{code/sort.sh}
+  \end{solution}
+\end{frame}
+
+\begin{frame}
+  \begin{remark}
+    \begin{itemize}
+      \item The grading scripts are written like this.
+    \end{itemize}
+  \end{remark}
+
+  \begin{example}[Grading terminal assignment]
+    \inputminted[linenos,firstline=55,lastline=70,fontsize=\tiny]{bash}{code/grade.sh}
+  \end{example}
 \end{frame}
