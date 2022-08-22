@@ -212,7 +212,17 @@ time on the numbers rather than the words.
 Finally, `head` will output the first `n` counts and words. The `$n` will be 
 replaced by the value of `n`, which we had set to `10` on the first line.
 
-## Assessment
+
+## Scripting
+
+Just as we type these commands directly into the shell (through the terminal), 
+we can simply ask the shell to execute a file containing a list of commands. 
+This way we can construct small programs. This is covered in [Video: Programming with the CLI][connect-programming].
+
+[connect-programming]: https://eu.feedbackfruits.com/courses/activity-course/f6223d14-50d8-4934-a457-4720b5cb6469
+
+
+# Assessment
 
 Log into the remote system (`student-shell`) and do the following:
 
