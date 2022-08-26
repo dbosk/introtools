@@ -19,33 +19,32 @@
 \section{Exercise 1 - Commit messages}
 \begin{frame}
 \begin{block}{Sum over list}
-    We wish to add up all non-negative numbers in a list. We have the following piece of code:
+    We wish to count the number of files in a directory and its sub-directories. We have the following piece of code:
 \end{block}
 \begin{block}{Code}
-    \lstinputlisting[]{sum_list.txt}
+    \lstinline{find . | wc -l}
 \end{block}
 \end{frame}
 
 \begin{frame}
 \begin{block}{Code}
-    \lstinputlisting[]{sum_list.txt}
+    \lstinline{find . | wc -l}
 \end{block}
 
 \begin{alertblock}{Note:}
-    \lstinline{for (int i = 1; i < list.length; i++)}\\
-    We will miss an element in the loop!
+    This code has a problem. Let's demonstrate!
 \end{alertblock}
 \end{frame}
 
 
 \begin{frame}
 \begin{block}{Old}
-    \lstinputlisting[]{sum_list.txt}
+    \lstinline{find . | wc -l}
 \end{block}
 
 \begin{block}{New}
-    We change row 2 to \\
-    \lstinline{for (int i = 0; i < list.length; i++)}
+    We change it to \\
+    \lstinline{find . -type f | wc -l}
 \end{block}
 \end{frame}
 
@@ -80,7 +79,7 @@ What would be a good commit message for this change? Why? %fbf-question
 
 \begin{frame}
 \begin{block}{Message 2}
-    \enquote{Fix indexing bug where the first element is missed every time the loop is run in the sum\_positive-function}
+    \enquote{Fix bug where all elements, both files and folders, are counted each time the code is run}
 \end{block}
 
 \begin{question}
@@ -97,8 +96,8 @@ What would be a good commit message for this change? Why? %fbf-question
 
 \begin{frame}
 \begin{block}{Message 3}
-    \enquote{Fix indexing bug in sum\_positive()\\ \vspace{10 pt} 
-    This commit fixes a bug where the first element is missed when iterating over the list in sum\_positive(). The bug was because the iteration started on index 1 rather than index 0}
+    \enquote{Count files only\\ \vspace{10 pt} 
+    This commit fixes a bug where all files and folders were counted instead of just the files}
 \end{block}
 
 \begin{question}

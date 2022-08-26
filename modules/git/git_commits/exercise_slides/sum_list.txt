@@ -1,7 +1,0 @@
-int sum = 0;
-for(int i = 1; i < list.length ; i++) {
-    if list[i] > 0 {
-        sum += list[i];
-    }
-}
-return sum;
