@@ -220,7 +220,10 @@ Log into the remote system (`student-shell`) and do the following:
   
   3. In the `datintro` directory, after you've done your experiments above, 
      redirect the output of the `history` command to a file called 
-     `history.txt`.
+     `history.txt`. (Note that `history.txt` *must be created inside the 
+     `Public` directory*! If you create it outside of `Public` and move it into 
+     the `Public` directory, the file will not be publicly readable. Files 
+     inherit permissions from its parent directory when it is created.)
   
 Note that we can check that the file exists in this directory, so ensure that 
 you've created the file in the correct folder (try `ls ~/Public/datintro` to 
