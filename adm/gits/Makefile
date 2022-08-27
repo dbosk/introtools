@@ -11,6 +11,7 @@ clean:
 	${RM} datintro-setup.fls
 	${RM} datintro-setup.log
 	${RM} datintro-setup.pdf
+	${RM} Dockerfile gits-setup.sh
 
 INCLUDE_MAKEFILES=../../makefiles
 include ${INCLUDE_MAKEFILES}/noweb.mk
