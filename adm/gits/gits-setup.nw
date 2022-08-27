@@ -2,10 +2,13 @@ We need to add the students to the organization on gits-15.
 We will do this for all course rounds and continue to do it, since we have 
 automated all the grading.
 We must thus map course round (on Canvas) to course round on gits-15.
+For this we use the same variable as in the grading scripts:
+\begin{center}
+[[COURSE_CODE_ORG="datintro22:datintro22 "]]
+\end{center}
+This variable should be set in the environment.
 <<gits-setup.sh>>=
 #!/bin/bash
-
-COURSE_CODE_ORG+="datintro22:datintro22 "
 
 extract_users() {
   round=${1}
