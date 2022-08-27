@@ -1,0 +1,211 @@
+\title{%
+  Good commits - Exercises
+}
+\author{Amanda Berg and Daniel Bosk}
+\institute{%
+  KTH EECS
+}
+
+\mode<article>{\maketitle}
+\mode<presentation>{%
+  \begin{frame}
+    \maketitle
+  \end{frame}
+}
+
+\mode*
+
+
+\section{Exercise 1 - Commit messages}
+\begin{frame}
+\begin{block}{Count files}
+    We wish to count the number of files in a directory and its sub-directories. We have the following piece of code:
+\end{block}
+\begin{block}{Code}
+    \lstinline{find . | wc -l}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Code}
+    \lstinline{find . | wc -l}
+\end{block}
+
+\begin{alertblock}{Note:}
+    This code has a problem. Let's demonstrate!
+\end{alertblock}
+\end{frame}
+
+
+\begin{frame}
+\begin{block}{Old}
+    \lstinline{find . | wc -l}
+\end{block}
+
+\begin{block}{New}
+    We change it to \\
+    \lstinline{find . -type f | wc -l}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{question}
+What would be a good commit message for this change? Why? %fbf-question
+\end{question}    
+\end{frame}
+
+\begin{frame}
+\begin{block}{Examples}
+    We will now look at three examples and discuss what is good and what is bad in them
+\end{block}
+\end{frame}
+
+\subsection{Examples}
+\begin{frame}
+\begin{block}{Message 1}
+    \enquote{Fixed bug}
+\end{block}
+
+\begin{question}
+\begin{itemize}
+    \pause
+    \item What is good about this message?
+    \pause
+    \item What is bad about it?
+\end{itemize}
+\end{question}
+    
+\end{frame}
+
+\begin{frame}
+\begin{block}{Message 2}
+    \enquote{Fix bug where all elements, both files and folders, are counted each time the code is run}
+\end{block}
+
+\begin{question}
+\begin{itemize}
+    \pause
+    \item What is good about this message?
+    \pause
+    \item What is bad about it?
+\end{itemize}
+\end{question}
+    
+\end{frame}
+
+
+\begin{frame}
+\begin{block}{Message 3}
+    \enquote{Count files only\\ \vspace{10 pt} 
+    This commit fixes a bug where all files and folders were counted instead of just the files}
+\end{block}
+
+\begin{question}
+\begin{itemize}
+    \pause
+    \item What is good about this message?
+    \pause
+    \item What is bad about it?
+\end{itemize}
+\end{question}
+    
+\end{frame}
+
+% Make the students write a new (improved) commit message (fbf)
+
+\section{Exercise 2 - Commit plan}
+
+\begin{frame}
+  \begin{block}{Golden rule of version management}
+    \begin{itemize}
+      \item Single-purpose commits
+      \item Small commits
+      \item Only commit working code
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+\begin{frame}
+  \begin{exercise}
+    \begin{itemize}
+      \item You should plan the commits for writing three small scripts:
+        \begin{enumerate}
+          \item A script that counts the number of files in the current 
+            directory and its subdirectories.
+          \item A script that counts the number of \emph{(sub)directories} in 
+            the current directory and its subdirectories.
+          \item A script that:
+            \begin{itemize}
+              \item creates a new directory and initializes it as a Git repo.
+              \item creates a base for a LaTeX report in there and commits it.
+            \end{itemize}
+        \end{enumerate}
+      \item When would you commit and what would you include?
+    \end{itemize}
+  \end{exercise}
+\end{frame}
+
+\begin{frame}
+  \begin{solution}
+    \begin{itemize}
+      \item In essence, we can have one commit per point.
+        \begin{enumerate}
+          \item A script that counts the number of files in the current 
+            directory and its subdirectories.
+          \item A script that counts the number of \emph{(sub)directories} in 
+            the current directory and its subdirectories.
+          \item A script that:
+            \begin{itemize}
+              \item creates a new directory and initializes it as a Git 
+                repo.
+              \item creates a base for a LaTeX report in there and commits 
+                it.
+            \end{itemize}
+        \end{enumerate}
+    \end{itemize}
+  \end{solution}
+\end{frame}
+
+\begin{frame}
+  \begin{exercise}
+    \begin{itemize}
+      \item In the same case:
+        \begin{enumerate}
+          \item A script that counts the number of files in the current 
+            directory and its subdirectories.
+          \item A script that counts the number of \emph{(sub)directories} in 
+            the current directory and its subdirectories.
+          \item A script that:
+            \begin{itemize}
+              \item creates a new directory and initializes it as a Git repo.
+              \item creates a base for a LaTeX report in there and commits it.
+            \end{itemize}
+        \end{enumerate}
+      \item When would it be suitable with a branch?
+    \end{itemize}
+  \end{exercise}
+\end{frame}
+
+\begin{frame}
+  \begin{solution}
+    \begin{itemize}
+      \item Script \ref{TwoStepScript} is suitable to make a branch for.
+        \begin{enumerate}
+          \item A script that counts the number of files in the current 
+            directory and its subdirectories.
+          \item A script that counts the number of \emph{(sub)directories} in 
+            the current directory and its subdirectories.
+          \item \label{TwoStepScript} A script that:
+            \begin{itemize}
+              \item creates a new directory and initializes it as a Git 
+                repo.
+              \item creates a base for a LaTeX report in there and commits 
+                it.
+            \end{itemize}
+        \end{enumerate}
+      \item Why?
+        Because it takes more than one commit to complete.
+    \end{itemize}
+  \end{solution}
+\end{frame}
+
