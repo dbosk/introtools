@@ -32,7 +32,7 @@ docker run \
   -e REPBEE_USER -e REPOBEE_URL -e REPOBEE_TOKEN \
   -e COURSE_CODE -e COURSE_CODE_ORG \
   -v /afs:/afs \
-    datintro-grade:latest
+    datintro22-grade:latest
 \end{verbatim}
 
 
@@ -54,13 +54,17 @@ WORKDIR grader
 @
 
 Next is building the Docker image.
-We use the phony target [[datintro-grade]] for this.
+We use the phony target [[${IMAGE_TARGET}]] for this.
+This variable should be updated whenever we change the assignments, so that the 
+grading procedure must change between courses.
 <<datintro-grade.mk>>=
-.PHONY: all
-all: datintro-grade
+IMAGE_TARGET=   datintro22-grade
 
-.PHONY: datintro-grade
-datintro-grade: Dockerfile
+.PHONY: all
+all: ${IMAGE_TARGET}
+
+.PHONY: ${IMAGE_TARGET}
+${IMAGE_TARGET}: Dockerfile
 	docker build -t $@ .
 
 Dockerfile: datintro-grade.nw
@@ -74,7 +78,7 @@ clean-docker:
 .PHONY: distclean distclean-docker
 distclean: distclean-docker
 distclean-docker:
-	-docker image rm -f datintro-grade
+	-docker image rm -f ${IMAGE_TARGET}
 
 <<build the grading scripts>>
 <<clean targets>>
@@ -178,8 +182,8 @@ grade-ssh.sh grade-terminal.sh grade-git.sh grade-latex.sh:
 ../%:
 	${MAKE} -C $(dir $@) $(notdir $@)
 
-datintro-grade: grade-all.sh common.sh
-datintro-grade: grade-ssh.sh grade-terminal.sh grade-git.sh grade-latex.sh
+${IMAGE_TARGET}: grade-all.sh common.sh
+${IMAGE_TARGET}: grade-ssh.sh grade-terminal.sh grade-git.sh grade-latex.sh
 @
 
 Finally, we add some cleaning.
@@ -222,7 +226,7 @@ To do this we need the [[Makefile]] to build the [[config]] file.
 config: ${HOME}/.ssh/config
 	${CP} $^ $@
 
-datintro-grade: config
+${IMAGE_TARGET}: config
 @
 
 To set up the Kerberos authentication, we simply take the credentials from the 
