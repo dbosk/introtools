@@ -5,7 +5,7 @@ We must thus map course round (on Canvas) to course round on gits-15.
 <<gits-setup.sh>>=
 #!/bin/bash
 
-ROUND_MAP+="DD1301HT22:datintro22 "
+COURSE_CODE_ORG+="datintro22:datintro22 "
 
 extract_users() {
   round=${1}
@@ -18,7 +18,7 @@ add_to_org() {
   <<add users to teams for round>>
 }
 
-for round in ${ROUND_MAP}; do
+for round in ${COURSE_CODE_ORG}; do
   canvas_id=$(echo $round | cut -d: -f 1)
   gits_id=$(echo $round | cut -d: -f 2)
 
