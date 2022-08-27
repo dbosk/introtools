@@ -16,7 +16,7 @@ Videos for the presentation:
 
 Videos for the exercises:
 
-- [The YouTube video of the Git commits exercises](https://youtu.be/-xt_bEMTssU)
+- [The YouTube video of the Git commits exercises](https://youtu.be/7HMdz1R3R38)
 - [The FeedbackFruits interactive video for the Git commits exercises][ex]
 
 [ex]: https://eu.feedbackfruits.com/courses/activity-course/2bec0a6d-a18a-4499-9657-8d30fc8465f7
