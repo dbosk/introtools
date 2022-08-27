@@ -14,6 +14,9 @@ See [[canvaslms login -h]].
 \item [[REPOBEE_USER]], [[REPOBEE_URL]], [[REPOBEE_TOKEN]] as configuration for 
 RepoBee.
 See the RepoBee documentation for details:
+\item [[COURSE_CODE]] containing a space-separated list of regular expressions 
+for the course code, [[COURSE_CODE_ORG]] containing a space-separated list of 
+  course code and GitHub organization name pairs.
 \begin{center}
 \texttt{https://docs.repobee.org/en/stable/getting\textunderscore{}started.html}
 \end{center}
@@ -27,6 +30,7 @@ docker run \
   -e KRB_USER -e KRB_PASS \
   -e CANVAS_SERVER -e CANVAS_TOKEN \
   -e REPBEE_USER -e REPOBEE_URL -e REPOBEE_TOKEN \
+  -e COURSE_CODE -e COURSE_CODE_ORG \
   -v /afs:/afs \
     datintro-grade:latest
 \end{verbatim}
@@ -77,7 +81,7 @@ distclean-docker:
 @
 
 
-\section{Set up \texttt{canvaslms}}
+\section{Set up \texttt{canvaslms} and \texttt{ladok3}}
 
 We need the [[canvaslms]] command inside the container since the scripts rely 
 heavily on this.
@@ -85,13 +89,16 @@ So we install it using [[pip]].
 Now, since it depends on the [[cryptography]] package, we need to install the 
 dependencies\footnote{%
   See \texttt{https://stackoverflow.com/a/53562393/1305099}.
-}
+}.
+We also want to install the [[ladok]] command to report whenever we have any 
+passing results.
 <<set up canvaslms in container>>=
-RUN apt-get update && apt-get install -y \
-  build-essential \
-  libffi-dev musl-dev \
-  python3-pip && \
-  python3 -m pip install --no-cache-dir canvaslms && \
+RUN apt-get update && \
+  apt-get install -y \
+    build-essential \
+    libffi-dev musl-dev \
+    python3-pip && \
+  python3 -m pip install --no-cache-dir canvaslms ladok3 && \
   apt-get purge -y build-essential \
     libffi-dev musl-dev && \
   apt-get autoremove -y
@@ -182,14 +189,18 @@ clean: clean-scripts
 clean-scripts:
 	${RM} grade-all.sh common.sh
 	${RM} grade-ssh.sh grade-terminal.sh grade-git.sh grade-latex.sh
+	${MAKE} -C ../../modules/ssh/grading clean
+	${MAKE} -C ../../modules/terminal/grading clean
+	${MAKE} -C ../../modules/git/grading clean
+	${MAKE} -C ../../modules/latex/grading clean
 
 .PHONY: distclean-scripts
 distclean: distclean-scripts
 distclean-scripts:
-	${MAKE} -C ../../modules/ssh/grading clean distclean
-	${MAKE} -C ../../modules/terminal/grading clean distclean
-	${MAKE} -C ../../modules/git/grading clean distclean
-	${MAKE} -C ../../modules/latex/grading clean distclean
+	${MAKE} -C ../../modules/ssh/grading distclean
+	${MAKE} -C ../../modules/terminal/grading distclean
+	${MAKE} -C ../../modules/git/grading distclean
+	${MAKE} -C ../../modules/latex/grading distclean
 @
 
 
@@ -224,3 +235,22 @@ kinit -f --password-file=$krb_pass_file $KRB_USER
 
 rm $krb_pass_file
 @
+
+
+\section{Log the runs}
+
+We want to log the runs so that the students can see when the script runs.
+We will do this by writing to a text file that is publicly accessible.
+<<write start time to log>>=
+LOG_FILE="/afs/kth.se/home/d/b/dbosk/public_html/datintro/grader.txt"
+mkdir -p $(dirname $LOG_FILE)
+
+echo -n "Started grading $(date)" >> $LOG_FILE
+@
+<<write end time to log>>=
+echo " -> Finished $(date)" >> $LOG_FILE
+@
+
+However, due to how the container is run by Docker, it doesn't get write access 
+through the user's Kerberos credentials.
+So this code must be run outside of the container.

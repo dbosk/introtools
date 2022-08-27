@@ -25,13 +25,17 @@ We will do this as a shell script.
 \section{Settings}
 
 We need a few variables as settings.
-We must set the course code (Canvas) and the organization (GitHub).
-We set them in one string, colon separated.
-<<configuration variables>>=
-COURSE_CODE="DD1301HT20:datintro20"
-COURSE_CODE="${COURSE_CODE} DD1301HT21:datintro21"
-COURSE_CODE="${COURSE_CODE} DD1337HT21:dd1337-ht21-intro"
-@
+We must set the course code and the corresponding GitHub organization.
+We set this in the [[COURSE_CODE_ORG]] variable.
+This is a space-separated list.
+Each item has the course code followed by a colon followed by the organization.
+The course code is a regular expression.
+For example:
+\begin{center}
+  [[COURSE_CODE_ORG="DD1301HT21:datintro21 DD1337HT21:dd1337-ht21-intro"]]
+\end{center}
+We expect the course code to be set by the environment.
+
 We must set the [[ASSIGNMENT]] variable. This is a regular expression.
 <<configuration variables>>=
 ASSIGNMENT="(Writing a report in LaTeX)"
@@ -214,6 +218,6 @@ grade_students() {
   wait
 }
 
-grade_students "${ASSIGNMENT}" ${COURSE_CODE}
+grade_students "${ASSIGNMENT}" ${COURSE_CODE_ORG}
 @
 
