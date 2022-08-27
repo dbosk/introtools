@@ -3,3 +3,5 @@ gits-setup.fdb_latexmk
 gits-setup.fls
 gits-setup.log
 gits-setup.tex
+gits-setup.pdf
+gits-setup.sh
