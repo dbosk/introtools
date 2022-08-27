@@ -1,13 +1,16 @@
-TARGETS=	gits-setup.sh gits-setup.pdf
-
 .PHONY: all
-all: ${TARGETS}
+all: datintro-setup.pdf
+
+include datintro-setup.mk
 
 .PHONY: clean
 clean:
-	${RM} ${TARGETS}
-	${RM} gits-setup.aux gits-setup.fls gits-setup.log gits-setup.tex
-	${RM} gits-setup.fdb_latexmk
+	${RM} datintro-setup.tex datintro-setup.mk
+	${RM} datintro-setup.aux
+	${RM} datintro-setup.fdb_latexmk
+	${RM} datintro-setup.fls
+	${RM} datintro-setup.log
+	${RM} datintro-setup.pdf
 
 INCLUDE_MAKEFILES=../../makefiles
 include ${INCLUDE_MAKEFILES}/noweb.mk
