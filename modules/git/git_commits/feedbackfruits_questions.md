@@ -13,14 +13,16 @@
 #### Exercise video
 | Timestamp                                      |           Type                        | Question   
 |------------------------------------------------|---------------------------------------|------------------------------------------------------------------|
-|                                                |  Mandatory discussion                 |  What is good about this message?                                |
-|                                                |  Mandatory discussion                 |  What is bad about it?                                           |   
-|                                                |  Mandatory discussion                 |  What is good about this message?                                |   
-|                                                |  Mandatory discussion                 |  What is bad about it?                                           |   
-|                                                |  Mandatory discussion                 |  What is good about this message?                                |   
-|                                                |  Mandatory discussion                 |  What is bad about it?                                           |
-|                                                |  Open-ended question (no answers)     |  When would you commit and what would be included in each commit?|
-|                                                |  Open-ended question (no answers)     |  When would it be suitable with a branch?                        |
+|  [3:08](https://youtu.be/q4k4casv7HE?t=188)    |  Open-ended question (no answers)     |  What would be a good commit message?                            |
+|  [3:31](https://youtu.be/q4k4casv7HE?t=211)    |  Mandatory discussion                 |  What is good about this message?                                |
+|  [4:00](https://youtu.be/q4k4casv7HE?t=240)    |  Mandatory discussion                 |  What is bad about it?                                           |   
+|  [4:55](https://youtu.be/q4k4casv7HE?t=295)    |  Mandatory discussion                 |  What is good about this message?                                |   
+|  [5:19](https://youtu.be/q4k4casv7HE?t=319)    |  Mandatory discussion                 |  What is bad about it?                                           |   
+|  [6:53](https://youtu.be/q4k4casv7HE?t=413)    |  Mandatory discussion                 |  What is good about this message?                                |   
+|  [7:42](https://youtu.be/q4k4casv7HE?t=462)    |  Mandatory discussion                 |  What is bad about it?                                           |
+|  [8:22](https://youtu.be/q4k4casv7HE?t=502)    |  Open-ended question (with answers)   |  Improve on the commit message that you wrote before <br /> After writing your own message, give feedback to at least 3 other students' submissions                                         |
+|  [9:40](https://youtu.be/q4k4casv7HE?t=580)    |  Open-ended question (no answers)     |  When would you commit and what would be included in each commit?|
+|  [11:27](https://youtu.be/q4k4casv7HE?t=687)   |  Open-ended question (no answers)     |  When would it be suitable with a branch?                        |
 
 
 
