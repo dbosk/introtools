@@ -1,19 +1,14 @@
 .PHONY: install
 install: ${HOME}/datintro22.sh
-install: ${HOME}/datintro-setup.sh
+install: datintro-setup
 install: datintro-grade
 
-
-${HOME}/datintro22.sh: ${HOME}/datintro-setup.sh
-
-${HOME}/datintro-setup.sh: gits/gits-setup.sh
-	cp $< $@
-
-gits/%:
-	${MAKE} -C $(dir $@) $(notdir $@)
-
-
+${HOME}/datintro22.sh: datintro-setup
 ${HOME}/datintro22.sh: datintro-grade
+
+.PHONY: datintro-setup
+datintro-setup:
+	${MAKE} -C gits all
 
 .PHONY: datintro-grade
 datintro-grade:
@@ -21,8 +16,5 @@ datintro-grade:
 
 
 .PHONY: clean distclean
-clean:
-	${RM} ${HOME}/datintro-setup.sh
-
 distclean:
 	${RM} ${HOME}/datintro22.sh
