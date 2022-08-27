@@ -3,6 +3,8 @@ We will do this for all course rounds and continue to do it, since we have
 automated all the grading.
 We must thus map course round (on Canvas) to course round on gits-15.
 <<gits-setup.sh>>=
+#!/bin/bash
+
 ROUND_MAP+="DD1301HT22:datintro22 "
 
 extract_users() {
