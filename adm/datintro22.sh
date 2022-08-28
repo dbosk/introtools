@@ -34,8 +34,7 @@ docker run -it \
   -e CANVAS_SERVER -e CANVAS_TOKEN \
   -e REPOBEE_USER -e REPOBEE_URL -e REPOBEE_TOKEN \
   -e COURSE_CODE -e COURSE_CODE_ORG \
-  -v /afs:/afs \
-    datintro22-setup:latest
+    datintro22-setup:latest $*
 
 LOG_FILE="/afs/kth.se/home/d/b/dbosk/public_html/datintro/grader.log"
 mkdir -p $(dirname $LOG_FILE)
@@ -50,7 +49,7 @@ then
 	  -e REPOBEE_USER -e REPOBEE_URL -e REPOBEE_TOKEN \
     -e COURSE_CODE -e COURSE_CODE_ORG \
     -v /afs:/afs \
-      datintro22-grade:latest /bin/bash
+      datintro22-grade:latest $*
 else
   out="$(docker run \
 	  -e KRB_USER -e KRB_PASS \
