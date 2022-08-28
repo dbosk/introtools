@@ -1,3 +1,6 @@
 [submodule "makefiles"]
 	path = makefiles
 	url = https://github.com/dbosk/makefiles.git
+[submodule "adm/gits/datintro"]
+	path = adm/gits/template-repo
+	url = git@gits-15.sys.kth.se:inda-master/datintro.git

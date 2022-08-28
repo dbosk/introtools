@@ -91,7 +91,7 @@ grade_students() {
       canvaslms grade -c "${course}" -a "${assignment}" \
         -u "$s@kth.se" -g P &
 
-      sleep 0.1
+      sleep 0.2
     done
 
     rm -Rf ${students}
