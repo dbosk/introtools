@@ -63,7 +63,7 @@ else
     echo
     echo "LADOK:"
     canvaslms results -c "$courses" -A "$components" | \
-      sed -E "s/ ?[HV]T[0-9]*[^\t]*//" \
+      sed -E "s/ ?[HV]T[0-9]*[^\t]*//" | \
       ladok report -fv
   fi
 fi
