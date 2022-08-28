@@ -1,7 +1,7 @@
-.PHONY: install
-install: ${HOME}/datintro22.sh
-install: datintro-setup
-install: datintro-grade
+.PHONY: all
+all: ${HOME}/datintro22.sh
+all: datintro-setup
+all: datintro-grade
 
 ${HOME}/datintro22.sh: datintro-setup
 ${HOME}/datintro22.sh: datintro-grade
@@ -16,5 +16,11 @@ datintro-grade:
 
 
 .PHONY: clean distclean
+clean:
+	${MAKE} -C gits $@
+	${MAKE} -C grading $@
+
 distclean:
+	${MAKE} -C gits $@
+	${MAKE} -C grading $@
 	${RM} ${HOME}/datintro22.sh
