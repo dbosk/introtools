@@ -1,5 +1,8 @@
 #!/bin/bash
 
+source ${HOME}/.profile
+source ${HOME}/.bashrc
+
 export CANVAS_SERVER="https://canvas.kth.se"
 export CANVAS_TOKEN=""
 
