@@ -39,9 +39,11 @@ docker run \
 \section{Overview}
 
 We want to build a Docker image to run all the necessary grading in the course.
-We use RepoBee to work with the students' repos, so we can base our work on 
-that image.
-Then we install the grading scripts and run them all by default.
+We use RepoBee to work with the students' repos.
+However, we can't base our work on that image since it uses Alpine, which 
+doesn't provide an SSH version that can handle Kerberos.
+We need Kerberos to authenticate to KTH.
+Then we install the depends and grading scripts and run them all by default.
 <<Dockerfile>>=
 FROM ubuntu
 
@@ -56,7 +58,7 @@ WORKDIR grader
 Next is building the Docker image.
 We use the phony target [[${IMAGE_TARGET}]] for this.
 This variable should be updated whenever we change the assignments, so that the 
-grading procedure must change between courses.
+grading procedure can vary between courses.
 <<datintro-grade.mk>>=
 IMAGE_TARGET=   datintro22-grade
 
