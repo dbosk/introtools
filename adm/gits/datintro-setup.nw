@@ -21,17 +21,14 @@ for the course code, [[COURSE_CODE_ORG]] containing a space-separated list of
 \texttt{https://docs.repobee.org/en/stable/getting\textunderscore{}started.html}
 \end{center}
 \end{itemize}
-We also must mount the AFS root (/afs) in the container (to access 
-/afs/kth.se).
-So if we have set those environment variables and have AFS mounted in /afs, 
-then we can run this image as follows:
+So if we have set those environment variables, then we can run this image as 
+follows:
 \begin{verbatim}
 docker run \
   -e KRB_USER -e KRB_PASS \
   -e CANVAS_SERVER -e CANVAS_TOKEN \
   -e REPBEE_USER -e REPOBEE_URL -e REPOBEE_TOKEN \
   -e COURSE_CODE -e COURSE_CODE_ORG \
-  -v /afs:/afs \
     datintro22-setup:latest
 \end{verbatim}
 
@@ -39,9 +36,8 @@ docker run \
 \section{Overview}
 
 We want to build a Docker image to run all the necessary grading in the course.
-We use RepoBee to work with the students' repos, so we can base our work on 
-that image.
-Then we install the grading scripts and run them all by default.
+We will use the Ubuntu image as a base.
+Then we install the dependencies and setup script and run it by default.
 <<Dockerfile>>=
 FROM ubuntu
 
@@ -55,8 +51,8 @@ WORKDIR setup
 
 Next is building the Docker image.
 We use the phony target [[${IMAGE_TARGET}]] for this.
-This variable should be updated whenever we change the assignments, so that the 
-grading procedure must change between courses.
+This variable should be updated whenever we make significant changes, so that 
+the setup procedure can vary between courses.
 <<datintro-setup.mk>>=
 IMAGE_TARGET=   datintro22-setup
 
@@ -94,8 +90,8 @@ Now, since it depends on the [[cryptography]] package, we need to install the
 dependencies\footnote{%
   See \texttt{https://stackoverflow.com/a/53562393/1305099}.
 }.
-We also want to install the [[ladok]] command to report whenever we have any 
-passing results.
+We also want to install the [[ladok]] command so that we can use it to look up 
+data.
 <<set up canvaslms in container>>=
 RUN apt-get update && \
   apt-get install -y \
@@ -127,8 +123,7 @@ ENV PATH "$PATH:/root/.repobee/bin"
 \section{The setup script}
 
 We need to add the students to the organization on gits-15.
-We will do this for all course rounds and continue to do it, since we have 
-automated all the grading.
+We will do this for all course rounds and continue to do it.
 We must thus map course round (on Canvas) to course round on gits-15.
 For this we use the same variable as in the grading scripts:
 \begin{center}
