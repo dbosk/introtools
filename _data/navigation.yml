@@ -46,4 +46,4 @@ modules:
   latex:
     title: Writing with LaTeX
     path: modules/latex/latex
-    prev: git
+    prev: git_commits
