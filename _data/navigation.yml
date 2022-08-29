@@ -7,6 +7,11 @@ modules:
     title: Overview
     path: /modules/overview/overview
     prev: index
+    next: interfaces
+  interfaces:
+    title: Briefly on interfaces
+    path: /modules/terminal/interfaces
+    prev: overview
     next: ssh
   ssh:
     title: Finding the terminal and remote shells
