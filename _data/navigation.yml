@@ -37,8 +37,8 @@ modules:
     title: Version management
     path: modules/git/git
     prev: collaboration
-    next: commits
-  commits:
+    next: git_commits
+  git_commits:
     title: Good commit messages
     path: modules/git/git_commits/commits
     prev: git
