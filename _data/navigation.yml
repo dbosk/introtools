@@ -37,6 +37,11 @@ modules:
     title: Version management
     path: modules/git/git
     prev: collaboration
+    next: commits
+  commits:
+    title: Good commit messages
+    path: modules/git/git_commits/commits
+    prev: git
     next: latex
   latex:
     title: Writing with LaTeX
