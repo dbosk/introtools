@@ -149,9 +149,9 @@ $ git push
 # Assessment
 
 To complete this assignment, you must show that you know how to interact with 
-the repo through Git: Add new files to your repo and create new versions which 
-must be committed and pushed to the repo. It is important that you complete 
-these steps using the command line interface.
+the repo through Git: Add new files to your repo and change the `README.md` 
+file. The changes (and new files) must be committed and pushed to the repo. It 
+is important that you complete these steps using the command line interface.
 
 You'll find your assessment repository in the [datintro20 
 organization][datintro-org] (replace `20` with the year your start the course).
