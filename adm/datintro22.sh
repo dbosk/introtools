@@ -21,11 +21,13 @@ export REPOBEE_USER=dbosk
 export REPOBEE_URL=https://gits-15.sys.kth.se/api/v3
 export REPOBEE_TOKEN=""
 
+# Grading
 COURSE_CODE="DD1301.?HT[2-9][1-9] DD1337.?HT[2-9][1-9]"
 COURSE_CODE_ORG="DD1301.?HT22:datintro22 DD1337.?HT22:dd1337-ht22-intro"
 
 export COURSE_CODE COURSE_CODE_ORG
 
+# Reporting to LADOK
 courses="DD1301.?HT2[1-9]"
 components="LAB1"
 
