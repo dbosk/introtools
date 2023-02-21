@@ -4,10 +4,10 @@ source ${HOME}/.profile
 source ${HOME}/.bashrc
 
 export CANVAS_SERVER="https://canvas.kth.se"
-export CANVAS_TOKEN=""
+#export CANVAS_TOKEN=""
 
 KTH_LOGIN="dbosk"
-KTH_PASSWD=""
+#KTH_PASSWD=""
 
 LADOK_USER=${KTH_LOGIN}
 LADOK_PASS="${KTH_PASSWD}"
@@ -19,7 +19,7 @@ export KTH_LOGIN KTH_PASSWD LADOK_USER LADOK_PASS KRB_USER KRB_PASS
 
 export REPOBEE_USER=dbosk
 export REPOBEE_URL=https://gits-15.sys.kth.se/api/v3
-export REPOBEE_TOKEN=""
+#export REPOBEE_TOKEN=""
 
 # Grading
 COURSE_CODE="DD1301.?HT[2-9][1-9] DD1337.?HT[2-9][1-9]"
