@@ -110,13 +110,18 @@ RUN apt-get update && \
 We also want RepoBee in the container.
 So we run their install script to install it rather than using their Docker 
 image.
+
 Their Docker image is based on Alpine, which doesn't have SSH that supports 
 Kerberos.
+
+Note that we want to update the PATH environment variable before the 
+installation as RepoBee would otherwise break the automated installation by 
+asking if we want to update the PATH.
 <<set up repobee in container>>=
+ENV PATH "$PATH:/root/.repobee/bin"
 RUN apt-get update && apt-get install -y curl git python3-venv && \
   curl -s https://repobee.org/install.sh > repobee-install.sh && \
   bash repobee-install.sh
-ENV PATH "$PATH:/root/.repobee/bin"
 @
 
 
