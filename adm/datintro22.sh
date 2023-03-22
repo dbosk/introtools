@@ -1,25 +1,6 @@
 #!/bin/bash
 
-source ${HOME}/.profile
-source ${HOME}/.bashrc
-
-export CANVAS_SERVER="https://canvas.kth.se"
-#export CANVAS_TOKEN=""
-
-KTH_LOGIN="dbosk"
-#KTH_PASSWD=""
-
-LADOK_USER=${KTH_LOGIN}
-LADOK_PASS="${KTH_PASSWD}"
-
-KRB_USER=${KTH_LOGIN}@KTH.SE
-KRB_PASS="${KTH_PASSWD}"
-
-export KTH_LOGIN KTH_PASSWD LADOK_USER LADOK_PASS KRB_USER KRB_PASS
-
-export REPOBEE_USER=dbosk
-export REPOBEE_URL=https://gits-15.sys.kth.se/api/v3
-#export REPOBEE_TOKEN=""
+source ~/.credentials
 
 # Setup
 for year in 21 22; do
