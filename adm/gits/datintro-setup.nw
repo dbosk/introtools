@@ -36,16 +36,15 @@ docker run \
 \section{Overview}
 
 We want to build a Docker image to run all the necessary grading in the course.
-We will use the Ubuntu image as a base.
-Then we install the dependencies and setup script and run it by default.
+We will use the [[dbosk/grader]] image as a base.
+This contains all necessary dependencies, such as [[canvaslms]] and 
+[[repobee]].
 <<Dockerfile>>=
-FROM ubuntu
+FROM dbosk/grader:latest
 
 USER root
 WORKDIR setup
 
-<<set up canvaslms in container>>
-<<set up repobee in container>>
 <<set up setup scripts in container>>
 @
 
@@ -78,50 +77,6 @@ distclean-docker:
 
 <<build the grading scripts>>
 <<clean targets>>
-@
-
-
-\section{Set up \texttt{canvaslms} and \texttt{ladok3}}
-
-We need the [[canvaslms]] command inside the container since the scripts rely 
-heavily on this.
-So we install it using [[pip]].
-Now, since it depends on the [[cryptography]] package, we need to install the 
-dependencies\footnote{%
-  See \texttt{https://stackoverflow.com/a/53562393/1305099}.
-}.
-We also want to install the [[ladok]] command so that we can use it to look up 
-data.
-<<set up canvaslms in container>>=
-RUN apt-get update && \
-  apt-get install -y \
-    build-essential \
-    libffi-dev musl-dev \
-    python3-pip && \
-  python3 -m pip install --no-cache-dir canvaslms ladok3 && \
-  apt-get purge -y build-essential \
-    libffi-dev musl-dev && \
-  apt-get autoremove -y
-@
-
-
-\section{Set up \texttt{repobee}}
-
-We also want RepoBee in the container.
-So we run their install script to install it rather than using their Docker 
-image.
-
-Their Docker image is based on Alpine, which doesn't have SSH that supports 
-Kerberos.
-
-Note that we want to update the PATH environment variable before the 
-installation as RepoBee would otherwise break the automated installation by 
-asking if we want to update the PATH.
-<<set up repobee in container>>=
-ENV PATH "$PATH:/root/.repobee/bin"
-RUN apt-get update && apt-get install -y curl git python3-venv && \
-  curl -s https://repobee.org/install.sh > repobee-install.sh && \
-  bash repobee-install.sh
 @
 
 
@@ -176,6 +131,7 @@ repobee repos setup \
     -qq -a datintro -o ${org} --sf ${users} --to inda-master
 @
 
+
 \section{Putting the setup script into the container}
 
 Now, we must copy this script into the container and set the executable bit.
@@ -191,6 +147,7 @@ RUN apt-get update && apt-get install -y util-linux \
 
 CMD ["/bin/bash", "gits-setup.sh"]
 @
+
 
 \section{Building the container}
 
@@ -213,21 +170,3 @@ clean-scripts:
 distclean:
 @
 
-
-\section{Log the runs}
-
-We want to log the runs so that the students can see when the script runs.
-We will do this by writing to a text file that is publicly accessible.
-<<write start time to log>>=
-LOG_FILE="/afs/kth.se/home/d/b/dbosk/public_html/datintro/grader.txt"
-mkdir -p $(dirname $LOG_FILE)
-
-echo "Started setup $(date)" >> $LOG_FILE
-@
-<<write end time to log>>=
-echo " -> Finished setup $(date)" >> $LOG_FILE
-@
-
-However, due to how the container is run by Docker, it doesn't get write access 
-through the user's Kerberos credentials.
-So this code must be run outside of the container.
