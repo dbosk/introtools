@@ -121,14 +121,15 @@ canvaslms users -c "${round}" | cut -f 2 | sed "s/@kth.se//"
 @
 
 We can create repos, teams and add the students using [[repobee]].
-We use the [[inda-master/datintro]] repo as a template repo.
+We use the [[datintro/datintro]] (given as template organization, [[--to]],  
+and assignment, [[-a]], respectively) repo as a template repo.
 The assignment is simply called [[datintro]] since all assignments are done in 
 the same repo.
 We use the environment variables to provide the configuration.
 <<add users to teams for round>>=
 repobee repos setup \
   -u $REPOBEE_USER --bu $REPOBEE_URL -t $REPOBEE_TOKEN \
-    -qq -a datintro -o ${org} --sf ${users} --to inda-master
+    -qq -a datintro -o ${org} --sf ${users} --to datintro
 @
 
 
