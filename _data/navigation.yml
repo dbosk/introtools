@@ -12,8 +12,8 @@ modules:
     title: Briefly on interfaces
     path: /modules/terminal/interfaces
     prev: overview
-    next: ssh
-  ssh:
+    next: guide
+  guide:
     title: Finding the terminal and remote shells
     path: /modules/ssh/guide
     prev: overview
@@ -21,14 +21,14 @@ modules:
   terminal:
     title: The terminal
     path: /modules/terminal/terminal
-    prev: ssh
+    prev: guide
     next: editor
   editor:
     title: The text editor
     path: modules/editor/editor
     prev: terminal
-    next: collaboration
-  collaboration:
+    next: tmate
+  tmate:
     title: Collaboration
     path: modules/collaboration/tmate
     prev: editor
@@ -36,9 +36,9 @@ modules:
   git:
     title: Version management
     path: modules/git/git
-    prev: collaboration
-    next: git_commits
-  git_commits:
+    prev: tmate 
+    next: commits
+  commits:
     title: Good commit messages
     path: modules/git/git_commits/commits
     prev: git
@@ -46,4 +46,4 @@ modules:
   latex:
     title: Writing with LaTeX
     path: modules/latex/latex
-    prev: git_commits
+    prev: commits
