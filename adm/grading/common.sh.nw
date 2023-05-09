@@ -58,18 +58,19 @@ clone_repos() {
   local students=$(mktemp)
 
   mkdir -p $repos
+  echo $repos
 
   for s in $*; do
     echo $s >> $students
   done
+
+  test -s $students || return 0
 
   (cd $repos && repobee repos clone \
     -u $REPOBEE_USER --bu $REPOBEE_URL -t $REPOBEE_TOKEN \
       -qq --sf $students -o $org --discover-repos)
 
   rm $students
-
-  echo $repos
 }
 @
 

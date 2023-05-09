@@ -1,0 +1,212 @@
+\title{%
+  Good commits
+}
+\author{Amanda Berg}
+\institute{%
+  KTH EECS
+}
+
+\mode<article>{\maketitle}
+\mode<presentation>{%
+  \begin{frame}
+    \maketitle
+  \end{frame}
+}
+
+\mode*
+
+
+\section{Committing basics}
+
+\subsection{What is a commit?}
+
+\begin{frame}
+    \begin{block}{Commits}
+    A git commit is a snapshot of a repository at a given time along with a commit message written by whoever made the commit
+    \end{block} 
+\end{frame}
+
+
+\subsection{Purpose}
+\begin{frame}
+\begin{question}
+    Why should we use commits?
+\end{question}
+    
+\end{frame}
+
+
+\begin{frame}
+  \begin{question}
+    Why should we use commits?
+  \end{question}
+  \begin{block}{Answer}
+    They provide stable points that we can revert back to whenever something breaks in our code. Using commits means we can undo any mistakes made, even without knowing what caused them
+  \end{block}
+\end{frame}
+
+\section{Intent behind good committing}
+\begin{frame}
+\begin{question}
+    What are we trying to achieve with our commit behaviour?
+\end{question}
+\pause
+\begin{question}
+    What are we trying to achieve with our commit messages?
+\end{question}
+\end{frame}
+
+
+\subsection{Commit behaviour}
+
+\begin{frame}
+\begin{block}{Commits}
+  \begin{itemize}
+      \item To get points that can be reverted back to when something breaks or a bug is introduced
+      \pause
+      \item To store points in time when the program was stable and functional
+      \pause
+      \item To not lose too much progress unrelated to the issue when reverting
+  \end{itemize}
+\end{block}
+\end{frame}
+
+\subsection{Commit messages}
+
+\begin{frame}
+\begin{block}{Messages}
+  \begin{itemize}
+      \item To clearly communicate with our future selves and our team-mates
+      \pause
+      \item To track when changes were made to help track down bugs and to help select which version to revert to when needed
+      \pause
+      \item To help keep track of which changes were made when
+  \end{itemize}
+\end{block}
+\end{frame}
+
+\section{Good committing practices}
+\begin{frame}
+\begin{question}
+    How do we best satisfy these intentions?
+\end{question}
+\end{frame}
+
+
+
+\begin{frame}
+\begin{question}
+    How do we best satisfy these intentions?
+\end{question}
+\begin{block}{Two simple rules}
+    \begin{itemize}
+        \item Commit early
+        \item Commit often
+    \end{itemize}
+\end{block}
+\end{frame}
+
+
+\subsection{Commits}
+\begin{frame}
+\begin{block}{General rules for commits}
+   \begin{itemize}
+       \item Single-purpose commits
+       \pause
+       \item Small commits
+       \pause
+       \item Only commit working code
+   \end{itemize}
+\end{block}
+\pause
+\begin{question}
+    How do we know that the code is functional?
+\end{question}
+\end{frame}
+
+\begin{frame}
+\begin{question}
+    How do we know that the code is functional?
+\end{question}
+\pause
+\begin{block}{Solution}
+\begin{itemize}
+    \item We test it!
+    \item Write tests before writing source code (Test-driven development)
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}
+    \begin{alertblock}{Note:}
+    Avoid using \lstinline{git add -A} and \lstinline{git commit -a} as it's easy to lose control over what has been changed in the repository
+    \end{alertblock}
+\end{frame}
+
+\subsection{Messages}
+
+\begin{frame}
+\begin{block}{General rules for messages}
+  \begin{itemize}
+      \item Communicate what changes with this commit along with the intent for it
+      \item Consists of two parts:
+      \begin{enumerate}
+          \item A subject
+          \item A message body
+      \end{enumerate}
+  \end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Subject}
+  \begin{itemize}
+      \item Short (50 characters or less)
+      \item Summarise the commit message
+  \end{itemize}
+\end{block}
+\begin{block}{Style guide}
+  \begin{itemize}
+      \item Imperative mood, present tense
+      \begin{itemize}
+          \item Should be able to finish the sentence \enquote{If applied, this commit will...}
+      \end{itemize}
+      \item Not end with a period
+  \end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{block}{Message body}
+  \begin{itemize}
+      \item Can be used if more information is necessary
+      \item Should contain detailed answers at least one of the following questions:
+      \begin{itemize}
+          \item What is the motivation/intent of the change?
+          \item How does this new version differ from the old?
+          \item How does this change resolve the issue?
+      \end{itemize}
+  \end{itemize}
+\end{block}
+\begin{block}{Style guide}
+  \begin{itemize}
+    \item Starts with a blank line
+    \item Can be written in bullet form (using either \enquote{-} or \enquote{*})
+    \begin{itemize}
+        \item Use proper and consistent indentation in that case
+    \end{itemize}
+  \end{itemize}
+\end{block}
+\end{frame}
+
+\section{Summary}
+\begin{frame}
+\begin{block}{Summary}
+\begin{itemize}
+    \item Make small, single-purpose commits of working code as often as possible
+    \item Write messages that clearly communicate what you changed and why
+\end{itemize}
+    
+\end{block}
+    
+\end{frame}

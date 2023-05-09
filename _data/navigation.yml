@@ -7,6 +7,11 @@ modules:
     title: Overview
     path: /modules/overview/overview
     prev: index
+    next: interfaces
+  interfaces:
+    title: Briefly on interfaces
+    path: /modules/terminal/interfaces
+    prev: overview
     next: ssh
   ssh:
     title: Finding the terminal and remote shells
@@ -32,8 +37,13 @@ modules:
     title: Version management
     path: modules/git/git
     prev: collaboration
+    next: git_commits
+  git_commits:
+    title: Good commit messages
+    path: modules/git/git_commits/commits
+    prev: git
     next: latex
   latex:
     title: Writing with LaTeX
     path: modules/latex/latex
-    prev: git
+    prev: git_commits

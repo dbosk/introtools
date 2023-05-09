@@ -1,7 +1,5 @@
-gits-setup.aux
-gits-setup.fdb_latexmk
-gits-setup.fls
-gits-setup.log
-gits-setup.tex
-gits-setup.pdf
+datintro-setup.mk
+datintro-setup.pdf
+datintro-setup.tex
+Dockerfile
 gits-setup.sh

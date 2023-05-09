@@ -1,0 +1,172 @@
+\section{Usage}
+
+We need to set use the following setup for the Docker container to work.
+We need the following environment variables:
+\begin{itemize}
+\item [[KRB_USER]] and [[KRB_PASS]] containing the Kerberos username (including 
+@realm) and password for the user to access the SSH servers.
+\item [[CANVAS_SERVER]] and [[CANVAS_TOKEN]] to authenticate the [[canvaslms]] 
+command.
+See [[canvaslms login -h]].
+%\item [[LADOK_USER]] and [[LADOK_PASS]] containing the LADOK username and 
+%password to use.
+%See [[ladok login -h]].
+\item [[REPOBEE_USER]], [[REPOBEE_URL]], [[REPOBEE_TOKEN]] as configuration for 
+RepoBee.
+See the RepoBee documentation for details:
+\item [[COURSE_CODE]] containing a space-separated list of regular expressions 
+for the course code, [[COURSE_CODE_ORG]] containing a space-separated list of 
+  course code and GitHub organization name pairs.
+\begin{center}
+\texttt{https://docs.repobee.org/en/stable/getting\textunderscore{}started.html}
+\end{center}
+\end{itemize}
+So if we have set those environment variables, then we can run this image as 
+follows:
+\begin{verbatim}
+docker run \
+  -e KRB_USER -e KRB_PASS \
+  -e CANVAS_SERVER -e CANVAS_TOKEN \
+  -e REPBEE_USER -e REPOBEE_URL -e REPOBEE_TOKEN \
+  -e COURSE_CODE -e COURSE_CODE_ORG \
+    datintro22-setup:latest
+\end{verbatim}
+
+
+\section{Overview}
+
+We want to build a Docker image to run all the necessary grading in the course.
+We will use the [[dbosk/grader]] image as a base.
+This contains all necessary dependencies, such as [[canvaslms]] and 
+[[repobee]].
+<<Dockerfile>>=
+FROM dbosk/grader:latest
+
+USER root
+WORKDIR setup
+
+<<set up setup scripts in container>>
+@
+
+Next is building the Docker image.
+We use the phony target [[${IMAGE_TARGET}]] for this.
+This variable should be updated whenever we make significant changes, so that 
+the setup procedure can vary between courses.
+<<datintro-setup.mk>>=
+IMAGE_TARGET=   datintro22-setup
+
+.PHONY: all
+all: ${IMAGE_TARGET}
+
+.PHONY: ${IMAGE_TARGET}
+${IMAGE_TARGET}: Dockerfile
+	docker build -t $@ .
+
+Dockerfile: datintro-setup.nw
+	${NOTANGLE}
+
+.PHONY: clean clean-docker
+clean: clean-docker
+clean-docker:
+	${RM} Dockerfile
+
+.PHONY: distclean distclean-docker
+distclean: distclean-docker
+distclean-docker:
+	-docker image rm -f ${IMAGE_TARGET}
+
+<<build the grading scripts>>
+<<clean targets>>
+@
+
+
+\section{The setup script}
+
+We need to add the students to the organization on gits-15.
+We will do this for all course rounds and continue to do it.
+We must thus map course round (on Canvas) to course round on gits-15.
+For this we use the same variable as in the grading scripts:
+\begin{center}
+[[COURSE_CODE_ORG="datintro22:datintro22 "]]
+\end{center}
+This variable should be set in the environment.
+<<gits-setup.sh>>=
+#!/bin/bash
+
+extract_users() {
+  round=${1}
+  <<print users for round to stdout>>
+}
+
+add_to_org() {
+  org=${1}
+  users=${2}
+  <<add users to teams for round>>
+}
+
+for round in ${COURSE_CODE_ORG}; do
+  canvas_id=$(echo $round | cut -d: -f 1)
+  gits_id=$(echo $round | cut -d: -f 2)
+
+  users=$(mktemp)
+  extract_users ${canvas_id} > ${users}
+  add_to_org ${gits_id} ${users}
+  rm $users
+done
+@
+
+Now we can fetch the users using the [[canvaslms]] command.
+<<print users for round to stdout>>=
+canvaslms users -c "${round}" | cut -f 2 | sed "s/@kth.se//"
+@
+
+We can create repos, teams and add the students using [[repobee]].
+We use the [[inda-master/datintro]] repo as a template repo.
+The assignment is simply called [[datintro]] since all assignments are done in 
+the same repo.
+We use the environment variables to provide the configuration.
+<<add users to teams for round>>=
+repobee repos setup \
+  -u $REPOBEE_USER --bu $REPOBEE_URL -t $REPOBEE_TOKEN \
+    -qq -a datintro -o ${org} --sf ${users} --to inda-master
+@
+
+
+\section{Putting the setup script into the container}
+
+Now, we must copy this script into the container and set the executable bit.
+These scripts also need the standard commands.
+Then we make sure to execute [[gits-setup.sh]] by default when the container is 
+run.
+<<set up setup scripts in container>>=
+COPY gits-setup.sh ./
+RUN chmod +x gits-setup.sh
+
+RUN apt-get update && apt-get install -y util-linux \
+  coreutils findutils grep binutils acct
+
+CMD ["/bin/bash", "gits-setup.sh"]
+@
+
+
+\section{Building the container}
+
+To build the container we need [[make]] to first build local copies of all 
+scripts.
+<<build the grading scripts>>=
+gits-setup.sh: datintro-setup.nw
+	${NOTANGLE.sh}
+
+${IMAGE_TARGET}: gits-setup.sh
+@
+
+Finally, we add some cleaning.
+<<clean targets>>=
+.PHONY: clean-scripts
+clean: clean-scripts
+clean-scripts:
+	${RM} gits-setup.sh
+
+distclean:
+@
+
