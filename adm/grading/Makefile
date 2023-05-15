@@ -1,5 +1,5 @@
 .PHONY: all
-all: datintro-grade.pdf
+all: datintro-grade.pdf common.sh.pdf
 
 include datintro-grade.mk
 
