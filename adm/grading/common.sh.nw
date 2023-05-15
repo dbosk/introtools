@@ -1,10 +1,12 @@
 We create an include file, [[common.sh]], to be included in other grading 
 scripts.
 <<common.sh>>=
+<<variables>>
 <<function returning students to grade>>
 <<function returning students to grade with last grading time>>
 <<clone repos>>
 <<check dates on repos>>
+<<handle ssh logins>>
 @
 
 
@@ -101,3 +103,44 @@ students_to_actually_grade() {
 }
 @
 
+
+\section{Handle SSH logins}
+
+Now, we also want to log into remote systems using SSH.
+To do this we must handle logging in with the correct user.
+When running in Docker, the default would be root.
+To make the rest of the code much easier\footnote{%
+  The need for this arose when we started using the [[dbosk/grader]] Docker 
+  image, since that one didn't include the username in the SSH config file.
+  So an alternative solution would be to include an SSH config file and update 
+  the one available in [[~/.ssh/config]] in the [[dbosk/grader]] image.
+}, we will simply create a shell function [[ssh]] that replaces the real 
+[[ssh]].
+This way we can create a sort of alias for the [[ssh]] command that adds the 
+appropriate user.
+
+We need two things, (1) the path to the original [[ssh]] executable, (2) the 
+username to use.
+
+Fortunately, we can get the original path to [[ssh]] by using [[which]] 
+\emph{before} we have replaced it with our own function.
+(Depending on which [[which]] is used, Bash's built-in or the executable, the 
+emphasis on before might not be necessary.)
+<<variables>>=
+SSH_PATH=$(which ssh)
+@
+
+The username we can get from the Kerberos login ([[KRB_USER]]).
+We simply need to remove the [[@REALM]] from there.
+<<variables>>=
+SSH_USER=$(echo ${KRB_USER} | sed "s/@.*$//")
+@
+
+Now we simply let the function add [[-l ${SSH_USER}]] to the arguments of the 
+[[ssh]] command ([[${SSH_PATH}]]).
+Then we simply pass all arguments to the function on to the real [[ssh]] 
+command.
+<<handle ssh logins>>=
+function ssh() {
+  ${SSH_PATH} -l "${SSH_USER}" $*
+}
