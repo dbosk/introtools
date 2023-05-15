@@ -138,6 +138,8 @@ grade-latex.sh: ../../modules/latex/grading/grade.sh
 grade-ssh.sh grade-terminal.sh grade-git.sh grade-latex.sh:
 	${CP} $^ $@
 
+<<target for common.sh>>
+
 ../%:
 	${MAKE} -C $(dir $@) $(notdir $@)
 
@@ -150,7 +152,8 @@ Finally, we add some cleaning.
 .PHONY: clean-scripts
 clean: clean-scripts
 clean-scripts:
-	${RM} grade-all.sh common.sh
+	${RM} grade-all.sh
+	<<cleaning for common.sh>>
 	${RM} grade-ssh.sh grade-terminal.sh grade-git.sh grade-latex.sh
 	${MAKE} -C ../../modules/ssh/grading clean
 	${MAKE} -C ../../modules/terminal/grading clean
@@ -164,6 +167,20 @@ distclean-scripts:
 	${MAKE} -C ../../modules/terminal/grading distclean
 	${MAKE} -C ../../modules/git/grading distclean
 	${MAKE} -C ../../modules/latex/grading distclean
+@
+
+
+\section{Building [[common.sh]]}
+
+The grading scripts ([[grade-*.sh]]) all depend on the include file 
+[[common.sh]], which provides some functions and settings that all of the 
+scripts rely on.
+Building is easy, it's just a built-in rule (from [[noweb.mk]]).
+<<target for common.sh>>=
+common.sh: common.sh.nw
+<<cleaning for common.sh>>=
+${RM} common.sh common.sh.pdf common.sh.tex
+${RM} common.sh.aux common.sh.fdb_latexmk common.sh.fls common.sh.log
 @
 
 
