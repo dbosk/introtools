@@ -29,7 +29,7 @@ docker run \
   -e CANVAS_SERVER -e CANVAS_TOKEN \
   -e REPBEE_USER -e REPOBEE_URL -e REPOBEE_TOKEN \
   -e COURSE_CODE -e COURSE_CODE_ORG \
-    datintro22-setup:latest
+    datintro23-setup:latest
 \end{verbatim}
 
 
@@ -53,7 +53,7 @@ We use the phony target [[${IMAGE_TARGET}]] for this.
 This variable should be updated whenever we make significant changes, so that 
 the setup procedure can vary between courses.
 <<datintro-setup.mk>>=
-IMAGE_TARGET=   datintro22-setup
+IMAGE_TARGET=   datintro23-setup
 
 .PHONY: all
 all: ${IMAGE_TARGET}
@@ -87,7 +87,7 @@ We will do this for all course rounds and continue to do it.
 We must thus map course round (on Canvas) to course round on gits-15.
 For this we use the same variable as in the grading scripts:
 \begin{center}
-[[COURSE_CODE_ORG="datintro22:datintro22 "]]
+[[COURSE_CODE_ORG="datintro23:datintro23 "]]
 \end{center}
 This variable should be set in the environment.
 <<gits-setup.sh>>=

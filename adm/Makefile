@@ -1,10 +1,10 @@
 .PHONY: all
-all: ${HOME}/datintro22.sh
+all: ${HOME}/datintro23.sh
 all: datintro-setup
 all: datintro-grade
 
-${HOME}/datintro22.sh: datintro-setup
-${HOME}/datintro22.sh: datintro-grade
+${HOME}/datintro23.sh: datintro-setup
+${HOME}/datintro23.sh: datintro-grade
 
 .PHONY: datintro-setup
 datintro-setup:
@@ -23,4 +23,4 @@ clean:
 distclean:
 	${MAKE} -C gits $@
 	${MAKE} -C grading $@
-	${RM} ${HOME}/datintro22.sh
+	${RM} ${HOME}/datintro23.sh

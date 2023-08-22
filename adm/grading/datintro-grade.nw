@@ -32,7 +32,7 @@ docker run \
   -e REPBEE_USER -e REPOBEE_URL -e REPOBEE_TOKEN \
   -e COURSE_CODE -e COURSE_CODE_ORG \
   -v /afs:/afs \
-    datintro22-grade:latest
+    datintro23-grade:latest
 \end{verbatim}
 
 
@@ -58,7 +58,7 @@ We use the phony target [[${IMAGE_TARGET}]] for this.
 This variable should be updated whenever we change the assignments, so that the 
 grading procedure can vary between courses.
 <<datintro-grade.mk>>=
-IMAGE_TARGET=   datintro22-grade
+IMAGE_TARGET=   datintro23-grade
 
 .PHONY: all
 all: ${IMAGE_TARGET}
