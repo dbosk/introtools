@@ -1,10 +1,12 @@
 .PHONY: all
-all: ${HOME}/datintro23.sh
+all: datintro.pdf datintro.sh
 all: datintro-setup
 all: datintro-grade
 
-${HOME}/datintro23.sh: datintro-setup
-${HOME}/datintro23.sh: datintro-grade
+datintro.sh: datintro-setup
+datintro.sh: datintro-grade
+
+datintro.sh: datintro.nw
 
 .PHONY: datintro-setup
 datintro-setup:
@@ -19,8 +21,13 @@ datintro-grade:
 clean:
 	${MAKE} -C gits $@
 	${MAKE} -C grading $@
+	${RM} datintro.aux datintro.fdb_latexmk datintro.fls datintro.log
+	${RM} datintro.pdf datintro.sh datintro.tex
 
 distclean:
 	${MAKE} -C gits $@
 	${MAKE} -C grading $@
-	${RM} ${HOME}/datintro23.sh
+	${RM} datintro.sh
+
+INCLUDE_MAKEFILES=../makefiles
+include ${INCLUDE_MAKEFILES}/noweb.mk

@@ -1,0 +1,176 @@
+\section{Usage}
+
+There are a few variables that controls the configuration and that should be 
+set correctly:
+\begin{enumerate}
+\item [[DATINTRO]] contains the prefix of the Docker image to use.
+This corresponds to different versions of the course.
+When this changes, we must make the corresponding changes in 
+[[gits/datintro-setup.nw]] and [[grading/datintro-grade.nw]] to build the 
+images with the correct names.
+<<constants>>=
+DATINTRO=datintro23
+@
+
+\item [[YEARS]] controls which years use this version of the course.
+We don't change the automation every year.
+It's a space-separated list.
+<<constants>>=
+YEARS=23
+@
+
+\item [[COURSE_CODE_ORG]] is a space-separated list of Canvas-to-GitHub 
+identifier maps.
+The Canvas identifier is a regex for a course in Canvas, for instance 
+[[DD1301.?HT23]].
+The GitHub identifier named the GitHub organisation.
+<<constants>>=
+for year in ${YEARS}; do
+  COURSE_CODE_ORG="${COURSE_CODE_ORG} DD1301.?[HV]T${year}:datintro${year}"
+  COURSE_CODE_ORG="${COURSE_CODE_ORG} DD1337.?HT${year}:dd1337-ht${year}-intro"
+done
+export COURSE_CODE_ORG
+<<[[-e]] exports of environment variables for [[docker run]]>>=
+-e COURSE_CODE_ORG \
+@
+
+\item [[COURSE_CODE]] contains a space-separated list of Canvas course 
+identifiers (can be regexes).
+<<constants>>=
+COURSE_CODE="DD1301.?HT2[3] DD1337.?HT2[3]"
+export COURSE_CODE
+<<[[-e]] exports of environment variables for [[docker run]]>>=
+-e COURSE_CODE \
+@
+
+\item [[courses]] and [[components]] to identify which courses and components 
+for which we should report results to LADOK.
+Can be regexes.
+<<constants>>=
+courses="DD1301.?HT2[3]"
+components="LAB1"
+@
+
+\item Credentials in the [[~/.credentials]] file.
+<<constants>>=
+source ~/.credentials
+<<[[-e]] exports of environment variables for [[docker run]]>>=
+-e KRB_USER -e KRB_PASS \
+-e CANVAS_SERVER -e CANVAS_TOKEN \
+-e REPOBEE_USER -e REPOBEE_URL -e REPOBEE_TOKEN \
+@
+
+\item [[LOG_FILE]] is the path to the log file where the grading script will 
+log its runs.
+This contains no private data and can be published for the students to see.
+<<constants>>=
+LOG_FILE="/afs/kth.se/home/d/b/dbosk/public_html/datintro/grader.log"
+@
+
+\item [[PATH]] to include any locally installed Python commands, like 
+[[canvaslms]] and [[ladok]].
+<<constants>>=
+PATH=${PATH}:~/.local/bin
+export PATH
+@
+\end{enumerate}
+
+
+\section{Code overview}
+
+<<datintro.sh>>=
+#!/bin/bash
+
+<<constants>>
+
+# Setup
+<<run the datintro-setup Docker container>>
+
+# Grading
+<<start log entry>>
+<<run datintro-grade Docker container and report to LADOK>>
+<<end log entry>>
+@
+
+
+\section{Setup}
+
+We simply run the [[datintro-setup]] image.
+However, sometimes we'd like to debug, so we pass any arguments to the image.
+In those cases, we also want to run it in interactive mode, passing [[-it]].
+If there are any arguments ([[$*]] is non-zero), then we add [[-it]].
+<<run the datintro-setup Docker container>>=
+docker run $(test -n "$*" && echo -it) \
+  <<[[-e]] exports of environment variables for [[docker run]]>>
+    ${DATINTRO}-setup:latest $*
+@
+
+We note that all lines of
+[[<<[[-e]] exports of environment variables for [[docker run]]>>]]
+ends with a [[\]], so we don't need it.
+
+See [[gits/datintro-setup.nw]] for details of the image.
+
+
+\section{Logging for students}
+
+<<start log entry>>=
+mkdir -p $(dirname $LOG_FILE)
+echo -n "datintro${YEARS}: Started grading $(date) " >> $LOG_FILE
+<<end log entry>>=
+echo "-> Finished $(date)" >> $LOG_FILE
+@
+
+
+\section{Grade and report}
+
+To not report to LADOK for nothing, we only want to do that when we have 
+actually graded something.
+The grading will output only if someone was graded (or errors occurred).
+However, we don't want that behaviour while debugging.
+To debug, we add arguments, if there are no arguments, we don't debug.
+<<run datintro-grade Docker container and report to LADOK>>=
+if [[ -n "$1" ]]
+then
+  docker run -it \
+    <<[[-e]] exports of environment variables for [[docker run]]>>
+    -v /afs:/afs \
+      ${DATINTRO}-grade:latest $*
+else
+  out="$(docker run \
+    <<[[-e]] exports of environment variables for [[docker run]]>>
+    -v /afs:/afs \
+      ${DATINTRO}-grade:latest)"
+  if [ -n "$out" ]; then
+    <<create Cron log output and report to LADOK>>
+  fi
+fi
+@
+
+We note that all lines of
+[[<<[[-e]] exports of environment variables for [[docker run]]>>]]
+ends with a [[\]], so we don't need it.
+
+See [[grading/datintro-grade.nw]] for details of the images.
+
+\subsection{Log output to Cron}
+
+If there was any output during the grading, we want to include that output in 
+the email from Cron (who runs this script).
+So we simply print the output to stdout.
+Then we report to LADOK using [[canvaslms]].
+<<create Cron log output and report to LADOK>>=
+echo "$out"
+echo
+echo "LADOK:"
+canvaslms results -c "$courses" -A "$components" | \
+  <<translate Canvas course identifiers to course codes>> | \
+  ladok report -fv
+@
+
+In Canvas, courses are named something like [[DD1301 HT23 (datintro23)]] or 
+[[DD1301HT23]] (sometimes more data).
+We want only the course code for LADOK, so we sed away everything that follows 
+the course code.
+<<translate Canvas course identifiers to course codes>>=
+sed -E "s/ ?[HV]T[0-9]*[^\t]*//"
