@@ -48,10 +48,14 @@ files.
 This is useful when we just passed the log rotation, so we don't miss any 
 students.
 We do this for each server, merging the output.
+Since some students are hired as amanuensis in other courses already, they 
+don't have access to student-shell, but staff-shell, we should check that one 
+too.
 The output will be a list of unique usernames only.
 <<get last(1) output from student-shell>>=
 students_that_signed_in() {
-  for shell in student-shell-1 student-shell-2 student-shell-3; do
+  for shell in student-shell-1 student-shell-2 student-shell-3 staff-shell;
+  do
     ssh $shell.sys.kth.se \
       'for f in /var/log/wtmp*; do last -f $f; done' 2>/dev/null \
         || exit 1
