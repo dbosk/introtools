@@ -36,8 +36,16 @@ export COURSE_CODE_ORG
 
 \item [[COURSE_CODE]] contains a space-separated list of Canvas course 
 identifiers (can be regexes).
+This controls which courses should have the SSH and Terminal assignments 
+graded, whereas the above controls which courses should have Git and LaTeX 
+graded.
 <<constants>>=
-COURSE_CODE="DD1301.?HT2[3] DD1337.?HT2[3]"
+for year in ${YEARS}; do
+  COURSE_CODE="${COURSE_CODE} DD1301.?[HV]T${year}"
+  COURSE_CODE="${COURSE_CODE} DD1337.?HT${year}"
+  COURSE_CODE="${COURSE_CODE} DD1310.?HT${year}"
+  COURSE_CODE="${COURSE_CODE} DD1317.?HT${year}"
+done
 export COURSE_CODE
 <<[[-e]] exports of environment variables for [[docker run]]>>=
 -e COURSE_CODE \
