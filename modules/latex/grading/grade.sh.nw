@@ -114,7 +114,7 @@ generate_feedback() {
       echo "https://daniel.bosk.se/introtools/modules/latex/latex"
       echo
     fi
-    if ! check_student $s $texfiles "\\\\begin{(.*figure|table)}"; then
+    if ! check_student $s $texfiles "\\\\begin ?{(.*figure|table)}"; then
       echo "No figure found:"
       echo "Hint: an image is not a figure, but a figure can contain an image."
       echo "See the fourth video lecture (Video: Figures and Tables) from"
