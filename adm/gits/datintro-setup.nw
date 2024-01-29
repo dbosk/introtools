@@ -117,7 +117,7 @@ done
 
 Now we can fetch the users using the [[canvaslms]] command.
 <<print users for round to stdout>>=
-canvaslms users -c "${round}" | cut -f 2 | sed "s/@kth.se//"
+canvaslms users -sc "${round}" | cut -f 2 | sed "s/@kth.se//"
 @
 
 We can create repos, teams and add the students using [[repobee]].
