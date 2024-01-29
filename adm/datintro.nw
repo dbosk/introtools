@@ -3,13 +3,13 @@
 There are a few variables that controls the configuration and that should be 
 set correctly:
 \begin{enumerate}
-\item [[DATINTRO]] contains the prefix of the Docker image to use.
+\item [[IMGNAME]] contains the prefix of the Docker image to use.
 This corresponds to different versions of the course.
 When this changes, we must make the corresponding changes in 
 [[gits/datintro-setup.nw]] and [[grading/datintro-grade.nw]] to build the 
 images with the correct names.
 <<constants>>=
-DATINTRO=datintro23
+IMGNAME=datintro23
 @
 
 \item [[YEARS]] controls which years use this version of the course.
@@ -110,7 +110,7 @@ If there are any arguments ([[$*]] is non-zero), then we add [[-it]].
 <<run the datintro-setup Docker container>>=
 docker run $(test -n "$*" && echo -it) \
   <<[[-e]] exports of environment variables for [[docker run]]>>
-    ${DATINTRO}-setup:latest $*
+    ${IMGNAME}-setup:latest $*
 @
 
 We note that all lines of
@@ -143,12 +143,12 @@ then
   docker run -it \
     <<[[-e]] exports of environment variables for [[docker run]]>>
     -v /afs:/afs \
-      ${DATINTRO}-grade:latest $*
+      ${IMGNAME}-grade:latest $*
 else
   out="$(docker run \
     <<[[-e]] exports of environment variables for [[docker run]]>>
     -v /afs:/afs \
-      ${DATINTRO}-grade:latest)"
+      ${IMGNAME}-grade:latest)"
   if [ -n "$out" ]; then
     <<create Cron log output and report to LADOK>>
   fi
