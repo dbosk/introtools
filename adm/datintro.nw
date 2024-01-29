@@ -16,7 +16,7 @@ IMGNAME=datintro23
 We don't change the automation every year.
 It's a space-separated list.
 <<constants>>=
-YEARS=23
+YEARS=23 24
 @
 
 \item [[COURSE_CODE_ORG]] is a space-separated list of Canvas-to-GitHub 
