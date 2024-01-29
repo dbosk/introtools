@@ -54,8 +54,10 @@ export COURSE_CODE
 \item [[courses]] and [[components]] to identify which courses and components 
 for which we should report results to LADOK.
 Can be regexes.
+We'll use the [[YEARS]] variable from above to construct the [[courses]] 
+variable.
 <<constants>>=
-courses="DD1301.?HT2[3]"
+courses="DD1301.?[VH]T(${YEARS// /|})"
 components="LAB1"
 @
 
