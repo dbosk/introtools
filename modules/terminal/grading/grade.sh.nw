@@ -56,9 +56,15 @@ user:path.
 We first upload a script to the server, then run it passing the list of 
 students through stdin.
 The function takes the list of students as the list of arguments.
+
+We want to rotate between the shell server to not trigger any load protections.
+The faculty-shell server seems to go unavailable (network unreachable) after a 
+few invocations.
+We favour the staff server, by two thirds.
+We also introduce a small delay between runs.
 <<function to get home directory>>=
 get_home_directory() {
-  local shellserver="faculty-shell.sys.kth.se"
+  local shellserver="$(shuf -n1 -e faculty staff staff)-shell.sys.kth.se"
   local script='
     read students;
     for s in $students; do
@@ -69,10 +75,16 @@ get_home_directory() {
   local scriptname=$(echo $script | ssh ${shellserver} \
     'read script; fn=$(mktemp); echo $script > $fn; echo $fn' 2> /dev/null)
 
+  sleep 2
+
   echo $* | ssh ${shellserver} /bin/bash ${scriptname} \
     2> /dev/null
 
+  sleep 2
+
   ssh ${shellserver} rm -Rf ${scriptname} 2> /dev/null
+
+  sleep 30
 }
 @
 
