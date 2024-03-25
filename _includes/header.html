@@ -5,7 +5,7 @@
     {%- assign page_paths = site.header_pages | default: default_paths -%}
     {%- assign titles_size = site.pages | map: 'title' | join: '' | size -%}
     {%- assign module_parts = page.url | split: "/" -%}
-    {%- assign module_name = module_parts[2] | default: "index" -%}
+    {%- assign module_name = module_parts[3] | default: "index" -%}
     {%- assign navigation = site.data.navigation['modules'] -%}
     {%- assign module = navigation[module_name] -%}
     <div class="site-title">
@@ -30,13 +30,13 @@
           <a class="page-link" href="{{ navigation[module.prev].path | 
                     relative_url }}">
             &lt;
-            {{ navigation[module.prev].title | default: "Föregående" }}
+            {{ navigation[module.prev].title | default: "Previous" }}
           </a>
           {%- endif -%}
           {%- if module.next -%}
           <a class="page-link" href="{{ navigation[module.next].path | 
                     relative_url }}">
-            {{ navigation[module.next].title | default: "Nästa" }}
+            {{ navigation[module.next].title | default: "Next" }}
             &gt;
           </a>
           {%- endif -%}
