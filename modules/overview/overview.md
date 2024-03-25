@@ -1,4 +1,6 @@
 ---
+id: overview
+title: Course overview
 authors:
   - Daniel Bosk <dbosk@kth.se>
 ---

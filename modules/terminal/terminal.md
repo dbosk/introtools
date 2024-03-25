@@ -1,4 +1,6 @@
 ---
+id: terminal
+title: The terminal
 authors:
   - Daniel Bosk <dbosk@kth.se>
 ---

@@ -1,4 +1,6 @@
 ---
+id: git
+title: Git
 authors:
   - Daniel Bosk <dbosk@kth.se>
   - Ric Glassey <glassey@kth.se>

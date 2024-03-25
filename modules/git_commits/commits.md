@@ -1,3 +1,11 @@
+---
+id: commits
+title: Good commit messages
+authors:
+  - Amanda Berg
+  - Daniel Bosk
+---
+
 # Good commit messages
 
 This module tries to teach the core of good commit messages when working with 

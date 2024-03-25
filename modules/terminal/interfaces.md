@@ -1,4 +1,6 @@
 ---
+id: interfaces
+title: Briefly on interfaces
 authors:
   - Daniel Bosk <dbosk@kth.se>
 ---

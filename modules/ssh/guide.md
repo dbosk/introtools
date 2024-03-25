@@ -1,4 +1,6 @@
 ---
+id: guide
+title: Guide to accessing the terminal
 authors:
   - Daniel Bosk <dbosk@kth.se>
 ---
