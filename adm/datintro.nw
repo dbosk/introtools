@@ -94,6 +94,7 @@ export PATH
 <<constants>>
 
 # Setup
+<<ask IT to merge Canvas rooms>>
 <<run the datintro-setup Docker container>>
 
 # Grading
@@ -105,7 +106,57 @@ export PATH
 
 \section{Setup}
 
-We simply run the [[datintro-setup]] image.
+IT automatically creates separate Canvas rooms for all the course instances.
+However, we want to merge them into one, so that all students can communicate 
+with each other.
+
+IT creates the course instances 270 days before the course start.
+This gives us time to email them as soon as the new course rooms pops up in 
+Canvas.
+
+To do this, whenever we notice there are more than one matching course room in 
+Canvas, we'll send an email to IT and ask them to merge the courses.
+However, we don't want to run this too often, so that we don't send another 
+email before IT has acted on the first.
+<<ask IT to merge Canvas rooms>>=
+<<condition to not send too often>>
+  course_rooms=$(canvaslms courses "DD1301.(HT${YEAR}|VT$(expr $YEAR + 1))")
+  if test "$?" = "0" -a "$(echo "${course_rooms}" | wc -l)" -gt 1
+  then
+    echo "
+Hej!
+
+Kan ni slå ihop följande canvasrum till DD1301 HT${YEAR} (datintro${YEAR})?
+
+${course_rooms}
+
+    Tack så mycket,
+
+        Daniel
+    " | mutt -s "Slå ihop canvasrum" it-support@kth.se
+  fi
+<<end condition to not send too often>>
+@
+
+We only want to ask IT to merge the rooms once every two weeks; particularly, 
+only on days 1, 14 and 28 (that way we catch last of February too).
+That way, they should have had the time to merge the rooms before we ask them 
+about the same thing again.
+<<condition to not send too often>>=
+case "$(date +%d)" in
+  01|14|28)
+<<end condition to not send too often>>=
+    ;;
+  *)
+    ;;
+esac
+@
+
+Once we have the Canvas rooms that we want, we simply run the 
+[[datintro-setup]] image for them.
+(Note that the merging of the rooms happens months before any students are in 
+the course.)
+
 However, sometimes we'd like to debug, so we pass any arguments to the image.
 In those cases, we also want to run it in interactive mode, passing [[-it]].
 If there are any arguments ([[$*]] is non-zero), then we add [[-it]].
