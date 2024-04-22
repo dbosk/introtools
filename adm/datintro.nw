@@ -123,7 +123,14 @@ email before IT has acted on the first.
   course_rooms=$(canvaslms courses "DD1301.(HT${YEAR}|VT$(expr $YEAR + 1))")
   if test "$?" = "0" -a "$(echo "${course_rooms}" | wc -l)" -gt 1
   then
-    echo "
+    <<send email to IT to merge Canvas rooms in [[course_rooms]]>>
+  fi
+<<end condition to not send too often>>
+@
+
+We simply generate a message that we send to IT on the usual email address.
+<<send email to IT to merge Canvas rooms in [[course_rooms]]>>=
+echo "
 Hej!
 
 Kan ni slå ihop följande canvasrum till DD1301 HT${YEAR} (datintro${YEAR})?
@@ -133,23 +140,34 @@ ${course_rooms}
     Tack så mycket,
 
         Daniel
-    " | mutt -s "Slå ihop canvasrum" it-support@kth.se
-  fi
-<<end condition to not send too often>>
+" | fmt | mutt -s "Slå ihop canvasrum" it-support@kth.se
 @
 
 We only want to ask IT to merge the rooms once every two weeks; particularly, 
 only on days 1, 14 and 28 (that way we catch last of February too).
 That way, they should have had the time to merge the rooms before we ask them 
 about the same thing again.
+
+However, this only works if we run the script \emph{at most once} every day.
+This is mostly the case, but we run it once an hour during September and end of 
+August.
+\begin{verbatim}
+00,30 8-20 22-31 Aug * /bin/bash ${HOME}/datintro23.sh
+00,30 8-20 * Sep * /bin/bash ${HOME}/datintro23.sh
+00 02 * * * /bin/bash ${HOME}/datintro23.sh
+\end{verbatim}
+So we avoid running this part during August and September.
 <<condition to not send too often>>=
-case "$(date +%d)" in
-  01|14|28)
+if ! test "$(date +%m)" = "09" -o "$(date +%m)" = "08"
+then
+  case "$(date +%d)" in
+    01|14|28)
 <<end condition to not send too often>>=
-    ;;
-  *)
-    ;;
-esac
+      ;;
+    *)
+      ;;
+  esac
+fi
 @
 
 Once we have the Canvas rooms that we want, we simply run the 
