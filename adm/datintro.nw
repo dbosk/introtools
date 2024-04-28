@@ -119,6 +119,7 @@ Canvas, we'll send an email to IT and ask them to merge the courses.
 However, we don't want to run this too often, so that we don't send another 
 email before IT has acted on the first.
 <<ask IT to merge Canvas rooms>>=
+YEAR=$(date +%y)
 <<condition to not send too often>>
   course_rooms=$(canvaslms courses "DD1301.(HT${YEAR}|VT$(expr $YEAR + 1))")
   if test "$?" = "0" -a "$(echo "${course_rooms}" | wc -l)" -gt 1
