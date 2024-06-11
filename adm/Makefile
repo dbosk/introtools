@@ -2,6 +2,15 @@
 all: datintro.pdf datintro.sh
 all: datintro-setup
 all: datintro-grade
+all: nytid.pdf nytid.sh
+
+.INTERMEDIATE: datintro.tex nytid.tex
+
+datintro.pdf: datintro.nw
+	${NOWEAVE.pdf}
+
+nytid.pdf: nytid.nw
+	${NOWEAVE.pdf} -shell-escape
 
 datintro.sh: datintro-setup
 datintro.sh: datintro-grade
@@ -23,6 +32,8 @@ clean:
 	${MAKE} -C grading $@
 	${RM} datintro.aux datintro.fdb_latexmk datintro.fls datintro.log
 	${RM} datintro.pdf datintro.sh datintro.tex
+	${RM} nytid.aux nytid.fdb_latexmk nytid.fls nytid.log
+	${RM} nytid.pdf nytid.sh nytid.tex
 
 distclean:
 	${MAKE} -C gits $@
