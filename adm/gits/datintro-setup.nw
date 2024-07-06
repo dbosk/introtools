@@ -110,6 +110,11 @@ for round in ${COURSE_CODE_ORG}; do
 
   users=$(mktemp)
   extract_users ${canvas_id} > ${users}
+  if [[ ! -s ${users} ]]; then
+    rm $users
+    continue
+  fi
+
   add_to_org ${gits_id} ${users}
   rm $users
 done

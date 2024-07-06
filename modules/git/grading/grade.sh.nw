@@ -103,6 +103,9 @@ grade_students() {
     local github=$(echo $course | cut -f 2 -d :)
 
     local students_w_times=$(students_with_grading_time "$canvas" "$assignm")
+    if [[ -z "$students_w_times" ]]; then
+      continue
+    fi
 
     local repos=$(clone_repos $github $(echo "$students_w_times" | cut -f 1))
 
