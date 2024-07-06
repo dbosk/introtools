@@ -94,6 +94,7 @@ export PATH
 <<constants>>
 
 # Setup
+<<ask IT to merge Canvas rooms>>
 <<run the datintro-setup Docker container>>
 
 # Grading
@@ -105,7 +106,93 @@ export PATH
 
 \section{Setup}
 
-We simply run the [[datintro-setup]] image.
+IT automatically creates separate Canvas rooms for all the course instances.
+However, we want to merge them into one, so that all students can communicate 
+with each other.
+
+IT creates the course instances 270 days before the course start.
+This gives us time to email them as soon as the new course rooms pops up in 
+Canvas.
+
+To do this, whenever we notice there are more than one matching course room in 
+Canvas, we'll send an email to IT and ask them to merge the courses.
+However, we don't want to run this too often, so that we don't send another 
+email before IT has acted on the first.
+<<ask IT to merge Canvas rooms>>=
+YEAR=$(date +%y)
+<<condition to not send too often>>
+  course_rooms=$(canvaslms courses "DD1301.(HT${YEAR}|VT$(expr $YEAR + 1))")
+  if test "$?" = "0" -a "$(echo "${course_rooms}" | wc -l)" -gt 1
+  then
+    <<send email to IT to merge Canvas rooms in [[course_rooms]]>>
+  fi
+<<end condition to not send too often>>
+@
+
+We simply generate a message that we send to IT on the usual email address.
+<<send email to IT to merge Canvas rooms in [[course_rooms]]>>=
+<<adjust IFS for the loop>>
+echo "
+Hej!
+
+Kan ni slå ihop följande canvasrum till DD1301 HT${YEAR} (datintro${YEAR})?
+
+$(for course in ${course_rooms}; do
+    echo -n " - "
+    echo "${course}" | cut -f 1,3- | sed "s/\t/ /g"
+  done)
+
+    Tack så mycket,
+
+        Daniel
+" | <<fix indents>> | mutt -s "Slå ihop canvasrum" it-support@kth.se
+<<restore IFS>>
+<<adjust IFS for the loop>>=
+oldIFS="$IFS"
+IFS=$'\n'
+<<restore IFS>>=
+IFS="$oldIFS"
+@
+
+Now, Noweb will indent the message due to its block appearing indented.
+But we don't want an indented message.
+So we fix it like this:
+<<fix indents>>=
+sed "s/^    //"
+@
+
+We only want to ask IT to merge the rooms once every two weeks; particularly, 
+only on days 1 and 15, that way we get twice a month.
+That way, they should have had the time to merge the rooms before we ask them 
+about the same thing again.
+
+However, this only works if we run the script \emph{at most once} every day.
+This is mostly the case, but we run it once an hour during September and end of 
+August.
+\begin{verbatim}
+00,30 8-20 22-31 Aug * /bin/bash ${HOME}/datintro23.sh
+00,30 8-20 * Sep * /bin/bash ${HOME}/datintro23.sh
+00 02 * * * /bin/bash ${HOME}/datintro23.sh
+\end{verbatim}
+So we avoid running this part during August and September.
+<<condition to not send too often>>=
+if ! test "$(date +%m)" = "09" -o "$(date +%m)" = "08"
+then
+  case "$(date +%d)" in
+    01|15)
+<<end condition to not send too often>>=
+      ;;
+    *)
+      ;;
+  esac
+fi
+@
+
+Once we have the Canvas rooms that we want, we simply run the 
+[[datintro-setup]] image for them.
+(Note that the merging of the rooms happens months before any students are in 
+the course.)
+
 However, sometimes we'd like to debug, so we pass any arguments to the image.
 In those cases, we also want to run it in interactive mode, passing [[-it]].
 If there are any arguments ([[$*]] is non-zero), then we add [[-it]].
