@@ -1,0 +1,396 @@
+\section{Overview}
+
+We want to set up the course in Nytid.
+There are several course instances that have separate schedules, but we want to 
+merge them into one sign-up sheet.
+
+The approach we take is that we add them as separate courses in Nytid.
+Then we generate one sign-up sheet per course, merge them (and sort by date) 
+and then put one sign-up sheet in Nytid.
+We'll create a fake course for all with the merged sign-up sheet.
+
+Finally, we want to send that sign-up sheet to Mottagningen.
+
+We'll do this as a shell script.
+<<nytid.sh>>=
+#!/bin/bash
+
+# Configuration
+<<variables>>
+
+# Functions
+<<functions>>
+@
+
+\section{Usage and configuration}
+
+We'll have a few configuration variables.
+We add a note that this is the only part that needs updating from year to year, 
+this way we can edit the [[nytid.sh]] file directly, if we like.
+<<variables>>=
+# This section is the only thing that needs updating from year to year.
+COURSE="datintro24"
+@
+
+As to usage, we intend it as an include file in another script.
+This allows us to only call the different parts as well.
+If we run [[. nytid.sh]] directly in our shell, we can call the functions 
+directly.
+For example, we have the following functions (among others):
+<<functions>>=
+set_up_nytid() {
+  <<call [[nytid]] to create instances>>
+}
+
+generate_timesheets() {
+  <<generate sign-up sheets for each instance>>
+  <<merge sign-up sheets into one>>
+  <<copy the sign-up sheet to Google Sheets>>
+}
+
+all() {
+  set_up_nytid
+  generate_timesheets
+  <<call all functions>>
+}
+@ This allows us to call [[all]] to run everything.
+Or call one of the other functions to run only that part.
+
+
+\section{The separate course instances}
+
+We have a few instances of the course:
+We'll add them as separate courses in Nytid.
+<<variables>>=
+INSTANCES="cinek ctfys cfate-ctmat cdate"
+@
+
+\subsection{CINEK}
+
+<<call [[nytid]] to create instances>>=
+nytid courses new ${COURSE}-cinek \
+  --register tcs --code DD1301 \
+  --ics ${CINEK_ICS} \
+  --num-students ${CINEK_NUM} \
+  --num-groups ${CINEK_GROUPS}
+<<variables>>=
+CINEK_ICS="https://cloud.timeedit.net/kth/web/staff01/ri63n6ZbgQ60wZQ040Q2YQ98Z86uX1eZQ5QY486y4058056YtZ55dF087DE77490795Bt6CC5E5DQE9C0D61E21CBZ655.ics"
+CINEK_NUM=160
+CINEK_GROUPS=6
+@
+
+\subsection{CTFYS}
+
+<<call [[nytid]] to create instances>>=
+nytid courses new ${COURSE}-ctfys \
+  --register tcs --code DD1301 \
+  --ics ${CTFYS_ICS} \
+  --num-students ${CTFYS_NUM} \
+  --num-groups ${CTFYS_GROUPS}
+<<variables>>=
+CTFYS_ICS="https://cloud.timeedit.net/kth/web/staff01/ri63n6ZbgQ60wZQ040Q2YQ98Z86uX1eZQ5QY486y4056056YtZ55d1B0EE14645170CEtCF5A956Q9BCE69EBC85EZ565.ics"
+CTFYS_NUM=140
+CTFYS_GROUPS=6
+@
+
+\subsection{CFATE+CTMAT}
+
+<<call [[nytid]] to create instances>>=
+nytid courses new ${COURSE}-cfate-ctmat \
+  --register tcs --code DD1301 \
+  --ics ${CFATE_CTMAT_ICS} \
+  --num-students ${CFATE_CTMAT_NUM} \
+  --num-groups ${CFATE_CTMAT_GROUPS}
+<<variables>>=
+CFATE_CTMAT_ICS="https://cloud.timeedit.net/kth/web/staff01/ri63n6ZbgQ60wZQ040Q2YQ98Z86uX1eZQ5QY486y4057056YtZ55d5AE9DF2142F7D43t9083B58QAD6200510AD9Z4F5.ics"
+CFATE_CTMAT_NUM=100
+CFATE_CTMAT_GROUPS=2
+@
+
+\subsection{CDATE}
+
+<<call [[nytid]] to create instances>>=
+nytid courses new ${COURSE}-cdate \
+  --register tcs --code DD1301 \
+  --ics ${CDATE_ICS} \
+  --num-students ${CDATE_NUM} \
+  --num-groups ${CDATE_GROUPS}
+<<variables>>=
+CDATE_ICS="https://cloud.timeedit.net/kth/web/staff01/ri63X60Yg56080Q0g0QY8648Z469X150862Y590yZ05Q4426X64388Z488492719441Z25b678XQ4Q140ntXZ4uY78ZX4Q57d345te510CF93F00F3QA82C7098DD424803003DCEF7.ics"
+CDATE_NUM=200
+CDATE_GROUPS=1
+@
+
+We note that the sign-up sheet for CDATE must be manually filtered from INDA 
+events.
+
+\subsection{Generating sign-up sheets}
+
+We generate the sign-up sheets for each course using a regex matching all 
+courses, that is the [[${COURSE}]] prefix.
+We must also use the [[--register tcs]] option to find them.
+(This also avoids the merged course, which is in the [[mine]] register.
+See below.)
+<<generate sign-up sheets for each instance>>=
+<<make sure [[data_path]] exists>>
+nytid signupsheets generate ${COURSE} --register tcs --edit
+<<wait for the user editing all instance sheets>>
+@ Now each sign-up sheet will be located in the respective course's data 
+directory.
+
+To prevent the script from proceeding to the merging, we'll wait here until 
+we're done editing.
+We'll let the user press enter to continue.
+<<wait for the user editing all instance sheets>>=
+echo "Press enter when done editing the instances ..."
+read
+@
+
+For now there is a limitation in the Nytid implementation.
+It doesn't automatically create the data directory.
+<<make sure [[data_path]] exists>>=
+for instance in ${INSTANCES}; do
+  local data_path=$(nytid courses config ${COURSE}-${instance} data_path \
+                      --register tcs \
+                    | sed "s/.*= //")
+  mkdir -p ${data_path}
+done
+@
+
+
+\section{The merged course}
+
+We'll create the fake course in the same manner as above.
+However, we don't need to add any information to it, since we generate the 
+sign-up sheets using the separate courses.
+Another important detail is that we add it to the [[mine]] register.
+<<call [[nytid]] to create instances>>=
+nytid courses new ${COURSE} --code DD1301 --register tcs
+nytid courses mine add ${COURSE} tcs
+@
+
+We'll now merge the sign-up sheets.
+We'll do this by fetching each sign-up sheet from each course's data directory,
+we'll merge them into one by concatenation and then sort them to get them 
+ordered by date and time.
+<<functions>>=
+merge_sheets() {
+  local COURSE=$1
+  shift
+
+  local dest_data_path=$(nytid courses config ${COURSE} data_path \
+                          | sed "s/.*= //")
+  mkdir -p ${dest_data_path}
+  local timestamp=$(date +%Y%m%d%H%M%S)
+
+  for instance in $*; do
+    latest_sheet=$(get_latest_sheet ${COURSE} ${instance})
+    tail -n +2 ${latest_sheet}
+  done | <<sort events and add the correct heading>> \
+      > ${dest_data_path}/signup-${COURSE}-${timestamp}.csv
+
+  echo ${dest_data_path}/signup-${COURSE}-${timestamp}.csv
+}
+<<merge sign-up sheets into one>>=
+local sheet=$(merge_sheets ${COURSE} ${INSTANCES})
+@
+
+\subsection{Getting the latest sign-up sheet}
+
+We want to get the latest sign-up sheet.
+We take the base course name and the course instance name.
+We return the file name by printing it.
+<<functions>>=
+get_latest_sheet() {
+  local COURSE=$1
+  local instance=$2
+  data_path=$(nytid courses config --register tcs \
+                ${COURSE}-${instance} data_path \
+              | sed "s/.*= //")
+  ls ${data_path}/signup-*.csv | tail -n 1
+}
+@
+
+\subsection{Sorting the events, adding correct heading}
+
+We want to add a heading.
+We want to take the longest one, so that we get enough ``TA username'' column 
+titles.
+We do this in the pipe above, so we'll create a subshell (using parentheses), 
+inject the heading and then sort the events.
+The [[head]] command will not touch stdin (that is, whatever is coming through 
+the pipe), that's left for the [[sort]] command.
+<<sort events and add the correct heading>>=
+(get_longest_header ${COURSE} $*; <<[[sort]] the output>>)
+@
+
+\subsection{Getting the longest header}
+
+We want to use the longest header to make sure we get all columns.
+(This will be particularly important if we switch Nytid to use named columns 
+instead of numbered.)
+We'll go through line by line and output the longest.
+<<functions>>=
+get_longest_header() {
+  local COURSE=$1
+  shift
+  local longest=""
+  for instance in $*; do
+    local latest_sheet=$(get_latest_sheet ${COURSE} ${instance})
+    local header=$(head -n 1 ${latest_sheet})
+    if [[ ${#header} -gt ${#longest} ]]; then
+      longest=$header
+    fi
+  done
+  echo "$longest"
+}
+@
+
+\subsection{Sorting the events}
+
+Let's get to the sorting.
+We want to sort the events by date.
+We'll use the start date, which is the second column ([[-k 2]] option to 
+[[sort]]).
+The columns are tab separated, so we'll use tab as the delimiter
+([[-t $'\t']]).
+We also want to remove duplicates ([[-u]]).
+
+However, to remove the duplicates, we must first remove all the tabs at the end 
+of each line.
+Duplicate lines might have different number of tabs at the end, so we must 
+remove them before sorting.
+<<[[sort]] the output>>=
+sed -E "s/\t+$//" | sort -k 2 -t $'\t' -u
+@
+
+\subsection{Copying the sign-up sheet to Google Sheets}
+
+Finally, we also want to open the sign-up sheet in the default editor.
+This is to make it easier to copy it to the Google Sheet.
+We also open the Google Sheet in the default browser.
+<<copy the sign-up sheet to Google Sheets>>=
+open ${SHEET_URL} &
+loffice ${sheet} &
+echo "Waiting for the sheets to close ..."
+wait
+<<variables>>=
+SHEET_URL="https://docs.google.com/spreadsheets/d/1z5ntmTTMqHYJActgu3lfAEeykOAI_LpHkQ0YohdlvXE/edit?usp=sharing"
+@
+
+We also want to store the URL to the Google Sheet in the course's 
+configuration.
+<<copy the sign-up sheet to Google Sheets>>=
+nytid signupsheets set-url ${COURSE} ${SHEET_URL}
+@
+
+
+\section{Email sign-up sheet to Mottagningen}
+
+Lastly we want to email the sign-up sheet URL to Mottagningen.
+We need to double check the email address to Datasektionens Mottagning.
+<<variables>>=
+# Check address on https://datasektionen.se/namnder/mottagningen
+MOTTAGNINGEN="storasyskon@datasektionen.se"
+DD1337=glassey@kth.se
+@
+
+We'll send the following message.
+We can use the variables directly in the message since they are already defined 
+above.
+<<variables>>=
+SUBJECT="Mottagningen @ ${COURSE}"
+MESSAGE="
+Hej!
+
+Det börjar närma sig terminsstart. Mottagningen brukar ju vara en del av 
+${COURSE} och jag räknar med er i år igen.
+
+Jag har skapat en sign-up sheet för ${COURSE}. Den täcker alla pass, även 
+datintro-passen för DD1337 INDA (men inga andra pass på DD1337). Be alla assar 
+att boka in sig på pass där. Ni hittar den på följande länk:
+
+  ${SHEET_URL}
+
+Det arket används för att automatiskt generera scheman som ni kan importera 
+till era kalendrar, lägg till
+
+  https://people.kth.se/~dbosk/nytid/${COURSE}.ics
+
+i kalendern för att få *alla* bokningar. Individuella assar kan lägga till 
+följande för att bara få *sina egna* bokningar:
+
+  https://people.kth.se/~dbosk/nytid/<username>.ics
+
+Dessa ICS-filer uppdateras en gång i timmen. Men om ni lägger till dem i Google 
+Calendar så uppdaterar Google ca var 12:e timme.
+
+*Det är viktigt att ni håller arket uppdaterat*. När vi når *första oktober* 
+genereras tidrapporterna automatiskt och skickas iväg för betalning. Så ingen 
+asse behöver fylla i sådana och skicka till mig.
+
+Slutligen, maila mig ditt användarnamn så lägger jag till dig i Stay a While så 
+att du får rättighet att lägga till assar i kön.
+
+Hör av er om ni har några frågor!
+
+          Lycka till och tack för att ni hjälper till!
+
+                  Daniel
+"
+@
+
+Since we're likely to run this script before summer, we'll schedule the email 
+to be sent in August.
+
+We'll have a function to email Mottagningen and one to schedule sending the 
+email.
+The difference is that the second simply echoes the code to the [[at]] command 
+instead of executing it directly.
+<<functions>>=
+email_mottagningen() {
+  <<email mottagningen>>
+}
+schedule_email() {
+  <<export email variables>>
+  echo '
+<<email mottagningen>>
+' | at 10:00 August 10
+}
+@
+
+To send the email, we simply use the variables set up earlier.
+<<email mottagningen>>=
+echo "${MESSAGE}" \
+  | mutt -s "${SUBJECT}" -c "${DD1337}" "${MOTTAGNINGEN}"
+@
+
+For the scheduling, we must export the variables.
+This is because the echo in the [[schedule_email]] function uses single quotes, 
+which means that variable expansion doesn't happen.
+Unfortunately, we must do it like this since we use double quotes in
+[[<<email mottagningen>>]].
+<<export email variables>>=
+export MOTTAGNINGEN DD1337 SUBJECT MESSAGE
+@
+
+Finally, we'll call the function to schedule the email in the [[all]] function 
+too.
+<<call all functions>>=
+schedule_email
+@
+
+
+\section{Schedule reminder}
+
+We also want a reminder to update the config and do this again next year.
+We'll schedule this to be sent next year.
+<<functions>>=
+schedule_reminder() {
+  echo '
+echo "Remember to update the configuration in `pwd`/nytid.sh and run it again." \
+  | mutt -s "Update datintro Nytid configuration" dbosk@kth.se
+' | at next year
+}
+<<call all functions>>=
+schedule_reminder
