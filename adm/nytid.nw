@@ -29,7 +29,8 @@ We add a note that this is the only part that needs updating from year to year,
 this way we can edit the [[nytid.sh]] file directly, if we like.
 <<variables>>=
 # This section is the only thing that needs updating from year to year.
-COURSE="datintro24"
+YEAR=24
+COURSE="datintro${YEAR}"
 @
 
 As to usage, we intend it as an include file in another script.
@@ -167,6 +168,13 @@ Another important detail is that we add it to the [[mine]] register.
 <<call [[nytid]] to create instances>>=
 nytid courses new ${COURSE} --code DD1301 --register tcs
 nytid courses mine add ${COURSE} tcs
+@
+
+We also want to add the UG path for adding TAs to the course.
+We want to add them to the merged course.
+<<call [[nytid]] to create instances>>=
+nytid courses config ${COURSE} ug.assistants -s \
+  "edu.courses.DD.DD1301.20${YEAR}2.[0-9]+.assistants"
 @
 
 We'll now merge the sign-up sheets.
