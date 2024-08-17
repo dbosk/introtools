@@ -41,6 +41,7 @@ also have a command-line interface, it's not compatible with a UNIX-like
 interface. If you run Windows 10, just go ahead and install Windows Subsystem 
 for Linux (WSL) to run Ubuntu in Windows. There are various guides:
 
+  - [Installing WSL2 on Windows][wsl2install] (FeedbackFruits, recommended)
   - [Microsoft's installation guide][ms-wsl] 
   - [Ubuntu's installation guide][ubuntu-wsl]
   - [omg!ubuntu!'s guide][WSL2]
@@ -48,6 +49,7 @@ for Linux (WSL) to run Ubuntu in Windows. There are various guides:
 
 Pick your favourite!
 
+[wsl2install]: https://eu.feedbackfruits.com/courses/activity-course/0ccfb0cc-3274-470f-9def-0ddec7bd1c73
 [ms-wsl]: https://aka.ms/wsl2-install
 [ubuntu-wsl]: https://ubuntu.com/tutorials/ubuntu-on-windows#1-overview
 [WSL]: https://www.howtogeek.com/249966/how-to-install-and-use-the-linux-bash-shell-on-windows-10/
