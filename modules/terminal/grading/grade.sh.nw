@@ -30,7 +30,7 @@ We expect the course code to be set by the environment.
 
 We must also set the [[ASSIGNMENT]] variable. This is a regular expression.
 <<configuration variables>>=
-ASSIGNMENT="(The terminal)"
+ASSIGNMENT="^(The terminal)$"
 @
 
 
