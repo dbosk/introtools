@@ -38,7 +38,7 @@ We expect the course code to be set by the environment.
 
 We must set the [[ASSIGNMENT]] variable. This is a regular expression.
 <<configuration variables>>=
-ASSIGNMENT="(Writing a report in LaTeX)"
+ASSIGNMENT="^(Writing a report in LaTeX)$"
 @
 
 
