@@ -2,5 +2,5 @@
 	path = makefiles
 	url = https://github.com/dbosk/makefiles.git
 [submodule "modules/terminal/toplist/skye-datintro"]
-	path = modules/terminal/toplist/skye-datintro
+	path = modules/toplist/skye-datintro
 	url = git@gits-15.sys.kth.se:dd1337-ht24-intro/skye-datintro.git

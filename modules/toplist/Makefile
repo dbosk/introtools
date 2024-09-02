@@ -26,8 +26,8 @@ distclean:
 	rm -f submissions.csv
 
 
-INCLUDE_MAKEFILES=../../../makefiles
+INCLUDE_MAKEFILES=../../makefiles
 include ${INCLUDE_MAKEFILES}/tex.mk
 include ${INCLUDE_MAKEFILES}/noweb.mk
-#INCLUDE_DIDACTIC=../../../didactic
+#INCLUDE_DIDACTIC=../../didactic
 #include ${INCLUDE_DIDACTIC}/didactic.mk

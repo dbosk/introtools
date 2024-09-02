@@ -26,7 +26,10 @@
     Parts of this document have been autocompleted using GitHub Copilot.
   }\\
   {\small with contributions from}\\
-  Skye Kaijser%
+  Skye Kaijser\thanks{%
+    The solution to the challenge that Skye provided is licensed under a 
+    CC-BY-SA 4.0 license.
+  }%
 }
 
 \begin{document}
