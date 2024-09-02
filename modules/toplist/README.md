@@ -1,7 +1,7 @@
 ---
 id: conclusion
 title: Conclusion
-author:
+authors:
   - Daniel Bosk <dbosk@kth.se>
 ---
 
