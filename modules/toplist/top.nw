@@ -1,0 +1,670 @@
+\documentclass[a4paper,article,oneside]{memoir}
+\let\subsection\section
+\let\section\chapter
+\usepackage{refcount}
+\usepackage[british]{babel}
+\usepackage{amsmath}
+\usepackage[style=verbose,citestyle=verbose]{biblatex}
+\addbibresource{bibliography.bib}
+\usepackage{csquotes}
+\usepackage{minted}
+\usepackage{pythontex}
+\setpythontexoutputdir{.}
+\usepackage{noweb}
+\noweboptions{longxref,breakcode}
+\usepackage{didactic}
+\chapterstyle{arthangnum}
+\usepackage{hyperref}
+\usepackage{cleveref}
+
+\title{Who finished datintro first?}
+\author{%
+  {\small By}\\
+  Daniel Bosk\thanks{%
+    KTH EECS, \href{mailto:dbosk@kth.se}{dbosk@kth.se}.
+    This work is licensed under a CC-BY-SA 4.0 license.
+    Parts of this document have been autocompleted using GitHub Copilot.
+  }\\
+  {\small with contributions from}\\
+  Skye Kaijser\thanks{%
+    The solution to the challenge that Skye provided is licensed under a 
+    CC-BY-SA 4.0 license.
+  }%
+}
+
+\begin{document}
+\maketitle
+\tableofcontents*
+
+\ltnoteoff
+\ltnote{%
+  To be able to learn anything from this document, the student must already 
+  have exposed themselves to the terminal.
+  From a variation theoretic perspective, what is the object of learning?
+
+  If the object of learning is the terminal, this document is part of the 
+  fusion step; where we fuse the different aspects of the terminal: pipes, 
+  different commands, changing their behaviour with arguments, etc.
+
+  However, we could also see this problem as the phenomenon to be understood.
+
+  Finally, computational thinking could be the object of learning.
+  In that case, the terminal is just a tool to solve the problem---and thus the 
+  students must master it already, for it to become invisible.
+  The object of learning in this case is to be able to deconstruct a problem 
+  into parts, solve each part, and then combine the solutions to solve the 
+  whole problem.
+}
+
+\section{Overview}\label{Overview}
+
+We want to take the submission times for the four assignments in the datintro 
+module (LAB1) and compute who finished first.
+To finish first, they must have passed all four assignments.
+We want to write a small shell script [[<<top.sh>>]] that prints the top 10 to 
+standard output (stdout).
+\ltnote{%
+  We give the desired output and what the input looks like.
+  This is the undivided whole.
+  Later we divide the problem.
+}%
+The result should look like this:
+\begin{pycode}
+import subprocess
+
+submissions_file = "submissions.csv"
+
+def shell(cmd):
+  output = subprocess.run(cmd,
+                          shell=True,
+                          stderr=subprocess.STDOUT,
+                          stdout=subprocess.PIPE)
+  print(r"\begin{minted}{text}")
+  print(output.stdout.decode().strip())
+  print(r"\end{minted}")
+
+shell(f"bash ./top.sh {submissions_file} 10")
+\end{pycode}
+
+We get the data containing all submissions by the line
+\begin{minted}{bash}
+canvaslms submissions -c "(datintro|progd)24" > submissions.csv
+\end{minted}
+The data is in CSV format.
+It looks something like this:
+\begin{pycode}
+shell(f"egrep '(Skye|Thorell|Vivas)' {submissions_file} | sed 's/\t/  /g'")
+\end{pycode}
+Each column, or field, is separated by a tab.
+
+It's from this data that we want to compute the top list above,
+the Top 10 \emph{on finishing fast}---this top list doesn't say anything about 
+the level of mastery.
+
+\ltnote{%
+  \Cref{HighLevelApproach} and the following exercises will do two things.
+  First, it will improve retention (\cite{Szekely1950}) by making the student 
+  think about the problem first.
+  Second, but related to the first, from a variation theoretic perspective 
+  (\cite{NecessaryConditionsOfLearning}), it will allow the students to explore 
+  a few alternatives on their own, and then get the necessary contrast to 
+  better learn from the solution.
+}%
+\begin{exercise}[High-level approach]\label{HighLevelApproach}
+  Outline a series of high-level steps to turn the input data into the desired 
+  top 10 output above.
+\end{exercise}
+
+We'll do this in steps, more exactly in a series of pipes.
+But it all starts with printing the data and passing it into this series of 
+pipes.
+We'll pass the CSV file containing all submission data as the first argument to 
+the script (which we get through [[${1}]]).
+The second argument ([[${2}]]) will be how many should be included in the top 
+list.
+This gives us the following (and one possible solution to 
+\cref{HighLevelApproach}):
+<<top.sh>>=
+cat ${1} \
+| <<filter out the submission lines of everyone who passed>> \
+| <<sort the submission lines based on finishing time>> \
+| <<keep only the last submission time for each student>> \
+| head -n ${2}
+@
+
+\begin{pycode}
+cmd = f"cat {submissions_file}"
+\end{pycode}
+
+The first two parts,
+[[<<filter out the submission lines of everyone who passed>>]] and
+[[<<sort the submission lines based on finishing time>>]],
+are part of the base for the challenge.
+These parts are covered in \cref{WhoPassed,SortingOnTime}.
+The last part,
+[[<<keep only the last submission time for each student>>]],
+is part of the challenge.
+We'll discuss the challenge and its solution\footnote{%
+  We'll discuss both the solution provided by Skye Kaijser,
+  and alternative ways of solving it.
+} in \cref{ChallengeCase}.
+
+\section{Filtering out everyone who has passed}\label{WhoPassed}
+
+\begin{exercise}[Who passed?]
+  How can we filter out the submission lines of everyone who passed all 
+  assignments?
+\end{exercise}
+
+To solve the first task, that is
+[[<<filter out the submission lines of everyone who passed>>]],
+we must first find out the names of those who passed all assignments, and 
+ignore everyone who hasn't passed the assignments.
+Once we have those, we can keep only the lines containing one of those names.
+<<filter out the submission lines of everyone who passed>>=
+egrep "$(<<create pattern matching everyone who passed>>)"
+@ What the above means is simply that we'll run some commands from which we'll 
+use the output as a regular expression to the above call to [[egrep]].
+Then [[egrep]] will filter out only those whose name is in the regex.
+
+Now, we need to filter out everyone who has finished all four assignments and 
+then put their names into one long regex.
+Something like this:
+[[(Skye Kaijser|Daniel Bosk|Ric Glassey)]].
+
+If we look at the example output from above, we see that there is a P in one of 
+the columns on all assignments.
+So we can reduce the whole thing to one line per student, containing name and 
+the four grades.
+For example: [[Skye Kaijser P P P P]] from the data above.
+That way we can just check for lines with four P's.
+
+\begin{exercise}
+  Try to outline the steps that are needed to merge the four lines for each 
+  student into one.
+  That is turn
+\begin{pycode}
+shell(f"cat {submissions_file} | egrep '(Skye|Thorell|Vivas)'")
+\end{pycode}
+  into
+\begin{pycode}
+shell(f"cat {submissions_file} | egrep '(Skye|Thorell|Vivas)' \\" +
+r"""
+| cut -f 3,4 | sort \
+| sed -nEz 's/([A-Za-z -]+)\s([PF]?)\n\1\s([PF]?)\n\1\s([PF]?)\n\1\s([PF]?)/\1\t\2 \3 \4 \5/gp'
+""")
+\end{pycode}
+\end{exercise}
+
+To merge all lines with the same assignments, they must be sorted.
+We want to sort by name of the student.
+The only columns we need are the name of the student (column 3) and the grade 
+(column 4), so we cut those.
+Then we can sort, we sort on the name which is now the first column in this 
+data.
+<<create pattern matching everyone who passed>>=
+cat ${1} | cut -f 3,4 | sort \
+@ By now, the data in the pipe will look like this:
+\begin{pycode}
+regex_cmd = f"cat {submissions_file}" \
+            f"| cut -f 3,4 | sort"
+shell(regex_cmd + " | egrep '(Skye|Thorell|Vivas)'")
+\end{pycode}
+
+Now we want to merge all lines matching the same student into one line,
+[[Skye Kaijser P P P P]].
+We'll use [[sed]].
+This is pattern matching over several lines and [[sed]] normally does matching 
+over single lines.
+The [[-z]] option allows us to match over several lines.
+The [[-E]] option says we want to use extended regexes\footnote{%
+  Which is the syntax you'll learn in later courses.
+  That extended syntax also allows us to use less escaping when writing the 
+  regex.
+}.
+Finally, the [[-n]] option says we shouldn't print any lines that doesn't 
+match.
+(That's why we need the [[p]] at the end, to print the result.)
+The [[g]] close to the end says we want to do global matching, not just the 
+first match.
+<<create pattern matching everyone who passed>>=
+| sed -nEz 's/<<name and grades to match>>/<<all on one line pattern>>/gp' \
+@
+
+\begin{exercise}
+  What should we try to match in our regex?
+  What must we think about to get those matches right?
+  How can we use the matches to get the end result that we want?
+\end{exercise}
+
+We'll match a name ([[[A-Za-z -]]]) followed by a grade ([[[PF]]]), followed by 
+a new line ([[\n]]), followed by the same name ([[\1]]), another grade (not the 
+same as the first, hence no back reference, [[\2]]).
+These are separated by tabs in the data, but we use [[\s]] that matches any 
+whitespace character (easier to write).
+<<name and grades to match>>=
+([A-Za-z -]+)\s([PF]?)\n\1\s([PF]?)\n\1\s([PF]?)\n\1\s([PF]?)
+<<all on one line pattern>>=
+\1\t\2 \3 \4 \5
+@ We use references back to the name and grades.
+We want a tab character ([[\t]]) separating the name from the grades.
+With that tab character, we can easily use [[cut]] to take the name only when 
+we need it later.
+The output so far is the following, as desired:
+\begin{pycode}
+regex_cmd += r'| sed -nEz "' \
+             r's/([A-Za-z -]+)\s([PF]?)\n\1\s([PF]?)\n\1\s([PF]?)\n\1\s([PF]?)' \
+             r'/\1\t\2 \3 \4 \5/gp"'
+shell(regex_cmd + "| egrep '(Skye|Thorell|Vivas)'")
+\end{pycode}
+
+Now we want to filter out only those who have four P's.
+And we only want to keep the names, the first column (thanks to that tab we 
+used above).
+<<create pattern matching everyone who passed>>=
+| grep 'P P P P' | cut -f 1 \
+@
+
+The data in the pipe now looks like this:
+\begin{pycode}
+regex_cmd += r'| grep "P P P P" | cut -f 1'
+shell(regex_cmd + "| egrep '(Skye|Thorell|Vivas)'")
+\end{pycode}
+
+\begin{exercise}
+  How can we turn a list of names into the regex that we want?
+  That is:
+\begin{pycode}
+shell(regex_cmd + r"""\
+| egrep '(Skye|Thorell|Vivas)' \
+| (echo -n '('; tr '\n' '|' | sed 's/|$//'; echo -n ')')
+""")
+\end{pycode}
+\end{exercise}
+
+At this point, the data coming out of the pipe is a list of names: one name per 
+line.
+We want to change from one name per line to the desired regex:
+[[(Skye Kaijser|Daniel Bosk|Ric Glassey)]].
+This means we start with an opening parenthesis ([[(]]),
+translate each new line ([[\n]]) to a pipe ([[|]], a regex disjunction).
+The last one will get an extra pipe that we don't want,
+so we remove it using [[sed]].
+<<create pattern matching everyone who passed>>=
+| (echo -n '('; tr '\n' '|' | sed 's/|$//'; echo -n ')')
+@ But why do we enclose these two statements in parenthesis?
+That creates a sub-shell, so that we can use [[echo]] without including it in 
+the pipe.
+It's only [[tr]] that takes the piped data as input, and in turn pipes it to 
+[[sed]], which finally pipes it out.
+After that we have the last [[echo]] that adds the closing parenthesis.
+
+Why do we want to use that extra [[echo]] instead of just making the [[sed]] 
+command add it?
+Well, the [[sed]] will not add the closing parenthesis when the list is empty.
+When the list is empty, there will not be any [[|]] by the end to replace, but 
+we still need to close it to make it a syntactically valid expression.
+
+When we use our example from above, we get:
+\begin{pycode}
+make_regex = r'| (echo -n "("; tr "\n" "|" | sed "s/|$//"; echo -n ")")'
+shell(regex_cmd + "| egrep '(Skye|Thorell|Vivas)'" + make_regex)
+regex_cmd += make_regex
+\end{pycode}
+
+That concludes
+[[<<filter out the submission lines of everyone who passed>>]].
+We now get the following.
+\begin{pycode}
+cmd += f' | egrep "$({regex_cmd})"'
+shell(cmd + " | egrep '(Skye|Thorell|Vivas)' | sed 's/\t/  /g'")
+\end{pycode}
+This is in fact the same data as when we started above.
+Everyone in the example data had passed.
+That's because I picked the examples from the top list.
+I didn't want to include someone who had not passed, that might be a bit 
+sensitive.
+But rest assured that only those who have passed will be included in the data 
+in the pipe at this point.
+
+\section{Sorting the submission lines based on finishing 
+time}\label{SortingOnTime}
+
+Now we should proceed to
+[[<<sort the submission lines based on finishing time>>]].
+The data that we have in the pipe now are the lines one everyone who has 
+passed.
+
+We simply want to cut out the columns we need (name and time stamp) and then 
+sort them based on the time stamp.
+(Note that the two last lines swaped places in the data below.)
+\begin{pycode}
+cmd += " | cut -f 3,6 | sort -k 2 -t '\t'"
+shell(cmd + "| egrep '(Skye|Thorell|Vivas)' | sed 's/\t/  /g'")
+\end{pycode}
+
+\begin{exercise}
+  How can we cut out the columns that we need and then sort on the time stamp?
+  (You should be able to come up with the exact commands and options, perhaps 
+  with the help of the manual pages.
+  Try to not peek at the solution below.)
+\end{exercise}
+
+We do this as follows.
+<<sort the submission lines based on finishing time>>=
+cut -f 3,6 | sort -k 2 -t $'\t'
+@
+
+
+\section{The challenge, or, creating the top list}\label{ChallengeCase}
+
+Let's turn to the challenge and its solution.
+%
+\begin{pycode}
+shell("""
+mv times.txt times-full.txt
+grep -E '(Skye|Thorell|Vivas)' times-full.txt > times.txt
+""")
+\end{pycode}
+%
+\begin{exercise}[The challenge]
+  How can we take the output just above, that is
+\begin{pycode}
+shell(cmd + "| egrep '(Skye|Thorell|Vivas)' | sed 's/\t/  /g'")
+\end{pycode}
+  where every name occurs four times and with different time stamps each time.
+  We want to filter it so that every name occurs only once and with the latest 
+  time stamp.
+  We then want to number those lines to get the top list to get this:
+\begin{pycode}
+shell("bash skye.sh")
+\end{pycode}
+\end{exercise}
+
+\subsection{Skye's solution}
+
+Let's first have a look at Skye's solution.
+I have added some indentation to make the different parts easier to discern.
+I also added the [[head]] command at the end to only print the top 10 (which 
+wasn't a part of the given challenge).
+<<skye.sh>>=
+sort times.txt \
+| awk '{print $1,$2}' \
+| uniq \
+| while read p; do \
+    cat times.txt \
+    | grep -E "$p" \
+    | tail -1; \
+  done \
+| sort +2 \
+| while read line; do \
+    num=$((num+1)); \
+    echo "$num $line"; \
+  done \
+| head -n 10
+@
+
+\begin{exercise}
+  Try to explain what Skye's code does and why it solves the problem.
+\end{exercise}
+
+First it sorts on name ([[sort times.txt]]), since the name is the first 
+column.
+Then [[awk]] gets the name, but only the first two names---not if a person has 
+more than two names.
+(This should work in most cases, unless we have \enquote{Anders Anderson} and 
+\enquote{Anders Anderson Bertilsson}, then both will be included.)
+We could have used [[cut -f 1]] (remember that tab character separating them) 
+instead of that line of [[awk]].
+Then [[uniq]] removes duplicates.
+
+The first [[while]] loop reads these names from the pipe.
+It then reads the times from the file, it filters out a person's times and 
+keeps the last one ([[tail -1]]).
+Remember, this data is sorted on times, so it's the correct one.
+
+The output from the first [[while]] loop contains the correct lines, but 
+they're no longer in the correct order.
+(Since we [[grep]]ed on name.)
+Thus we need [[sort +2]] to sort on time again.
+
+The last [[while]] loop numbers the lines.
+
+Skye wrote the code to read the input from a file, [[times.txt]].
+We can create that one by using the [[tee]] command in the series of pipes.
+The command [[tee]] writes the data to a file and then passes it on in the 
+pipes.
+It writes the same thing to a file and to stdout, which is stdin for the next 
+command in the line of pipes.
+<<keep only the last submission time for each student>>=
+tee times.txt \
+@
+
+If we run Skye's code on the output from the pipe above, that is the output 
+from [[<<sort the submission lines based on finishing time>>]], which is stored 
+in [[times.txt]], we get the following.
+\begin{pycode}
+shell("bash skye.sh")
+\end{pycode}
+
+\subsection{An alternative solution}
+
+We can solve this in a different way.
+Actually, we can solve it in many different ways, but I'll only give one 
+alternative solution.
+
+As mentioned above, we should read it from below.
+We should only keep the last line for each person.
+So, we just sort it in the other order.
+<<keep only the last submission time for each student>>=
+| sort -k 2 -r -t $'\t' \
+@
+
+This yields the following in the pipe.
+\begin{pycode}
+cmd += " | sort -k 2 -r -t '\t'"
+shell(cmd + "| egrep '(Skye|Thorell|Vivas)' | sed 's/\t/  /g'")
+\end{pycode}
+
+Now we can read it in order, line by line.
+Then we can ignore any future lines for the same name.
+Note that we must keep quotation marks around [[line]] whenever we print it 
+using [[echo]], otherwise we'll lose the tabs.
+<<keep only the last submission time for each student>>=
+| (names=$(mktemp); \
+   while read line; do \
+     name=$(echo "$line" | cut -f 1); \
+     <<if [[name]] is in [[names]], take next line; otherwise continue below>> \
+     echo "$line"; \
+     echo $name >> $names; \
+   done) \
+@
+
+There are two interesting keywords that can be used in a loop:
+[[break]] and [[continue]].
+The [[break]] keyword will break out of the loop, that is terminate it 
+prematurely; while [[continue]] will skip the rest of the loop body and 
+continue with the next iteration.
+The [[continue]] keyword seems useful to us, we can do this:
+If we can find the name in the file, we skip to the next using [[continue]].
+<<if [[name]] is in [[names]], take next line; otherwise continue below>>=
+grep -q "$name" $names && continue;
+@ So what does the [[&&]] do?
+It's a logical and.
+It will evaluate to true if both programs exit with success (not an error, 
+meaning they will return 0).
+It's evaluated a bit lazily, if the first program fails, there is no chance of 
+the expression turning true, so it will not execute the next command.
+This means that [[continue]] will only be executed if the [[grep]] command 
+succeeds, that is, if it finds the name in the file.
+Otherwise, it will not execute the [[continue]] command and instead run the two 
+[[echo]] commands.
+
+This gives us the following data coming out of the pipe at this time:
+\begin{pycode}
+cmd += " | (names=$(mktemp); " \
+       "while read line; do " \
+       "name=$(echo \"$line\" | cut -f 1); " \
+       "grep -q \"$name\" $names && continue; " \
+       "echo \"$line\"; " \
+       "echo $name >> $names; " \
+       "done)"
+shell(cmd + " | egrep '(Skye|Thorell|Vivas)' | sed 's/\t/  /g'")
+\end{pycode}
+
+Now we must sort this on time again to get it in the correct order.
+<<keep only the last submission time for each student>>=
+| sort -k 2 -t $'\t' \
+@ This turns the data in the pipe into:
+\begin{pycode}
+cmd += " | sort -k 2 -t '\t'"
+shell(cmd + "| egrep '(Skye|Thorell|Vivas)' | sed 's/\t/  /g'")
+\end{pycode}
+
+Finally, we must add the numbering.
+We start [[num]] at zero, so that we can add one to it before printing it and 
+the line.
+<<keep only the last submission time for each student>>=
+| (num=0; while read line; do num=$((num+1)); echo "$num $line"; done)
+@ This gives us the final output:
+\begin{pycode}
+cmd_number = " | (num=0; while read line; do " \
+             "num=$((num+1)); echo \"$num $line\"; done)"
+shell(cmd + "| egrep '(Skye|Thorell|Vivas)'"
+      + cmd_number + " | sed 's/\t/  /g'")
+\end{pycode}
+
+
+\section{Conclusion}
+
+The final script is the following.
+The base code is above and the challenge code below the highlighted line.
+\inputminted[numbers=left,highlightlines=7]{bash}{top.sh}
+
+If we run it on the full data, we get same top list as in \cref{Overview}:
+\begin{pycode}
+shell(f"bash ./top.sh {submissions_file} 10")
+\end{pycode}
+
+The only thing left to wish is that we could merge Oscar and Oskar into a 
+shared third place.
+They are in the same grading round, so finished the same time, it's only the 
+order of grading that determines the order.
+
+\begin{exercise}[Handle ties]
+  Write a script that takes lines with sufficiently close times and merges them 
+  into one.
+  Let us determine what sufficiently close means by using a variable for that 
+  value.
+\end{exercise}
+
+\ltnote{%
+  Having learned about data structures in a programming course, 
+  \cref{DataStructures} should allow the student to view this problem and 
+  solution in a different way.
+  More precisely, they should be able to see the problem and solution in terms 
+  of data structures.
+  Mastering data structures should let them see the world in more powerful ways 
+  in terms of data structures, at least in terms of variation theory 
+  (\cite{NecessaryConditionsOfLearning}), a perspective that was hidden before.
+}%
+\begin{exercise}[After learning about data structures]\label{DataStructures}
+  Return to this text after you've covered some data structures in the 
+  programming course\footnote{\label{ProgrammingCourses}%
+    For instance, the courses DD1310 Programming Techniques, DD1317 Programming 
+    Techniques or DD1337 Programming at KTH.
+  }.
+  What data structures are used and how in the solutions described above?
+  Could you solve the problem in a different way, perhaps easier, using other 
+  data structures?
+\end{exercise}
+
+\ltnote{%
+  Having learned another programming language, \cref{Languages} should allow 
+  the student to see the similarities and differences between the languages.
+  Particular language and paradigm features should become visible (variation 
+  theory; \cite{NecessaryConditionsOfLearning}); for instance, typing and level 
+  of abstraction.
+}%
+\begin{exercise}[After learning another programming language]\label{Languages}
+  Reimplement the script provided above in another programming language,
+  for example Python, C++, Rust, or even 
+    Java\footnotemark[{\getrefnumber{ProgrammingCourses}}].
+  What differences would you say are worth pointing out?
+  What are the similarities?
+\end{exercise}
+
+\ltnote{%
+  Programming and mathematics are closely related.
+  Particularly, if we look at them from a varitation theoretic perspective.
+  Functions and variables share most aspects (in a variation theoretical sense; 
+  \cite{NecessaryConditionsOfLearning}), however, in some aspects, they differ 
+  in terms of features (again in a variation theoretical sense).
+  \Cref{AfterMathematics} should allow the student to explore these aspects in 
+  more detail, thus deepening their understanding of both.
+}%
+\begin{exercise}[After a course on formal mathematics]\label{AfterMathematics}
+  Return to this text after you've taken a course on formal 
+  mathematics\footnote{%
+    Any university level course where they treat functions a bit more formally 
+    should do.
+    For example, when you can read and understand what the following means:
+    \(f\colon A\to B\) is a function from a
+    set~\(A\) to a set~\(B\).
+  }.
+  Doug McIlroy, who invented pipes, started out in mathematics, before computer 
+  science even existed.
+  What is the relationship between the pipes in the terminal and its 
+  mathematical origins?
+\end{exercise}
+
+\begin{exercise}[After learning different programming 
+paradigms]\label{AfterParadigms}
+  Return to this text after a course on programming paradigms\footnote{%
+    For instance, you can take the course DD1366 Programming Paradigms at KTH.
+  }.
+  What different paradigms can you see in the solutions above?
+\end{exercise}
+\ltnote{%
+  Once the student has learned about different programming paradigms, they 
+  should be able to see in \cref{AfterParadigms} how the different paradigms in 
+  the solutions above interact with each other.
+  This is similar to what we just said about mathematics too.
+}%
+
+
+\section{The \LaTeX{} source code}
+
+Another interesting aspect of this text is its source code.
+The source code is written in a literate programming style using the Noweb 
+tool\footnote{%
+  You can learn more about literate programming in the courses DD1385 Software 
+  Engineering and DD1366 Programming Paradigms at KTH.
+  Those who are too curious to wait can find the lecture notes at 
+  \url{https://github.com/dbosk/literate-programming/releases}.
+}.
+
+Below you can find the Noweb source code for this document, that's slightly 
+more readable.
+The differences between the Noweb source and the \LaTeX{} source are minimal.
+Noweb will simply translate its constructions to \LaTeX{} code.
+For example, consider the following lines:
+\inputminted[numbers=left,firstline=122,lastline=130]{latex}{top.nw}
+Noweb will translate that into the following \LaTeX{} code:
+\inputminted[numbers=left,firstline=122,lastline=130]{latex}{top.tex}
+
+Also worth mentioning is that a lot of the layout \enquote{magic} happens in 
+the package [[didactic.sty]]\footnote{%
+  You can find the package on CTAN, see \url{https://ctan.org/pkg/didactic}.
+  However, it's a slightly outdated version at the time of writing, I haven't 
+  published some of the changes used when compiling this text.
+}.
+That is, the following lines
+\inputminted[numbers=left,firstline=15,lastline=16]{latex}{top.nw}
+
+\subsection{The full \LaTeX{} source code listing}
+
+\inputminted[numbers=left]{latex}{top.nw}
+
+\printbibliography
+\end{document}
