@@ -36,7 +36,7 @@
 \maketitle
 \tableofcontents*
 
-\ltnoteoff
+%\ltnoteoff
 \ltnote{%
   To be able to learn anything from this document, the student must already 
   have exposed themselves to the terminal.
@@ -204,7 +204,41 @@ Then we can sort, we sort on the name which is now the first column in this
 data.
 <<create pattern matching everyone who passed>>=
 cat ${1} | cut -f 3,4 | sort \
-@ By now, the data in the pipe will look like this:
+@
+
+\ltnote{%
+  We need \cref{WhyNewCat} to bring to the students attention that this is a 
+  sub-shell and that each sub-shell has its own stdin and stdout, and, 
+  consequently, it's own series of pipes.
+
+  From a variation theory perspective,
+  they should have discered that each program has its own stdin and stdout and 
+  that a pipe connects one program's stdout to the next program's stdin.
+  But now we open up that we can read data from somewhere other than stdin to 
+  inject new data into the pipe.
+  We don't need to only use the data from the beginning.
+
+  This should open up a new dimension of variation in the phenomenon of pipes.
+}%
+\begin{exercise}\label{WhyNewCat}
+  Why do we need [[cat ${1}]] in
+  [[<<create pattern matching everyone who passed>>]]?
+\end{exercise}
+
+We need to use [[cat ${1}]] to get the data from the file.
+Although this data is already in the pipe from the start of
+[[<<top.sh>>]],
+that data is piped into stdin of [[egrep]] in
+[[<<filter out the submission lines of everyone who passed>>]].
+That's why we need to read the file again here, to create another series of 
+pipes.
+We can see in
+[[<<filter out the submission lines of everyone who passed>>]]
+that
+[[<<create pattern matching everyone who passed>>]]
+is run in a sub-shell, since it's enclosed in parenthesis ([[$(...)]]).
+
+By now, the data in the pipe will look like this:
 \begin{pycode}
 regex_cmd = f"cat {submissions_file}" \
             f"| cut -f 3,4 | sort"
@@ -337,7 +371,6 @@ passed.
 
 We simply want to cut out the columns we need (name and time stamp) and then 
 sort them based on the time stamp.
-(Note that the two last lines swaped places in the data below.)
 \begin{pycode}
 cmd += " | cut -f 3,6 | sort -k 2 -t '\t'"
 shell(cmd + "| egrep '(Skye|Thorell|Vivas)' | sed 's/\t/  /g'")
@@ -446,6 +479,30 @@ in [[times.txt]], we get the following.
 \begin{pycode}
 shell("bash skye.sh")
 \end{pycode}
+
+\ltnote{%
+  \Cref{LastNameProblem} should make the student think about the problem with 
+  names that can be several words.
+  We want them to discern that more words changes the number of columns if we 
+  are not careful.
+}
+\begin{exercise}\label{LastNameProblem}
+  Why is Alexander in third place instead of second in the output above?
+\end{exercise}
+
+Since Alexander has one more word in his name, the [[sort +2]] in Skye's 
+solution doesn't work as expected:
+[[sort +2]] sorts on the second \emph{white-space delimited} column.
+That is the time stamps for Liam and Skye, but Jernström for Alexander.
+
+To fix it, we can change the [[sort +2]] to [[sort +2 -t $'\t']], to separate 
+columns on tabs instead of white space in general (space, tabs, etc.).
+
+This illustrates how easy it is to introduce a bug.
+I also had this bug in the original version of my script.
+So the bug in my script caused the input data that Skye had to work with to 
+only have two-word names.
+Consequently, Skye's solution worked without error for that input data.
 
 \subsection{An alternative solution}
 
