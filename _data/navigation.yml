@@ -47,3 +47,8 @@ modules:
     title: Writing with LaTeX
     path: modules/latex/latex
     prev: commits
+    next: conclusion
+  conclusion:
+    title: Conclusion
+    path: modules/toplist/README
+    prev: latex

@@ -162,7 +162,7 @@ sed "s/^    //"
 @
 
 We only want to ask IT to merge the rooms once every two weeks; particularly, 
-only on days 1, 14 and 28 (that way we catch last of February too).
+only on days 1 and 15, that way we get twice a month.
 That way, they should have had the time to merge the rooms before we ask them 
 about the same thing again.
 
@@ -179,7 +179,7 @@ So we avoid running this part during August and September.
 if ! test "$(date +%m)" = "09" -o "$(date +%m)" = "08"
 then
   case "$(date +%d)" in
-    01|14|28)
+    01|15)
 <<end condition to not send too often>>=
       ;;
     *)
