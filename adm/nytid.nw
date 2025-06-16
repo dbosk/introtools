@@ -29,7 +29,7 @@ We add a note that this is the only part that needs updating from year to year,
 this way we can edit the [[nytid.sh]] file directly, if we like.
 <<variables>>=
 # This section is the only thing that needs updating from year to year.
-YEAR=24
+YEAR=25
 COURSE="datintro${YEAR}"
 @
 
@@ -63,7 +63,7 @@ Or call one of the other functions to run only that part.
 We have a few instances of the course:
 We'll add them as separate courses in Nytid.
 <<variables>>=
-INSTANCES="cinek ctfys cfate-ctmat cdate"
+INSTANCES="cinek ctfys cfate ctmat cdate"
 @
 
 \subsection{CINEK}
@@ -75,9 +75,9 @@ nytid courses new ${COURSE}-cinek \
   --num-students ${CINEK_NUM} \
   --num-groups ${CINEK_GROUPS}
 <<variables>>=
-CINEK_ICS="https://cloud.timeedit.net/kth/web/staff01/ri63n6ZbgQ60wZQ040Q2YQ98Z86uX1eZQ5QY486y4058056YtZ55dF087DE77490795Bt6CC5E5DQE9C0D61E21CBZ655.ics"
-CINEK_NUM=160
-CINEK_GROUPS=6
+CINEK_ICS="https://cloud.timeedit.net/..."
+CINEK_NUM=170
+CINEK_GROUPS=12
 @
 
 \subsection{CTFYS}
@@ -89,23 +89,38 @@ nytid courses new ${COURSE}-ctfys \
   --num-students ${CTFYS_NUM} \
   --num-groups ${CTFYS_GROUPS}
 <<variables>>=
-CTFYS_ICS="https://cloud.timeedit.net/kth/web/staff01/ri63n6ZbgQ60wZQ040Q2YQ98Z86uX1eZQ5QY486y4056056YtZ55d1B0EE14645170CEtCF5A956Q9BCE69EBC85EZ565.ics"
+CTFYS_ICS="https://cloud.timeedit.net/..."
 CTFYS_NUM=140
 CTFYS_GROUPS=6
 @
 
-\subsection{CFATE+CTMAT}
+\subsection{CFATE}
+
 
 <<call [[nytid]] to create instances>>=
-nytid courses new ${COURSE}-cfate-ctmat \
+nytid courses new ${COURSE}-cfate \
   --register tcs --code DD1301 \
-  --ics ${CFATE_CTMAT_ICS} \
-  --num-students ${CFATE_CTMAT_NUM} \
-  --num-groups ${CFATE_CTMAT_GROUPS}
+  --ics ${CFATE_ICS} \
+  --num-students ${CFATE_NUM} \
+  --num-groups ${CFATE_GROUPS}
 <<variables>>=
-CFATE_CTMAT_ICS="https://cloud.timeedit.net/kth/web/staff01/ri63n6ZbgQ60wZQ040Q2YQ98Z86uX1eZQ5QY486y4057056YtZ55d5AE9DF2142F7D43t9083B58QAD6200510AD9Z4F5.ics"
-CFATE_CTMAT_NUM=100
-CFATE_CTMAT_GROUPS=2
+CFATE_ICS="https://cloud.timeedit.net/..."
+CFATE_NUM=125
+CFATE_GROUPS=3
+@
+
+\subsection{CTMAT}
+
+<<call [[nytid]] to create instances>>=
+nytid courses new ${COURSE}-ctmat \
+  --register tcs --code DD1301 \
+  --ics ${CTMAT_ICS} \
+  --num-students ${CTMAT_NUM} \
+  --num-groups ${CTMAT_GROUPS}
+<<variables>>=
+CTMAT_ICS="https://cloud.timeedit.net/..."
+CTMAT_NUM=80
+CTMAT_GROUPS=3
 @
 
 \subsection{CDATE}
@@ -117,9 +132,9 @@ nytid courses new ${COURSE}-cdate \
   --num-students ${CDATE_NUM} \
   --num-groups ${CDATE_GROUPS}
 <<variables>>=
-CDATE_ICS="https://cloud.timeedit.net/kth/web/staff01/ri63X60Yg56080Q0g0QY8648Z469X150862Y590yZ05Q4426X64388Z488492719441Z25b678XQ4Q140ntXZ4uY78ZX4Q57d345te510CF93F00F3QA82C7098DD424803003DCEF7.ics"
+CDATE_ICS="https://cloud.timeedit.net/..."
 CDATE_NUM=200
-CDATE_GROUPS=1
+CDATE_GROUPS=3
 @
 
 We note that the sign-up sheet for CDATE must be manually filtered from INDA 
@@ -283,7 +298,7 @@ loffice ${sheet} &
 echo "Waiting for the sheets to close ..."
 wait
 <<variables>>=
-SHEET_URL="https://docs.google.com/spreadsheets/d/1z5ntmTTMqHYJActgu3lfAEeykOAI_LpHkQ0YohdlvXE/edit?usp=sharing"
+SHEET_URL="https://docs.google.com/..."
 @
 
 We also want to store the URL to the Google Sheet in the course's 
@@ -320,7 +335,11 @@ att boka in sig på pass där. Ni hittar den på följande länk:
 
   ${SHEET_URL}
 
-Det arket används för att automatiskt generera scheman som ni kan importera 
+Värt att notera: Flera pass har samma tid och salar. Det för att det är olika 
+grupper för olika program. Det var enklare att räkna antalet assar som behövs 
+då.
+
+Arket ovan används för att automatiskt generera scheman som ni kan importera 
 till era kalendrar, lägg till
 
   https://people.kth.se/~dbosk/nytid/${COURSE}.ics
@@ -333,9 +352,10 @@ följande för att bara få *sina egna* bokningar:
 Dessa ICS-filer uppdateras en gång i timmen. Men om ni lägger till dem i Google 
 Calendar så uppdaterar Google ca var 12:e timme.
 
-*Det är viktigt att ni håller arket uppdaterat*. När vi når *första oktober* 
-genereras tidrapporterna automatiskt och skickas iväg för betalning. Så ingen 
-asse behöver fylla i sådana och skicka till mig.
+*Det är viktigt att ni håller arket uppdaterat*. När vi närmar oss *första 
+oktober* skickas ett mail till varje asse med vilka timmar de ska rapportera i 
+HR-systemet. (Många har tidigare missat att ta med schablonen för förberedelse, 
+och således fått för lite lön. För lite lön tycker vi inte om.)
 
 Slutligen, maila mig ditt användarnamn så lägger jag till dig i Stay a While så 
 att du får rättighet att lägga till assar i kön.
@@ -348,8 +368,11 @@ Hör av er om ni har några frågor!
 "
 @
 
-Since we're likely to run this script before summer, we'll schedule the email 
-to be sent in August.
+We should run this script before summer.
+The mottagning head has asked to have it early, like in June rather than 
+August.
+Previously, we have run it in August.
+But it might be a good idea with a reminder.
 
 We'll have a function to email Mottagningen and one to schedule sending the 
 email.
@@ -385,7 +408,7 @@ export MOTTAGNINGEN DD1337 SUBJECT MESSAGE
 Finally, we'll call the function to schedule the email in the [[all]] function 
 too.
 <<call all functions>>=
-schedule_email
+email_mottagningen
 @
 
 
