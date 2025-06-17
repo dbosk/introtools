@@ -5,10 +5,10 @@ all: datintro-grade
 all: nytid.pdf nytid.sh
 
 .INTERMEDIATE: datintro.tex nytid.tex
-
 datintro.pdf: datintro.nw
 	${NOWEAVE.pdf}
 
+NOWEAVEFLAGS.pdf=-x -t2 -option breakcode,shift,longchunks,longxref
 nytid.pdf: nytid.nw
 	${NOWEAVE.pdf} -shell-escape
 
