@@ -409,6 +409,7 @@ Finally, we'll call the function to schedule the email in the [[all]] function
 too.
 <<call all functions>>=
 email_mottagningen
+schedule_email
 @
 
 
