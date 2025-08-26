@@ -16,8 +16,13 @@ IMGNAME=datintro23
 We don't change the automation every year.
 It's a space-separated list.
 <<constants>>=
-YEARS="23 24"
-@
+OLD_YEARS="23 24"
+CURRENT_YEAR=$(date +%y)
+NEW_YEARS="$(seq 25 ${CURRENT_YEAR})"
+@ Since 2025, we want to have only one room for both datintro and INDA.
+So all students go into datintro25.
+And we also want to automatically start grading for the next year without 
+manual intervention.
 
 \item [[COURSE_CODE_ORG]] is a space-separated list of Canvas-to-GitHub 
 identifier maps.
@@ -25,9 +30,12 @@ The Canvas identifier is a regex for a course in Canvas, for instance
 [[DD1301.?HT23]].
 The GitHub identifier named the GitHub organisation.
 <<constants>>=
-for year in ${YEARS}; do
+for year in ${OLD_YEARS}; do
   COURSE_CODE_ORG="${COURSE_CODE_ORG} DD1301.?[HV]T${year}:datintro${year}"
   COURSE_CODE_ORG="${COURSE_CODE_ORG} DD1337.?HT${year}:dd1337-ht${year}-intro"
+done
+for year in ${NEW_YEARS}; do
+  COURSE_CODE_ORG="${COURSE_CODE_ORG} DD13(01|37).?[HV]T${year}:datintro${year}"
 done
 export COURSE_CODE_ORG
 <<[[-e]] exports of environment variables for [[docker run]]>>=
@@ -54,10 +62,11 @@ export COURSE_CODE
 \item [[courses]] and [[components]] to identify which courses and components 
 for which we should report results to LADOK.
 Can be regexes.
-We'll use the [[YEARS]] variable from above to construct the [[courses]] 
-variable.
+We'll use the years variables from above to construct the [[courses]] variable.
+We replace spaces with [[|]] to get a regex that matches any of the years.
 <<constants>>=
-courses="DD1301.?[VH]T(${YEARS// /|})"
+ALL_YEARS="${OLD_YEARS} ${NEW_YEARS}"
+courses="DD1301.?[VH]T(${ALL_YEARS// /|})"
 components="LAB1"
 @
 
