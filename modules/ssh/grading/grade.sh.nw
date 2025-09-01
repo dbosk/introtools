@@ -32,8 +32,19 @@ This is a space-separated list of regular expressions.
 We expect the course code to be set by the environment.
 
 We must also set the [[ASSIGNMENT]] variable. This is a regular expression.
+Currently we have the following assignment names:
+\begin{verbatim}
+DD1301 HT25/VT26 (datintro25)	LAB1	Guide to accessing the terminal			
+DD1301 HT25/VT26 (datintro25)	LAB1	The terminal			
+DD1301 HT25/VT26 (datintro25)	LAB1	Git			
+DD1301 HT25/VT26 (datintro25)	LAB1	Writing a report in LaTeX			
+DD1337 HT25 (prginda25)	LAB1	Guide to accessing the terminal			
+DD1337 HT25 (prginda25)	LAB1	Working in the terminal <<< The Lab To Do			
+DD1337 HT25 (prginda25)	LAB1	Managing work with Git/GitHub <<< The Lab To Do			
+DD1337 HT25 (prginda25)	LAB1	Writing a report in LaTeX <<< The Lab To Do			
+\end{verbatim}
 <<configuration variables>>=
-ASSIGNMENT="^(Guide to accessing the terminal)$"
+ASSIGNMENT="^(Guide to accessing the terminal)( <<< [Tt]he [Ll]ab [Tt]o [Dd]o[ !]*)?$"
 @
 
 
