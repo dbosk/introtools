@@ -9,7 +9,7 @@ When this changes, we must make the corresponding changes in
 [[gits/datintro-setup.nw]] and [[grading/datintro-grade.nw]] to build the 
 images with the correct names.
 <<constants>>=
-IMGNAME=datintro23
+IMGNAME=datintro25
 @
 
 \item [[YEARS]] controls which years use this version of the course.
