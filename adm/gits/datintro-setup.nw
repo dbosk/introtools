@@ -29,8 +29,11 @@ docker run \
   -e CANVAS_SERVER -e CANVAS_TOKEN \
   -e REPBEE_USER -e REPOBEE_URL -e REPOBEE_TOKEN \
   -e COURSE_CODE -e COURSE_CODE_ORG \
-    datintro23-setup:latest
+    ${IMGNAME}-setup:latest
 \end{verbatim}
+<<constants>>=
+IMGNAME= datintro25
+@
 
 
 \section{Overview}
@@ -53,7 +56,9 @@ We use the phony target [[${IMAGE_TARGET}]] for this.
 This variable should be updated whenever we make significant changes, so that 
 the setup procedure can vary between courses.
 <<datintro-setup.mk>>=
-IMAGE_TARGET=   datintro23-setup
+<<constants>>
+
+IMAGE_TARGET=   ${IMGNAME}-setup
 
 .PHONY: all
 all: ${IMAGE_TARGET}
