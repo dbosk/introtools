@@ -1,0 +1,273 @@
+\section{Usage}
+
+There are a few variables that controls the configuration and that should be 
+set correctly:
+\begin{enumerate}
+\item [[IMGNAME]] contains the prefix of the Docker image to use.
+This corresponds to different versions of the course.
+When this changes, we must make the corresponding changes in 
+[[gits/datintro-setup.nw]] and [[grading/datintro-grade.nw]] to build the 
+images with the correct names.
+<<constants>>=
+IMGNAME=datintro25
+@
+
+\item [[YEARS]] controls which years use this version of the course.
+We don't change the automation every year.
+It's a space-separated list.
+<<constants>>=
+CURRENT_YEAR=$(date +%y)
+YEARS="$(seq 25 ${CURRENT_YEAR})"
+@
+
+\item [[COURSE_CODE_ORG]] is a space-separated list of Canvas-to-GitHub 
+identifier maps.
+The Canvas identifier is a regex for a course in Canvas, for instance 
+[[DD1301.?HT23]].
+The GitHub identifier named the GitHub organisation.
+<<constants>>=
+for year in ${YEARS}; do
+  COURSE_CODE_ORG="${COURSE_CODE_ORG} DD13(01|37).?[HV]T${year}:datintro${year}"
+done
+export COURSE_CODE_ORG
+<<[[-e]] exports of environment variables for [[docker run]]>>=
+-e COURSE_CODE_ORG \
+@
+
+\item [[COURSE_CODE]] contains a space-separated list of Canvas course 
+identifiers (can be regexes).
+This controls which courses should have the SSH and Terminal assignments 
+graded, whereas the above controls which courses should have Git and LaTeX 
+graded.
+<<constants>>=
+for year in ${YEARS}; do
+  COURSE_CODE="${COURSE_CODE} DD1301.?[HV]T${year}"
+  COURSE_CODE="${COURSE_CODE} DD1337.?HT${year}"
+  COURSE_CODE="${COURSE_CODE} DD1310.?HT${year}"
+  COURSE_CODE="${COURSE_CODE} DD1317.?HT${year}"
+done
+export COURSE_CODE
+<<[[-e]] exports of environment variables for [[docker run]]>>=
+-e COURSE_CODE \
+@
+
+\item [[courses]] and [[components]] to identify which courses and components 
+for which we should report results to LADOK.
+Can be regexes.
+We'll use the [[YEARS]] variable from above to construct the [[courses]] 
+variable.
+<<constants>>=
+courses="DD1301.?[VH]T(${YEARS// /|})"
+components="LAB1"
+@
+
+\item Credentials in the [[~/.credentials]] file.
+<<constants>>=
+source ~/.credentials
+<<[[-e]] exports of environment variables for [[docker run]]>>=
+-e KRB_USER -e KRB_PASS \
+-e CANVAS_SERVER -e CANVAS_TOKEN \
+-e REPOBEE_USER -e REPOBEE_URL -e REPOBEE_TOKEN \
+@
+
+\item [[LOG_FILE]] is the path to the log file where the grading script will 
+log its runs.
+This contains no private data and can be published for the students to see.
+<<constants>>=
+LOG_FILE="/afs/kth.se/home/d/b/dbosk/public_html/datintro/grader.log"
+@
+
+\item [[PATH]] to include any locally installed Python commands, like 
+[[canvaslms]] and [[ladok]].
+<<constants>>=
+PATH=${PATH}:~/.local/bin
+export PATH
+@
+\end{enumerate}
+
+
+\section{Code overview}
+
+<<datintro.sh>>=
+#!/bin/bash
+
+<<constants>>
+
+# Setup
+<<ask IT to merge Canvas rooms>>
+<<run the datintro-setup Docker container>>
+
+# Grading
+<<start log entry>>
+<<run datintro-grade Docker container and report to LADOK>>
+<<end log entry>>
+@
+
+
+\section{Setup}
+
+IT automatically creates separate Canvas rooms for all the course instances.
+However, we want to merge them into one, so that all students can communicate 
+with each other.
+
+IT creates the course instances 270 days before the course start.
+This gives us time to email them as soon as the new course rooms pops up in 
+Canvas.
+
+To do this, whenever we notice there are more than one matching course room in 
+Canvas, we'll send an email to IT and ask them to merge the courses.
+However, we don't want to run this too often, so that we don't send another 
+email before IT has acted on the first.
+<<ask IT to merge Canvas rooms>>=
+YEAR=$(date +%y)
+<<condition to not send too often>>
+  course_rooms=$(canvaslms courses "DD1301.(HT${YEAR}|VT$(expr $YEAR + 1))")
+  if test "$?" = "0" -a "$(echo "${course_rooms}" | wc -l)" -gt 1
+  then
+    <<send email to IT to merge Canvas rooms in [[course_rooms]]>>
+  fi
+<<end condition to not send too often>>
+@
+
+We simply generate a message that we send to IT on the usual email address.
+<<send email to IT to merge Canvas rooms in [[course_rooms]]>>=
+<<adjust IFS for the loop>>
+echo "
+Hej!
+
+Kan ni slå ihop följande canvasrum till DD1301 HT${YEAR} (datintro${YEAR})?
+
+$(for course in ${course_rooms}; do
+    echo -n " - "
+    echo "${course}" | cut -f 1,3- | sed "s/\t/ /g"
+  done)
+
+    Tack så mycket,
+
+        Daniel
+" | <<fix indents>> | mutt -s "Slå ihop canvasrum" it-support@kth.se
+<<restore IFS>>
+<<adjust IFS for the loop>>=
+oldIFS="$IFS"
+IFS=$'\n'
+<<restore IFS>>=
+IFS="$oldIFS"
+@
+
+Now, Noweb will indent the message due to its block appearing indented.
+But we don't want an indented message.
+So we fix it like this:
+<<fix indents>>=
+sed "s/^    //"
+@
+
+We only want to ask IT to merge the rooms once every two weeks; particularly, 
+only on days 1 and 15, that way we get twice a month.
+That way, they should have had the time to merge the rooms before we ask them 
+about the same thing again.
+
+However, this only works if we run the script \emph{at most once} every day.
+This is mostly the case, but we run it once an hour during September and end of 
+August.
+\begin{verbatim}
+00,30 8-20 22-31 Aug * /bin/bash ${HOME}/datintro23.sh
+00,30 8-20 * Sep * /bin/bash ${HOME}/datintro23.sh
+00 02 * * * /bin/bash ${HOME}/datintro23.sh
+\end{verbatim}
+So we avoid running this part during August and September.
+<<condition to not send too often>>=
+if ! test "$(date +%m)" = "09" -o "$(date +%m)" = "08"
+then
+  case "$(date +%d)" in
+    01|15)
+<<end condition to not send too often>>=
+      ;;
+    *)
+      ;;
+  esac
+fi
+@
+
+Once we have the Canvas rooms that we want, we simply run the 
+[[datintro-setup]] image for them.
+(Note that the merging of the rooms happens months before any students are in 
+the course.)
+
+However, sometimes we'd like to debug, so we pass any arguments to the image.
+In those cases, we also want to run it in interactive mode, passing [[-it]].
+If there are any arguments ([[$*]] is non-zero), then we add [[-it]].
+<<run the datintro-setup Docker container>>=
+docker run $(test -n "$*" && echo -it) \
+  <<[[-e]] exports of environment variables for [[docker run]]>>
+    ${IMGNAME}-setup:latest $*
+@
+
+We note that all lines of
+[[<<[[-e]] exports of environment variables for [[docker run]]>>]]
+ends with a [[\]], so we don't need it.
+
+See [[gits/datintro-setup.nw]] for details of the image.
+
+
+\section{Logging for students}
+
+<<start log entry>>=
+mkdir -p $(dirname $LOG_FILE)
+echo -n "datintro${YEARS}: Started grading $(date) " >> $LOG_FILE
+<<end log entry>>=
+echo "-> Finished $(date)" >> $LOG_FILE
+@
+
+
+\section{Grade and report}
+
+To not report to LADOK for nothing, we only want to do that when we have 
+actually graded something.
+The grading will output only if someone was graded (or errors occurred).
+However, we don't want that behaviour while debugging.
+To debug, we add arguments, if there are no arguments, we don't debug.
+<<run datintro-grade Docker container and report to LADOK>>=
+if [[ -n "$1" ]]
+then
+  docker run -it \
+    <<[[-e]] exports of environment variables for [[docker run]]>>
+    -v /afs:/afs \
+      ${IMGNAME}-grade:latest $*
+else
+  out="$(docker run \
+    <<[[-e]] exports of environment variables for [[docker run]]>>
+    -v /afs:/afs \
+      ${IMGNAME}-grade:latest)"
+  if [ -n "$out" ]; then
+    <<create Cron log output and report to LADOK>>
+  fi
+fi
+@
+
+We note that all lines of
+[[<<[[-e]] exports of environment variables for [[docker run]]>>]]
+ends with a [[\]], so we don't need it.
+
+See [[grading/datintro-grade.nw]] for details of the images.
+
+\subsection{Log output to Cron}
+
+If there was any output during the grading, we want to include that output in 
+the email from Cron (who runs this script).
+So we simply print the output to stdout.
+Then we report to LADOK using [[canvaslms]].
+<<create Cron log output and report to LADOK>>=
+echo "$out"
+echo
+echo "LADOK:"
+canvaslms results -c "$courses" -A "$components" | \
+  <<translate Canvas course identifiers to course codes>> | \
+  ladok report -fv
+@
+
+In Canvas, courses are named something like [[DD1301 HT23 (datintro23)]] or 
+[[DD1301HT23]] (sometimes more data).
+We want only the course code for LADOK, so we sed away everything that follows 
+the course code.
+<<translate Canvas course identifiers to course codes>>=
+sed -E "s/ ?[HV]T[0-9]*[^\t]*//"

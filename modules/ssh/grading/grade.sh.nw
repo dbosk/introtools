@@ -5,18 +5,21 @@ The end goal of the guide.md assignment is that the students log into the
 [[student-shell]] system over SSH. We can run a shell script 
 which queries the users who've signed in and simply tick our students off.
 
-We will use the [[canvas]] command to report the grades. This must be installed 
+We will use the [[canvaslms]] command to report the grades. This must be installed 
 from
 \begin{center}
-  \texttt{https://github.com/dbosk/canvasy}.
+  \texttt{https://github.com/dbosk/canvaslms}.
 \end{center}
 
 We will do this as a shell script.
 <<grade.sh>>=
 #!/bin/bash
 # This file is generated from grade.sh.nw
+
 <<configuration variables>>
-<<set up students to grade>>
+
+source common.sh
+
 <<get last(1) output from student-shell>>
 <<grade remaining students>>
 @
@@ -24,37 +27,24 @@ We will do this as a shell script.
 \section{Settings}
 
 We need a few variables as settings.
-We must set the course code. This is a regular expression.
+We must set the course code, in the [[COURSE_CODE]] variable.
+This is a space-separated list of regular expressions.
+We expect the course code to be set by the environment.
+
+We must also set the [[ASSIGNMENT]] variable. This is a regular expression.
+Currently we have the following assignment names:
+\begin{verbatim}
+DD1301 HT25/VT26 (datintro25)	LAB1	Guide to accessing the terminal			
+DD1301 HT25/VT26 (datintro25)	LAB1	The terminal			
+DD1301 HT25/VT26 (datintro25)	LAB1	Git			
+DD1301 HT25/VT26 (datintro25)	LAB1	Writing a report in LaTeX			
+DD1337 HT25 (prginda25)	LAB1	Guide to accessing the terminal			
+DD1337 HT25 (prginda25)	LAB1	Working in the terminal @<<< The Lab To Do			
+DD1337 HT25 (prginda25)	LAB1	Managing work with Git/GitHub @<<< The Lab To Do			
+DD1337 HT25 (prginda25)	LAB1	Writing a report in LaTeX @<<< The Lab To Do			
+\end{verbatim}
 <<configuration variables>>=
-COURSE_CODE="DD1301HT20 DD1301HT21 DD1337HT21"
-@
-We must set the [[ASSIGNMENT]] variable. This is a regular expression.
-<<configuration variables>>=
-ASSIGNMENT="(Guide to accessing the terminal)"
-@
-
-
-\section{Students to grade}
-
-We will construct a function that returns a list of students who need grading 
-for a given assignment.
-
-This function will take the course code as first argument, the assignment title 
-as the second.
-This list will contain their Canvas ID (first column) and their KTH username 
-(second column).
-<<set up students to grade>>=
-students_to_grade() {
-  local students=$(mktemp)
-
-  canvas users -sc "${1}" 2> /dev/null | cut -f 1,2 | sort -k 1 | \
-    sed "s/@kth.se//" > ${students}
-
-  canvas submissions -c "${1}" -a "${2}" | grep -v P | \
-    cut -f 1 | sort | join -t $'\t' ${students} -
-
-  rm ${students}
-}
+ASSIGNMENT="^(Guide to accessing the terminal)( @<<< [Tt]he [Ll]ab [Tt]o [Dd]o[ !]*)?$"
 @
 
 
@@ -64,25 +54,22 @@ We'll use a similar construction for the logs of who has logged into
 student-shell.
 We can simply SSH into the student-shell servers and get the output from 
 last(1) to see who of our students have logged in.
-However, we'll do this in two steps.
-First, we download [[wtmp]] in raw format using [[scp]].
-This is useful when we just passed the log rotation, so we can download all 
-wtmp files.
-Second, read out [[wtmp]] with last(1) and filter entries.
+However, we'll need to output the last(1) output from all existing wtmp 
+files.
+This is useful when we just passed the log rotation, so we don't miss any 
+students.
 We do this for each server, merging the output.
+Since some students are hired as amanuensis in other courses already, they 
+don't have access to student-shell, but staff-shell, we should check that one 
+too.
+The output will be a list of unique usernames only.
 <<get last(1) output from student-shell>>=
 students_that_signed_in() {
-  for shell in student-shell-1 student-shell-2 student-shell-3; do
-    local wtmp_dir=$(mktemp -d)
-
-    scp_out=$(scp ${shell}.sys.kth.se:/var/log/wtmp\* ${wtmp_dir} 2>&1) || \
-      (echo $scp_out; exit 1)
-
-    for f in ${wtmp_dir}/*; do
-      last -f $f
-    done | head -n -1
-
-    rm -Rf ${wtmp_dir}
+  for shell in student-shell-1 student-shell-2 student-shell-3 staff-shell;
+  do
+    ssh $shell.sys.kth.se \
+      'for f in /var/log/wtmp*; do last -f $f; done' 2>/dev/null \
+        || exit 1
   done | cut -f 1 -d " " | sort | uniq
 }
 @
@@ -91,8 +78,8 @@ students_that_signed_in() {
 \section{Grading}
 
 Now we provide a function [[grade_students]] which takes the assignment name as 
-the first argument (it's a regex passed to [[canvas]]). The remaining arguments 
-constitutes a list of courses.
+the first argument (it's a regex passed to [[canvaslms]]). The remaining 
+arguments constitutes a list of courses.
 
 To grade, we iterate through the remaining students, given by 
 [[students_to_grade]].
@@ -111,17 +98,21 @@ grade_students() {
     students=$(mktemp)
     students_to_grade "${course}" "${assignment}" > ${students}
 
-    for s in $(cat ${students} | cut -f 2); do
+    for s in $(cat ${students}); do
       grep "^$s\$" ${signed_in} > /dev/null || continue
 
       echo "$s (ssh)"
 
-      canvas grade -c "${course}" -a "${assignment}" \
-        -u $(grep $s ${students} | cut -f 1) -g P &
+      canvaslms grade -c "${course}" -a "${assignment}" \
+        -u "$s@kth.se" -g P &
 
-      sleep 0.1
+      sleep 0.2
     done
+
+    rm -Rf ${students}
   done
+
+  rm ${signed_in}
 
   wait
 }

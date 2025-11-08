@@ -1,4 +1,6 @@
 ---
+id: latex
+title: Writing reports with LaTeX
 authors:
   - Daniel Bosk <dbosk@kth.se>
 ---

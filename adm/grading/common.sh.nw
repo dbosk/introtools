@@ -1,0 +1,161 @@
+We create an include file, [[common.sh]], to be included in other grading 
+scripts.
+<<common.sh>>=
+<<variables>>
+<<function returning students to grade>>
+<<function returning students to grade with last grading time>>
+<<clone repos>>
+<<check dates on repos>>
+<<handle ssh logins>>
+@
+
+
+\section{Students to grade}
+
+We will construct a function that returns a list of students who need grading 
+for a given assignment.
+This is based entirely on the grade (or lack of grade).
+However, we also want to provide a function that returns the students to grade 
+with the time of the latest submission (or rather grading time).
+
+The first function will take the course code as first argument, the assignment 
+title as the second.
+The output will be a list of KTH usernames, that is without @kth.se at the end.
+
+In case the regexes for course and assignments match several courses, we sort 
+and return only unique students.
+So that we don't grade the same student twice.
+<<function returning students to grade>>=
+students_to_grade() {
+  canvaslms submissions -l -c "${1}" -a "${2}" \
+    | <<exclude those who passed>> \
+    | cut -f 3 \
+    | sort -u \
+    | sed "s/@kth.se//"
+}
+<<exclude those who passed>>=
+egrep -v "\sP\s"
+@
+
+For the second function, we want to find out who have been graded before and at 
+what time.
+This function takes the course as first argument, assignment as the second; it 
+returns the student KTH identifier (third column) and a time stamp of last 
+grading (sixth column).
+
+For those who haven't been graded before, the last column will be empty.
+So we rewrite that to an all-zero date.
+<<function returning students to grade with last grading time>>=
+students_with_grading_time() {
+  canvaslms submissions -l -c "$1" -a "$2" \
+    | <<exclude those who passed>> \
+    | cut -f 3,6 \
+    | sort -u \
+    | sed -E "s/\s$/0000-00-00/" \
+    | sed "s/@kth.se//"
+}
+@
+
+
+\section{Clone repos}
+
+The LaTeX reports that we should grade are found in repos on KTH GitHub.
+The first argument to the function is the GitHub organization name.
+The remaining arguments are the students' usernames.
+The function returns the path to the cloned repos.
+
+We'll use [[repobee]] to clone those repos to a temporary directory.
+There are several ways to pass the necessary settings to [[repobee]]: username, 
+GitHub API URL, access token.
+We will pass them by command line.
+<<clone repos>>=
+clone_repos() {
+  local org=$1; shift
+  local repos=$(mktemp -d)
+  local students=$(mktemp)
+
+  mkdir -p $repos
+  echo $repos
+
+  for s in $*; do
+    echo $s >> $students
+  done
+
+  test -s $students || return 0
+
+  (cd $repos && repobee repos clone \
+    -u $REPOBEE_USER --bu $REPOBEE_URL -t $REPOBEE_TOKEN \
+      -qq --sf $students -o $org --discover-repos)
+
+  rm $students
+}
+@
+
+
+\section{Check dates on repos}
+
+Now we must check the date of the last change to the repo and compare to when 
+we graded it the last time.
+If the repo is newer, it should be graded.
+
+The function takes the path to the downloaded repos as first parameter.
+It reads the students with times stamps from standard input.
+It then outputs only those who should be graded.
+<<check dates on repos>>=
+students_to_actually_grade() {
+  local students_w_times=$(cat)
+  local repos=$1
+
+  for s in $(echo "$students_w_times" | cut -f 1); do
+    time=$(echo "$students_w_times" | egrep "^$s\s" | cut -f 2)
+
+    for r in $(find $repos/$s -mindepth 1 -maxdepth 1 -type d 2>/dev/null); do
+      if [[ "$time" < "$(git -C $r log -1 --format=\%cI 2>/dev/null)" ]]; then
+        echo $s
+      fi
+    done
+  done
+}
+@
+
+
+\section{Handle SSH logins}
+
+Now, we also want to log into remote systems using SSH.
+To do this we must handle logging in with the correct user.
+When running in Docker, the default would be root.
+To make the rest of the code much easier\footnote{%
+  The need for this arose when we started using the [[dbosk/grader]] Docker 
+  image, since that one didn't include the username in the SSH config file.
+  So an alternative solution would be to include an SSH config file and update 
+  the one available in [[~/.ssh/config]] in the [[dbosk/grader]] image.
+}, we will simply create a shell function [[ssh]] that replaces the real 
+[[ssh]].
+This way we can create a sort of alias for the [[ssh]] command that adds the 
+appropriate user.
+
+We need two things, (1) the path to the original [[ssh]] executable, (2) the 
+username to use.
+
+Fortunately, we can get the original path to [[ssh]] by using [[which]] 
+\emph{before} we have replaced it with our own function.
+(Depending on which [[which]] is used, Bash's built-in or the executable, the 
+emphasis on before might not be necessary.)
+<<variables>>=
+SSH_PATH=$(which ssh)
+@
+
+The username we can get from the Kerberos login ([[KRB_USER]]).
+We simply need to remove the [[@REALM]] from there.
+<<variables>>=
+SSH_USER=$(echo ${KRB_USER} | sed "s/@.*$//")
+@
+
+Now we simply let the function add [[-l ${SSH_USER}]] to the arguments of the 
+[[ssh]] command ([[${SSH_PATH}]]).
+Then we simply pass all arguments to the function on to the real [[ssh]] 
+command.
+<<handle ssh logins>>=
+function ssh() {
+  ${SSH_PATH} -l "${SSH_USER}" $*
+}

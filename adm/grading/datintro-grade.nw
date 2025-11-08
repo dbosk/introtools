@@ -1,0 +1,223 @@
+\section{Usage}
+
+We need to set use the following setup for the Docker container to work.
+We need the following environment variables:
+\begin{itemize}
+\item [[KRB_USER]] and [[KRB_PASS]] containing the Kerberos username (including 
+@realm) and password for the user to access the SSH servers.
+\item [[CANVAS_SERVER]] and [[CANVAS_TOKEN]] to authenticate the [[canvaslms]] 
+command.
+See [[canvaslms login -h]].
+%\item [[LADOK_USER]] and [[LADOK_PASS]] containing the LADOK username and 
+%password to use.
+%See [[ladok login -h]].
+\item [[REPOBEE_USER]], [[REPOBEE_URL]], [[REPOBEE_TOKEN]] as configuration for 
+RepoBee.
+See the RepoBee documentation for details:
+\item [[COURSE_CODE]] containing a space-separated list of regular expressions 
+for the course code, [[COURSE_CODE_ORG]] containing a space-separated list of 
+  course code and GitHub organization name pairs.
+\begin{center}
+\texttt{https://docs.repobee.org/en/stable/getting\textunderscore{}started.html}
+\end{center}
+\end{itemize}
+We also must mount the AFS root (/afs) in the container (to access 
+/afs/kth.se).
+So if we have set those environment variables and have AFS mounted in /afs, 
+then we can run this image as follows:
+\begin{verbatim}
+docker run \
+  -e KRB_USER -e KRB_PASS \
+  -e CANVAS_SERVER -e CANVAS_TOKEN \
+  -e REPBEE_USER -e REPOBEE_URL -e REPOBEE_TOKEN \
+  -e COURSE_CODE -e COURSE_CODE_ORG \
+  -v /afs:/afs \
+    ${IMGNAME}-grade:latest
+\end{verbatim}
+<<constants>>=
+IMGNAME=  datintro25
+@
+
+
+\section{Overview}
+
+We want to build a Docker image to run all the necessary grading in the course.
+
+We use RepoBee to work with the students' repos.
+We use [[canvaslms]] and [[ladok3]] to report results to Canvas and LADOK.
+We also need an SSH version that can handle Kerberos.
+We need Kerberos to authenticate to KTH.
+Then we install the depends and grading scripts and run them all by default.
+
+This means that we can use the [[dbosk/grader]] image.
+<<Dockerfile>>=
+FROM dbosk/grader:latest
+
+<<set up grading scripts in container>>
+@
+
+Next is building the Docker image.
+We use the phony target [[${IMAGE_TARGET}]] for this.
+This variable should be updated whenever we change the assignments, so that the 
+grading procedure can vary between courses.
+<<datintro-grade.mk>>=
+<<constants>>
+
+IMAGE_TARGET=   ${IMGNAME}-grade
+
+.PHONY: all
+all: ${IMAGE_TARGET}
+
+.PHONY: ${IMAGE_TARGET}
+${IMAGE_TARGET}: Dockerfile
+	docker build -t $@ .
+
+Dockerfile: datintro-grade.nw
+	${NOTANGLE}
+
+.PHONY: clean clean-docker
+clean: clean-docker
+clean-docker:
+	${RM} Dockerfile
+
+.PHONY: distclean distclean-docker
+distclean: distclean-docker
+distclean-docker:
+	-docker image rm -f ${IMAGE_TARGET}
+
+<<build the grading scripts>>
+<<clean targets>>
+@
+
+
+\section{All grading scripts}
+
+We have a separate grading script for each assignment.
+When we run the container we'd like all those scripts to run, so we create the 
+[[grade-all.sh]] script that runs them all.
+
+This script will also set up the prerequisites for the individual grading 
+scripts.
+For starters, all scripts requires SSH to be set up with an agent to 
+authenticate using public keys.
+<<grade-all.sh>>=
+#!/bin/bash
+
+<<initialize SSH authentication for run>>
+
+./grade-ssh.sh
+./grade-terminal.sh
+./grade-git.sh
+./grade-latex.sh
+@
+
+Now, we must copy all those scripts into the container and set the executable 
+bit.
+These scripts also need the standard commands, which are not included in alpine 
+(the base Docker image for RepoBee).
+Then we make sure to execute [[grade-all.sh]] by default when the container is 
+run.
+<<set up grading scripts in container>>=
+COPY grade-all.sh common.sh \
+  grade-ssh.sh grade-terminal.sh grade-git.sh grade-latex.sh ./
+RUN chmod +x grade-all.sh common.sh \
+  grade-ssh.sh grade-terminal.sh grade-git.sh grade-latex.sh
+
+RUN apt-get update && apt-get install -y util-linux \
+  coreutils findutils grep binutils acct
+
+CMD ["/bin/bash", "grade-all.sh"]
+@
+
+To build the container we need [[make]] to first build local copies of all 
+scripts.
+<<build the grading scripts>>=
+grade-all.sh: datintro-grade.nw
+	${NOTANGLE.sh}
+
+grade-ssh.sh: ../../modules/ssh/grading/grade.sh
+grade-terminal.sh: ../../modules/terminal/grading/grade.sh
+grade-git.sh: ../../modules/git/grading/grade.sh
+grade-latex.sh: ../../modules/latex/grading/grade.sh
+
+grade-ssh.sh grade-terminal.sh grade-git.sh grade-latex.sh:
+	${CP} $^ $@
+
+<<target for common.sh>>
+
+../%:
+	${MAKE} -C $(dir $@) $(notdir $@)
+
+${IMAGE_TARGET}: grade-all.sh common.sh
+${IMAGE_TARGET}: grade-ssh.sh grade-terminal.sh grade-git.sh grade-latex.sh
+@
+
+Finally, we add some cleaning.
+<<clean targets>>=
+.PHONY: clean-scripts
+clean: clean-scripts
+clean-scripts:
+	${RM} grade-all.sh
+	<<cleaning for common.sh>>
+	${RM} grade-ssh.sh grade-terminal.sh grade-git.sh grade-latex.sh
+	${MAKE} -C ../../modules/ssh/grading clean
+	${MAKE} -C ../../modules/terminal/grading clean
+	${MAKE} -C ../../modules/git/grading clean
+	${MAKE} -C ../../modules/latex/grading clean
+
+.PHONY: distclean-scripts
+distclean: distclean-scripts
+distclean-scripts:
+	${MAKE} -C ../../modules/ssh/grading distclean
+	${MAKE} -C ../../modules/terminal/grading distclean
+	${MAKE} -C ../../modules/git/grading distclean
+	${MAKE} -C ../../modules/latex/grading distclean
+@
+
+
+\section{Building [[common.sh]]}
+
+The grading scripts ([[grade-*.sh]]) all depend on the include file 
+[[common.sh]], which provides some functions and settings that all of the 
+scripts rely on.
+Building is easy, it's just a built-in rule (from [[noweb.mk]]).
+<<target for common.sh>>=
+common.sh: common.sh.nw
+<<cleaning for common.sh>>=
+${RM} common.sh common.sh.pdf common.sh.tex
+${RM} common.sh.aux common.sh.fdb_latexmk common.sh.fls common.sh.log
+@
+
+
+\section{Initialize SSH for scripts}
+
+To set up the Kerberos authentication, we simply take the credentials from the 
+environment.
+<<initialize SSH authentication for run>>=
+krb_pass_file=$(mktemp)
+
+echo $KRB_PASS > $krb_pass_file
+kinit -f --password-file=$krb_pass_file $KRB_USER
+
+rm $krb_pass_file
+@
+
+
+\section{Log the runs}
+
+We want to log the runs so that the students can see when the script runs.
+We will do this by writing to a text file that is publicly accessible.
+<<write start time to log>>=
+LOG_FILE="/afs/kth.se/home/d/b/dbosk/public_html/datintro/grader.txt"
+mkdir -p $(dirname $LOG_FILE)
+
+echo -n "Started grading $(date)" >> $LOG_FILE
+@
+<<write end time to log>>=
+echo " -> Finished $(date)" >> $LOG_FILE
+@
+
+However, due to how the container is run by Docker, it doesn't get write access 
+through the user's Kerberos credentials.
+So this code must be run outside of the container.
+

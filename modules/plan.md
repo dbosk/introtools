@@ -12,4 +12,6 @@ authors:
 - Week 2
   - Lecture: LaTeX
   - Lab: LaTeX
+
+- Week 3
   - Lab: Extra session

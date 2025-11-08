@@ -1,4 +1,6 @@
 ---
+id: tmate
+title: Party in the terminal
 authors:
   - Daniel Bosk <dbosk@kth.se>
 ---

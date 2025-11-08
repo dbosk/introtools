@@ -2,18 +2,21 @@ We want to grade the \emph{The terminal} assignment, that is, the students
 should place a file containing the output of their [[history]] command in 
 [[~/Public/datintro/history.txt]].
 
-We will use the [[canvas]] command to report the grades. This must be installed 
+We will use the [[canvaslms]] command to report the grades. This must be installed 
 from
 \begin{center}
-  \texttt{https://github.com/dbosk/canvasy}.
+  \texttt{https://github.com/dbosk/canvaslms}.
 \end{center}
 
 We will do this as a shell script.
 <<grade.sh>>=
 #!/bin/bash
 # This file is generated from grade.sh.nw
+
 <<configuration variables>>
-<<function returning students to grade>>
+
+source common.sh
+
 <<function taking a list of students and returning passes>>
 <<grade students>>
 @
@@ -21,53 +24,121 @@ We will do this as a shell script.
 \section{Settings}
 
 We need a few variables as settings.
-We must set the course code. This is a regular expression.
+We must set the course code, in the [[COURSE_CODE]] variable.
+This is a space-separated list of regular expressions.
+We expect the course code to be set by the environment.
+
+We must also set the [[ASSIGNMENT]] variable. This is a regular expression.
+Currently, the course names are the following:
+\begin{verbatim}
+DD1301 HT25/VT26 (datintro25)	LAB1	Guide to accessing the terminal			
+DD1301 HT25/VT26 (datintro25)	LAB1	The terminal			
+DD1301 HT25/VT26 (datintro25)	LAB1	Git			
+DD1301 HT25/VT26 (datintro25)	LAB1	Writing a report in LaTeX			
+DD1337 HT25 (prginda25)	LAB1	Guide to accessing the terminal			
+DD1337 HT25 (prginda25)	LAB1	Working in the terminal @<<< The Lab To Do			
+DD1337 HT25 (prginda25)	LAB1	Managing work with Git/GitHub @<<< The Lab To Do			
+DD1337 HT25 (prginda25)	LAB1	Writing a report in LaTeX @<<< The Lab To Do			
+\end{verbatim}
 <<configuration variables>>=
-COURSE_CODE="DD1301HT20 DD1301HT21 DD1337HT21"
-@
-We must set the [[ASSIGNMENT]] variable. This is a regular expression.
-<<configuration variables>>=
-ASSIGNMENT="(The terminal)"
+ASSIGNMENT="^(The terminal|Working in the terminal)( @<<< [Tt]he [Ll]ab [Tt]o [Dd]o)? *$"
 @
 
 
-\section{Students to grade}
+\section{Get and check the public history files}
 
-We will construct a function that returns a list of students who need grading 
-for a given assignment.
+We can't [[scp]] each student's file to us and check, that will enable some DoS
+protection.
+Then we have two options:
+\begin{enumerate}
+\item\label{scriptonserver} We send a list of students to the server, run a
+script there to do the checks there, then receive back who passed.
+\item\label{getent} We send a list of students to the server, get the paths to
+the home directory for each student and pass that back.
+The we can access their home directories through AFS.
+\end{enumerate}
+We've tried option \ref{scriptonserver}.
+The downside with this is that it doesn't allow feedback to be posted for the
+students.
 
-This function will take the course code as first argument, the assignment title 
-as the second.
-This list will contain their Canvas ID (first column) and their KTH username 
-(second column).
-<<function returning students to grade>>=
-students_to_grade() {
-  local students=$(mktemp)
+We opt for option \ref{getent}.
+We pass a list of student usernames to the server and return a list containing
+user:path.
+We first upload a script to the server, then run it passing the list of
+students through stdin.
+The function takes the list of students as the list of arguments.
 
-  canvas users -sc "${1}" 2> /dev/null | cut -f 1,2 | sort -k 1 | \
-    sed "s/@kth.se//" > ${students}
+We want to rotate between the shell server to not trigger any load protections.
+The faculty-shell server seems to go unavailable (network unreachable) after a
+few invocations.
+We favour the staff server, by two thirds.
+We also introduce a small delay between runs.
+<<function to get home directory>>=
+get_home_directory() {
+  local shellserver="$(shuf -n1 -e faculty staff staff)-shell.sys.kth.se"
+  local script='
+    read students;
+    for s in $students; do
+      dir=$(getent passwd $s | cut -d : -f 6);
+      echo "$s:$dir";
+    done
+  '
+  local scriptname=$(echo $script | ssh ${shellserver} \
+    'read script; fn=$(mktemp); echo $script > $fn; echo $fn' 2> /dev/null)
 
-  canvas submissions -c "${1}" -a "${2}" | grep -v P | \
-    cut -f 1 | sort | join -t $'\t' ${students} -
+  sleep 2
 
-  rm ${students}
+  echo $* | ssh ${shellserver} /bin/bash ${scriptname} \
+    2> /dev/null
+
+  sleep 2
+
+  ssh ${shellserver} rm -Rf ${scriptname} 2> /dev/null
+
+  sleep 30
 }
 @
 
+Now we can check the history files.
+We provide a function that takes a list of students, checks the history file of
+the student, grades the student (and provides feedback) accordingly.
+The feedback is passed through stdout.
+The grade is indicated by the return value (1 for fail, 0 for pass).
+<<function taking a list of students and returning passes>>=
+<<function to get home directory>>
 
+grade_history_file() {
+  local student=$1
+  local homedir=$2
+  local path="/afs/kth.se/$homedir/Public/datintro"
+  local filepath="$path/history.txt"
+
+  if ! [ -d $path ]; then
+    echo "Can't find datintro directory in directory Public in your home directory."
+    return 1
+  elif ! [ -f $filepath ]; then
+    echo "Can't find history.txt located in directory Public/datintro in your home directory."
+    return 1
+  elif ! egrep " *[0-9]+.* history *>>? *([^ ]+/)?history.txt" $filepath \
+    > /dev/null;
+  then
+    echo "Found Public/datintro/history.txt in your home directory, but it seems to have the wrong format."
+    return 1
+  fi
+}
+@
 \section{Grading}
 
 Now we provide a function [[grade_students]] which takes the assignment name as 
-the first argument (it's a regex passed to [[canvas]]). The remaining arguments 
-constitutes a list of courses.
+the first argument (it's a regex passed to [[canvaslms]]). The remaining 
+arguments constitutes a list of courses.
 
 To grade, we iterate through the remaining students, given by 
-[[students_to_grade]].
-We send the list of students to [[check_valid_histories]], which returns only 
-those who passed.
-Then we can simply report those with [[canvas]].
-We run [[canvas]] in parallel to save time, but we need to add a delay to not 
-run in to Canvas' DoS protection.
+[[students_to_grade]] (from [[common.sh]]).
+We get the home directories of the students through [[get_home_directory]].
+Then we can iterate through the student--home directory tuples and grade 
+them.
+Depending on the grade we report P or F.
 <<grade students>>=
 grade_students() {
   local assignment="$1"
@@ -75,13 +146,7 @@ grade_students() {
 
   for course in $*; do
     students_to_grade "${course}" "${assignment}" | \
-      generate_feedback_for_students | report_feedback
-
-    (cd $feedback; for s in *; do
-      cat $s | report_feedback $s
-    done)
-
-    rm -Rf $feedback
+      generate_feedback_for_students | report_feedback "${course}" "${assignment}"
   done
 
   wait
@@ -127,6 +192,8 @@ generate_feedback_for_students() {
 }
 
 report_feedback() {
+  local course="$1"
+  local assignment="$2"
   local feedback_dir=$(cat)
 
   cd $feedback_dir
@@ -134,7 +201,7 @@ report_feedback() {
   for s in $(ls); do
     <<check the feedback for student s>>
   done
-  
+
   cd .. && rm -Rf $feedback_dir
 }
 @
@@ -146,7 +213,7 @@ If the student passes, we must create an empty feedback file.
 Students who don't have a file should be ignored.
 <<script to run on remote server>>=
 students=$(cat)
-results=$(mkdtemp -d)
+results=$(mktemp -d)
 
 for s in $students; do
   dir=$(getent passwd $s | cut -d : -f 6)
@@ -166,21 +233,21 @@ tar -zcf - $results/*
 rm -Rf $results
 @
 
-We receive the feedback in the [[feedback]] variable and the student identifier 
-in the [[s]] variable.
+We receive the feedback in a file named by the student identifier in the [[s]]
+variable.
 Now we need to check if the feedback is empty, which is a pass.
 Any feedback is a fail and should be included as a comment to the student.
 <<check the feedback for student s>>=
-if [[ $(wc -l $s) -gt 0 ]]; then
+if [[ -s $s ]]; then
   echo "$s (attempted terminal)"
 
-  canvas grade -c "${course}" -a "${assignment}" \
-    -u $(grep $s ${students} | cut -f 1) -g F -m "$(cat $s)" &
+  canvaslms grade -c "${course}" -a "${assignment}" \
+    -u ${s}@kth.se -g F -m "$(cat $s)" &
 else
   echo "$s (terminal)"
 
-  canvas grade -c "${course}" -a "${assignment}" \
-    -u $(grep $s ${students} | cut -f 1) -g P &
+  canvaslms grade -c "${course}" -a "${assignment}" \
+    -u ${s}@kth.se -g P &
 fi
 
 sleep 0.1

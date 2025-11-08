@@ -1,4 +1,6 @@
 ---
+id: editor
+title: Editors
 authors:
   - Daniel Bosk <dbosk@kth.se>
 ---
