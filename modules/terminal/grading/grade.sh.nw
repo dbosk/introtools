@@ -103,28 +103,84 @@ Now we can check the history files.
 We provide a function that takes a list of students, checks the history file of 
 the student, grades the student (and provides feedback) accordingly.
 The feedback is passed through stdout.
-(For now, we don't provide the feedback since we don't check if the student has 
-already gotten the feedback.)
+We only provide feedback if the student has made changes to files in the Public 
+directory since the last grading date. This way we avoid giving feedback for old 
+attempts.
 The grade is indicated by the return value (1 for fail, 0 for pass).
+
+First, we define a helper function to check if there are any recent changes in 
+the Public directory. The function takes the path to the Public directory and the 
+grading time as parameters. It returns "yes" if there are files newer than the 
+grading time, "no" otherwise.
+<<function to check if Public has recent changes>>=
+has_recent_public_changes() {
+  local public_path=$1
+  local grading_time=$2
+  
+  # If grading_time is empty or all zeros, consider it as no previous grading
+  if [ -z "$grading_time" ] || [ "$grading_time" = "0000-00-00" ]; then
+    echo "yes"
+    return 0
+  fi
+  
+  # Find the newest file in Public directory
+  local newest_file=$(find "$public_path" -type f -printf '%T@ %p\n' 2>/dev/null \
+    | sort -n | tail -1 | cut -d' ' -f2-)
+  
+  if [ -z "$newest_file" ]; then
+    echo "no"
+    return 0
+  fi
+  
+  # Get the modification time of the newest file in ISO 8601 format
+  local newest_time=$(stat -c %y "$newest_file" 2>/dev/null | cut -d'.' -f1 | sed 's/ /T/')
+  
+  # Compare times (ISO 8601 format allows lexicographic comparison)
+  if [[ "$newest_time" > "$grading_time" ]]; then
+    echo "yes"
+  else
+    echo "no"
+  fi
+}
+@
+
+Now we can check the history files.
 <<function taking a list of students and returning passes>>=
 <<function to get home directory>>
+<<function to check if Public has recent changes>>
 
 grade_history_file() {
   local student=$1
   local homedir=$2
+  local grading_time=$3
   local path="/afs/kth.se/$homedir/Public/datintro"
   local filepath="$path/history.txt"
+  local public_path="/afs/kth.se/$homedir/Public"
+
+  # Check if there are recent changes in Public directory
+  local has_recent_changes=$(has_recent_public_changes "$public_path" "$grading_time")
 
   if ! [ -d $path ]; then
-    #echo "Can't find datintro directory in directory Public in your home directory."
+    if [ "$has_recent_changes" = "yes" ]; then
+      echo "Can't find the 'datintro' directory in the 'Public' directory in your home directory. Please ensure you create it in the correct location (~/Public/datintro)."
+    fi
     return 1
   elif ! [ -f $filepath ]; then
-    #echo "Can't find history.txt located in directory Public/datintro in your home directory."
+    if [ "$has_recent_changes" = "yes" ]; then
+      echo "Can't find the file 'history.txt' in the 'Public/datintro' directory in your home directory. Please ensure you create it in the correct location (~/Public/datintro/history.txt)."
+    fi
+    return 1
+  elif ! [ -r $filepath ]; then
+    if [ "$has_recent_changes" = "yes" ]; then
+      echo "The file 'Public/datintro/history.txt' exists but cannot be read. This usually means you created the file outside the 'Public' directory and then moved it there. Files must be created directly in the 'Public' directory to inherit the correct permissions. Please remove the 'datintro' directory and create it again inside 'Public', then create the 'history.txt' file there. Warning: Never remove the 'Public' directory itself."
+    fi
     return 1
   elif ! egrep " *[0-9]+.* history *>>? *([^ ]+/)?history.txt" $filepath \
     > /dev/null;
   then
-    #echo "Found Public/datintro/history.txt in your home directory, but it seems to have the wrong format."
+    if [ "$has_recent_changes" = "yes" ]; then
+      echo "Found 'Public/datintro/history.txt' in your home directory, but it doesn't have the correct content. Please read the assignment instructions carefully and ensure you redirect the output of the 'history' command to the file."
+    fi
     return 1
   fi
 }
@@ -138,10 +194,12 @@ the first argument (it's a regex passed to [[canvaslms]]). The remaining
 arguments constitutes a list of courses.
 
 To grade, we iterate through the remaining students, given by 
-[[students_to_grade]] (from [[common.sh]]).
+[[students_with_grading_time]] (from [[common.sh]]).
 We get the home directories of the students through [[get_home_directory]].
 Then we can iterate through the student--home directory tuples and grade 
 them.
+We pass the grading time to [[grade_history_file]] so it can check if there 
+are recent changes in the Public directory before providing feedback.
 Depending on the grade we report P or F.
 <<grade students>>=
 grade_students() {
@@ -151,27 +209,31 @@ grade_students() {
   local feedback=$(mktemp)
 
   for course in $*; do
-    local students=$(mktemp)
-    students_to_grade "${course}" "${assignment}" > ${students}
+    local students_times=$(mktemp)
+    students_with_grading_time "${course}" "${assignment}" > ${students_times}
 
-    for student_home in $(get_home_directory $(cat ${students})); do
-      local student=$(echo $student_home | cut -f 1 -d:)
-      local homedir=$(echo $student_home | cut -f 2 -d:)
+    for student_time in $(cat ${students_times}); do
+      local student=$(echo $student_time | cut -f 1)
+      local grading_time=$(echo $student_time | cut -f 2)
+      
+      for student_home in $(get_home_directory $student); do
+        local homedir=$(echo $student_home | cut -f 2 -d:)
 
-      if grade_history_file $student $homedir > $feedback; then
-        echo "$student (terminal)"
+        if grade_history_file $student $homedir $grading_time > $feedback; then
+          echo "$student (terminal)"
 
-        canvaslms grade -c "${course}" -a "${assignment}" \
-          -u $student@kth.se -g P &
+          canvaslms grade -c "${course}" -a "${assignment}" \
+            -u $student@kth.se -g P &
 
-        sleep 0.2
-      elif [ -s $feedback ]; then
-        canvaslms grade -c "${course}" -a "${assignment}" \
-          -u $student@kth.se -g F -m "$(cat $feedback)" &
-      fi
+          sleep 0.2
+        elif [ -s $feedback ]; then
+          canvaslms grade -c "${course}" -a "${assignment}" \
+            -u $student@kth.se -g F -m "$(cat $feedback)" &
+        fi
+      done
     done
 
-    rm ${students}
+    rm ${students_times}
   done
 
   wait
