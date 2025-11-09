@@ -198,7 +198,10 @@ arguments constitutes a list of courses.
 
 To grade, we iterate through the remaining students, given by 
 [[students_with_grading_time]] (from [[common.sh]]).
-We get the home directories of the students through [[get_home_directory]].
+We cache the home directories for all students by calling [[get_home_directory]] 
+once with all students, rather than calling it once per student.
+This is more efficient since [[get_home_directory]] uses SSH and has significant 
+delays.
 Then we can iterate through the student--home directory tuples and grade 
 them.
 We pass the grading time to [[grade_history_file]] so it can check if there 
@@ -215,11 +218,17 @@ grade_students() {
     local students_times=$(mktemp)
     students_with_grading_time "${course}" "${assignment}" > ${students_times}
 
-    for student_time in $(cat ${students_times}); do
-      local student=$(echo $student_time | cut -f 1)
-      local grading_time=$(echo $student_time | cut -f 2)
-      
-      local student_home=$(get_home_directory "$student")
+    # Get all students from the student_time pairs
+    local students=$(cut -f 1 ${students_times})
+    
+    # Cache home directories for all students at once
+    local home_dirs=$(mktemp)
+    get_home_directory $students > ${home_dirs}
+
+    # Process each student using the cache
+    while IFS=$'\t' read -r student grading_time; do
+      # Look up home directory from cache
+      local student_home=$(grep "^${student}:" ${home_dirs})
       local homedir=$(echo "$student_home" | cut -f 2 -d:)
 
       if grade_history_file "$student" "$homedir" "$grading_time" > "$feedback"; then
@@ -233,9 +242,10 @@ grade_students() {
         canvaslms grade -c "${course}" -a "${assignment}" \
           -u $student@kth.se -g F -m "$(cat "$feedback")" &
       fi
-    done
+    done < ${students_times}
 
     rm ${students_times}
+    rm ${home_dirs}
   done
 
   wait
