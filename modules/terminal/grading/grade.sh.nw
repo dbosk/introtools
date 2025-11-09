@@ -160,27 +160,30 @@ grade_history_file() {
   # Check if there are recent changes in Public directory
   local has_recent_changes=$(has_recent_public_changes "$public_path" "$grading_time")
 
-  if ! [ -d $path ]; then
-    if [ "$has_recent_changes" = "yes" ]; then
-      echo "Can't find the 'datintro' directory in the 'Public' directory in your home directory. Please ensure you create it in the correct location (~/Public/datintro)."
+  # Only provide feedback if there are recent changes
+  if [ "$has_recent_changes" != "yes" ]; then
+    # No recent changes, just return failure without feedback
+    if ! [ -d $path ] || ! [ -f $filepath ] || ! [ -r $filepath ] || \
+       ! egrep " *[0-9]+.* history *>>? *([^ ]+/)?history.txt" $filepath > /dev/null; then
+      return 1
     fi
+    return 0
+  fi
+
+  # Provide specific feedback based on the failure mode
+  if ! [ -d $path ]; then
+    echo "Can't find the 'datintro' directory in the 'Public' directory in your home directory. Please ensure you create it in the correct location (~/Public/datintro)."
     return 1
   elif ! [ -f $filepath ]; then
-    if [ "$has_recent_changes" = "yes" ]; then
-      echo "Can't find the file 'history.txt' in the 'Public/datintro' directory in your home directory. Please ensure you create it in the correct location (~/Public/datintro/history.txt)."
-    fi
+    echo "Can't find the file 'history.txt' in the 'Public/datintro' directory in your home directory. Please ensure you create it in the correct location (~/Public/datintro/history.txt)."
     return 1
   elif ! [ -r $filepath ]; then
-    if [ "$has_recent_changes" = "yes" ]; then
-      echo "The file 'Public/datintro/history.txt' exists but cannot be read. This usually means you created the file outside the 'Public' directory and then moved it there. Files must be created directly in the 'Public' directory to inherit the correct permissions. Please remove the 'datintro' directory and create it again inside 'Public', then create the 'history.txt' file there. Warning: Never remove the 'Public' directory itself."
-    fi
+    echo "The file 'Public/datintro/history.txt' exists but cannot be read. This usually means you created the file outside the 'Public' directory and then moved it there. Files must be created directly in the 'Public' directory to inherit the correct permissions. Please remove the 'datintro' directory and create it again inside 'Public', then create the 'history.txt' file there. Warning: Never remove the 'Public' directory itself."
     return 1
   elif ! egrep " *[0-9]+.* history *>>? *([^ ]+/)?history.txt" $filepath \
     > /dev/null;
   then
-    if [ "$has_recent_changes" = "yes" ]; then
-      echo "Found 'Public/datintro/history.txt' in your home directory, but it doesn't have the correct content. Please read the assignment instructions carefully and ensure you redirect the output of the 'history' command to the file."
-    fi
+    echo "Found 'Public/datintro/history.txt' in your home directory, but it doesn't have the correct content. Please read the assignment instructions carefully and ensure you redirect the output of the 'history' command to the file."
     return 1
   fi
 }
@@ -216,21 +219,20 @@ grade_students() {
       local student=$(echo $student_time | cut -f 1)
       local grading_time=$(echo $student_time | cut -f 2)
       
-      for student_home in $(get_home_directory $student); do
-        local homedir=$(echo $student_home | cut -f 2 -d:)
+      local student_home=$(get_home_directory "$student")
+      local homedir=$(echo "$student_home" | cut -f 2 -d:)
 
-        if grade_history_file $student $homedir $grading_time > $feedback; then
-          echo "$student (terminal)"
+      if grade_history_file "$student" "$homedir" "$grading_time" > "$feedback"; then
+        echo "$student (terminal)"
 
-          canvaslms grade -c "${course}" -a "${assignment}" \
-            -u $student@kth.se -g P &
+        canvaslms grade -c "${course}" -a "${assignment}" \
+          -u $student@kth.se -g P &
 
-          sleep 0.2
-        elif [ -s $feedback ]; then
-          canvaslms grade -c "${course}" -a "${assignment}" \
-            -u $student@kth.se -g F -m "$(cat $feedback)" &
-        fi
-      done
+        sleep 0.2
+      elif [ -s "$feedback" ]; then
+        canvaslms grade -c "${course}" -a "${assignment}" \
+          -u $student@kth.se -g F -m "$(cat "$feedback")" &
+      fi
     done
 
     rm ${students_times}
