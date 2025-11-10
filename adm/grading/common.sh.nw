@@ -47,19 +47,22 @@ For those who haven't been graded before, the last column will be empty.
 So we rewrite that to an all-zero date.
 We also normalize all timestamps to ISO 8601 format (YYYY-MM-DDTHH:MM:SS+TZ)
 to match the format from git log, ensuring proper comparison.
-Canvas timestamps are in local time (Stockholm, +02:00).
+Canvas timestamps are in local time (Stockholm timezone).
+We detect the current timezone offset dynamically to handle both summer time
+([[+02:00]]) and winter time ([[+01:00]]) correctly.
 <<function returning students to grade with last grading time>>=
 students_with_grading_time() {
+  local tz=$(date +%:z)
   canvaslms submissions -l -c "$1" -a "$2" \
     | <<exclude those who passed>> \
     | cut -f 3,6 \
     | sort -u \
-    | awk -F'\t' 'BEGIN {OFS="\t"} {
+    | awk -F'\t' -v timezone="$tz" 'BEGIN {OFS="\t"} {
         if ($2 == "" || $2 == "N/A")
           print $1, "0000-00-00T00:00:00+00:00"
         else if ($2 !~ /T/) {
           split($2, parts, " ")
-          print $1, parts[1] "T" parts[2] ":00+02:00"
+          print $1, parts[1] "T" parts[2] ":00" timezone
         }
         else
           print $0
