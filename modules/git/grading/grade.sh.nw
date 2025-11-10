@@ -2,11 +2,28 @@ We want to grade the \emph{Git} assignment.
 The students should add a file and change an already existing file in their 
 designated repo.
 
-We will use the [[canvaslms]] command to report the grades. This must be installed 
+We will use the [[canvaslms]] command to report the grades. This must be installed
 from
 \begin{center}
   \texttt{https://github.com/dbosk/canvaslms}.
 \end{center}
+
+\subsection{Overview}
+
+The grading workflow follows these steps:
+\begin{enumerate}
+\item \textbf{Fetch students to grade}: Query Canvas LMS for students who haven't
+  received a passing grade yet.
+\item \textbf{Clone student repositories}: Use RepoBee to clone the designated
+  repositories from GitHub for each student.
+\item \textbf{Generate feedback}: For each repository:
+  \begin{itemize}
+    \item Check if README.md was modified from the template
+    \item Check if at least one new file was added (excluding .git directory)
+  \end{itemize}
+\item \textbf{Submit grades}: If any issues are found, grade as Fail (F) with
+  feedback; otherwise grade as Pass (P).
+\end{enumerate}
 
 We will do this as a shell script.
 <<grade.sh>>=
