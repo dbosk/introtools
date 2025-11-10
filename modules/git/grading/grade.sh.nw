@@ -88,9 +88,9 @@ Good luck!" | diff - "$repo/README.md" > /dev/null \
 
   local allfiles=$(mktemp)
 
-  find "$1" -type f | grep -v "/\.git/" > "$allfiles"
+  find "$1" -type f -print0 | grep -zv "/\.git/" > "$allfiles"
 
-  if [[ $(cat "$allfiles" | wc -l) -lt 2 ]]; then
+  if [[ $(grep -zc . "$allfiles") -lt 2 ]]; then
     echo "No new file detected."
   fi
 

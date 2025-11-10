@@ -91,9 +91,9 @@ Then we look through all files for the [[history]] command.
 generate_feedback() {
   local texfiles=$(mktemp)
 
-  find "$1" -type f -name \*.tex > "$texfiles"
+  find "$1" -type f -name \*.tex -print0 > "$texfiles"
 
-  if ! [ $(wc -l "$texfiles" | cut -f 1 -d " ") -gt 0 ]; then
+  if ! [ $(grep -zc . "$texfiles") -gt 0 ]; then
     echo "No LaTeX files found. Make sure that you commit the source file."
     echo "We don't care about the PDF, with the source files we can build"
     echo "that one by ourselves."
@@ -156,7 +156,7 @@ generate_feedback() {
 
   local allfiles=$(mktemp)
 
-  find "$1" -type f > "$allfiles"
+  find "$1" -type f -print0 > "$allfiles"
   if ! check_student "$allfiles" "history"; then
     echo "No command-line history found:"
     echo "See the requirements in the assessment section of"
@@ -174,7 +174,7 @@ The [[check_student]] function will grep(1) the files for the provided regex.
 It takes a file list and a regex pattern, and returns true if the pattern is found.
 <<generate grade and feedback>>=
 check_student() {
-  cat "$1" | xargs -d "\n" egrep "$2" > /dev/null
+  cat "$1" | xargs -0 egrep "$2" > /dev/null
   if [ $? = 0 ]; then
     true
   else

@@ -128,12 +128,12 @@ students_to_actually_grade() {
   for s in $(echo "$students_w_times" | cut -f 1); do
     time=$(echo "$students_w_times" | egrep "^$s\s" | cut -f 2)
 
-    for r in $(find "$repos/$s" -mindepth 1 -maxdepth 1 -type d 2>/dev/null); do
+    while IFS= read -r -d '' r; do
       repo_time=$(git -C "$r" log -1 --format=\%cI 2>/dev/null)
       if [[ -n "$repo_time" ]] && [[ "$time" < "$repo_time" ]]; then
         echo "$s"
       fi
-    done
+    done < <(find "$repos/$s" -mindepth 1 -maxdepth 1 -type d -print0 2>/dev/null)
   done
 }
 @
