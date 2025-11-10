@@ -6,11 +6,37 @@ contain a title, a table of contents, a figure, a citation with a reference, a
 listing (using the listings package) that contains your command line history 
 (the output of the history command).
 
-We will use the [[canvaslms]] command to report the grades. This must be installed 
+We will use the [[canvaslms]] command to report the grades. This must be installed
 from
 \begin{center}
   \texttt{https://github.com/dbosk/canvaslms}.
 \end{center}
+
+\subsection{Overview}
+
+The grading workflow follows these steps:
+\begin{enumerate}
+\item \textbf{Fetch students to grade}: Query Canvas LMS for students who haven't
+  received a passing grade yet.
+\item \textbf{Clone student repositories}: Use RepoBee to clone the designated
+  repositories from GitHub for each student.
+\item \textbf{Generate feedback}: For each repository:
+  \begin{itemize}
+    \item Find all \texttt{.tex} files
+    \item Check for required \LaTeX{} elements:
+    \begin{itemize}
+      \item Document class declaration
+      \item Title and title page generation
+      \item Table of contents
+      \item Figure (or table) environment
+      \item Citations
+      \item Code listing
+    \end{itemize}
+    \item Check for command-line history file
+  \end{itemize}
+\item \textbf{Submit grades}: If any required elements are missing, grade as Fail
+  (F) with specific feedback for each missing element; otherwise grade as Pass (P).
+\end{enumerate}
 
 We will do this as a shell script.
 <<grade.sh>>=
