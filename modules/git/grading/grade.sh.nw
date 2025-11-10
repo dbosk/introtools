@@ -75,26 +75,26 @@ The assignment is to modify the README file.
 Then they should add another file.
 <<generate grade and feedback>>=
 generate_feedback() {
-  local repo=$(echo "$1/$(ls $1)")
+  local repo=$(echo "$1/$(ls "$1")")
 
   echo "# datintro
 
-This is your first repo, we made it for you. You can create repos on your own, 
-*however, during the Git-related assignments, you must work in this repo, 
+This is your first repo, we made it for you. You can create repos on your own,
+*however, during the Git-related assignments, you must work in this repo,
 otherwise the grading scripts cannot find your work!*
 
-Good luck!" | diff - $repo/README.md > /dev/null \
+Good luck!" | diff - "$repo/README.md" > /dev/null \
     && echo "No change to README.md detected."
 
   local allfiles=$(mktemp)
 
-  find "$1" -type f | grep -v "/\.git/" > $allfiles
+  find "$1" -type f | grep -v "/\.git/" > "$allfiles"
 
-  if [[ $(cat $allfiles | wc -l) -lt 2 ]]; then
+  if [[ $(cat "$allfiles" | wc -l) -lt 2 ]]; then
     echo "No new file detected."
   fi
 
-  rm -f $allfiles
+  rm -f "$allfiles"
 }
 @
 
@@ -109,39 +109,39 @@ However, we need a small delay to not run into Canvas' DoS protection.
 grade_students() {
   local assignm="$1"; shift
 
-  for course in $*; do
-    local canvas=$(echo $course | cut -f 1 -d :)
-    local github=$(echo $course | cut -f 2 -d :)
+  for course in "$@"; do
+    local canvas=$(echo "$course" | cut -f 1 -d :)
+    local github=$(echo "$course" | cut -f 2 -d :)
 
     local students_w_times=$(students_with_grading_time "$canvas" "$assignm")
     if [[ -z "$students_w_times" ]]; then
       continue
     fi
 
-    local repos=$(clone_repos $github $(echo "$students_w_times" | cut -f 1))
+    local repos=$(clone_repos "$github" $(echo "$students_w_times" | cut -f 1))
 
     local students=$(echo "$students_w_times" | \
-      students_to_actually_grade $repos)
+      students_to_actually_grade "$repos")
 
     for s in $students; do
-      local feedback=$(generate_feedback $repos/$s)
+      local feedback=$(generate_feedback "$repos/$s")
 
       if [[ $(echo -n "$feedback" | wc -c) -gt 0 ]]; then
         echo "$s (attempted git)"
 
         canvaslms grade -c "${canvas}" -a "${assignm}" \
-          -u $s@kth.se -g F -m "$feedback" &
+          -u "$s@kth.se" -g F -m "$feedback" &
       else
         echo "$s (git)"
 
         canvaslms grade -c "${canvas}" -a "${assignm}" \
-          -u $s@kth.se -g P &
+          -u "$s@kth.se" -g P &
       fi
 
       sleep 0.2
     done
 
-    rm -Rf $repos
+    rm -Rf "$repos"
   done
 
   wait
