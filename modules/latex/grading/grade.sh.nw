@@ -99,7 +99,7 @@ generate_feedback() {
     echo "that one by ourselves."
     echo
   else
-    if ! check_student $s $texfiles "documentclass"; then
+    if ! check_student $texfiles "documentclass"; then
       echo "No document class found:"
       echo "See the first video lecture (Video: Intro to LaTeX) from"
       echo "https://daniel.bosk.se/introtools/modules/latex/latex"
@@ -107,25 +107,25 @@ generate_feedback() {
       echo "https://www.learnlatex.org/en/lesson-05"
       echo
     fi
-    if ! check_student $s $texfiles "\\\\title"; then
+    if ! check_student $texfiles "\\\\title"; then
       echo "No title found:"
       echo "See the first video lecture (Video: Intro to LaTeX) from"
       echo "https://daniel.bosk.se/introtools/modules/latex/latex"
       echo
     fi
-    if ! check_student $s $texfiles "\\\\maketitle"; then
+    if ! check_student $texfiles "\\\\maketitle"; then
       echo "No title page generated:"
       echo "See the first video lecture (Video: Intro to LaTeX) from"
       echo "https://daniel.bosk.se/introtools/modules/latex/latex"
       echo
     fi
-    if ! check_student $s $texfiles "\\\\tableofcontents"; then
+    if ! check_student $texfiles "\\\\tableofcontents"; then
       echo "No table of contents found:"
       echo "See the first video lecture (Video: Intro to LaTeX) from"
       echo "https://daniel.bosk.se/introtools/modules/latex/latex"
       echo
     fi
-    if ! check_student $s $texfiles "\\\\begin ?{(.*figure|table)}"; then
+    if ! check_student $texfiles "\\\\begin ?{(.*figure|table)}"; then
       echo "No figure found:"
       echo "Hint: an image is not a figure, but a figure can contain an image."
       echo "See the fourth video lecture (Video: Figures and Tables) from"
@@ -135,7 +135,7 @@ generate_feedback() {
       echo "particularly about floats."
       echo
     fi
-    if ! check_student $s $texfiles "\\\[a-z\]*cite"; then
+    if ! check_student $texfiles "\\\[a-z\]*cite"; then
       echo "No citation found:"
       echo "See the second video lecture (Video: References/Bibliography) from"
       echo "https://daniel.bosk.se/introtools/modules/latex/latex"
@@ -143,7 +143,7 @@ generate_feedback() {
       echo "https://www.learnlatex.org/en/lesson-12"
       echo
     fi
-    if ! check_student $s $texfiles "\\\\.*lst(input)?listing"; then
+    if ! check_student $texfiles "\\\\.*lst(input)?listing"; then
       echo "No listing found:"
       echo "See the documentation of the listings package linked in the"
       echo "assessment section of"
@@ -157,7 +157,7 @@ generate_feedback() {
   local allfiles=$(mktemp)
 
   find "$1" -type f > $allfiles
-  if ! check_student $s $allfiles "history"; then
+  if ! check_student $allfiles "history"; then
     echo "No command-line history found:"
     echo "See the requirements in the assessment section of"
     echo "https://daniel.bosk.se/introtools/modules/latex/latex"
@@ -171,10 +171,10 @@ generate_feedback() {
 @
 
 The [[check_student]] function will grep(1) the files for the provided regex.
-It will print and return false if the test failed.
+It takes a file list and a regex pattern, and returns true if the pattern is found.
 <<generate grade and feedback>>=
 check_student() {
-  cat "$2" | xargs -d "\n" egrep "$3" > /dev/null
+  cat "$1" | xargs -d "\n" egrep "$2" > /dev/null
   if [ $? = 0 ]; then
     true
   else
