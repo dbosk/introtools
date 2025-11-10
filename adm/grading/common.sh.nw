@@ -82,24 +82,24 @@ GitHub API URL, access token.
 We will pass them by command line.
 <<clone repos>>=
 clone_repos() {
-  local org=$1; shift
+  local org="$1"; shift
   local repos=$(mktemp -d)
   local students=$(mktemp)
 
-  mkdir -p $repos
-  echo $repos
+  mkdir -p "$repos"
+  echo "$repos"
 
-  for s in $*; do
-    echo $s >> $students
+  for s in "$@"; do
+    echo "$s" >> "$students"
   done
 
-  test -s $students || return 0
+  test -s "$students" || return 0
 
-  (cd $repos && repobee repos clone \
-    -u $REPOBEE_USER --bu $REPOBEE_URL -t $REPOBEE_TOKEN \
-      -qq --sf $students -o $org --discover-repos)
+  (cd "$repos" && repobee repos clone \
+    -u "$REPOBEE_USER" --bu "$REPOBEE_URL" -t "$REPOBEE_TOKEN" \
+      -qq --sf "$students" -o "$org" --discover-repos)
 
-  rm $students
+  rm "$students"
 }
 @
 
@@ -116,14 +116,14 @@ It then outputs only those who should be graded.
 <<check dates on repos>>=
 students_to_actually_grade() {
   local students_w_times=$(cat)
-  local repos=$1
+  local repos="$1"
 
   for s in $(echo "$students_w_times" | cut -f 1); do
     time=$(echo "$students_w_times" | egrep "^$s\s" | cut -f 2)
 
-    for r in $(find $repos/$s -mindepth 1 -maxdepth 1 -type d 2>/dev/null); do
-      if [[ "$time" < "$(git -C $r log -1 --format=\%cI 2>/dev/null)" ]]; then
-        echo $s
+    for r in $(find "$repos/$s" -mindepth 1 -maxdepth 1 -type d 2>/dev/null); do
+      if [[ "$time" < "$(git -C "$r" log -1 --format=\%cI 2>/dev/null)" ]]; then
+        echo "$s"
       fi
     done
   done
