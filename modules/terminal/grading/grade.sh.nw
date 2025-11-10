@@ -118,7 +118,7 @@ has_recent_public_changes() {
   local grading_time=$2
   
   # If grading_time is empty or all zeros, consider it as no previous grading
-  if [ -z "$grading_time" ] || [ "$grading_time" = "0000-00-00" ]; then
+  if [ -z "$grading_time" ] || [ "$grading_time" = "0000-00-00T00:00:00+00:00" ]; then
     echo "yes"
     return 0
   fi
