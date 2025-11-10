@@ -1,8 +1,32 @@
-We want to grade the \emph{The terminal} assignment, that is, the students 
-should place a file containing the output of their [[history]] command in 
+We want to grade the \emph{The terminal} assignment, that is, the students
+should place a file containing the output of their [[history]] command in
 [[~/Public/datintro/history.txt]].
 
-We will use the [[canvaslms]] command to report the grades. This must be installed 
+\subsection{Overview of the Grading Process}
+
+The grading workflow consists of several steps that handle the complexity
+of checking student files in a distributed environment:
+
+\begin{enumerate}
+\item \textbf{Retrieve student list}: Query Canvas LMS for students who need
+  grading, along with their last grading timestamp
+\item \textbf{Get home directories}: SSH to a shell server and use [[getent]]
+  to look up each student's home directory path
+\item \textbf{Access files via AFS}: Use the AFS-mounted paths to check
+  [[~/Public/datintro/history.txt]] in each student's home
+\item \textbf{Validate content}: Verify the file contains output from the
+  [[history]] command (identified by the redirect pattern)
+\item \textbf{Provide feedback}: Give detailed error messages only if the
+  student has made recent changes (to avoid spam)
+\item \textbf{Report grades}: Submit pass/fail results back to Canvas LMS
+\end{enumerate}
+
+This approach has evolved from an earlier design where we ran scripts on the
+shell servers themselves. The current design accesses student files through
+AFS, which allows us to provide detailed feedback messages explaining exactly
+what went wrong.
+
+We will use the [[canvaslms]] command to report the grades. This must be installed
 from
 \begin{center}
   \texttt{https://github.com/dbosk/canvaslms}.
