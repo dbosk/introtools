@@ -79,21 +79,21 @@ get_home_directory() {
   local script='
     read students;
     for s in $students; do
-      dir=$(getent passwd $s | cut -d : -f 6);
+      dir=$(getent passwd "$s" | cut -d : -f 6);
       echo "$s:$dir";
     done
   '
-  local scriptname=$(echo $script | ssh ${shellserver} \
-    'read script; fn=$(mktemp); echo $script > $fn; echo $fn' 2> /dev/null)
+  local scriptname=$(echo "$script" | ssh "${shellserver}" \
+    'read script; fn=$(mktemp); echo "$script" > "$fn"; echo "$fn"' 2> /dev/null)
 
   sleep 2
 
-  echo $* | ssh ${shellserver} /bin/bash ${scriptname} \
+  echo "$*" | ssh "${shellserver}" /bin/bash "${scriptname}" \
     2> /dev/null
 
   sleep 2
 
-  ssh ${shellserver} rm -Rf ${scriptname} 2> /dev/null
+  ssh "${shellserver}" rm -Rf "${scriptname}" 2> /dev/null
 
   sleep 30
 }
@@ -163,24 +163,24 @@ grade_history_file() {
   # Only provide feedback if there are recent changes
   if [ "$has_recent_changes" != "yes" ]; then
     # No recent changes, just return failure without feedback
-    if ! [ -d $path ] || ! [ -f $filepath ] || ! [ -r $filepath ] || \
-       ! egrep " *[0-9]+.* history *>>? *([^ ]+/)?history.txt" $filepath > /dev/null; then
+    if ! [ -d "$path" ] || ! [ -f "$filepath" ] || ! [ -r "$filepath" ] || \
+       ! egrep " *[0-9]+.* history *>>? *([^ ]+/)?history.txt" "$filepath" > /dev/null; then
       return 1
     fi
     return 0
   fi
 
   # Provide specific feedback based on the failure mode
-  if ! [ -d $path ]; then
+  if ! [ -d "$path" ]; then
     echo "Can't find the 'datintro' directory in the 'Public' directory in your home directory. Please ensure you create it in the correct location (~/Public/datintro)."
     return 1
-  elif ! [ -f $filepath ]; then
+  elif ! [ -f "$filepath" ]; then
     echo "Can't find the file 'history.txt' in the 'Public/datintro' directory in your home directory. Please ensure you create it in the correct location (~/Public/datintro/history.txt)."
     return 1
-  elif ! [ -r $filepath ]; then
+  elif ! [ -r "$filepath" ]; then
     echo "The file 'Public/datintro/history.txt' exists but cannot be read. This usually means you created the file outside the 'Public' directory and then moved it there. Files must be created directly in the 'Public' directory to inherit the correct permissions. Please remove the 'datintro' directory and create it again inside 'Public', then create the 'history.txt' file there. Warning: Never remove the 'Public' directory itself."
     return 1
-  elif ! egrep " *[0-9]+.* history *>>? *([^ ]+/)?history.txt" $filepath \
+  elif ! egrep " *[0-9]+.* history *>>? *([^ ]+/)?history.txt" "$filepath" \
     > /dev/null;
   then
     echo "Found 'Public/datintro/history.txt' in your home directory, but it doesn't have the correct content. Please read the assignment instructions carefully and ensure you redirect the output of the 'history' command to the file."
@@ -214,38 +214,38 @@ grade_students() {
 
   local feedback=$(mktemp)
 
-  for course in $*; do
+  for course in "$@"; do
     local students_times=$(mktemp)
-    students_with_grading_time "${course}" "${assignment}" > ${students_times}
+    students_with_grading_time "${course}" "${assignment}" > "${students_times}"
 
     # Get all students from the student_time pairs
-    local students=$(cut -f 1 ${students_times})
-    
+    local students=$(cut -f 1 "${students_times}")
+
     # Cache home directories for all students at once
     local home_dirs=$(mktemp)
-    get_home_directory $students > ${home_dirs}
+    get_home_directory $students > "${home_dirs}"
 
     # Process each student using the cache
     while IFS=$'\t' read -r student grading_time; do
       # Look up home directory from cache
-      local student_home=$(grep "^${student}:" ${home_dirs})
+      local student_home=$(grep "^${student}:" "${home_dirs}")
       local homedir=$(echo "$student_home" | cut -f 2 -d:)
 
       if grade_history_file "$student" "$homedir" "$grading_time" > "$feedback"; then
         echo "$student (terminal)"
 
         canvaslms grade -c "${course}" -a "${assignment}" \
-          -u $student@kth.se -g P &
+          -u "$student@kth.se" -g P &
 
         sleep 0.2
       elif [ -s "$feedback" ]; then
         canvaslms grade -c "${course}" -a "${assignment}" \
-          -u $student@kth.se -g F -m "$(cat "$feedback")" &
+          -u "$student@kth.se" -g F -m "$(cat "$feedback")" &
       fi
-    done < ${students_times}
+    done < "${students_times}"
 
-    rm ${students_times}
-    rm ${home_dirs}
+    rm "${students_times}"
+    rm "${home_dirs}"
   done
 
   wait
