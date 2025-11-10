@@ -163,11 +163,13 @@ We simply need to remove the [[@REALM]] from there.
 SSH_USER=$(echo ${KRB_USER} | sed "s/@.*$//")
 @
 
-Now we simply let the function add [[-l ${SSH_USER}]] to the arguments of the 
+Now we simply let the function add [[-l ${SSH_USER}]] to the arguments of the
 [[ssh]] command ([[${SSH_PATH}]]).
-Then we simply pass all arguments to the function on to the real [[ssh]] 
+Then we simply pass all arguments to the function on to the real [[ssh]]
 command.
+We use [["$@"]] to properly preserve argument boundaries and handle arguments
+with spaces.
 <<handle ssh logins>>=
 function ssh() {
-  ${SSH_PATH} -l "${SSH_USER}" $*
+  ${SSH_PATH} -l "${SSH_USER}" "$@"
 }
