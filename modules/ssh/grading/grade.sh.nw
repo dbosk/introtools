@@ -5,11 +5,27 @@ The end goal of the guide.md assignment is that the students log into the
 [[student-shell]] system over SSH. We can run a shell script 
 which queries the users who've signed in and simply tick our students off.
 
-We will use the [[canvaslms]] command to report the grades. This must be installed 
+We will use the [[canvaslms]] command to report the grades. This must be installed
 from
 \begin{center}
   \texttt{https://github.com/dbosk/canvaslms}.
 \end{center}
+
+\subsection{Overview}
+
+The grading workflow follows these steps:
+\begin{enumerate}
+\item \textbf{Fetch students to grade}: Query Canvas LMS for students who haven't
+  received a passing grade yet.
+\item \textbf{Collect login records}: SSH into each student-shell server
+  (student-shell-1, student-shell-2, student-shell-3, and staff-shell) to
+  retrieve login history from \texttt{wtmp} log files using the \texttt{last}
+  command. If a connection fails, issue a warning but continue with other servers.
+\item \textbf{Match students}: For each student, check if their username appears
+  in the collected login records.
+\item \textbf{Submit grades}: If the student has logged in, grade as Pass (P);
+  otherwise skip (they will be graded in a future run when they do log in).
+\end{enumerate}
 
 We will do this as a shell script.
 <<grade.sh>>=
