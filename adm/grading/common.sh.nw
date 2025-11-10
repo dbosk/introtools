@@ -95,9 +95,13 @@ clone_repos() {
 
   test -s "$students" || return 0
 
-  (cd "$repos" && repobee repos clone \
+  if ! (cd "$repos" && repobee repos clone \
     -u "$REPOBEE_USER" --bu "$REPOBEE_URL" -t "$REPOBEE_TOKEN" \
-      -qq --sf "$students" -o "$org" --discover-repos)
+      -qq --sf "$students" -o "$org" --discover-repos 2>&1); then
+    echo "Warning: repobee clone failed for organization $org" >&2
+    echo "Check that REPOBEE_USER, REPOBEE_URL, and REPOBEE_TOKEN are set" >&2
+    echo "Student list in: $students" >&2
+  fi
 
   rm "$students"
 }
