@@ -110,7 +110,7 @@ The requirements specifies
 \item a citations with a reference,
 \item a listing containing the output of the history command.
 \end{itemize}
-We will search for a [[.tex]] file and simply grep(1) that file for the 
+We will search for a [[.tex]] file and simply grep(1) that file for the
 requirements.
 Then we look through all files for the [[history]] command.
 <<generate grade and feedback>>=
@@ -125,75 +125,100 @@ generate_feedback() {
     echo "that one by ourselves."
     echo
   else
-    if ! check_student "$texfiles" "documentclass"; then
-      echo "No document class found:"
-      echo "See the first video lecture (Video: Intro to LaTeX) from"
-      echo "https://daniel.bosk.se/introtools/modules/latex/latex"
-      echo "and read Lesson 5 from LearnLaTeX"
-      echo "https://www.learnlatex.org/en/lesson-05"
-      echo
-    fi
-    if ! check_student "$texfiles" "\\\\title"; then
-      echo "No title found:"
-      echo "See the first video lecture (Video: Intro to LaTeX) from"
-      echo "https://daniel.bosk.se/introtools/modules/latex/latex"
-      echo
-    fi
-    if ! check_student "$texfiles" "\\\\maketitle"; then
-      echo "No title page generated:"
-      echo "See the first video lecture (Video: Intro to LaTeX) from"
-      echo "https://daniel.bosk.se/introtools/modules/latex/latex"
-      echo
-    fi
-    if ! check_student "$texfiles" "\\\\tableofcontents"; then
-      echo "No table of contents found:"
-      echo "See the first video lecture (Video: Intro to LaTeX) from"
-      echo "https://daniel.bosk.se/introtools/modules/latex/latex"
-      echo
-    fi
-    if ! check_student "$texfiles" "\\\\begin ?{(.*figure|table)}"; then
-      echo "No figure found:"
-      echo "Hint: an image is not a figure, but a figure can contain an image."
-      echo "See the fourth video lecture (Video: Figures and Tables) from"
-      echo "https://daniel.bosk.se/introtools/modules/latex/latex"
-      echo "and read Lesson 7 from LearnLaTeX"
-      echo "https://www.learnlatex.org/en/lesson-07"
-      echo "particularly about floats."
-      echo
-    fi
-    if ! check_student "$texfiles" "\\\[a-z\]*cite"; then
-      echo "No citation found:"
-      echo "See the second video lecture (Video: References/Bibliography) from"
-      echo "https://daniel.bosk.se/introtools/modules/latex/latex"
-      echo "and read Lesson 12 from LearnLaTeX"
-      echo "https://www.learnlatex.org/en/lesson-12"
-      echo
-    fi
-    if ! check_student "$texfiles" "\\\\.*lst(input)?listing"; then
-      echo "No listing found:"
-      echo "See the documentation of the listings package linked in the"
-      echo "assessment section of"
-      echo "https://daniel.bosk.se/introtools/modules/latex/latex"
-      echo
-    fi
+    <<check LaTeX document structure>>
+    <<check LaTeX content elements>>
   fi
 
   rm -f "$texfiles"
 
-  local allfiles=$(mktemp)
-
-  find "$1" -type f -print0 > "$allfiles"
-  if ! check_student "$allfiles" "history"; then
-    echo "No command-line history found:"
-    echo "See the requirements in the assessment section of"
-    echo "https://daniel.bosk.se/introtools/modules/latex/latex"
-    echo "and the assessment section of The Terminal assignment"
-    echo "https://daniel.bosk.se/introtools/modules/terminal/terminal"
-    echo
-  fi
-
-  rm -f "$allfiles"
+  <<check command-line history>>
 }
+@
+
+\subsection{Checking LaTeX document structure}
+
+We check the basic document structure elements that every LaTeX document should have:
+the document class, title, and table of contents.
+These are fundamental elements covered in introductory LaTeX materials.
+<<check LaTeX document structure>>=
+if ! check_student "$texfiles" "documentclass"; then
+  echo "No document class found:"
+  echo "See the first video lecture (Video: Intro to LaTeX) from"
+  echo "https://daniel.bosk.se/introtools/modules/latex/latex"
+  echo "and read Lesson 5 from LearnLaTeX"
+  echo "https://www.learnlatex.org/en/lesson-05"
+  echo
+fi
+if ! check_student "$texfiles" "\\\\title"; then
+  echo "No title found:"
+  echo "See the first video lecture (Video: Intro to LaTeX) from"
+  echo "https://daniel.bosk.se/introtools/modules/latex/latex"
+  echo
+fi
+if ! check_student "$texfiles" "\\\\maketitle"; then
+  echo "No title page generated:"
+  echo "See the first video lecture (Video: Intro to LaTeX) from"
+  echo "https://daniel.bosk.se/introtools/modules/latex/latex"
+  echo
+fi
+if ! check_student "$texfiles" "\\\\tableofcontents"; then
+  echo "No table of contents found:"
+  echo "See the first video lecture (Video: Intro to LaTeX) from"
+  echo "https://daniel.bosk.se/introtools/modules/latex/latex"
+  echo
+fi
+@
+
+\subsection{Checking LaTeX content elements}
+
+We check for more advanced content elements: figures/tables, citations, and code listings.
+These demonstrate the student's ability to include different types of content in their document.
+<<check LaTeX content elements>>=
+if ! check_student "$texfiles" "\\\\begin ?{(.*figure|table)}"; then
+  echo "No figure found:"
+  echo "Hint: an image is not a figure, but a figure can contain an image."
+  echo "See the fourth video lecture (Video: Figures and Tables) from"
+  echo "https://daniel.bosk.se/introtools/modules/latex/latex"
+  echo "and read Lesson 7 from LearnLaTeX"
+  echo "https://www.learnlatex.org/en/lesson-07"
+  echo "particularly about floats."
+  echo
+fi
+if ! check_student "$texfiles" "\\\[a-z\]*cite"; then
+  echo "No citation found:"
+  echo "See the second video lecture (Video: References/Bibliography) from"
+  echo "https://daniel.bosk.se/introtools/modules/latex/latex"
+  echo "and read Lesson 12 from LearnLaTeX"
+  echo "https://www.learnlatex.org/en/lesson-12"
+  echo
+fi
+if ! check_student "$texfiles" "\\\\.*lst(input)?listing"; then
+  echo "No listing found:"
+  echo "See the documentation of the listings package linked in the"
+  echo "assessment section of"
+  echo "https://daniel.bosk.se/introtools/modules/latex/latex"
+  echo
+fi
+@
+
+\subsection{Checking command-line history}
+
+Finally, we check that the student has included their command-line history,
+which demonstrates they've been working with the terminal as required.
+<<check command-line history>>=
+local allfiles=$(mktemp)
+
+find "$1" -type f -print0 > "$allfiles"
+if ! check_student "$allfiles" "history"; then
+  echo "No command-line history found:"
+  echo "See the requirements in the assessment section of"
+  echo "https://daniel.bosk.se/introtools/modules/latex/latex"
+  echo "and the assessment section of The Terminal assignment"
+  echo "https://daniel.bosk.se/introtools/modules/terminal/terminal"
+  echo
+fi
+
+rm -f "$allfiles"
 @
 
 The [[check_student]] function will grep(1) the files for the provided regex.
