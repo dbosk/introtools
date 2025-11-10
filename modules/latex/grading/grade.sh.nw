@@ -140,6 +140,45 @@ generate_feedback() {
 We check the basic document structure elements that every LaTeX document should have:
 the document class, title, and table of contents.
 These are fundamental elements covered in introductory LaTeX materials.
+
+\subsubsection{Understanding through contrast: correct vs incorrect examples}
+
+According to variation theory of learning, understanding is enhanced by contrasting
+examples that highlight critical aspects.
+Here we show what passes versus what fails for document structure:
+
+\paragraph{Document class:} The critical aspect is that every LaTeX document must
+declare its document class.
+\begin{itemize}
+\item \textbf{Passes:} \verb|\documentclass{article}| or
+  \verb|\documentclass[12pt]{report}|
+\item \textbf{Fails:} No documentclass declaration, or just starting with
+  \verb|\begin{document}|
+\end{itemize}
+
+\paragraph{Title:} The critical aspect is having a title defined, not just displayed.
+\begin{itemize}
+\item \textbf{Passes:} \verb|\title{My Report}| appears in the preamble
+\item \textbf{Fails:} Using just \verb|\textbf{My Report}| in the document body,
+  or missing the title command entirely
+\end{itemize}
+
+\paragraph{Title page generation:} The critical aspect is using \LaTeX{}'s
+automatic title page generation, not manual formatting.
+\begin{itemize}
+\item \textbf{Passes:} \verb|\maketitle| appears after \verb|\begin{document}|
+\item \textbf{Fails:} Manually formatting a title with \verb|\textbf| or
+  \verb|\huge|, or having \verb|\title| but no \verb|\maketitle|
+\end{itemize}
+
+\paragraph{Table of contents:} The critical aspect is using \LaTeX{}'s automatic
+TOC generation based on sectioning commands.
+\begin{itemize}
+\item \textbf{Passes:} \verb|\tableofcontents| appears in the document
+\item \textbf{Fails:} Manually typing a list that looks like a table of contents,
+  or using sections but no \verb|\tableofcontents|
+\end{itemize}
+
 <<check LaTeX document structure>>=
 if ! check_student "$texfiles" "documentclass"; then
   echo "No document class found:"
@@ -173,6 +212,40 @@ fi
 
 We check for more advanced content elements: figures/tables, citations, and code listings.
 These demonstrate the student's ability to include different types of content in their document.
+
+\subsubsection{Understanding through contrast: correct vs incorrect examples}
+
+Continuing with variation theory, we contrast correct and incorrect implementations of
+content elements:
+
+\paragraph{Figures:} The critical aspect is using the \texttt{figure} environment for
+proper floating and captioning, not just inserting images.
+\begin{itemize}
+\item \textbf{Passes:} \verb|\begin{figure}...\end{figure}| or
+  \verb|\begin{table}...\end{table}| with \verb|\caption| and \verb|\label|
+\item \textbf{Fails:} Just using \verb|\includegraphics| without a figure
+  environment, or forgetting that ``an image is not a figure, but a figure can
+  contain an image''
+\end{itemize}
+
+\paragraph{Citations:} The critical aspect is using proper citation commands to reference
+bibliography entries, not manual references.
+\begin{itemize}
+\item \textbf{Passes:} \verb|\cite{key}|, \verb|\citep{key}|, \verb|\citet{key}|,
+  or any other citation command variant
+\item \textbf{Fails:} Manually typing references like ``[1]'' or ``(Smith 2020)'',
+  or having a bibliography but no citation commands
+\end{itemize}
+
+\paragraph{Listings:} The critical aspect is using the listings package to format
+code with proper syntax highlighting and line numbers.
+\begin{itemize}
+\item \textbf{Passes:} \verb|\begin{lstlisting}...\end{lstlisting}| or
+  \verb|\lstinputlisting{file}| from the listings package
+\item \textbf{Fails:} Using \verb|\verbatim| without the listings package, or
+  pasting code as normal text without any formatting
+\end{itemize}
+
 <<check LaTeX content elements>>=
 if ! check_student "$texfiles" "\\\\begin ?{(.*figure|table)}"; then
   echo "No figure found:"
