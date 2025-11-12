@@ -126,8 +126,9 @@ done
 @
 
 Now we can fetch the users using the [[canvaslms]] command.
+We must strip carriage returns from the output (see [[common.sh]]).
 <<print users for round to stdout>>=
-canvaslms users -sc "${round}" | cut -f 2 | sed "s/@kth.se//"
+canvaslms users -sc "${round}" | sed 's/\r$//' | cut -f 2 | sed "s/@kth.se//"
 @
 
 We can create repos, teams and add the students using [[repobee]].

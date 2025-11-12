@@ -28,13 +28,14 @@ So that we don't grade the same student twice.
 <<function returning students to grade>>=
 students_to_grade() {
   canvaslms submissions -l -c "${1}" -a "${2}" \
+    | <<strip ending [[\r]]s>> \
     | <<exclude those who passed>> \
     | cut -f 3 \
     | sort -u \
     | sed "s/@kth.se//"
 }
 <<exclude those who passed>>=
-egrep -v "\sP\s"
+awk -F'\t' '$4 != "P"'
 @
 
 For the second function, we want to find out who have been graded before and at 
@@ -54,10 +55,11 @@ We detect the current timezone offset dynamically to handle both summer time
 students_with_grading_time() {
   local tz=$(date +%:z)
   canvaslms submissions -l -c "$1" -a "$2" \
+    | <<strip ending [[\r]]s>> \
     | <<exclude those who passed>> \
     | cut -f 3,6 \
     | sort -u \
-    | awk -F'\t' -v timezone="$tz" 'BEGIN {OFS="\t"} {
+    | awk -F'\t' -v timezone="$tz" -v OFS='\t' '{
         if ($2 == "" || $2 == "N/A")
           print $1, "0000-00-00T00:00:00+00:00"
         else if ($2 !~ /T/) {
@@ -69,6 +71,25 @@ students_with_grading_time() {
       }' \
     | sed "s/@kth.se//"
 }
+@
+
+\subsection{Stripping carriage returns from canvaslms output}
+
+The [[canvaslms]] command outputs lines ending with [[\r]] (carriage return,
+Windows-style line endings).
+This causes problems in shell processing:
+\begin{itemize}
+\item AWK field separators don't recognize [[\r]] as whitespace
+\item String comparisons fail when [[\r]] is included in values
+\item Piping to other commands produces unexpected results
+\item Pattern matching with [[grep]], [[sed]], and [[awk]] behaves incorrectly
+\end{itemize}
+
+We must strip these carriage returns from all [[canvaslms]] output immediately
+after the command, before any further processing.
+This is done with [[sed 's/\r$//']].
+<<strip ending [[\r]]s>>=
+sed 's/\r$//'
 @
 
 
