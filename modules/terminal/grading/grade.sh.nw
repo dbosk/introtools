@@ -2,7 +2,7 @@ We want to grade the \emph{The terminal} assignment, that is, the students
 should place a file containing the output of their [[history]] command in
 [[~/Public/datintro/history.txt]].
 
-\subsection{Overview of the Grading Process}
+\section{Overview of the Grading Process}
 
 The grading workflow consists of several steps that handle the complexity
 of checking student files in a distributed environment:
@@ -26,8 +26,8 @@ shell servers themselves. The current design accesses student files through
 AFS, which allows us to provide detailed feedback messages explaining exactly
 what went wrong.
 
-We will use the [[canvaslms]] command to report the grades. This must be installed
-from
+We will use the [[canvaslms]] command to report the grades.
+This must be installed from
 \begin{center}
   \texttt{https://github.com/dbosk/canvaslms}.
 \end{center}
@@ -65,7 +65,8 @@ DD1337 HT25 (prginda25)	LAB1	Managing work with Git/GitHub @<<< The Lab To Do
 DD1337 HT25 (prginda25)	LAB1	Writing a report in LaTeX @<<< The Lab To Do			
 \end{verbatim}
 <<configuration variables>>=
-ASSIGNMENT="^(The terminal|Working in the terminal)( @<<< [Tt]he [Ll]ab [Tt]o [Dd]o)? *$"
+ASSIGNMENT="^(The terminal|Working in the terminal)"
+ASSIGNMENT="${ASSIGNMENT}( @<<< [Tt]he [Ll]ab [Tt]o [Dd]o)? *$"
 @
 
 
@@ -108,7 +109,8 @@ get_home_directory() {
     done
   '
   local scriptname=$(echo "$script" | ssh "${shellserver}" \
-    'read script; fn=$(mktemp); echo "$script" > "$fn"; echo "$fn"' 2> /dev/null)
+    'read script; fn=$(mktemp); echo "$script" > "$fn"; echo "$fn"' \
+    2> /dev/null)
 
   sleep 2
 
@@ -127,29 +129,33 @@ Now we can check the history files.
 We provide a function that takes a list of students, checks the history file of 
 the student, grades the student (and provides feedback) accordingly.
 The feedback is passed through stdout.
-We only provide feedback if the student has made changes to files in the Public 
-directory since the last grading date. This way we avoid giving feedback for old 
-attempts.
+We only provide feedback if the student has made changes to files in
+the Public directory since the last grading date.
+This way we avoid giving feedback for old attempts.
 The grade is indicated by the return value (1 for fail, 0 for pass).
 
-First, we define a helper function to check if there are any recent changes in 
-the Public directory. The function takes the path to the Public directory and the 
-grading time as parameters. It returns "yes" if there are files newer than the 
-grading time, "no" otherwise.
+First, we define a helper function to check if there are any recent
+changes in the Public directory.
+The function takes the path to the Public directory and the grading
+time as parameters.
+It returns "yes" if there are files newer than the grading time,
+"no" otherwise.
 <<function to check if Public has recent changes>>=
 has_recent_public_changes() {
   local public_path=$1
   local grading_time=$2
   
-  # If grading_time is empty or all zeros, consider it as no previous grading
-  if [ -z "$grading_time" ] || [ "$grading_time" = "0000-00-00T00:00:00+00:00" ]; then
+  # If grading_time is empty or all zeros, no previous grading
+  if [ -z "$grading_time" ] || \
+     [ "$grading_time" = "0000-00-00T00:00:00+00:00" ]; then
     echo "yes"
     return 0
   fi
   
   # Find the newest file in Public directory
-  local newest_file=$(find "$public_path" -type f -printf '%T@ %p\n' 2>/dev/null \
-    | sort -n | tail -1 | cut -d' ' -f2-)
+  local newest_file=$(find "$public_path" -type f \
+    -printf '%T@ %p\n' 2>/dev/null | sort -n | tail -1 | \
+    cut -d' ' -f2-)
   
   if [ -z "$newest_file" ]; then
     echo "no"
@@ -157,7 +163,8 @@ has_recent_public_changes() {
   fi
   
   # Get the modification time of the newest file in ISO 8601 format
-  local newest_time=$(stat -c %y "$newest_file" 2>/dev/null | cut -d'.' -f1 | sed 's/ /T/')
+  local newest_time=$(stat -c %y "$newest_file" 2>/dev/null | \
+    cut -d'.' -f1 | sed 's/ /T/')
   
   # Compare times (ISO 8601 format allows lexicographic comparison)
   if [[ "$newest_time" > "$grading_time" ]]; then
@@ -182,13 +189,16 @@ grade_history_file() {
   local public_path="/afs/kth.se/$homedir/Public"
 
   # Check if there are recent changes in Public directory
-  local has_recent_changes=$(has_recent_public_changes "$public_path" "$grading_time")
+  local has_recent_changes=$(has_recent_public_changes \
+    "$public_path" "$grading_time")
 
   # Only provide feedback if there are recent changes
   if [ "$has_recent_changes" != "yes" ]; then
     # No recent changes, just return failure without feedback
-    if ! [ -d "$path" ] || ! [ -f "$filepath" ] || ! [ -r "$filepath" ] || \
-       ! egrep " *[0-9]+.* history *>>? *([^ ]+/)?history.txt" "$filepath" > /dev/null; then
+    if ! [ -d "$path" ] || ! [ -f "$filepath" ] || \
+       ! [ -r "$filepath" ] || \
+       ! egrep " *[0-9]+.* history *>>? *([^ ]+/)?history.txt" \
+         "$filepath" > /dev/null; then
       return 1
     fi
     return 0
@@ -196,18 +206,34 @@ grade_history_file() {
 
   # Provide specific feedback based on the failure mode
   if ! [ -d "$path" ]; then
-    echo "Can't find the 'datintro' directory in the 'Public' directory in your home directory. Please ensure you create it in the correct location (~/Public/datintro)."
+    echo "Can't find the 'datintro' directory in the 'Public'" \
+      "directory in your home directory. Please ensure you" \
+      "create it in the correct location (~/Public/datintro)."
     return 1
   elif ! [ -f "$filepath" ]; then
-    echo "Can't find the file 'history.txt' in the 'Public/datintro' directory in your home directory. Please ensure you create it in the correct location (~/Public/datintro/history.txt)."
+    echo "Can't find the file 'history.txt' in the" \
+      "'Public/datintro' directory in your home directory." \
+      "Please ensure you create it in the correct location" \
+      "(~/Public/datintro/history.txt)."
     return 1
   elif ! [ -r "$filepath" ]; then
-    echo "The file 'Public/datintro/history.txt' exists but cannot be read. This usually means you created the file outside the 'Public' directory and then moved it there. Files must be created directly in the 'Public' directory to inherit the correct permissions. Please remove the 'datintro' directory and create it again inside 'Public', then create the 'history.txt' file there. Warning: Never remove the 'Public' directory itself."
+    echo "The file 'Public/datintro/history.txt' exists but" \
+      "cannot be read. This usually means you created the file" \
+      "outside the 'Public' directory and then moved it there." \
+      "Files must be created directly in the 'Public' directory" \
+      "to inherit the correct permissions. Please remove the" \
+      "'datintro' directory and create it again inside 'Public'," \
+      "then create the 'history.txt' file there. Warning: Never" \
+      "remove the 'Public' directory itself."
     return 1
   elif ! egrep " *[0-9]+.* history *>>? *([^ ]+/)?history.txt" "$filepath" \
     > /dev/null;
   then
-    echo "Found 'Public/datintro/history.txt' in your home directory, but it doesn't have the correct content. Please read the assignment instructions carefully and ensure you redirect the output of the 'history' command to the file."
+    echo "Found 'Public/datintro/history.txt' in your home" \
+      "directory, but it doesn't have the correct content." \
+      "Please read the assignment instructions carefully and" \
+      "ensure you redirect the output of the 'history' command" \
+      "to the file."
     return 1
   fi
 }
@@ -220,12 +246,13 @@ Now we provide a function [[grade_students]] which takes the assignment name as
 the first argument (it's a regex passed to [[canvaslms]]). The remaining 
 arguments constitutes a list of courses.
 
-To grade, we iterate through the remaining students, given by 
+To grade, we iterate through the remaining students, given by
 [[students_with_grading_time]] (from [[common.sh]]).
-We cache the home directories for all students by calling [[get_home_directory]] 
-once with all students, rather than calling it once per student.
-This is more efficient since [[get_home_directory]] uses SSH and has significant 
-delays.
+We cache the home directories for all students by calling
+[[get_home_directory]] once with all students, rather than calling
+it once per student.
+This is more efficient since [[get_home_directory]] uses SSH and has
+significant delays.
 Then we can iterate through the student--home directory tuples and grade 
 them.
 We pass the grading time to [[grade_history_file]] so it can check if there 
@@ -255,7 +282,8 @@ grade_students() {
       local student_home=$(grep "^${student}:" "${home_dirs}")
       local homedir=$(echo "$student_home" | cut -f 2 -d:)
 
-      if grade_history_file "$student" "$homedir" "$grading_time" > "$feedback"; then
+      if grade_history_file "$student" "$homedir" "$grading_time" \
+         > "$feedback"; then
         echo "$student (terminal)"
 
         canvaslms grade -c "${course}" -a "${assignment}" \
