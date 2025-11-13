@@ -150,13 +150,6 @@ has_recent_public_changes() {
   local public_path=$1
   local grading_time=$2
   
-  # If grading_time is empty or all zeros, no previous grading
-  if [ -z "$grading_time" ] || \
-     [ "$grading_time" = "0000-00-00T00:00:00+00:00" ]; then
-    echo "yes"
-    return 0
-  fi
-  
   # Find the newest file in Public directory
   local newest_file=$(find "$public_path" -type f \
     -printf '%T@ %p\n' 2>/dev/null | sort -n | tail -1 | \
@@ -164,6 +157,13 @@ has_recent_public_changes() {
   
   if [ -z "$newest_file" ]; then
     echo "no"
+    return 0
+  fi
+  
+  # If grading_time is empty or all zeros, no previous grading
+  if [ -z "$grading_time" ] || \
+     [ "$grading_time" = "0000-00-00T00:00:00+00:00" ]; then
+    echo "yes"
     return 0
   fi
   
