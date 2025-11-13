@@ -25,6 +25,12 @@ The output will be a list of KTH usernames, that is without @kth.se at the end.
 In case the regexes for course and assignments match several courses, we sort 
 and return only unique students.
 So that we don't grade the same student twice.
+
+Finally, we exclude empty usernames from the output.
+We can't do anything about them anyway.
+(Students who have left the course, or KTH, have no username.)
+We exclude those by using AWK to filter out empty columns (although it's just 
+one column in this case.)
 <<function returning students to grade>>=
 students_to_grade() {
   canvaslms submissions -l -c "${1}" -a "${2}" \
@@ -32,8 +38,13 @@ students_to_grade() {
     | <<exclude those who passed>> \
     | cut -f 3 \
     | sort -u \
+    | awk -F'\t' '$1 != ""' \
     | sed "s/@kth.se//"
 }
+@
+
+We exclude those who have already passed (grade P).
+We don't need to grade them again.
 <<exclude those who passed>>=
 awk -F'\t' '$4 != "P"'
 @
@@ -59,7 +70,7 @@ students_with_grading_time() {
     | <<exclude those who passed>> \
     | cut -f 3,6 \
     | sort -u \
-    | awk -F'\t' -v timezone="$tz" -v OFS='\t' '{
+    | awk -F'\t' -v timezone="$tz" -v OFS='\t' '$1 != "" {
         if ($2 == "" || $2 == "N/A")
           print $1, "0000-00-00T00:00:00+00:00"
         else if ($2 !~ /T/) {
