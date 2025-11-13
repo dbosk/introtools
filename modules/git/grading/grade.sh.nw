@@ -32,7 +32,12 @@ We will do this as a shell script.
 <<configuration variables>>
 <<common functions>>
 <<generate grade and feedback>>
-<<grade students>>
+
+# check if file is being sourced or executed
+(return 0 2>/dev/null) && SOURCED=1 || SOURCED=0
+if [ "$SOURCED" = 0 ]; then
+  <<grade students>>
+fi
 @
 
 \section{Settings}
@@ -123,6 +128,8 @@ To grade, we iterate through the remaining students, given by
 We run [[canvaslms]] as a background job, since it's so slow.
 However, we need a small delay to not run into Canvas' DoS protection.
 <<grade students>>=
+grade_students "${ASSIGNMENT}" ${COURSE_CODE_ORG}
+<<generate grade and feedback>>=
 grade_students() {
   local assignm="$1"; shift
 
@@ -163,7 +170,5 @@ grade_students() {
 
   wait
 }
-
-grade_students "${ASSIGNMENT}" ${COURSE_CODE_ORG}
 @
 
