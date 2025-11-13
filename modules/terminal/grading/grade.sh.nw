@@ -41,8 +41,13 @@ We will do this as a shell script.
 
 source common.sh
 
-<<function taking a list of students and returning passes>>
-<<grade students>>
+<<helper functions>>
+
+# check if file is being sourced or executed
+(return 0 2>/dev/null) && SOURCED=1 || SOURCED=0
+if [ "$SOURCED" = 0 ]; then
+  <<grade students>>
+fi
 @
 
 \section{Settings}
@@ -98,7 +103,7 @@ The faculty-shell server seems to go unavailable (network unreachable) after a
 few invocations.
 We favour the staff server, by two thirds.
 We also introduce a small delay between runs.
-<<function to get home directory>>=
+<<helper functions>>=
 get_home_directory() {
   local shellserver="$(shuf -n1 -e faculty staff staff)-shell.sys.kth.se"
   local script='
@@ -140,7 +145,7 @@ The function takes the path to the Public directory and the grading
 time as parameters.
 It returns "yes" if there are files newer than the grading time,
 "no" otherwise.
-<<function to check if Public has recent changes>>=
+<<helper functions>>=
 has_recent_public_changes() {
   local public_path=$1
   local grading_time=$2
@@ -176,10 +181,7 @@ has_recent_public_changes() {
 @
 
 Now we can check the history files.
-<<function taking a list of students and returning passes>>=
-<<function to get home directory>>
-<<function to check if Public has recent changes>>
-
+<<helper functions>>=
 grade_history_file() {
   local student=$1
   local homedir=$2
@@ -272,6 +274,8 @@ We pass the grading time to [[grade_history_file]] so it can check if there
 are recent changes in the Public directory before providing feedback.
 Depending on the grade we report P or F.
 <<grade students>>=
+grade_students "${ASSIGNMENT}" ${COURSE_CODE}
+<<helper functions>>=
 grade_students() {
   local assignment="$1"
   shift
@@ -319,6 +323,4 @@ grade_students() {
 
   wait
 }
-
-#grade_students "${ASSIGNMENT}" ${COURSE_CODE}
 @
