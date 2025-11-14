@@ -8,7 +8,9 @@ from
   \texttt{https://github.com/dbosk/canvaslms}.
 \end{center}
 
-\subsection{Overview}
+\tableofcontents
+
+\section{Overview}
 
 The grading workflow follows these steps:
 \begin{enumerate}

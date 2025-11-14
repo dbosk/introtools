@@ -2,6 +2,8 @@ We want to grade the \emph{The terminal} assignment, that is, the students
 should place a file containing the output of their [[history]] command in
 [[~/Public/datintro/history.txt]].
 
+\tableofcontents
+
 \section{Overview of the Grading Process}
 
 The grading workflow consists of several steps that handle the complexity
