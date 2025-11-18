@@ -121,7 +121,7 @@ email before IT has acted on the first.
 <<ask IT to merge Canvas rooms>>=
 YEAR=$(date +%y)
 <<condition to not send too often>>
-  course_rooms=$(canvaslms courses "DD1301.(HT${YEAR}|VT$(expr $YEAR + 1))")
+  course_rooms=$(canvaslms courses "DD1301.(HT${YEAR}|VT$(expr $YEAR + 1))" | sed 's/\r$//')
   if test "$?" = "0" -a "$(echo "${course_rooms}" | wc -l)" -gt 1
   then
     <<send email to IT to merge Canvas rooms in [[course_rooms]]>>
@@ -261,6 +261,7 @@ echo "$out"
 echo
 echo "LADOK:"
 canvaslms results -c "$courses" -A "$components" | \
+  sed 's/\r$//' | \
   <<translate Canvas course identifiers to course codes>> | \
   ladok report -fv
 @

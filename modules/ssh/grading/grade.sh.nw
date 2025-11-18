@@ -5,11 +5,29 @@ The end goal of the guide.md assignment is that the students log into the
 [[student-shell]] system over SSH. We can run a shell script 
 which queries the users who've signed in and simply tick our students off.
 
-We will use the [[canvaslms]] command to report the grades. This must be installed 
+We will use the [[canvaslms]] command to report the grades. This must be installed
 from
 \begin{center}
   \texttt{https://github.com/dbosk/canvaslms}.
 \end{center}
+
+\tableofcontents
+
+\section{Overview}
+
+The grading workflow follows these steps:
+\begin{enumerate}
+\item \textbf{Fetch students to grade}: Query Canvas LMS for students who haven't
+  received a passing grade yet.
+\item \textbf{Collect login records}: SSH into each student-shell server
+  (student-shell-1, student-shell-2, student-shell-3, and staff-shell) to
+  retrieve login history from \texttt{wtmp} log files using the \texttt{last}
+  command. If a connection fails, issue a warning but continue with other servers.
+\item \textbf{Match students}: For each student, check if their username appears
+  in the collected login records.
+\item \textbf{Submit grades}: If the student has logged in, grade as Pass (P);
+  otherwise skip (they will be graded in a future run when they do log in).
+\end{enumerate}
 
 We will do this as a shell script.
 <<grade.sh>>=
@@ -21,7 +39,12 @@ We will do this as a shell script.
 source common.sh
 
 <<get last(1) output from student-shell>>
-<<grade remaining students>>
+
+# check if file is being sourced or executed
+(return 0 2>/dev/null) && SOURCED=1 || SOURCED=0
+if [ "$SOURCED" = 0 ]; then
+  <<grade remaining students>>
+fi
 @
 
 \section{Settings}
@@ -67,9 +90,11 @@ The output will be a list of unique usernames only.
 students_that_signed_in() {
   for shell in student-shell-1 student-shell-2 student-shell-3 staff-shell;
   do
-    ssh $shell.sys.kth.se \
-      'for f in /var/log/wtmp*; do last -f $f; done' 2>/dev/null \
-        || exit 1
+    if ! ssh "$shell.sys.kth.se" \
+      'for f in /var/log/wtmp*; do last -f "$f"; done' 2>/dev/null; then
+      echo "Warning: Could not connect to $shell.sys.kth.se" >&2
+      echo "This may affect grading if students logged into this specific shell" >&2
+    fi
   done | cut -f 1 -d " " | sort | uniq
 }
 @
@@ -87,19 +112,21 @@ We check if the student has logged in (is in the list provided by
 [[students_that_signed_in]]), if not we continue to the next.
 Otherwise we grade the student.
 <<grade remaining students>>=
+grade_students "${ASSIGNMENT}" ${COURSE_CODE}
+<<get last(1) output from student-shell>>=
 grade_students() {
   local signed_in=$(mktemp)
-  students_that_signed_in > ${signed_in}
+  students_that_signed_in > "${signed_in}"
 
   local assignment="$1"
   shift
 
-  for course in $*; do
+  for course in "$@"; do
     students=$(mktemp)
-    students_to_grade "${course}" "${assignment}" > ${students}
+    students_to_grade "${course}" "${assignment}" > "${students}"
 
-    for s in $(cat ${students}); do
-      grep "^$s\$" ${signed_in} > /dev/null || continue
+    for s in $(cat "${students}"); do
+      grep "^$s\$" "${signed_in}" > /dev/null || continue
 
       echo "$s (ssh)"
 
@@ -109,13 +136,11 @@ grade_students() {
       sleep 0.2
     done
 
-    rm -Rf ${students}
+    rm -Rf "${students}"
   done
 
-  rm ${signed_in}
+  rm "${signed_in}"
 
   wait
 }
-
-grade_students "${ASSIGNMENT}" ${COURSE_CODE}
 @
