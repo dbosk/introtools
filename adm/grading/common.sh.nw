@@ -1,3 +1,7 @@
+\tableofcontents
+
+\section{Overview}
+
 We create an include file, [[common.sh]], to be included in other grading 
 scripts.
 <<common.sh>>=
