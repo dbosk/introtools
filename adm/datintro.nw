@@ -118,10 +118,17 @@ To do this, whenever we notice there are more than one matching course room in
 Canvas, we'll send an email to IT and ask them to merge the courses.
 However, we don't want to run this too often, so that we don't send another 
 email before IT has acted on the first.
+Also, we must ensure that we don't see old data based on the [[canvaslms]] 
+cache.
+We use the [[--no-cache]] option do check the available course rooms.
+Without it, it has happened that IT fixed it but we didn't see it due to the 
+cache.
 <<ask IT to merge Canvas rooms>>=
 YEAR=$(date +%y)
 <<condition to not send too often>>
-  course_rooms=$(canvaslms courses "DD1301.(HT${YEAR}|VT$(expr $YEAR + 1))" | sed 's/\r$//')
+  course_rooms=$(canvaslms --no-cache \
+                    courses "DD1301.(HT${YEAR}|VT$(expr $YEAR + 1))" \
+                 | sed 's/\r$//')
   if test "$?" = "0" -a "$(echo "${course_rooms}" | wc -l)" -gt 1
   then
     <<send email to IT to merge Canvas rooms in [[course_rooms]]>>
