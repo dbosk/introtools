@@ -17,7 +17,7 @@ We don't change the automation every year.
 It's a space-separated list.
 <<constants>>=
 CURRENT_YEAR=$(date +%y)
-YEARS="$(seq 25 ${CURRENT_YEAR})"
+YEARS="$(seq -s' ' 25 ${CURRENT_YEAR})"
 @
 
 \item [[COURSE_CODE_ORG]] is a space-separated list of Canvas-to-GitHub 
@@ -266,7 +266,7 @@ Then we report to LADOK using [[canvaslms]].
 <<create Cron log output and report to LADOK>>=
 echo "$out"
 echo
-echo "LADOK:"
+echo "LADOK: '${courses}' '${components}'"
 canvaslms results -c "$courses" -A "$components" | \
   sed 's/\r$//' | \
   <<translate Canvas course identifiers to course codes>> | \
