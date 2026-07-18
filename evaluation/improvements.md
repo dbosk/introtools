@@ -25,6 +25,12 @@ platform first --- both recur since 2021 and dominated the 2025 free-text
 answers --- while Git (no 2025 complaints) and motivation (2025
 counter-signal) move down from where the 2020--23 data alone would put them.
 
+Literature backing for the mental-model and misconception claims that the
+revision builds on (terminal, file systems, Git, LaTeX, variation theory) is
+collected in [../literature/mental-models.md](../literature/mental-models.md)
+with verified references in
+[../literature/mental-models.bib](../literature/mental-models.bib).
+
 ## Material themes, in priority order
 
 ### 1. Assessment is not the course: what to focus on when (theme F)
