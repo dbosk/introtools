@@ -106,11 +106,24 @@ Raised every year 2020--23; quiet in 2025 (only positive mentions).
   for the CTFYS cohort than for earlier, broader cohorts.
 - Proposed changes: each module opens with a concrete, programme-relevant
   use case; repeat the #76 demo pattern (do in GUI, redo, do in terminal,
-  script it) in more modules. A modern motivating example: AI coding agents
-  (Claude Code and the like) work in the terminal with shell commands and
-  Git --- to direct them, review what they did and fix what they got wrong,
-  you need exactly the terminal and Git skills this course teaches. This
-  reframes the course from "old tools" to "the interface to current tools".
+  script it) in more modules.
+- Deconstruct the computer in the course intro, borrowing the basics from
+  the OS courses: the computer (hardware) runs an operating system
+  (software), which consists of a kernel and a shell. The GUI they already
+  use *is* a shell; the terminal is another shell to the same kernel ---
+  same computer, same OS, only the interface varies. This gives complete
+  beginners the mental model that theme K says they lack (cf. #50, what are
+  the students' mental models of a computer?, and #49, the virtual-machine
+  concept) and removes the "terminal = advanced/arcane" framing: it's not a
+  different computer, just a different shell.
+- A modern motivating example that builds directly on that deconstruction:
+  AI coding agents (Claude Code and the like) work in the terminal with
+  shell commands and Git. LLMs are themselves text-based, so the text shell
+  is their native interface --- which is why agentic AI is so aligned with
+  the terminal. To direct such agents, review what they did and fix what
+  they got wrong, you need exactly the terminal and Git skills this course
+  teaches. This reframes the course from "old tools" to "the interface to
+  current tools".
 
 ### 5. Operating-system differences (theme B)
 
@@ -208,6 +221,10 @@ Raised every year 2020--23; quiet in 2025 (only positive mentions).
   than 1.5 hp for a beginner course, "men all information var nödvändig").
 - Actions: review the material for presupposed knowledge; treat #85 as a
   review criterion for every module revision rather than a one-off task.
+  The hardware/OS/kernel/shell deconstruction proposed under theme 4 is the
+  concrete answer to the 2025 request for a better introduction to the
+  concepts: it presupposes nothing and defines the terms the rest of the
+  course relies on.
 
 ## What to keep (explicit positives)
 
