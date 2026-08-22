@@ -1,6 +1,5 @@
 HTML_FILES= 	help.html
 
-PANDOCFLAGS= 	--filter pandoc-xnos
 
 
 .PHONY: all
