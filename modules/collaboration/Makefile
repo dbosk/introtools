@@ -12,3 +12,8 @@ clean:
 
 
 include ../../html.mk
+
+# Canvas items managed from this directory (see ../module.mk)
+PAGES+= 	tmate.md
+ASSIGNMENTS+= 	pair-programming-case.md pair-programming-costs-benefits.md
+include ../module.mk

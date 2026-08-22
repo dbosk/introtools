@@ -31,3 +31,8 @@ include ${INCLUDE_MAKEFILES}/tex.mk
 include ${INCLUDE_MAKEFILES}/noweb.mk
 #INCLUDE_DIDACTIC=../../didactic
 #include ${INCLUDE_DIDACTIC}/didactic.mk
+
+# Canvas items managed from this directory (see ../module.mk)
+PAGES+= 	checklist.md
+ASSIGNMENTS+= 	README.md
+include ../module.mk

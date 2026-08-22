@@ -12,3 +12,7 @@ clean:
 
 
 include ../../html.mk
+
+# Canvas items managed from this directory (see ../module.mk)
+ASSIGNMENTS+= 	ssh-keys.md git-overview.md git-basics.md git.md
+include ../module.mk
