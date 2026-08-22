@@ -42,3 +42,5 @@ and forwarding your questions through Zoom. If you participate on Zoom,
 you can either ask directly or write your question in the chat.
 
 The recording from **2025** can be found below:
+
+<iframe id="kmsembed-0_qlxj2awx" width="650" height="366" src="https://play.kth.se/embed/secure/iframe/entryId/0_qlxj2awx/uiConfId/23453971" class="kmsembed" allowfullscreen webkitallowfullscreen mozAllowFullScreen allow="autoplay *; fullscreen *; encrypted-media *" referrerPolicy="no-referrer-when-downgrade" sandbox="allow-forms allow-same-origin allow-scripts allow-top-navigation allow-pointer-lock allow-popups allow-modals allow-orientation-lock allow-popups-to-escape-sandbox allow-presentation allow-top-navigation-by-user-activation" frameborder="0" title="Kaltura Player"></iframe>
