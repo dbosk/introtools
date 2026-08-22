@@ -19,19 +19,23 @@ The lecture will be on Monday 24/8 at 10:15 in [the class Zoom
 room](https://kth-se.zoom.us/j/63306965531). However, the following
 rooms on campus are also booked for watching the stream on campus:
 
-      B1: 101, CTFYS
-      B2: 131, CDATE
-      B3: 101, CFATE
-      V22: 60, CTMAT
-      V3:  72, CDATE
-      V32: 60, CINEK
-      V33: 48, CINEK
-      V34: 60, CINEK
-      V35: 48, CLGYM, CTFYS, CINEK, CDATE, CTMAT
+      B1: 101, CDATE
+      B2: 131, CDATE
+      B3: 101, CTFYS
+      Q26: 40, CTFYS
+      V11: 40, CINEK
+      V12: 30, CINEK
+      V21: 40, CINEK
+      V22: 60, CINEK
+      V32: 60, CFATE
+      V33: 48, CTMAT
+      V34: 60, CFATE
+      V35: 48, CTMAT
 
-That is a total of 681 seats for 714 expected students. But not all
-students will show up. And many will participate online. So for once we
-should have enough seats for everyone who wants a seat.
+That is a total of 759 seats for 725 expected students. But not all
+students will show up. And many will participate online. So we should
+have enough seats for everyone who wants a seat. If the rooms for your
+programme happen to be full, just join on Zoom instead.
 
 There will be a teaching assistant (TA) in each room running the stream
 and forwarding your questions through Zoom. If you participate on Zoom,
