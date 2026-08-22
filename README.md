@@ -53,3 +53,12 @@ SubHeader and ExternalUrl module items are not managed from the repo.  To seed a
 new year's course, copy it in Canvas, set `COURSE`, and run `make force-push`;
 to refresh positions after reordering in the Canvas UI, re-export with
 `canvaslms pages view`/`assignments view` rather than editing many files.
+
+Embedded media: the Markdown export of `canvaslms pages view` (before the
+iframe fix) drops `<iframe>`/`<video>` elements, and pushing such a file
+removes the embed from Canvas.  Keep embeds in the `.md` as raw HTML blocks
+(the full `<iframe …></iframe>` as its own paragraph; pandoc passes raw HTML
+through), and after any re-export compare
+`canvaslms --no-cache pages view --html … | grep -c '<iframe'` against the
+file before pushing.  Currently only `modules/overview/intro-lecture.md` has
+an embed.
