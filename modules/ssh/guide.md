@@ -115,7 +115,7 @@ The entire process will look something like this:
 
 ### For Windows without WSL
 
-If you run Windows without WSL (e.g. older than Windows 10), you'll need
+If you run Windows without WSL (e.g. older than Windows 10), you'll need
 [PuTTY](https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html)
 and [WinSCP](https://winscp.net/eng/download.php). PuTTY will open a
 terminal that's running on KTH's servers, just give

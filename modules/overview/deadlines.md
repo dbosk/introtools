@@ -11,7 +11,7 @@ modules:
 
 To pass the course and get credits in LADOK, you must complete the
 assignments. These assignments are constructed in such a way that we can
-check if you've completed them (e.g. logged into a system). We check the
+check if you've completed them (e.g. logged into a system). We check the
 assignments by automation.
 
 Our grading bot runs **every [30

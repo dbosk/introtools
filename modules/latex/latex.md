@@ -115,7 +115,7 @@ LaTeX with the following requirements: it must contain
     package](https://ctan.org/pkg/listings), that contains your command
     line history (the output of the `history` command).
 
-The document *source files* (i.e. the LaTeX files, and not as e.g. a zip
+The document *source files* (i.e. the LaTeX files, and not as e.g. a zip
 file) must be committed and pushed to your repository on [KTH
 GitHub](https://gits-15.sys.kth.se/datintro21) for the course. We'll
 compile the PDF ourselves to see that it works.

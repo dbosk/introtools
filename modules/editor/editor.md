@@ -20,8 +20,8 @@ Wars of Computer Science.
 We've already encountered the `nano` editor. A small editor that runs
 entirely in the terminal. An editor that runs in the terminal is an
 important tool, because you can use it in all terminal interfaces,
-e.g. on remote systems over SSH or systems which doesn't have any
-*graphical* user interface (GUI, e.g.  servers).
+e.g. on remote systems over SSH or systems which doesn't have any
+*graphical* user interface (GUI, e.g.  servers).
 
 However, in most cases you'll be using the editor on your own system,
 which will usually have a GUI. So it might be worth having two editors
