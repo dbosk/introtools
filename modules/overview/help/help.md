@@ -32,7 +32,7 @@ bottom of the screen and find the "Invite" button (see
 fig. [2](#fig:participants)). Then click "Copy invite link" (see
 fig. [3](#fig:invite)).
 
-Head to the [help queue](http://queue.csc.kth.se/Queue/DD1301). Use the
+Head to the [help queue](https://queue.eecs.kth.se/Queue/DD1301). Use the
 invite link as the location and hit "join queue" to join the queue to
 wait for help (see fig. [4](#fig:queue)). When it's your turn, a tutor
 will join your Zoom meeting.
