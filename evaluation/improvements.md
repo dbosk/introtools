@@ -15,7 +15,10 @@ improving the course material. Sources:
   [#89](https://github.com/dbosk/introtools/issues/89) (2022, never analyzed),
   [#111](https://github.com/dbosk/introtools/issues/111) (2023, includes a
   prioritized development list),
-- the child issues these spawned (many labeled `student evaluation`).
+- the child issues these spawned (many labeled `student evaluation`),
+- the tracking issue [#151](https://github.com/dbosk/introtools/issues/151),
+  which breaks this plan into workable issues (#129--#150 plus the
+  pre-existing ones) in the `material-improvements` milestone.
 
 Themes are ordered by priority below; priority is recurrence-weighted: a
 theme that students bring up every year outranks one mentioned once, and the
