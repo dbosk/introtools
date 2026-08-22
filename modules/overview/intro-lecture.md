@@ -20,9 +20,9 @@ room](https://kth-se.zoom.us/j/63306965531). However, the following
 rooms on campus are also booked for watching the stream on campus:
 
       B1: 101, CDATE
-      B2: 131, CDATE
+      B2: 131, CDATE, CTFYS
       B3: 101, CTFYS
-      Q26: 40, CTFYS
+      Q26: 40, any programme (overflow, if your room is full)
       V11: 40, CINEK
       V12: 30, CINEK
       V21: 40, CINEK
@@ -35,7 +35,7 @@ rooms on campus are also booked for watching the stream on campus:
 That is a total of 759 seats for 725 expected students. But not all
 students will show up. And many will participate online. So we should
 have enough seats for everyone who wants a seat. If the rooms for your
-programme happen to be full, just join on Zoom instead.
+programme happen to be full, go to Q26 or just join on Zoom instead.
 
 There will be a teaching assistant (TA) in each room running the stream
 and forwarding your questions through Zoom. If you participate on Zoom,
