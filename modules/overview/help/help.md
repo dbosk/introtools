@@ -27,14 +27,14 @@ schedule](https://cloud.timeedit.net/kth/web/) for when they are), you
 should do the following.
 
 Set up [Zoom](https://zoom.us/download) and host a new meeting (see
-fig. [1](#fig:new)). In the meeting room, select "Participants" at the
+fig. [1](#fig:new)). In the meeting room, select "Participants" at the
 bottom of the screen and find the "Invite" button (see
-fig. [2](#fig:participants)). Then click "Copy invite link" (see
-fig. [3](#fig:invite)).
+fig. [2](#fig:participants)). Then click "Copy invite link" (see
+fig. [3](#fig:invite)).
 
 Head to the [help queue](http://queue.csc.kth.se/Queue/DD1301). Use the
 invite link as the location and hit "join queue" to join the queue to
-wait for help (see fig. [4](#fig:queue)). When it's your turn, a tutor
+wait for help (see fig. [4](#fig:queue)). When it's your turn, a tutor
 will join your Zoom meeting.
 
 ## Help after the course and during periods 2\--4 {#help-after-the-course}

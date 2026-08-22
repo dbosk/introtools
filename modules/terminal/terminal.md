@@ -141,7 +141,7 @@ directory. To read about `cd`, run `man bash` and search for
 `/^shell builtin commands` (the `^` character indicates the start of a
 line, meaning there shouldn't be anything before on a matching line).
 From there, either scroll down or search again, but this time search for
-`cd` (i.e.  type `/cd`).
+`cd` (i.e.  type `/cd`).
 
 Let's have an example to look at.
 

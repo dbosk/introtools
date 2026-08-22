@@ -21,7 +21,7 @@ conferencing. While Zoom supports sharing the screen, it needs a
 complement sometimes.
 
 One such complement is [tmate](https://tmate.io). This is available as
-the command `tmate` on KTH systems (e.g. `student-shell`). When you
+the command `tmate` on KTH systems (e.g. `student-shell`). When you
 start tmate, it opens a terminal session that *others can join*, giving
 you the possibility to work in a group in the same terminal. For
 instance, when you ask for help during the remote lab sessions, tmate

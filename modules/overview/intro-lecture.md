@@ -41,4 +41,4 @@ There will be a teaching assistant (TA) in each room running the stream
 and forwarding your questions through Zoom. If you participate on Zoom,
 you can either ask directly or write your question in the chat.
 
-The recording from **2025** can be found below:
+The recording from **2025** can be found below:

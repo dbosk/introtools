@@ -43,7 +43,7 @@ omit important parts of the course. Instead, seek support from your
 fellow students and teachers for guidance and support, and use the
 course literature for facts.
 
- 
+
 
 ## Disciplinary action for unauthorized use of AI
 
@@ -57,7 +57,7 @@ agent. Or add a reference to the answer on StackOverflow that helped you
 solve your problem. That would help you from being accused of any form
 of plagiarism.
 
- 
+
 
 ## Questions or concerns?
 

@@ -80,8 +80,8 @@ The process is visualized in the following video:
 # Choose a Text Editor
 
 When you interact with `git`, you will most likely use the command line
-(e.g. Bash) to issue commands. Some of these commands will launch a text
-editor so you can type messages (e.g. a description of a change you have
+(e.g. Bash) to issue commands. Some of these commands will launch a text
+editor so you can type messages (e.g. a description of a change you have
 made to a project). You can choose any text editor you like. (Hopefully,
 you've already made up your mind.) We will use Atom in the example
 below.

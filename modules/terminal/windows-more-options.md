@@ -16,7 +16,7 @@ Subsystem for Linux (WSL) to run Ubuntu in Windows. There are various
 guides:
 
 -   [Installing WSL2 on
-    Windows](https://eu.feedbackfruits.com/courses/activity-course/0ccfb0cc-3274-470f-9def-0ddec7bd1c73) (FeedbackFruits,
+    Windows](https://eu.feedbackfruits.com/courses/activity-course/0ccfb0cc-3274-470f-9def-0ddec7bd1c73) (FeedbackFruits,
     recommended)
 -   [Microsoft\'s installation guide](https://aka.ms/wsl2-install)
 -   [Ubuntu\'s installation
@@ -33,14 +33,14 @@ WSL), there is no really convenient option, you can
 
 -   use KTH\'s systems remotely (see next page),
 -   [run Ubuntu as a virtual machine](https://multipass.run/),
--   [install Ubuntu](https://ubuntu.com/download/desktop) on your
-    computer (be careful: some students *accidentally erased* all their
+-   [install Ubuntu](https://ubuntu.com/download/desktop) on your
+    computer (be careful: some students *accidentally erased* all their
     photos/data by making a mistake!),
 -   [install CygWin](https://cygwin.com/install.html).
 
-**Old computers:** Note that if you have an old computer that you
+**Old computers:** Note that if you have an old computer that you
 perceive as slow, then it might be worth installing Ubuntu on it. After
-that the computer usually feels much faster again. See [how to install
-Ubuntu](https://ubuntu.com/download/desktop). But *make sure you don\'t
+that the computer usually feels much faster again. See [how to install
+Ubuntu](https://ubuntu.com/download/desktop). But *make sure you don\'t
 have any important data on that computer before you do anything*, you
 might lose it depending on how you choose to install Ubuntu.
