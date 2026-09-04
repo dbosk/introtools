@@ -1,6 +1,4 @@
-submissions-datintro24-LAB1.csv
-submissions-progd24-LAB1.csv
-submissions.csv
+submissions*.csv
 times-full.txt
 times.txt
 py_*.stdout
@@ -12,4 +10,4 @@ top.pytxpyg
 top.sh
 top.tex
 top.unq
-
+latexmkrc
