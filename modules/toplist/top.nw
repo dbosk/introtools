@@ -61,7 +61,7 @@
 We want to take the submission times for the four assignments in the datintro 
 module (LAB1) and compute who finished first.
 To finish first, they must have passed all four assignments.
-We want to write a small shell script [[<<top.sh>>]] that prints the top 10 to 
+We want to write a small shell script [[<<[[top.sh]]>>]] that prints the top 10 to 
 standard output (stdout).
 \ltnote{%
   We give the desired output and what the input looks like.
@@ -124,7 +124,7 @@ The second argument ([[${2}]]) will be how many should be included in the top
 list.
 This gives us the following (and one possible solution to 
 \cref{HighLevelApproach}):
-<<top.sh>>=
+<<[[top.sh]]>>=
 cat ${1} \
 | <<filter out the submission lines of everyone who passed>> \
 | <<sort the submission lines based on finishing time>> \
@@ -227,7 +227,7 @@ cat ${1} | cut -f 3,4 | sort \
 
 We need to use [[cat ${1}]] to get the data from the file.
 Although this data is already in the pipe from the start of
-[[<<top.sh>>]],
+[[<<[[top.sh]]>>]],
 that data is piped into stdin of [[egrep]] in
 [[<<filter out the submission lines of everyone who passed>>]].
 That's why we need to read the file again here, to create another series of 
@@ -420,7 +420,7 @@ Let's first have a look at Skye's solution.
 I have added some indentation to make the different parts easier to discern.
 I also added the [[head]] command at the end to only print the top 10 (which 
 wasn't a part of the given challenge).
-<<skye.sh>>=
+<<[[skye.sh]]>>=
 sort times.txt \
 | awk '{print $1,$2}' \
 | uniq \
