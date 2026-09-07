@@ -1144,15 +1144,15 @@ The whole function shrinks to one line.
 getTimeDifference(){
   echo $(($(date -d "$1" +%s) - $(date -d "$2" +%s)));
 }
-@ Let's try the idea across midnight, 00:01 minus 23:59 the day before:
-\begin{minted}{bash}
-echo $(( $(date -d '2026-09-02 00:01' +%s) \
-       - $(date -d '2026-09-01 23:59' +%s) ))
-\end{minted}
-This gives us
+@ Let's try the function across midnight, 00:01 minus 23:59 the day 
+before.
+We put the function and one call to it in a small script of its own:
+<<[[midnight.sh]]>>=
+<<[[eric-improved.sh]] function to compute time difference>>
+getTimeDifference "2026-09-02 00:01" "2026-09-01 23:59"
+@ Running it gives us
 \begin{pycode}
-shell("echo $(( $(date -d '2026-09-02 00:01' +%s) \\\n"
-      "       - $(date -d '2026-09-01 23:59' +%s) ))")
+shell("bash ./midnight.sh")
 \end{pycode}
 seconds, two minutes, as it should be.
 
