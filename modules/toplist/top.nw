@@ -1145,11 +1145,16 @@ getTimeDifference(){
   echo $(($(date -d "$1" +%s) - $(date -d "$2" +%s)));
 }
 @ Let's try the idea across midnight, 00:01 minus 23:59 the day before:
+\begin{minted}{bash}
+echo $(( $(date -d '2026-09-02 00:01' +%s) \
+       - $(date -d '2026-09-01 23:59' +%s) ))
+\end{minted}
+This gives us
 \begin{pycode}
-shell("echo $(( $(date -d '2026-09-02 00:01' +%s)"
-      " - $(date -d '2026-09-01 23:59' +%s) ))")
+shell("echo $(( $(date -d '2026-09-02 00:01' +%s) \\\n"
+      "       - $(date -d '2026-09-01 23:59' +%s) ))")
 \end{pycode}
-Two minutes, as it should be.
+seconds, two minutes, as it should be.
 
 \subsubsection{Comparing with the first in the place}
 
