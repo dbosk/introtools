@@ -8,6 +8,8 @@ modules:
 - module: ^Course\ overview$
   position: 7
 ---
+\[Edit: Swapped rooms for CINEK and CTFYS. CINEK is already in B3 from
+their lecture just before, so they stay there.\]
 
 The course starts with a live lecture where you can ask questions about
 the pages that you have just read. Or anything else too for that matter.
@@ -20,13 +22,13 @@ room](https://kth-se.zoom.us/j/63306965531). However, the following
 rooms on campus are also booked for watching the stream on campus:
 
       B1: 101, CDATE
-      B2: 131, CDATE, CTFYS
-      B3: 101, CTFYS
+      B2: 131, CDATE, some spare seats
+      B3: 101, CINEK
       Q26: 40, any programme (overflow, if your room is full)
-      V11: 40, CINEK
-      V12: 30, CINEK
-      V21: 40, CINEK
-      V22: 60, CINEK
+      V11: 40, CTFYS
+      V12: 30, CTFYS
+      V21: 40, CTFYS
+      V22: 60, CTFYS
       V32: 60, CFATE
       V33: 48, CTMAT
       V34: 60, CFATE
@@ -43,4 +45,4 @@ you can either ask directly or write your question in the chat.
 
 The recording from **2025** can be found below:
 
-<iframe id="kmsembed-0_qlxj2awx" width="650" height="366" src="https://play.kth.se/embed/secure/iframe/entryId/0_qlxj2awx/uiConfId/23453971" class="kmsembed" allowfullscreen webkitallowfullscreen mozAllowFullScreen allow="autoplay *; fullscreen *; encrypted-media *" referrerPolicy="no-referrer-when-downgrade" sandbox="allow-forms allow-same-origin allow-scripts allow-top-navigation allow-pointer-lock allow-popups allow-modals allow-orientation-lock allow-popups-to-escape-sandbox allow-presentation allow-top-navigation-by-user-activation" frameborder="0" title="Kaltura Player"></iframe>
+<iframe id="kmsembed-0_qlxj2awx" class="kmsembed" title="Kaltura Player" src="https://play.kth.se/embed/secure/iframe/entryId/0_qlxj2awx/uiConfId/23453971" width="650" height="366" sandbox="allow-forms allow-same-origin allow-scripts allow-pointer-lock allow-popups allow-modals allow-orientation-lock allow-popups-to-escape-sandbox allow-presentation allow-top-navigation-by-user-activation" loading="lazy" allowfullscreen="allowfullscreen" webkitallowfullscreen="webkitallowfullscreen" mozallowfullscreen="mozallowfullscreen" allow="autoplay *; fullscreen *; encrypted-media *" frameborder="0"></iframe>
