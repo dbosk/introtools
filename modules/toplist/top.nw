@@ -884,8 +884,9 @@ Then Eric wants the latest time for each student, what we did in
 [[<<keep only the last submission time for each student>>]].
 He takes the name and the grade date, columns 3 and 6, but first he 
 removes something that we haven't seen yet.
-Every line in the file that [[canvaslms]] writes ends with a carriage 
-return before the new line, a habit from Windows.
+[[canvaslms]] writes its output with Python's [[csv]] module, which ends 
+every line with a carriage return before the new line, as the CSV 
+standard says.
 No listing shows it, but [[cat -A]] does, as [[^M]] (and the tabs as 
 [[^I]]):
 \begin{pycode}
@@ -1003,23 +1004,19 @@ getTimeDifference(){
 @
 
 \ltnote{%
-  \Cref{Midnight} follows try-first, tell-later: the student should find 
-  the fixed point of reference themselves before we name it.
+  \Cref{Midnight} follows try-first, tell-later: it names the symptom 
+  only, so that the student discerns the problem and its fix themselves; 
+  both are told in \cref{EricImproved}.
 }%
 \begin{exercise}[Midnight]\label{Midnight}
   Eric points out himself that the function breaks at midnight: a student 
   graded at 23:59 and one graded at 00:01 the next day are two minutes 
   apart, but the function says \(-1438\) minutes.
-  What could the function count seconds \emph{since}, instead of since 
-  midnight, so that this can't happen?
-  Change it accordingly.
+  What's the problem?
+  How can we fix it?
 \end{exercise}
 
-Any fixed point in time will do, as long as it's the same for everyone: 
-the first submission, or simply 1970, which is what 
-[[date -d "$stamp" +%s]] gives us if we pass it the whole time stamp.
-Then the difference is right across midnight too, and the date check 
-below becomes unnecessary.
+We'll fix it in \cref{EricImproved}.
 
 Each line has the name, a tab and the time stamp; the time stamp has the 
 date, a space and the time.
@@ -1112,6 +1109,98 @@ minute as Elias, each less than 700 seconds.
 To avoid the chain, the script would have to remember the time of the 
 \emph{first} student in the shared place and compare with that, instead 
 of with [[previousTime]].
+We'll do that in \cref{EricImproved}.
+
+\subsection{Improving Eric's solution}\label{EricImproved}
+
+\ltnote{%
+  This section closes the loop on \cref{Midnight,EricsChain}: the 
+  problems that the student was asked to discern are now fixed, and the 
+  fix reuses every chunk of [[<<[[eric.sh]]>>]] that was fine, so the 
+  student sees exactly how little has to change.
+}%
+\Cref{Midnight,EricsChain} found two things to fix, and both live in the 
+last step.
+So [[<<[[eric-improved.sh]]>>]] takes the first three steps from 
+[[<<[[eric.sh]]>>]] as they are, and only the numbering is new.
+<<[[eric-improved.sh]]>>=
+#!/bin/bash
+<<[[eric.sh]] read the options>>
+<<[[eric.sh]] find everyone who passed>>
+<<[[eric.sh]] find the latest time for each student>>
+<<[[eric-improved.sh]] number the students, sharing places>>
+@
+
+\subsubsection{Seconds since 1970 instead of since midnight}
+
+The problem in \cref{Midnight} is that the function counts seconds since 
+midnight, so the count starts over every day.
+Any fixed point in time will do instead, as long as it's the same for 
+everyone: the first submission, say, or simply 1970.
+That is what [[date]] gives us with [[date -d "$1" +%s]], if we give it 
+the whole time stamp, date and time.
+The whole function shrinks to one line.
+<<[[eric-improved.sh]] function to compute time difference>>=
+getTimeDifference(){
+  echo $(($(date -d "$1" +%s) - $(date -d "$2" +%s)));
+}
+@ Let's try the idea across midnight, 00:01 minus 23:59 the day before:
+\begin{pycode}
+shell("echo $(( $(date -d '2026-09-02 00:01' +%s)"
+      " - $(date -d '2026-09-01 23:59' +%s) ))")
+\end{pycode}
+Two minutes, as it should be.
+
+\subsubsection{Comparing with the first in the place}
+
+The problem in \cref{EricsChain} is that every student is compared with 
+the previous one, so a shared place can grow one small step at a time.
+Instead, we remember the time stamp of the student who \emph{opened} the 
+current shared place, in [[firstTime]], and compare everyone with that.
+It's only updated when a new place starts.
+The date check is gone, since the function now handles the dates itself; 
+instead we check that there is a first time stamp at all, which there 
+isn't on the first line.
+The two pieces that print the lines are Eric's, unchanged.
+<<[[eric-improved.sh]] number the students, sharing places>>=
+<<[[eric-improved.sh]] function to compute time difference>>
+firstTime="";
+rank=0;
+streak=1;
+echo "$peopleTimes" |
+  while read line; do
+    rank=$((rank + 1));
+    currentTime=$(echo "$line" | cut -d "$delim" -f 2);
+    if <<[[eric-improved.sh]] together with the first in the place>>; then
+      <<[[eric.sh]] share the place>>
+    else
+      <<[[eric.sh]] start a new place>>
+      firstTime="$currentTime";
+    fi;
+  done;
+<<[[eric-improved.sh]] together with the first in the place>>=
+[ -n "$firstTime" ] &&
+  [ $minTimeDifference -gt \
+    $(getTimeDifference "$currentTime" "$firstTime") ]
+@
+
+Let's run it on the chain from \cref{EricsChain}:
+\begin{pycode}
+shell("bash ./eric-improved.sh -n 8 -d 700 submissions25.csv")
+\end{pycode}
+Theo, Valentin, Elias and Nils are now two places, not one.
+
+\begin{exercise}
+  Run both scripts on this year's data with [[-d 60]].
+  Do the lists differ?
+  Why, or why not?
+\end{exercise}
+
+They don't: no shared place this year has more than two students, so 
+there is no chain for the fix to break.
+In 2024 there is a difference, though: a grading round at two in the 
+morning gave Eric's script a chain of thirteen students on place 35, 
+which the fix splits into three places.
 
 \subsection{Exercises for your future self after other 
 courses}\label{ExercisesForLater}
