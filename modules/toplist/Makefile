@@ -11,12 +11,12 @@ all: top.sh top.pdf
 
 SUBMISSIONS=submissions24.csv submissions25.csv submissions26.csv
 
-top.pdf: top.tex top.sh skye.sh eric.sh eric-adapted.sh ${SUBMISSIONS}
+top.pdf: top.tex top.sh skye.sh eric.sh ${SUBMISSIONS}
 top.tex: top.nw
 
 # Contributed scripts, tangled from top.nw; the generic %.sh: %.nw rule
 # would look for skye.nw etc., hence the explicit rule.
-skye.sh eric.sh eric-adapted.sh: top.nw
+skye.sh eric.sh: top.nw
 	${NOTANGLE.sh}
 
 # One LAB1-only export per year, since the script expects exactly four lines
@@ -28,7 +28,7 @@ submissions%.csv:
 
 .PHONY: clean
 clean:
-	rm -f top.sh top.pdf skye.sh eric.sh eric-adapted.sh
+	rm -f top.sh top.pdf skye.sh eric.sh
 	rm -Rf _minted-top py_default_default_0.stdout pythontex_data.pkl
 	rm -f top.pytxmcr top.pytxpyg top.tex
 	rm -f py_*.stdout top.bbl top.unq

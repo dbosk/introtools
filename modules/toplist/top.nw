@@ -721,162 +721,184 @@ grading round, so they too finished at the same time for our purposes.
 \begin{exercise}[Handle ties]\label{HandleTies}
   Write a script that takes lines with sufficiently close times and merges them 
   into one.
-  Let us determine what sufficiently close means by using a variable for that 
-  value.
 \end{exercise}
 
 \subsection{Eric's solution}\label{EricsSolution}
 
 \ltnote{%
-  Eric's contribution gets the same treatment as Skye's: we print the 
-  script, ask the student to explain it, explain it, and then break it.
-  Repeating the treatment is what should make the pattern discernible; the 
-  two scripts differ enough in style---a pipeline of small tools versus a 
-  shell program with a function, options and a loop---that what stays 
-  invariant is the problem and the data, not the author's habits.
-
-  Eric's script is five times longer than Skye's, so we give the whole as 
-  six named parts first and then take one part at a time.
-  The adaptation to the real data is a second script that shares four of 
-  the six parts, so the student sees Eric's logic untouched, and sees the 
-  Unix habit of reshaping the data to fit an existing tool rather than 
-  rewriting the tool.
+  Eric's contribution gets the same treatment as our own script: first the 
+  whole, as a run in the terminal, then the parts by stepwise refinement, 
+  in the same order as the steps of [[<<[[top.sh]]>>]], so that the 
+  student can compare the two solutions step by step.
+  The exercises come before the explanations, as in the rest of the text.
+  Where Eric's lines had to change to work on the real file, we keep his 
+  logic and quote his original lines in the prose, as we did with Skye's 
+  [[sort +2]].
 }%
 Eric Gesien Andersson solved \cref{HandleTies} and sent me the script 
-below.
-It reads the CSV file itself, so it doesn't extend [[<<[[top.sh]]>>]], it 
-replaces it: it filters and sorts in its own way and then does the 
-numbering with shared places.
+[[<<[[eric.sh]]>>]].
+It doesn't extend [[<<[[top.sh]]>>]], it replaces it: it reads the CSV 
+file itself, does the filtering and sorting in its own way, and then 
+numbers the students with shared places.
+This is how we run it on this year's data:
+\begin{minted}{bash}
+bash eric.sh submissions26.csv
+\end{minted}
+This gives us everyone who has passed so far, in finishing order, with 
+shared places:
+\begin{pycode}
+shell("bash ./eric.sh submissions26.csv")
+\end{pycode}
+Compare this with the top list for 2026 above: Jacob and Wilmer now share 
+seventh place, just as we wished for, and there is no eighth.
 
-The script takes the CSV file as its argument and three options.
-With [[-n]] we say how many lines we want (100 unless we say otherwise).
+The script takes three options.
+With [[-n]] we say how many lines we want, so [[-n 10]] gives us a top 
+ten; without it we get up to 100 lines.
 With [[-d]] we say how many seconds apart two students may be and still 
-share a place\footnote{%
-  Eric's mail says that the default is zero seconds, the script says 60.
-  We always give [[-d]] explicitly below, so it doesn't matter here.
-}.
-With [[-f]] we insist on exactly [[-n]] lines, even when that means cutting 
-a shared place in half.
-Note that [[-n]] counts lines, not places.
-As with Skye's script, I have only changed the whitespace: tabs became 
-spaces and a few long lines were wrapped.
-<<[[eric.sh]]>>=
-#!/bin/bash
-<<Eric's default values>>
+share a place; without it, 60 seconds.
+Note that [[-n]] counts lines, not places: if we ask for seven lines we 
+get eight, since the script would rather keep a shared place whole.
+The third option, [[-f]], forces exactly the number of lines we asked 
+for; with [[-n 7 -f]] Wilmer falls off.
 
-<<Eric's time difference in seconds>>
-
-<<Eric's option parsing>>
-
-<<Eric's names of everyone who passed>>
-
-<<Eric's latest time for each student>>
-
-<<Eric's numbering with shared places>>
-@
-
-\begin{exercise}\label{ExplainEric}
-  Try to explain what Eric's code does and why it solves the problem.
-  Two of the six parts have no counterpart at all in 
-  [[<<[[top.sh]]>>]]; which?
+\begin{exercise}\label{EricsSteps}
+  Before we look at the script: what steps must it take to get from the 
+  CSV file to the list above?
+  Which of them does [[<<[[top.sh]]>>]] take too, and which are new?
 \end{exercise}
 
-Let's take the parts one at a time.
-The first part just sets the defaults.
+Eric's script takes four steps.
+The first three we recognise from [[<<[[top.sh]]>>]]: read what we asked 
+for, find everyone who passed, find the latest time for each student.
+The fourth is the numbering, now with shared places.
+<<[[eric.sh]]>>=
+#!/bin/bash
+<<[[eric.sh]] read the options>>
+<<[[eric.sh]] find everyone who passed>>
+<<[[eric.sh]] find the latest time for each student>>
+<<[[eric.sh]] number the students, sharing places>>
+@ We'll take the steps one at a time and refine each of them into smaller 
+pieces, just like we did with [[<<[[top.sh]]>>]].
+As with Skye's script, I have changed the whitespace; a few lines also had 
+to change to read this year's file, and I'll point them out as we go.
+
+\subsubsection{Reading the options}
+
+So far we have taken arguments by position: [[${1}]] is the file and 
+[[${2}]] how many lines we want.
+That works when there are exactly two and we always give both.
+Eric has three optional settings, in any order, so he needs something 
+better: first the default values, then a loop that reads the options one 
+at a time, and finally [[shift]], which throws the options away so that 
+the file name ends up in [[$1]] like before.
+<<[[eric.sh]] read the options>>=
+<<[[eric.sh]] default values>>
+while getopts "fn:d:" opt; do
+  <<[[eric.sh]] remember what the option says>>
+done;
+shift $((OPTIND -1));
+@
+
+The defaults are what we get when we give no options at all: 100 lines 
+and 60 seconds\footnote{%
+  Eric's mail says that the default is zero seconds, the script says 60.
+}.
 The tab is written [[$'\t']] like in 
 [[<<sort the submission lines based on finishing time>>]].
-Remember that this is a [[bash]] script, not a script for just any shell: 
-[[$'\t']], [[[[ ... ]]]] and [[${x%Z*}]] below are all [[bash]]'s own.
-<<Eric's default values>>=
+This is a [[bash]] script, not a script for just any shell: [[$'\t']] and 
+the [[[[ ... ]]]] test below are [[bash]]'s own.
+<<[[eric.sh]] default values>>=
 delim=$'\t'
 force=false
 maxEntries=100
 minTimeDifference=60
 @
 
-The time stamps are text, and we can't subtract text.
-Eric's function turns a time like [[11:19:55Z]] into the number of seconds 
-since midnight, for both of its arguments, and subtracts.
-The function answers by [[echo]]ing the number; whoever calls it catches 
-the answer with [[$( ... )]], the same sub-shell as in \cref{WhyNewCat}.
-Two details are worth a closer look.
-The [[${currentSeconds%Z*}]] removes a [[Z]] and anything after it from 
-the \emph{end} of the value ([[%]] cuts from the end, [[#]] would cut from 
-the beginning).
-The [[10#]] says that the number is written in base 10.
-Without it, [[bash]] reads a number with a leading zero as octal, and 
-[[08]] and [[09]] aren't valid octal numbers: the script would crash on 
-any time stamp containing [[08]] or [[09]].
-Since the function only looks at the time of day, two students graded on 
-different sides of midnight get a nonsense difference; Eric points this 
-out himself.
-<<Eric's time difference in seconds>>=
-getTimeDifference(){
-  currentHours=$(echo "$1" | cut -d ':' -f 1);
-  currentMinutes=$(echo "$1" | cut -d ':' -f 2);
-  currentSeconds=$(echo "$1" | cut -d ':' -f 3);
-  currentSeconds="${currentSeconds%Z*}";
-  totalCurrentSeconds=$((10#$currentHours * 60 * 60 \
-    + 10#$currentMinutes * 60 + 10#$currentSeconds));
-
-  oldHours=$(echo "$2" | cut -d ':' -f 1);
-  oldMinutes=$(echo "$2" | cut -d ':' -f 2);
-  oldSeconds=$(echo "$2" | cut -d ':' -f 3);
-  oldSeconds="${oldSeconds%Z*}";
-  totalOldSeconds=$((10#$oldHours * 60 * 60 \
-    + 10#$oldMinutes * 60 + 10#$oldSeconds));
-  echo $(($totalCurrentSeconds - $totalOldSeconds));
-}
-@
-
-So far we have taken arguments by position: [[${1}]] is the file and 
-[[${2}]] how many lines we want.
-That works when there are exactly two and we always give both.
-Eric wants three optional settings, in any order, so he uses [[getopts]].
 The string [[fn:d:]] lists the letters that we accept; a colon after a 
-letter means that it takes a value, which arrives in [[OPTARG]].
-The test [[[[ "$OPTARG" =~ ^[0-9]+$ ]]]] is [[bash]]'s own [[[[ ... ]]]] 
-with [[=~]] for regex matching; the [[^]] and [[$]] say that the whole 
-value must be digits, just like in \cref{Overview}.
-When the options are done, [[OPTIND]] points at the first argument that 
-isn't an option, so [[shift $((OPTIND -1))]] throws the options away and 
-leaves the file name in [[$1]].
-(A bad value is reported and then ignored; the script keeps its default.)
-<<Eric's option parsing>>=
-while getopts "fn:d:" opt; do
-  if [ "$opt" == "f" ]; then
-    force=true;
-  elif [ "$opt" == "n" ]; then
-    if [[ "$OPTARG" =~ ^[0-9]+$ ]]; then
-      maxEntries=$OPTARG;
-    else
-      echo "Integer required for -n";
-    fi;
-  elif [ "$opt" == "d" ]; then
-    if [[ "$OPTARG" =~ ^[0-9]+$ ]]; then
-      minTimeDifference=$OPTARG;
-    else
-      echo "Integer required for -d";
-    fi;
+letter means that it takes a value, and [[getopts]] puts that value in 
+[[OPTARG]].
+A value for [[-n]] or [[-d]] must be a number, which Eric checks with 
+[[bash]]'s own test [[[[ ... ]]]] and [[=~]] for regex matching: the 
+[[^]] and [[$]] say that the whole value must be digits, just like in 
+\cref{Overview}.
+(A bad value is reported, and then the script keeps its default.)
+When the loop is done, [[OPTIND]] points at the first argument that isn't 
+an option, and that is what the [[shift]] above uses.
+<<[[eric.sh]] remember what the option says>>=
+if [ "$opt" == "f" ]; then
+  force=true;
+elif [ "$opt" == "n" ]; then
+  if [[ "$OPTARG" =~ ^[0-9]+$ ]]; then
+    maxEntries=$OPTARG;
+  else
+    echo "Integer required for -n";
   fi;
-done;
-shift $((OPTIND -1));
+elif [ "$opt" == "d" ]; then
+  if [[ "$OPTARG" =~ ^[0-9]+$ ]]; then
+    minTimeDifference=$OPTARG;
+  else
+    echo "Integer required for -d";
+  fi;
+fi;
 @
 
-Next, who passed?
+\subsubsection{Finding everyone who passed}
+
+\begin{exercise}[What the listing doesn't show]\label{RealData}
+  Eric never had a CSV file to test on: you don't get one, only the 
+  listings in this text.
+  So he typed his test data in from an earlier edition of this document, 
+  which showed the 2024 data.
+  Look at how the data is printed in \cref{Overview}.
+  What is in the real file that you can't see in the listing?
+\end{exercise}
+
+Three things, and two of them are this text's fault.
+First, the columns: in 2024 the submission date wasn't [[N/A]] but simply 
+empty, so the listing printed a tab, nothing and another tab.
+On paper that is just a slightly wider gap, nothing says that a column went 
+by, and Eric quite reasonably counted the grade date as column 5.
+Second, the names: Eric matched a name with [[[A-Za-z -]+]], which is 
+exactly what this document said until recently (\cref{WhyNotLetters}).
+He inherited our bug.
+Third, the time stamps: the 2024 export wrote them as 
+[[2024-08-26T11:19:55Z]], with a [[T]] between date and time, with 
+seconds, and with a [[Z]] for UTC.
+Since 2025 they look like [[2025-08-27 10:06]]: a space instead of the 
+[[T]] and no seconds at all.
+And one thing that no listing could ever show: every line in the file that 
+[[canvaslms]] writes ends with a carriage return before the new line, a 
+habit from Windows.
+We can see it with [[cat -A]], which prints it as [[^M]] (and the tabs as 
+[[^I]]):
+\begin{pycode}
+shell(f"egrep '{examples}' {submissions_file} | head -n 1 | cat -A")
+\end{pycode}
+It's invisible, it survives [[cut]], and it sticks to whatever is in the 
+last column, here the time stamp.
+So the script as Eric sent it stops on this year's file with 
+[[10#N: value too great for base]]; the lines that had to change for that 
+are marked below.
+
+Now, who passed?
 This is the same job as 
 [[<<create pattern matching everyone who passed>>]], and Eric solves it 
 the same way, only he keeps the result in a variable instead of piping it 
 straight into [[egrep]].
-He matches the names a little differently from us, as we'll see in a 
-moment.
-<<Eric's names of everyone who passed>>=
+<<[[eric.sh]] find everyone who passed>>=
 peopleDone=$(cat "$1" | cut -d "$delim" -f 3,4 | sort -t "$delim" -k1 |
-  sed -n -E -z \
-    's/<<Eric's name and grades to match>>/<<all on one line pattern>>/gp' |
+  <<[[eric.sh]] merge each student's lines into one>> |
   grep 'P P P P' | cut -d "$delim" -f 1);
-<<Eric's name and grades to match>>=
-([A-Za-z -]+)\s([PF]?)\n\1\s([PF]?)\n\1\s([PF]?)\n\1\s([PF]?)
+peoplePattern="($(echo "$peopleDone" |
+  <<[[eric.sh]] join the names into one regex>>))";
+@
+
+To merge the four lines of a student into one, Eric uses the very same 
+[[sed]] as we do, so we simply reuse our chunks.
+(This is the first changed line: his mail had our old letter list in it.)
+<<[[eric.sh]] merge each student's lines into one>>=
+sed -n -E -z 's/<<name and grades to match>>/<<all on one line pattern>>/gp'
 @
 
 The names come out one per line, and Eric wants them joined with [[|]] 
@@ -891,50 +913,66 @@ When there is no next line, [[N]] ends the loop.
 So Eric only ever replaces a new line that has a name on both sides, and 
 there is no trailing [[|]] to clean up.
 (It's clever, but the [[tr]] version is easier to get right yourself.)
-<<Eric's names of everyone who passed>>=
-peoplePattern="($(echo "$peopleDone" | sed ':a; N; s/\n/|/; ta'))";
+<<[[eric.sh]] join the names into one regex>>=
+sed ':a; N; s/\n/|/; ta'
 @
+
+\subsubsection{Finding the latest time for each student}
 
 Then Eric wants the latest time for each student, what we did in 
 [[<<keep only the last submission time for each student>>]].
-His way is the nicest trick in the script.
-He sorts on the name and then on the time in \emph{reverse} 
+This is where most of the changed lines are.
+He read the time from column 5; we take column 6, and we remove the 
+carriage returns first, with [[tr -d '\r']], before they can do any harm.
+The 2024 time stamps are then rewritten to look like today's, so that the 
+rest of the script only needs to know one form.
+<<[[eric.sh]] find the latest time for each student>>=
+peopleTimes=$(cat "$1" | tr -d '\r' | grep -E "$peoplePattern" |
+  cut -d "$delim" -f 3,6 |
+  <<[[eric.sh]] write 2024's time stamps like today's>> |
+  <<[[eric.sh]] keep only the latest line of each student>> |
+  sort -t "$delim" -k2);
+@
+
+The [[sed]] only touches a [[T]] that is followed by a time and a [[Z]] at 
+the very end of the line, so the names are safe (think of Theo).
+<<[[eric.sh]] write 2024's time stamps like today's>>=
+sed -E 's/T([0-9:]+)Z$/ \1/'
+@
+
+Keeping only the latest line is the nicest trick in the script.
+Eric sorts on the name and then on the time in \emph{reverse} 
 ([[-k1,1 -k2r,2]]), so that each student's four lines come together with 
 the latest first.
 Then [[paste - - - -]] glues four lines into one: each [[-]] means 
 \enquote{read one line from standard input}, and four of them is no 
 coincidence.
 Finally [[cut -f 1,2]] keeps the first name and the first, that is the 
-latest, time; and the last [[sort]] puts the students in finishing order.
-This only works because every student has exactly four lines, which is 
+latest, time.
+<<[[eric.sh]] keep only the latest line of each student>>=
+sort -t "$delim" -k1,1 -k2r,2 | paste - - - - | cut -d "$delim" -f 1,2
+@ This only works because every student has exactly four lines, which is 
 what [[-A LAB1]] bought us in \cref{Overview}.
-Compare this with Skye's [[tail -1]] and our [[sort -r]] and 
-[[continue]]: three ways of saying \enquote{the last one}.
-<<Eric's latest time for each student>>=
-peopleTimes=$(cat "$1" | grep -E "$peoplePattern" | cut -d "$delim" -f 3,5 |
-  sort -t "$delim" -k1,1 -k2r,2 | paste - - - - | cut -d "$delim" -f 1,2 |
-  sort -t "$delim" -k2);
-@
 
-Finally the numbering, with shared places.
-[[rank]] counts the lines and [[streak]] counts how many lines the current 
-shared place has used so far.
-Two students share a place when they were graded on the same date and less 
-than [[minTimeDifference]] seconds apart.
-(Read Eric's test backwards: it says that the limit is greater than the 
-difference.)
-Then Eric prints [[rank - streak]], which repeats the number that the 
-shared place started with, and increases [[streak]] so that the next line 
-repeats it too; otherwise he prints [[rank]] and starts a new streak.
-Let's trace it on the 2025 data below: Gustav gets 1, Hjalmar 2, Mauritz 
-gets \(3 - 1 = 2\), Rea gets \(4 - 2 = 2\) and Theo 5.
-Just like in athletics, two silver medals mean that there is no bronze.
-The [[&&]] means that the time difference is only computed when the dates 
-are equal, so the function is never called on the first line, when 
-[[previousTime]] is still empty.
-The [[-f]] option only matters here: without it, a shared place is never 
-cut in half, even if that means more than [[-n]] lines.
-<<Eric's numbering with shared places>>=
+\begin{exercise}
+  What would [[paste - - - -]] do if one student had five lines?
+  Compare with Skye's [[tail -1]] and our [[sort -r]] and [[continue]]: 
+  three ways of saying \enquote{the last one}.
+\end{exercise}
+
+\subsubsection{Numbering the students, sharing places}
+
+Finally the numbering.
+Eric reads the students in finishing order, counting the lines in 
+[[rank]].
+A student who finished together with the previous one shares the previous 
+one's place; otherwise the student gets a new place, which is simply the 
+line number.
+To decide \enquote{together}, the script must compare two time stamps, and 
+since a time stamp is text and we can't subtract text, Eric first writes 
+a function for that.
+<<[[eric.sh]] number the students, sharing places>>=
+<<[[eric.sh]] the time difference in seconds>>
 previousTime="";
 previousDate="";
 rank=0;
@@ -942,118 +980,114 @@ streak=1;
 echo "$peopleTimes" |
   while read line; do
     rank=$((rank + 1));
-    currentDate=$(echo "$line" | cut -d "$delim" -f 2 | cut -d 'T' -f 1);
-    currentTime=$(echo "$line" | cut -d "$delim" -f 2 | cut -d 'T' -f 2);
-    if [ "$currentDate" == "$previousDate" ] &&
-      [ $minTimeDifference -gt \
-        $(getTimeDifference $currentTime $previousTime) ]; then
-      if [ $force = true ] && [ $rank -gt $maxEntries ]; then
-        break;
-      fi;
-      echo "$((rank - streak)) $line";
-      streak=$((streak + 1));
+    <<[[eric.sh]] split the time stamp into date and time>>
+    if <<[[eric.sh]] finished together with the previous one>>; then
+      <<[[eric.sh]] share the place>>
     else
-      if [ $rank -gt $maxEntries ]; then
-        break;
-      fi;
-      echo "$rank $line";
-      streak=1;
+      <<[[eric.sh]] start a new place>>
     fi;
     previousTime="$currentTime";
     previousDate="$currentDate";
   done;
 @
 
-\begin{exercise}[What the listing doesn't show]\label{RealData}
-  Eric never had a CSV file to test on: you don't get one, only the 
-  listings in this text.
-  So he typed his test data in from an earlier edition of this document, 
-  which showed the 2024 data.
-  Look at how the data is printed in \cref{Overview}.
-  What is in the real file that you can't see in the listing, and what 
-  would that do to Eric's script?
-\end{exercise}
+The function turns a time like [[11:19:55]] into the number of seconds 
+since midnight, for both of its arguments, and subtracts.
+It answers by [[echo]]ing the number; whoever calls it catches the answer 
+with [[$( ... )]], the same sub-shell as in \cref{WhyNewCat}.
+Two details are worth a closer look.
+The [[10#]] says that the number is written in base 10: without it, 
+[[bash]] reads a number with a leading zero as octal, and [[08]] and [[09]] 
+aren't valid octal numbers, so the script would crash on any time stamp 
+containing [[08]] or [[09]].
+The [[${currentSeconds%Z*}]] removes a [[Z]] and anything after it from 
+the \emph{end} of the value; that was for the 2024 time stamps, which we 
+now rewrite before they get here.
+The [[${currentSeconds:-0}]] is one of the changed lines: today's time 
+stamps have no seconds, so we use zero when there are none.
+Since the function only looks at the time of day, two students graded on 
+different sides of midnight get a nonsense difference; Eric points this 
+out himself.
+<<[[eric.sh]] the time difference in seconds>>=
+getTimeDifference(){
+  currentHours=$(echo "$1" | cut -d ':' -f 1);
+  currentMinutes=$(echo "$1" | cut -d ':' -f 2);
+  currentSeconds=$(echo "$1" | cut -d ':' -f 3);
+  currentSeconds="${currentSeconds%Z*}";
+  currentSeconds="${currentSeconds:-0}";
+  totalCurrentSeconds=$((10#$currentHours * 60 * 60 \
+    + 10#$currentMinutes * 60 + 10#$currentSeconds));
 
-Three things, and two of them are this text's fault.
-First, the columns: in 2024 the submission date wasn't [[N/A]] but simply 
-empty, so the listing printed a tab, nothing and another tab.
-On paper that is just a slightly wider gap, nothing says that a column went 
-by, and Eric quite reasonably counted the grade date as column 5.
-On this year's data that column holds [[N/A]], and the script stops with 
-[[10#N: value too great for base]].
-Second, the names: Eric matches a name with [[[A-Za-z -]+]], which is 
-exactly what this document said until recently (\cref{WhyNotLetters}).
-He inherited our bug, so Wilmer would disappear from his list too.
-Third, the time stamps: the 2024 export wrote them as 
-[[2024-08-26T11:19:55Z]], with a [[T]] between date and time, with 
-seconds, and with a [[Z]] for UTC; that is what Eric's script takes apart.
-Since 2025 they look like [[2025-08-27 10:06]]: a space instead of the 
-[[T]] and no seconds at all.
-And one thing that no listing could ever show: every line in the file that 
-[[canvaslms]] writes ends with a carriage return before the new line, a 
-habit from Windows.
-It's invisible, it survives [[cut]], and it sticks to whatever is in the 
-last column, here the time stamp.
-We can see it with [[cat -A]], which prints it as [[^M]] (and the tabs as 
-[[^I]]):
+  oldHours=$(echo "$2" | cut -d ':' -f 1);
+  oldMinutes=$(echo "$2" | cut -d ':' -f 2);
+  oldSeconds=$(echo "$2" | cut -d ':' -f 3);
+  oldSeconds="${oldSeconds%Z*}";
+  oldSeconds="${oldSeconds:-0}";
+  totalOldSeconds=$((10#$oldHours * 60 * 60 \
+    + 10#$oldMinutes * 60 + 10#$oldSeconds));
+  echo $(($totalCurrentSeconds - $totalOldSeconds));
+}
+@
+
+Each line has the name, a tab and the time stamp; the time stamp has the 
+date, a space and the time.
+(Eric cut on a [[T]] here, since that is what his data had; the last of 
+the changed lines.)
+<<[[eric.sh]] split the time stamp into date and time>>=
+currentDate=$(echo "$line" | cut -d "$delim" -f 2 | cut -d ' ' -f 1);
+currentTime=$(echo "$line" | cut -d "$delim" -f 2 | cut -d ' ' -f 2);
+@
+
+Two students finished together when they were graded on the same date and 
+less than [[minTimeDifference]] seconds apart.
+(Read Eric's test backwards: it says that the limit is greater than the 
+difference.)
+The [[&&]] means that the time difference is only computed when the dates 
+are equal, so the function is never called on the first line, when 
+[[previousTime]] is still empty.
+<<[[eric.sh]] finished together with the previous one>>=
+[ "$currentDate" == "$previousDate" ] &&
+  [ $minTimeDifference -gt \
+    $(getTimeDifference $currentTime $previousTime) ]
+@
+
+When they finished together, the student gets the same place as the 
+previous one.
+[[streak]] counts how many lines the current shared place has used so far, 
+so [[rank - streak]] is the line where the shared place began, and 
+[[streak]] grows so that the next line repeats it too.
+The [[-f]] option only matters here: without it, a shared place is never 
+cut in half, even if that means more than [[-n]] lines.
+<<[[eric.sh]] share the place>>=
+if [ $force = true ] && [ $rank -gt $maxEntries ]; then
+  break;
+fi;
+echo "$((rank - streak)) $line";
+streak=$((streak + 1));
+@
+
+Otherwise the place is the line number, and a new streak begins.
+This is also where we stop after [[-n]] lines.
+<<[[eric.sh]] start a new place>>=
+if [ $rank -gt $maxEntries ]; then
+  break;
+fi;
+echo "$rank $line";
+streak=1;
+@ Let's trace it on the 2025 data below: Gustav gets 1, Hjalmar 2, Mauritz 
+gets \(3 - 1 = 2\), Rea gets \(4 - 2 = 2\) and Theo 5.
+Just like in athletics, two silver medals mean that there is no bronze.
+
+\subsubsection{The other years}
+
+That's the whole script.
+Let's run it on 2024 and 2025 too, as in \cref{OverTheYears}.
 \begin{pycode}
-shell(f"egrep '{examples}' {submissions_file} | head -n 1 | cat -A")
-\end{pycode}
-
-Rather than rewrite Eric's script, we make the data look like what it 
-expects.
-Only the two parts that read the file change; the function, the options 
-and the numbering are Eric's, untouched.
-<<[[eric-adapted.sh]]>>=
-#!/bin/bash
-<<Eric's default values>>
-
-<<Eric's time difference in seconds>>
-
-<<Eric's option parsing>>
-
-<<everyone who passed, with our regex>>
-
-<<the latest time for each student, from column 6>>
-
-<<Eric's numbering with shared places>>
-@
-
-We remove the carriage returns with [[tr -d '\r']] right after [[cat]], 
-before they can do any harm, and we use our own pattern for the names.
-<<everyone who passed, with our regex>>=
-peopleDone=$(cat "$1" | tr -d '\r' | cut -d "$delim" -f 3,4 |
-  sort -t "$delim" -k1 |
-  sed -n -E -z 's/<<name and grades to match>>/<<all on one line pattern>>/gp' |
-  grep 'P P P P' | cut -d "$delim" -f 1);
-peoplePattern="($(echo "$peopleDone" | sed ':a; N; s/\n/|/; ta'))";
-@
-
-We take the grade date from column 6 and, when it has the new form, 
-rewrite it into the old: [[2026-08-23 22:38]] becomes 
-[[2026-08-23T22:38:00Z]].
-The [[sed]] only matches a space followed by a time at the end of the 
-field, so the 2024 stamps pass through untouched.
-<<the latest time for each student, from column 6>>=
-peopleTimes=$(cat "$1" | tr -d '\r' | grep -E "$peoplePattern" |
-  cut -d "$delim" -f 3,6 |
-  sed -E 's/ ([0-9]{2}:[0-9]{2})$/T\1:00Z/' |
-  sort -t "$delim" -k1,1 -k2r,2 | paste - - - - | cut -d "$delim" -f 1,2 |
-  sort -t "$delim" -k2);
-@
-
-Let's run it on the same three years as in \cref{OverTheYears}, sharing 
-places between anyone graded less than a minute apart.
-\begin{pycode}
-for year in (24, 25, 26):
+for year in (24, 25):
   print(rf"\paragraph{{20{year}}}")
-  shell(f"bash ./eric-adapted.sh -n 10 -d 60 submissions{year}.csv")
+  shell(f"bash ./eric.sh -n 10 -d 60 submissions{year}.csv")
 \end{pycode}
-Oscar and Oskar now share third place in 2024, and Jacob and Wilmer share 
-seventh in 2026, just as we wished for above.
-If we ask for seven lines in 2026 we get eight, since Eric's script would 
-rather keep a shared place whole; with [[-f]] we get exactly seven, and 
-Wilmer falls off.
+Oscar and Oskar share third place in 2024, as we wished for.
 
 \begin{exercise}[Strictly closer]\label{StrictlyCloser}
   In 2025, Hjalmar and Mauritz share second place, graded in the same 
@@ -1068,7 +1102,7 @@ Wilmer falls off.
   with the one before it.
   If we allow 700 seconds in 2025, we get this:
 \begin{pycode}
-shell("bash ./eric-adapted.sh -n 8 -d 700 submissions25.csv")
+shell("bash ./eric.sh -n 8 -d 700 submissions25.csv")
 \end{pycode}
   Theo and Nils share fifth place, although they are twelve minutes apart.
   How did that happen, and what would the script have to remember to avoid 
@@ -1077,7 +1111,15 @@ shell("bash ./eric-adapted.sh -n 8 -d 700 submissions25.csv")
   close} without saying close to what.)
 \end{exercise}
 
-\subsection{Exercises for later}\label{ExercisesForLater}
+\begin{exercise}\label{ExplainEric}
+  Now that we have seen all of it: what does [[<<[[eric.sh]]>>]] do that 
+  [[<<[[top.sh]]>>]] doesn't, and where do the two do the same thing in 
+  different ways?
+  Which way do you prefer, and why?
+\end{exercise}
+
+\subsection{Exercises for your future self after other 
+courses}\label{ExercisesForLater}
 
 The remaining exercises are meant for when you return to this text after 
 later courses.
