@@ -731,9 +731,11 @@ grading round, so they too finished at the same time for our purposes.
   in the same order as the steps of [[<<[[top.sh]]>>]], so that the 
   student can compare the two solutions step by step.
   The exercises come before the explanations, as in the rest of the text.
-  Where Eric's lines had to change to work on the real file, we keep his 
-  logic and quote his original lines in the prose, as we did with Skye's 
-  [[sort +2]].
+  The script is presented as if written for this year's file.
+  Eric's mail read the time from column 5, matched names with the letter 
+  list of an earlier edition, and split the time stamps on the [[T]] of 
+  the 2024 export; those lines were updated silently, since a reader 
+  today has no old listing to compare with.
 }%
 Eric Gesien Andersson solved \cref{HandleTies} and sent me the script 
 [[<<[[eric.sh]]>>]].
@@ -780,8 +782,6 @@ The fourth is the numbering, now with shared places.
 <<[[eric.sh]] number the students, sharing places>>
 @ We'll take the steps one at a time and refine each of them into smaller 
 pieces, just like we did with [[<<[[top.sh]]>>]].
-As with Skye's script, I have changed the whitespace; a few lines also had 
-to change to read this year's file, and I'll point them out as we go.
 
 \subsubsection{Reading the options}
 
@@ -801,9 +801,7 @@ shift $((OPTIND -1));
 @
 
 The defaults are what we get when we give no options at all: 100 lines 
-and 60 seconds\footnote{%
-  Eric's mail says that the default is zero seconds, the script says 60.
-}.
+and 60 seconds.
 The tab is written [[$'\t']] like in 
 [[<<sort the submission lines based on finishing time>>]].
 This is a [[bash]] script, not a script for just any shell: [[$'\t']] and 
@@ -845,43 +843,7 @@ fi;
 
 \subsubsection{Finding everyone who passed}
 
-\begin{exercise}[What the listing doesn't show]\label{RealData}
-  Eric never had a CSV file to test on: you don't get one, only the 
-  listings in this text.
-  So he typed his test data in from an earlier edition of this document, 
-  which showed the 2024 data.
-  Look at how the data is printed in \cref{Overview}.
-  What is in the real file that you can't see in the listing?
-\end{exercise}
-
-Three things, and two of them are this text's fault.
-First, the columns: in 2024 the submission date wasn't [[N/A]] but simply 
-empty, so the listing printed a tab, nothing and another tab.
-On paper that is just a slightly wider gap, nothing says that a column went 
-by, and Eric quite reasonably counted the grade date as column 5.
-Second, the names: Eric matched a name with [[[A-Za-z -]+]], which is 
-exactly what this document said until recently (\cref{WhyNotLetters}).
-He inherited our bug.
-Third, the time stamps: the 2024 export wrote them as 
-[[2024-08-26T11:19:55Z]], with a [[T]] between date and time, with 
-seconds, and with a [[Z]] for UTC.
-Since 2025 they look like [[2025-08-27 10:06]]: a space instead of the 
-[[T]] and no seconds at all.
-And one thing that no listing could ever show: every line in the file that 
-[[canvaslms]] writes ends with a carriage return before the new line, a 
-habit from Windows.
-We can see it with [[cat -A]], which prints it as [[^M]] (and the tabs as 
-[[^I]]):
-\begin{pycode}
-shell(f"egrep '{examples}' {submissions_file} | head -n 1 | cat -A")
-\end{pycode}
-It's invisible, it survives [[cut]], and it sticks to whatever is in the 
-last column, here the time stamp.
-So the script as Eric sent it stops on this year's file with 
-[[10#N: value too great for base]]; the lines that had to change for that 
-are marked below.
-
-Now, who passed?
+Who passed?
 This is the same job as 
 [[<<create pattern matching everyone who passed>>]], and Eric solves it 
 the same way, only he keeps the result in a variable instead of piping it 
@@ -896,7 +858,6 @@ peoplePattern="($(echo "$peopleDone" |
 
 To merge the four lines of a student into one, Eric uses the very same 
 [[sed]] as we do, so we simply reuse our chunks.
-(This is the first changed line: his mail had our old letter list in it.)
 <<[[eric.sh]] merge each student's lines into one>>=
 sed -n -E -z 's/<<name and grades to match>>/<<all on one line pattern>>/gp'
 @
@@ -921,9 +882,18 @@ sed ':a; N; s/\n/|/; ta'
 
 Then Eric wants the latest time for each student, what we did in 
 [[<<keep only the last submission time for each student>>]].
-This is where most of the changed lines are.
-He read the time from column 5; we take column 6, and we remove the 
-carriage returns first, with [[tr -d '\r']], before they can do any harm.
+He takes the name and the grade date, columns 3 and 6, but first he 
+removes something that we haven't seen yet.
+Every line in the file that [[canvaslms]] writes ends with a carriage 
+return before the new line, a habit from Windows.
+No listing shows it, but [[cat -A]] does, as [[^M]] (and the tabs as 
+[[^I]]):
+\begin{pycode}
+shell(f"egrep '{examples}' {submissions_file} | head -n 1 | cat -A")
+\end{pycode}
+It survives [[cut]] and sticks to whatever is in the last column, here the 
+time stamp, where it would make a mess of the arithmetic below.
+So [[tr -d '\r']] removes it before it can do any harm.
 The 2024 time stamps are then rewritten to look like today's, so that the 
 rest of the script only needs to know one form.
 <<[[eric.sh]] find the latest time for each student>>=
@@ -934,8 +904,11 @@ peopleTimes=$(cat "$1" | tr -d '\r' | grep -E "$peoplePattern" |
   sort -t "$delim" -k2);
 @
 
-The [[sed]] only touches a [[T]] that is followed by a time and a [[Z]] at 
-the very end of the line, so the names are safe (think of Theo).
+We saw in \cref{OverTheYears} that the 2024 export wrote the time stamps 
+with a [[T]] and a [[Z]]: [[2024-08-26T09:32:39Z]].
+This [[sed]] rewrites them into today's form.
+It only touches a [[T]] that is followed by a time and a [[Z]] at the very 
+end of the line, so the names are safe (think of Theo).
 <<[[eric.sh]] write 2024's time stamps like today's>>=
 sed -E 's/T([0-9:]+)Z$/ \1/'
 @
@@ -954,11 +927,19 @@ sort -t "$delim" -k1,1 -k2r,2 | paste - - - - | cut -d "$delim" -f 1,2
 @ This only works because every student has exactly four lines, which is 
 what [[-A LAB1]] bought us in \cref{Overview}.
 
-\begin{exercise}
+\begin{exercise}\label{FiveLines}
   What would [[paste - - - -]] do if one student had five lines?
-  Compare with Skye's [[tail -1]] and our [[sort -r]] and [[continue]]: 
-  three ways of saying \enquote{the last one}.
+  Would Skye's [[tail -1]] or our [[continue]] loop have the same 
+  problem?
 \end{exercise}
+
+A fifth line would shift everything after it by one: [[paste]] would glue 
+the fifth line to the next student's first three, and from there on every 
+\enquote{student} would be a mix of two.
+Skye's [[tail -1]] and our loop don't care how many lines there are, they 
+just take the last one.
+So these are three ways of saying \enquote{the last one}, but only two of 
+them survive a fifth line.
 
 \subsubsection{Numbering the students, sharing places}
 
@@ -969,10 +950,10 @@ A student who finished together with the previous one shares the previous
 one's place; otherwise the student gets a new place, which is simply the 
 line number.
 To decide \enquote{together}, the script must compare two time stamps, and 
-since a time stamp is text and we can't subtract text, Eric first writes 
+since a time stamp is text and we can't subtract text, Eric first defines 
 a function for that.
 <<[[eric.sh]] number the students, sharing places>>=
-<<[[eric.sh]] the time difference in seconds>>
+<<[[eric.sh]] function to compute time difference>>
 previousTime="";
 previousDate="";
 rank=0;
@@ -991,29 +972,22 @@ echo "$peopleTimes" |
   done;
 @
 
-The function turns a time like [[11:19:55]] into the number of seconds 
-since midnight, for both of its arguments, and subtracts.
+The function turns a time like [[11:42]] into the number of seconds since 
+midnight, for both of its arguments, and subtracts.
 It answers by [[echo]]ing the number; whoever calls it catches the answer 
 with [[$( ... )]], the same sub-shell as in \cref{WhyNewCat}.
 Two details are worth a closer look.
+The [[${currentSeconds:-0}]] means \enquote{the value, or 0 if there is 
+none}: this year's time stamps have no seconds.
 The [[10#]] says that the number is written in base 10: without it, 
 [[bash]] reads a number with a leading zero as octal, and [[08]] and [[09]] 
 aren't valid octal numbers, so the script would crash on any time stamp 
 containing [[08]] or [[09]].
-The [[${currentSeconds%Z*}]] removes a [[Z]] and anything after it from 
-the \emph{end} of the value; that was for the 2024 time stamps, which we 
-now rewrite before they get here.
-The [[${currentSeconds:-0}]] is one of the changed lines: today's time 
-stamps have no seconds, so we use zero when there are none.
-Since the function only looks at the time of day, two students graded on 
-different sides of midnight get a nonsense difference; Eric points this 
-out himself.
-<<[[eric.sh]] the time difference in seconds>>=
+<<[[eric.sh]] function to compute time difference>>=
 getTimeDifference(){
   currentHours=$(echo "$1" | cut -d ':' -f 1);
   currentMinutes=$(echo "$1" | cut -d ':' -f 2);
   currentSeconds=$(echo "$1" | cut -d ':' -f 3);
-  currentSeconds="${currentSeconds%Z*}";
   currentSeconds="${currentSeconds:-0}";
   totalCurrentSeconds=$((10#$currentHours * 60 * 60 \
     + 10#$currentMinutes * 60 + 10#$currentSeconds));
@@ -1021,7 +995,6 @@ getTimeDifference(){
   oldHours=$(echo "$2" | cut -d ':' -f 1);
   oldMinutes=$(echo "$2" | cut -d ':' -f 2);
   oldSeconds=$(echo "$2" | cut -d ':' -f 3);
-  oldSeconds="${oldSeconds%Z*}";
   oldSeconds="${oldSeconds:-0}";
   totalOldSeconds=$((10#$oldHours * 60 * 60 \
     + 10#$oldMinutes * 60 + 10#$oldSeconds));
@@ -1029,10 +1002,27 @@ getTimeDifference(){
 }
 @
 
+\ltnote{%
+  \Cref{Midnight} follows try-first, tell-later: the student should find 
+  the fixed point of reference themselves before we name it.
+}%
+\begin{exercise}[Midnight]\label{Midnight}
+  Eric points out himself that the function breaks at midnight: a student 
+  graded at 23:59 and one graded at 00:01 the next day are two minutes 
+  apart, but the function says \(-1438\) minutes.
+  What could the function count seconds \emph{since}, instead of since 
+  midnight, so that this can't happen?
+  Change it accordingly.
+\end{exercise}
+
+Any fixed point in time will do, as long as it's the same for everyone: 
+the first submission, or simply 1970, which is what 
+[[date -d "$stamp" +%s]] gives us if we pass it the whole time stamp.
+Then the difference is right across midnight too, and the date check 
+below becomes unnecessary.
+
 Each line has the name, a tab and the time stamp; the time stamp has the 
 date, a space and the time.
-(Eric cut on a [[T]] here, since that is what his data had; the last of 
-the changed lines.)
 <<[[eric.sh]] split the time stamp into date and time>>=
 currentDate=$(echo "$line" | cut -d "$delim" -f 2 | cut -d ' ' -f 1);
 currentTime=$(echo "$line" | cut -d "$delim" -f 2 | cut -d ' ' -f 2);
@@ -1097,6 +1087,11 @@ Oscar and Oskar share third place in 2024, as we wished for.
   Why not?
 \end{exercise}
 
+Hjalmar and Mauritz were graded in the same minute, so their difference is 
+zero.
+Gustav and Hjalmar are exactly 60 seconds apart, and the test is 
+\emph{strictly} less than 60: sixty is not less than sixty.
+
 \begin{exercise}[Eric's chain]\label{EricsChain}
   Eric points out a problem himself: the script compares each line only 
   with the one before it.
@@ -1111,12 +1106,12 @@ shell("bash ./eric.sh -n 8 -d 700 submissions25.csv")
   close} without saying close to what.)
 \end{exercise}
 
-\begin{exercise}\label{ExplainEric}
-  Now that we have seen all of it: what does [[<<[[eric.sh]]>>]] do that 
-  [[<<[[top.sh]]>>]] doesn't, and where do the two do the same thing in 
-  different ways?
-  Which way do you prefer, and why?
-\end{exercise}
+Each line is compared with the one before it only: Valentin is a minute 
+after Theo, Elias eleven minutes after Valentin, and Nils in the same 
+minute as Elias, each less than 700 seconds.
+To avoid the chain, the script would have to remember the time of the 
+\emph{first} student in the shared place and compare with that, instead 
+of with [[previousTime]].
 
 \subsection{Exercises for your future self after other 
 courses}\label{ExercisesForLater}
