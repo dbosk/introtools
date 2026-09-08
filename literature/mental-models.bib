@@ -1,0 +1,518 @@
+% Literature on students' mental models and misconceptions for the topics of
+% this course (terminal/CLI, file systems, Git, LaTeX) and on variation theory
+% applications in computing education. See mental-models.md for the synthesis
+% and the search protocol. Every entry carries a provenance block per the
+% backing-claims protocol; entries whose VERIFIED line says TODO have only
+% been verified at the stated level and need a manual full-text check before
+% citing their inner claims.
+
+% === provenance: Winder2024ShellTutor ===
+% CLAIM: The Unix shell (and Git) is taught across many CS curricula, yet there
+%   is little research on how students learn it or how to teach it.
+% FOUND-VIA: scholar search "shell tutor" -p dblp
+% PICKED: most recent dedicated intervention study on shell teaching; the tutor
+%   itself is already referenced in introtools issue #114 as adaptable material.
+% QUOTE (abstract): "The command shell and Git are important tools for computer
+%   scientists to learn and is taught in many computer science curricula. [...]
+%   However, there have been few studies and interventions designed to assist
+%   in understanding student behaviors in the command shell and better
+%   teaching of it."
+% VERIFIED: abstract read (OpenAlex record); entails both the prevalence claim
+%   and the research-gap claim. Study reports overwhelmingly positive student
+%   perceptions of the tutor.
+% DATE: 2026-07-18
+@inproceedings{Winder2024ShellTutor,
+  title={The Shell Tutor: An Intelligent Tutoring System For The {UNIX} Command Shell And {Git}},
+  author={Winder, Jaxton and Falor, Erik and Poulsen, Seth and Edwards, John},
+  booktitle={Proceedings of the 2024 on Innovation and Technology in Computer Science Education V. 1},
+  series={ITiCSE 2024},
+  publisher={ACM},
+  year={2024},
+  pages={548--554},
+  doi={10.1145/3649217.3653631},
+}
+
+% === provenance: Dillon2012MentalModels ===
+% CLAIM: Many departments teach beginning programmers in visual environments
+%   rather than at the command line (i.e., the CLI is treated as a hurdle for
+%   novices).
+% FOUND-VIA: scholar search '"command line" novice' -p openalex
+% PICKED: one of the few studies explicitly comparing novices' mental models
+%   across visual and command-line environments.
+% QUOTE (abstract): "many departments have adopted visual environments to teach
+%   programming as opposed to a command line environment at the beginning
+%   stages of a CS curriculum."
+% VERIFIED: TODO -- only the opening of the abstract was accessible (OpenAlex);
+%   full text paywalled (ACM SE '12). S2 TLDR suggests IDLE-first students were
+%   less equipped to transition to a CLI editor; verify full text before citing
+%   any specific finding beyond the quoted sentence.
+% DATE: 2026-07-18
+@inproceedings{Dillon2012MentalModels,
+  title={Comparing mental models of novice programmers when using visual and command line environments},
+  author={Dillon, Edward and Anderson, Monica and Brown, Marcus},
+  booktitle={Proceedings of the 50th Annual Southeast Regional Conference},
+  series={ACM SE '12},
+  publisher={ACM},
+  year={2012},
+  pages={142--147},
+  doi={10.1145/2184512.2184546},
+}
+
+% === provenance: Doane1992UnixPrompts ===
+% CLAIM: Producing composite Unix commands (pipelines) is difficult, and
+%   novices are helped by concrete information where experts use abstract
+%   information.
+% FOUND-VIA: scholar search "Doane unix experts strategies" -p openalex -p dblp
+% PICKED: classic cognitive-psychology study of Unix command production with
+%   an explicit novice/expert contrast; peer-reviewed (Memory & Cognition)
+%   rather than anecdote.
+% QUOTE (abstract): "We asked users whose UNIX experience varied to produce
+%   complex UNIX commands [...] Expert performance is helped by the
+%   presentation of abstract information, whereas novice and intermediate
+%   performance is modified by presentation of concrete information. [...]
+%   while presentation of specific prompts helps less expert subjects, they do
+%   not provide sufficient information to obtain correct performance."
+% VERIFIED: abstract read on the Springer article page; entails the difficulty
+%   and the concrete-vs-abstract help contrast.
+% DATE: 2026-07-18
+@article{Doane1992UnixPrompts,
+  title={Prompt comprehension in {UNIX} command production},
+  author={Doane, Stephanie M. and McNamara, Danielle S. and Kintsch, Walter and Polson, Peter G. and Clawson, Deborah M.},
+  journal={Memory \& Cognition},
+  volume={20},
+  number={4},
+  pages={327--343},
+  year={1992},
+  doi={10.3758/bf03210918},
+}
+
+% === provenance: Cockburn2014NoviceExpert ===
+% CLAIM: Users persistently fail to adopt faster expert methods in user
+%   interfaces, even when those methods would pay off.
+% FOUND-VIA: scholar search '"command line" novice' -p openalex
+% PICKED: authoritative survey (ACM Computing Surveys) of novice-to-expert
+%   transitions; grounds why students stay in the GUI although the terminal
+%   has a higher performance ceiling.
+% QUOTE (abstract): "research shows that many expert interface components are
+%   seldom used and that there is a tendency for users to persistently fail to
+%   adopt faster methods for completing their work."
+% VERIFIED: abstract read (OpenAlex); survey scope matches the claim's
+%   "well-established" strength.
+% DATE: 2026-07-18
+@article{Cockburn2014NoviceExpert,
+  title={Supporting Novice to Expert Transitions in User Interfaces},
+  author={Cockburn, Andy and Gutwin, Carl and Scarr, Joey and Malacria, Sylvain},
+  journal={ACM Computing Surveys},
+  volume={47},
+  number={2},
+  pages={1--36},
+  year={2014},
+  doi={10.1145/2659796},
+}
+
+% === provenance: Bergman2008Navigation ===
+% CLAIM: Users overwhelmingly retrieve their files by folder navigation
+%   (56--68% of retrieval events) rather than search (4--15%); search is a
+%   last resort when location is forgotten.
+% FOUND-VIA: scholar search "navigation search file retrieval preference" -p openalex
+% PICKED: primary large-scale study (two experiments, TOIS) with quantitative
+%   estimates; canonical in the PIM literature on navigation preference.
+% QUOTE (abstract): "regardless of search engine, there was a strong navigation
+%   preference: on average, users estimated that they used navigation for
+%   56-68% of file retrieval events but searched for only 4-15% of events.
+%   [...] search was used mainly as a last resort when users could not
+%   remember file location."
+% VERIFIED: abstract read (OpenAlex); numbers and last-resort finding entail
+%   the claim exactly.
+% DATE: 2026-07-18
+@article{Bergman2008Navigation,
+  title={Improved search engines and navigation preference in personal information management},
+  author={Bergman, Ofer and Beyth-Marom, Ruth and Nachmias, Rafi and Gradovitch, Noa and Whittaker, Steve},
+  journal={ACM Transactions on Information Systems},
+  volume={26},
+  number={4},
+  pages={1--24},
+  year={2008},
+  doi={10.1145/1402256.1402259},
+}
+
+% === provenance: Benn2015BrainFolders ===
+% CLAIM: Navigating folder hierarchies activates the same brain structures as
+%   real-world spatial navigation, whereas query-based search engages
+%   linguistic processing; this may explain the preference for navigation.
+% FOUND-VIA: scholar search "Bergman Whittaker file retrieval" -p openalex
+% PICKED: primary fMRI study (Scientific Reports, open access) providing a
+%   mechanistic explanation for the navigation preference found in
+%   Bergman2008Navigation.
+% QUOTE (abstract): "folder navigation results in activation of the posterior
+%   limbic (including the retrosplenial cortex) and parahippocampal regions
+%   similar to that previously observed during real-world navigation [...] In
+%   contrast, search activates the left inferior frontal gyrus, commonly
+%   observed in linguistic processing."
+% VERIFIED: abstract read (OpenAlex); OA full text at
+%   https://www.nature.com/articles/srep14719.pdf
+% DATE: 2026-07-18
+@article{Benn2015BrainFolders,
+  title={Navigating through digital folders uses the same brain structures as real world navigation},
+  author={Benn, Yael and Bergman, Ofer and Glazer, Liv and Arent, Paris and Wilkinson, Iain D. and Varley, Rosemary and Whittaker, Steve},
+  journal={Scientific Reports},
+  volume={5},
+  pages={14719},
+  year={2015},
+  doi={10.1038/srep14719},
+}
+
+% === provenance: Whitham2017Folder ===
+% CLAIM: Folders are a key means for individuals to impose order on digital
+%   work materials and to think and create; search and recency-based lists
+%   cannot simply replace them.
+% FOUND-VIA: scholar search "folder metaphor cloud" -p dblp -p openalex
+% PICKED: qualitative logging study (6 weeks, 12 workers) that directly tested
+%   working without folders; most recent focused treatment of the folder
+%   concept.
+% QUOTE (abstract): "the study provides new descriptions of how folders are
+%   used and the dependence some study participants had on their folders to
+%   think and create, as well as to access files. The findings call into
+%   question whether search and recency-based lists of files could fulfil the
+%   functional role of folders".
+% VERIFIED: abstract read (OpenAlex); OA author manuscript at Lancaster
+%   eprints.
+% DATE: 2026-07-18
+@article{Whitham2017Folder,
+  title={The Function and Future of the Folder},
+  author={Whitham, Roger and Cruickshank, Leon},
+  journal={Interacting with Computers},
+  volume={29},
+  number={5},
+  pages={629--647},
+  year={2017},
+  doi={10.1093/iwc/iww042},
+}
+
+% === provenance: BarreauNardi1995 ===
+% CLAIM: Users prefer location-based finding because of its reminding function
+%   and avoid elaborate filing schemes.
+% FOUND-VIA: scholar search "finding reminding file organization" -p dblp
+% PICKED: the classic PIM study (two independent user studies synthesized);
+%   origin of the ephemeral/working/archived distinction.
+% QUOTE (abstract): "Users in both studies (1) preferred location-based finding
+%   because of its crucial reminding function; (2) avoided elaborate filing
+%   schemes".
+% VERIFIED: abstract read (OpenAlex); ACM copy openly downloadable.
+% DATE: 2026-07-18
+@article{BarreauNardi1995,
+  title={Finding and reminding: file organization from the desktop},
+  author={Barreau, Deborah and Nardi, Bonnie A.},
+  journal={ACM SIGCHI Bulletin},
+  volume={27},
+  number={3},
+  pages={39--43},
+  year={1995},
+  doi={10.1145/221296.221307},
+}
+
+% === provenance: Postner2026GitMisconceptions ===
+% CLAIM: Students exhibit identifiable misconceptions when executing basic
+%   Git/GitHub workflows.
+% FOUND-VIA: scholar search "git misconceptions" -p dblp -p openalex
+% PICKED: the most recent (ITiCSE 2026) multi-institution analysis focused
+%   specifically on Git/GitHub misconceptions. NOTE: poster (1 page) -- low
+%   evidence weight; use as a pointer to the GitKit line of work, not as sole
+%   support for a strong claim.
+% QUOTE (abstract): "This analysis focuses on student misconceptions and
+%   strategies in trying to execute basic GitHub workflows."
+% VERIFIED: abstract read (OpenAlex); poster format noted.
+% DATE: 2026-07-18
+@inproceedings{Postner2026GitMisconceptions,
+  title={Student Misconceptions and Strategies in {Git}/{GitHub} Processes},
+  author={Postner, Lori and Burdge, Darci and Ellis, Heidi J. C. and Jackson, Stoney and Hislop, Gregory W. and Shumar, Wesley and Wurst, Karl R. and Macdonell, Cam and Braught, Grant},
+  booktitle={Proceedings of the 31st ACM Conference on Innovation and Technology in Computer Science Education V. 2},
+  publisher={ACM},
+  year={2026},
+  pages={862},
+  doi={10.1145/3803401.3811998},
+}
+
+% === provenance: IsomottonenCochez2014 ===
+% CLAIM: Students learning Git confuse its concepts -- e.g., conceptualize
+%   branches as directories and try to `cd` into them -- and this difficulty
+%   is partly attributable to the command-line client; visual diagrams of the
+%   commit graph help.
+% FOUND-VIA: scholar search "challenges confusions version control" -p dblp
+% PICKED: the standard reference for Git learning difficulties in a course
+%   setting (survey + teacher observations across several courses); primary
+%   source for the branch-as-directory misconception.
+% QUOTE (p.10 of author copy): "if asked to checkout a particular branch,
+%   learners might try to move into a branch with the cd command. In order to
+%   avoid this confusion, the topic should be explicitly discussed. This
+%   challenge can be in part attributed to the use of the command line
+%   client---hence, in such a setting we stress the importance of showing
+%   visual diagrams of branching and explicitly explaining branches as
+%   pointers in the commit history."
+% VERIFIED: full text read (open author copy, JYU repository,
+%   https://jyx.jyu.fi/bitstreams/71186a3c-fc91-4a00-b3e2-990dade59464/download);
+%   quote entails all three parts of the claim.
+% DATE: 2026-07-18
+@inproceedings{IsomottonenCochez2014,
+  title={Challenges and Confusions in Learning Version Control with {Git}},
+  author={Isom{\"o}tt{\"o}nen, Ville and Cochez, Michael},
+  booktitle={Information and Communication Technologies in Education, Research, and Industrial Applications},
+  series={Communications in Computer and Information Science},
+  volume={469},
+  publisher={Springer},
+  year={2014},
+  pages={178--193},
+  doi={10.1007/978-3-319-13206-8_9},
+}
+
+% === provenance: DeRossoJackson2016Gitless ===
+% CLAIM: Well-known difficulties with Git can be explained as design-level
+%   concept misfits rather than mere user inexperience.
+% FOUND-VIA: scholar search "purposes concepts misfits redesign git" -p dblp
+% PICKED: primary source (OOPSLA) applying concept-design theory to Git;
+%   complements the education-side studies by locating part of the problem in
+%   the tool.
+% QUOTE (abstract): "Some well-known difficulties with Git are described, and
+%   explained as misfits in which underlying concepts fail to meet their
+%   intended purpose."
+% VERIFIED: abstract read (OpenAlex); OA preprint at MIT DSpace
+%   (https://dspace.mit.edu/bitstream/1721.1/106271/1/oopsla-preprint.pdf).
+% DATE: 2026-07-18
+@inproceedings{DeRossoJackson2016Gitless,
+  title={Purposes, concepts, misfits, and a redesign of {Git}},
+  author={Perez De Rosso, Santiago and Jackson, Daniel},
+  booktitle={Proceedings of the 2016 ACM SIGPLAN International Conference on Object-Oriented Programming, Systems, Languages, and Applications},
+  series={OOPSLA 2016},
+  publisher={ACM},
+  year={2016},
+  pages={292--310},
+  doi={10.1145/2983990.2984018},
+}
+
+% === provenance: Knauff2014Latex ===
+% CLAIM: In a controlled comparison, LaTeX users were slower and produced more
+%   formatting, orthographical and grammatical errors than Word users on
+%   continuous and tabular text (experts included), yet LaTeX users reported
+%   enjoying their tool more.
+% FOUND-VIA: scholar search "latex word document preparation comparison" -p s2 -p openalex
+% PICKED: the only controlled efficiency study of LaTeX vs word processors
+%   (n=40, PLOS ONE, open access); widely discussed, so cite with its scope
+%   limits (text-typing tasks; equations were LaTeX's strong case).
+% QUOTE (abstract): "LaTeX users were slower than Word users, wrote less text
+%   in the same amount of time, and produced more typesetting, orthographical,
+%   grammatical, and formatting errors. [...] LaTeX users, however, more often
+%   report enjoying using their respective software."
+% VERIFIED: abstract read (OpenAlex); OA full text at PLOS. Note the study is
+%   about professionals/academics, not students, and the equation condition
+%   favored LaTeX -- do not over-claim.
+% DATE: 2026-07-18
+@article{Knauff2014Latex,
+  title={An Efficiency Comparison of Document Preparation Systems Used in Academic Research and Development},
+  author={Knauff, Markus and Nejasmic, Jelica},
+  journal={PLoS ONE},
+  volume={9},
+  number={12},
+  pages={e115069},
+  year={2014},
+  doi={10.1371/journal.pone.0115069},
+}
+
+% === provenance: DuBoulay1981BlackBox ===
+% CLAIM: Origin of the "notional machine": novices should be shown a
+%   conceptually simple, observable model of the machine (the "glass box")
+%   rather than an opaque black box.
+% FOUND-VIA: scholar search "black box inside glass box presenting computing concepts" -p openalex -p dblp
+% PICKED: the primary/origin source for the notional-machine idea (1981;
+%   IJHCS reprint 1999).
+% QUOTE: TODO -- full text not accessible this session (figshare record holds
+%   metadata only; publisher paywalled).
+% VERIFIED: TODO -- attribution cross-checked only indirectly: Sorva (2013,
+%   verified abstract) reviews the literature "in relation to the concept of a
+%   'notional machine'---an abstract computer for executing programs of a
+%   particular kind" and the term is standardly attributed to this paper.
+%   Read the full text before quoting specifics.
+% DATE: 2026-07-18
+@article{DuBoulay1981BlackBox,
+  title={The black box inside the glass box: presenting computing concepts to novices},
+  author={du Boulay, Benedict and O'Shea, Tim and Monk, John},
+  journal={International Journal of Human-Computer Studies},
+  volume={51},
+  number={2},
+  pages={265--277},
+  year={1999},
+  note={Reprint; originally published 1981 in Int. J. Man-Machine
+    Studies 14(3):237--249. The DOI and the fields above are the
+    reprint's},
+  doi={10.1006/ijhc.1981.0309},
+}
+
+% === provenance: Sorva2013NotionalMachines ===
+% CLAIM: The research literature identifies the notional machine -- an
+%   abstract computer for executing programs -- as a major challenge for
+%   novices, and instructors should make it an explicit learning objective.
+% FOUND-VIA: scholar search "Sorva notional machines introductory programming" -p dblp -p openalex
+% PICKED: the canonical review article (TOCE) synthesizing misconception,
+%   mental-model, constructivist, phenomenographic and threshold-concept
+%   research around the notional machine.
+% QUOTE (abstract): "As a whole, the literature points to notional machines as
+%   a major challenge in introductory programming education. It is argued that
+%   instructors should acknowledge the notional machine as an explicit
+%   learning objective and address it in teaching."
+% VERIFIED: abstract read (OpenAlex); entails the claim at survey strength.
+% DATE: 2026-07-18
+@article{Sorva2013NotionalMachines,
+  title={Notional machines and introductory programming education},
+  author={Sorva, Juha},
+  journal={ACM Transactions on Computing Education},
+  volume={13},
+  number={2},
+  pages={8:1--8:31},
+  year={2013},
+  doi={10.1145/2483710.2483713},
+}
+
+% === provenance: BenAri1998Constructivism ===
+% CLAIM: Constructivist analysis applies to CS education: students construct
+%   their knowledge, so effective CS teaching must account for the model of
+%   the computer that students bring or lack.
+% FOUND-VIA: scholar search "Ben-Ari constructivism" -p dblp
+% PICKED: the standard constructivism-in-CSE reference (SIGCSE 1998).
+% QUOTE (abstract): "Constructivism is a theory of learning which claims that
+%   students construct knowledge rather than merely receive and store
+%   knowledge transmitted by the teacher. [...] This paper surveys
+%   constructivism in the context of CSE".
+% VERIFIED: abstract only (OpenAlex); ACM PDF not accessible this session.
+%   TODO: the famous inner claim that a beginning student "has no effective
+%   model of a computer" must be verified against the full text before being
+%   quoted or attributed.
+% DATE: 2026-07-18
+@inproceedings{BenAri1998Constructivism,
+  title={Constructivism in computer science education},
+  author={Ben-Ari, Mordechai},
+  booktitle={Proceedings of the 29th SIGCSE Technical Symposium on Computer Science Education},
+  publisher={ACM},
+  year={1998},
+  pages={257--261},
+  doi={10.1145/273133.274308},
+}
+
+% === provenance: QianLehman2017Misconceptions ===
+% CLAIM: Novice programming difficulties are related to, among other factors,
+%   inaccurate mental models and students' prior knowledge.
+% FOUND-VIA: scholar search "difficulties of learning to program du Boulay" -p openalex
+% PICKED: recent literature review (TOCE) of misconceptions in introductory
+%   programming; appropriate survey-strength source.
+% QUOTE (abstract): "These difficulties experienced by students are related to
+%   many factors including unfamiliarity of syntax, natural language, math
+%   knowledge, inaccurate mental models, lack of strategies, programming
+%   environments, and teachers' knowledge and instruction."
+% VERIFIED: abstract read (OpenAlex); OA at ACM.
+% DATE: 2026-07-18
+@article{QianLehman2017Misconceptions,
+  title={Students' Misconceptions and Other Difficulties in Introductory Programming: A Literature Review},
+  author={Qian, Yizhou and Lehman, James},
+  journal={ACM Transactions on Computing Education},
+  volume={18},
+  number={1},
+  pages={1:1--1:24},
+  year={2017},
+  doi={10.1145/3077618},
+}
+
+% === provenance: ThuneEckerdal2009Variation ===
+% CLAIM: Variation theory has been applied to students' conceptions of
+%   programming, and designed patterns of variation were successfully used in
+%   a computer lab assignment.
+% FOUND-VIA: scholar search '"variation theory" computer programming' -p openalex
+% PICKED: primary source applying phenomenography + variation theory to
+%   programming for non-CS engineering students -- closest population match to
+%   datintro (mandatory tool course for non-majors).
+% QUOTE (abstract): "it is suggested how to use patterns of variation in order
+%   to support students' learning of computer programming. Finally, results
+%   from a pilot study demonstrate the successful application of two patterns
+%   of variation in a computer lab assignment."
+% VERIFIED: abstract read (OpenAlex); entails the claim (pilot-study strength).
+% DATE: 2026-07-18
+@article{ThuneEckerdal2009Variation,
+  title={Variation theory applied to students' conceptions of computer programming},
+  author={Thun{\'e}, Michael and Eckerdal, Anna},
+  journal={European Journal of Engineering Education},
+  volume={34},
+  number={4},
+  pages={339--347},
+  year={2009},
+  doi={10.1080/03043790902989374},
+}
+
+% === provenance: ThuneEckerdal2018Lab ===
+% CLAIM: Variation theory and phenomenography provide an approach for
+%   analyzing how learning of theory and practice interact in computer lab
+%   sessions, to inform the design of lab exercises.
+% FOUND-VIA: scholar search '"variation theory" computer programming' -p openalex
+% PICKED: follow-up methodological paper by the same group; directly relevant
+%   because datintro's learning happens almost entirely in lab-like settings.
+% QUOTE (abstract): "To be able to improve the process of designing such
+%   exercises, there is a need of a more detailed understanding of the
+%   interaction between learning of theory and learning of practice in
+%   laboratory sessions. In this paper, an approach for investigating this
+%   interaction is proposed. Theoretically, the approach is based on
+%   phenomenography and variation theory."
+% VERIFIED: abstract read (OpenAlex); OA via T&F.
+% DATE: 2026-07-18
+@article{ThuneEckerdal2018Lab,
+  title={Analysis of Students' learning of computer programming in a computer laboratory context},
+  author={Thun{\'e}, Michael and Eckerdal, Anna},
+  journal={European Journal of Engineering Education},
+  volume={44},
+  number={5},
+  pages={769--786},
+  year={2018},
+  doi={10.1080/03043797.2018.1544609},
+}
+
+% === provenance: Svensson2020Affordances ===
+% CLAIM: Programming affords learning by letting students open up and explore
+%   dimensions of variation: varying aspects of a program and discerning the
+%   effects supports meaning-making (variation-theory analysis).
+% FOUND-VIA: scholar search '"variation theory" computer programming' -p openalex
+% PICKED: recent peer-reviewed application of variation theory to
+%   programming-based learning (PRPER, open access); useful as a model for
+%   designing vary-and-observe exercises in the terminal module.
+% QUOTE (abstract): "By varying aspects and discerning how these changes
+%   affect the program, students can construct meaning about the system. [...]
+%   the ease of varying and iterating aspects, and the ability to enter into a
+%   loop of discovery and understanding."
+% VERIFIED: abstract read (OpenAlex); OA at APS.
+% DATE: 2026-07-18
+@article{Svensson2020Affordances,
+  title={Programming and its affordances for physics education: A social semiotic and variation theory approach to learning physics},
+  author={Svensson, Kim and Eriksson, Urban and Pendrill, Ann-Marie},
+  journal={Physical Review Physics Education Research},
+  volume={16},
+  number={1},
+  pages={010127},
+  year={2020},
+  doi={10.1103/physrevphyseducres.16.010127},
+}
+
+% === provenance: Chin2021FileNotFound ===
+% CLAIM: (ANECDOTAL, NON-ACADEMIC) Instructors report that students who grew
+%   up with search interfaces are unfamiliar with hierarchical file systems
+%   and directory structures.
+% FOUND-VIA: known piece; existence verified via curl of the article page
+%   (title: "Kids who grew up with search engines could change STEM education
+%   forever", The Verge, 2021).
+% PICKED: the widely-circulated journalistic origin of the "students don't
+%   know files" claim. No peer-reviewed study directly supporting this claim
+%   was found in this search round (see mental-models.md, Gaps) -- cite only
+%   as anecdote, clearly flagged, or replace with own course data.
+% QUOTE: not extracted; treat as background reading, not evidence.
+% VERIFIED: existence and title only; NOT verified as evidence (journalism).
+% DATE: 2026-07-18
+@misc{Chin2021FileNotFound,
+  title={File not found: A generation that grew up with Google is forcing professors to rethink their lesson plans},
+  author={Chin, Monica},
+  howpublished={The Verge, \url{https://www.theverge.com/22684730/students-file-folder-directory-structure-education-gen-z}},
+  year={2021},
+  note={Journalism, not peer-reviewed; use only as anecdote},
+}

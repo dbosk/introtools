@@ -1,15 +1,20 @@
-submissions-datintro24-LAB1.csv
-submissions-progd24-LAB1.csv
-submissions.csv
+submissions*.csv
 times-full.txt
 times.txt
 py_*.stdout
 pythontex_data.pkl
 skye.sh
+# tangled from top.nw
+eric.sh
+eric-improved.sh
+midnight.sh
+# Eric's originals as mailed in (the email holds his address)
+first.sh
+eriga.txt
 top.pdf
 top.pytxmcr
 top.pytxpyg
 top.sh
 top.tex
 top.unq
-
+latexmkrc

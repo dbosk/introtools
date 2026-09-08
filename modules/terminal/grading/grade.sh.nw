@@ -1,9 +1,35 @@
-We want to grade the \emph{The terminal} assignment, that is, the students 
-should place a file containing the output of their [[history]] command in 
+We want to grade the \emph{The terminal} assignment, that is, the students
+should place a file containing the output of their [[history]] command in
 [[~/Public/datintro/history.txt]].
 
-We will use the [[canvaslms]] command to report the grades. This must be installed 
-from
+\tableofcontents
+
+\section{Overview of the Grading Process}
+
+The grading workflow consists of several steps that handle the complexity
+of checking student files in a distributed environment:
+
+\begin{enumerate}
+\item \textbf{Retrieve student list}: Query Canvas LMS for students who need
+  grading, along with their last grading timestamp
+\item \textbf{Get home directories}: SSH to a shell server and use [[getent]]
+  to look up each student's home directory path
+\item \textbf{Access files via AFS}: Use the AFS-mounted paths to check
+  [[~/Public/datintro/history.txt]] in each student's home
+\item \textbf{Validate content}: Verify the file contains output from the
+  [[history]] command (identified by the redirect pattern)
+\item \textbf{Provide feedback}: Give detailed error messages only if the
+  student has made recent changes (to avoid spam)
+\item \textbf{Report grades}: Submit pass/fail results back to Canvas LMS
+\end{enumerate}
+
+This approach has evolved from an earlier design where we ran scripts on the
+shell servers themselves. The current design accesses student files through
+AFS, which allows us to provide detailed feedback messages explaining exactly
+what went wrong.
+
+We will use the [[canvaslms]] command to report the grades.
+This must be installed from
 \begin{center}
   \texttt{https://github.com/dbosk/canvaslms}.
 \end{center}
@@ -17,8 +43,13 @@ We will do this as a shell script.
 
 source common.sh
 
-<<function taking a list of students and returning passes>>
-<<grade students>>
+<<helper functions>>
+
+# check if file is being sourced or executed
+(return 0 2>/dev/null) && SOURCED=1 || SOURCED=0
+if [ "$SOURCED" = 0 ]; then
+  <<grade students>>
+fi
 @
 
 \section{Settings}
@@ -41,7 +72,8 @@ DD1337 HT25 (prginda25)	LAB1	Managing work with Git/GitHub @<<< The Lab To Do
 DD1337 HT25 (prginda25)	LAB1	Writing a report in LaTeX @<<< The Lab To Do			
 \end{verbatim}
 <<configuration variables>>=
-ASSIGNMENT="^(The terminal|Working in the terminal)( @<<< [Tt]he [Ll]ab [Tt]o [Dd]o)? *$"
+ASSIGNMENT="^(The terminal|Working in the terminal)"
+ASSIGNMENT="${ASSIGNMENT}( @<<< [Tt]he [Ll]ab [Tt]o [Dd]o)? *$"
 @
 
 
@@ -73,29 +105,30 @@ The faculty-shell server seems to go unavailable (network unreachable) after a
 few invocations.
 We favour the staff server, by two thirds.
 We also introduce a small delay between runs.
-<<function to get home directory>>=
+<<helper functions>>=
 get_home_directory() {
   local shellserver="$(shuf -n1 -e faculty staff staff)-shell.sys.kth.se"
   local script='
     read students;
-    for s in $students; do
-      dir=$(getent passwd $s | cut -d : -f 6);
-      echo "$s:$dir";
+    for student in $students; do
+      dir=$(getent passwd "$student" | cut -d : -f 6);
+      echo "$student:$dir";
     done
   '
-  local scriptname=$(echo $script | ssh ${shellserver} \
-    'read script; fn=$(mktemp); echo $script > $fn; echo $fn' 2> /dev/null)
+  local scriptname=$(echo "$script" | ssh "${shellserver}" \
+    'fn=$(mktemp); cat > "$fn"; echo "$fn"' \
+    2> /dev/null)
 
   sleep 2
 
-  echo $* | ssh ${shellserver} /bin/bash ${scriptname} \
+  echo "$@" | ssh "${shellserver}" /bin/bash "${scriptname}" \
     2> /dev/null
 
   sleep 2
 
-  ssh ${shellserver} rm -Rf ${scriptname} 2> /dev/null
+  ssh "${shellserver}" rm -Rf "${scriptname}" 2> /dev/null
 
-  sleep 30
+  sleep 2
 }
 @
 
@@ -103,37 +136,42 @@ Now we can check the history files.
 We provide a function that takes a list of students, checks the history file of 
 the student, grades the student (and provides feedback) accordingly.
 The feedback is passed through stdout.
-We only provide feedback if the student has made changes to files in the Public 
-directory since the last grading date. This way we avoid giving feedback for old 
-attempts.
+We only provide feedback if the student has made changes to files in
+the Public directory since the last grading date.
+This way we avoid giving feedback for old attempts.
 The grade is indicated by the return value (1 for fail, 0 for pass).
 
-First, we define a helper function to check if there are any recent changes in 
-the Public directory. The function takes the path to the Public directory and the 
-grading time as parameters. It returns "yes" if there are files newer than the 
-grading time, "no" otherwise.
-<<function to check if Public has recent changes>>=
+First, we define a helper function to check if there are any recent
+changes in the Public directory.
+The function takes the path to the Public directory and the grading
+time as parameters.
+It returns "yes" if there are files newer than the grading time,
+"no" otherwise.
+<<helper functions>>=
 has_recent_public_changes() {
   local public_path=$1
   local grading_time=$2
   
-  # If grading_time is empty or all zeros, consider it as no previous grading
-  if [ -z "$grading_time" ] || [ "$grading_time" = "0000-00-00" ]; then
-    echo "yes"
-    return 0
-  fi
-  
   # Find the newest file in Public directory
-  local newest_file=$(find "$public_path" -type f -printf '%T@ %p\n' 2>/dev/null \
-    | sort -n | tail -1 | cut -d' ' -f2-)
+  local newest_file=$(find "$public_path" -type f \
+    -printf '%T@ %p\n' 2>/dev/null | sort -n | tail -1 | \
+    cut -d' ' -f2-)
   
   if [ -z "$newest_file" ]; then
     echo "no"
     return 0
   fi
   
+  # If grading_time is empty or all zeros, no previous grading
+  if [ -z "$grading_time" ] || \
+     [ "$grading_time" = "0000-00-00T00:00:00+00:00" ]; then
+    echo "yes"
+    return 0
+  fi
+  
   # Get the modification time of the newest file in ISO 8601 format
-  local newest_time=$(stat -c %y "$newest_file" 2>/dev/null | cut -d'.' -f1 | sed 's/ /T/')
+  local newest_time=$(stat -c %y "$newest_file" 2>/dev/null | \
+    cut -d'.' -f1 | sed 's/ /T/')
   
   # Compare times (ISO 8601 format allows lexicographic comparison)
   if [[ "$newest_time" > "$grading_time" ]]; then
@@ -145,10 +183,7 @@ has_recent_public_changes() {
 @
 
 Now we can check the history files.
-<<function taking a list of students and returning passes>>=
-<<function to get home directory>>
-<<function to check if Public has recent changes>>
-
+<<helper functions>>=
 grade_history_file() {
   local student=$1
   local homedir=$2
@@ -158,35 +193,67 @@ grade_history_file() {
   local public_path="/afs/kth.se/$homedir/Public"
 
   # Check if there are recent changes in Public directory
-  local has_recent_changes=$(has_recent_public_changes "$public_path" "$grading_time")
+  local has_recent_changes=$(has_recent_public_changes \
+    "$public_path" "$grading_time")
 
   # Only provide feedback if there are recent changes
   if [ "$has_recent_changes" != "yes" ]; then
     # No recent changes, just return failure without feedback
-    if ! [ -d $path ] || ! [ -f $filepath ] || ! [ -r $filepath ] || \
-       ! egrep " *[0-9]+.* history *>>? *([^ ]+/)?history.txt" $filepath > /dev/null; then
+    if ! [ -d "$path" ] || ! [ -f "$filepath" ] || \
+       ! [ -r "$filepath" ] || \
+       ! <<check correctness of history.txt in [[filepath]]>>;
+    then
       return 1
     fi
     return 0
   fi
 
   # Provide specific feedback based on the failure mode
-  if ! [ -d $path ]; then
-    echo "Can't find the 'datintro' directory in the 'Public' directory in your home directory. Please ensure you create it in the correct location (~/Public/datintro)."
+  if ! [ -d "$path" ]; then
+    echo "Can't find the 'datintro' directory in the 'Public'" \
+      "directory in your home directory. Please ensure you" \
+      "create it in the correct location (~/Public/datintro)."
     return 1
-  elif ! [ -f $filepath ]; then
-    echo "Can't find the file 'history.txt' in the 'Public/datintro' directory in your home directory. Please ensure you create it in the correct location (~/Public/datintro/history.txt)."
+  elif ! [ -f "$filepath" ]; then
+    echo "Can't find the file 'history.txt' in the" \
+      "'Public/datintro' directory in your home directory." \
+      "Please ensure you create it in the correct location" \
+      "(~/Public/datintro/history.txt)."
     return 1
-  elif ! [ -r $filepath ]; then
-    echo "The file 'Public/datintro/history.txt' exists but cannot be read. This usually means you created the file outside the 'Public' directory and then moved it there. Files must be created directly in the 'Public' directory to inherit the correct permissions. Please remove the 'datintro' directory and create it again inside 'Public', then create the 'history.txt' file there. Warning: Never remove the 'Public' directory itself."
+  elif ! [ -r "$filepath" ]; then
+    echo "The file 'Public/datintro/history.txt' exists but" \
+      "cannot be read. This usually means you created the file" \
+      "outside the 'Public' directory and then moved it there." \
+      "Files must be created directly in the 'Public' directory" \
+      "to inherit the correct permissions. Please remove the" \
+      "'datintro' directory and create it again inside 'Public'," \
+      "then create the 'history.txt' file there. Warning: Never" \
+      "remove the 'Public' directory itself."
     return 1
-  elif ! egrep " *[0-9]+.* history *>>? *([^ ]+/)?history.txt" $filepath \
-    > /dev/null;
+  elif ! <<check correctness of history.txt in [[filepath]]>>;
   then
-    echo "Found 'Public/datintro/history.txt' in your home directory, but it doesn't have the correct content. Please read the assignment instructions carefully and ensure you redirect the output of the 'history' command to the file."
+    echo "Found 'Public/datintro/history.txt' in your home" \
+      "directory, but it doesn't have the correct content." \
+      "Please read the assignment instructions carefully and" \
+      "ensure you redirect the output of the 'history' command" \
+      "to the file."
     return 1
   fi
 }
+@
+
+Checking correctness is rather tricky.
+There are many ways the students can successfully redirect the output of the
+[[history]] command to a file.
+We check for a line containing a number (the history entry number),
+followed by some spaces, then the word [[history]], then some spaces,
+then either [[>]] or [[>>]], then some spaces, then optionally a path
+
+However, they might also first pipe the output through [[cat]] or similar, and 
+then redirect that.
+But that's a bit unnecessary, so we don't accept that.
+<<check correctness of history.txt in [[filepath]]>>=
+grep -Eq " *[0-9]+.* history *>>? *([^ ]+/)?history.txt" "$filepath"
 @
 
 
@@ -196,60 +263,66 @@ Now we provide a function [[grade_students]] which takes the assignment name as
 the first argument (it's a regex passed to [[canvaslms]]). The remaining 
 arguments constitutes a list of courses.
 
-To grade, we iterate through the remaining students, given by 
+To grade, we iterate through the remaining students, given by
 [[students_with_grading_time]] (from [[common.sh]]).
-We cache the home directories for all students by calling [[get_home_directory]] 
-once with all students, rather than calling it once per student.
-This is more efficient since [[get_home_directory]] uses SSH and has significant 
-delays.
+We cache the home directories for all students by calling
+[[get_home_directory]] once with all students, rather than calling
+it once per student.
+This is more efficient since [[get_home_directory]] uses SSH and has
+significant delays.
 Then we can iterate through the student--home directory tuples and grade 
 them.
 We pass the grading time to [[grade_history_file]] so it can check if there 
 are recent changes in the Public directory before providing feedback.
 Depending on the grade we report P or F.
 <<grade students>>=
+grade_students "${ASSIGNMENT}" ${COURSE_CODE}
+<<helper functions>>=
 grade_students() {
   local assignment="$1"
   shift
 
   local feedback=$(mktemp)
 
-  for course in $*; do
+  for course in "$@"; do
     local students_times=$(mktemp)
-    students_with_grading_time "${course}" "${assignment}" > ${students_times}
+    students_with_grading_time "${course}" "${assignment}" \
+      | grep -v "^$" \
+      > "${students_times}"
 
     # Get all students from the student_time pairs
-    local students=$(cut -f 1 ${students_times})
-    
+    local students=$(cut -f 1 "${students_times}")
+
     # Cache home directories for all students at once
     local home_dirs=$(mktemp)
-    get_home_directory $students > ${home_dirs}
+    get_home_directory $students > "${home_dirs}"
 
     # Process each student using the cache
-    while IFS=$'\t' read -r student grading_time; do
+    while read -r student grading_time; do
       # Look up home directory from cache
-      local student_home=$(grep "^${student}:" ${home_dirs})
+      local student_home=$(grep "^${student}:" "${home_dirs}")
       local homedir=$(echo "$student_home" | cut -f 2 -d:)
 
-      if grade_history_file "$student" "$homedir" "$grading_time" > "$feedback"; then
+      if grade_history_file "$student" "$homedir" "$grading_time" \
+         > "$feedback"; then
         echo "$student (terminal)"
 
         canvaslms grade -c "${course}" -a "${assignment}" \
-          -u $student@kth.se -g P &
+          -u "$student@kth.se" -g P &
 
         sleep 0.2
       elif [ -s "$feedback" ]; then
+        echo "$student (attempted terminal)"
         canvaslms grade -c "${course}" -a "${assignment}" \
-          -u $student@kth.se -g F -m "$(cat "$feedback")" &
+          -u "$student@kth.se" -g F -m "$(cat "$feedback")" &
+        sleep 0.2
       fi
-    done < ${students_times}
+    done < "${students_times}"
 
-    rm ${students_times}
-    rm ${home_dirs}
+    rm "${students_times}"
+    rm "${home_dirs}"
   done
 
   wait
 }
-
-grade_students "${ASSIGNMENT}" ${COURSE_CODE}
 @

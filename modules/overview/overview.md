@@ -1,100 +1,58 @@
 ---
 id: overview
-title: Course overview
 authors:
   - Daniel Bosk <dbosk@kth.se>
+title: Content overview
+regex: ^Content overview$
+published: true
+front_page: false
+editing_roles: teachers
+modules:
+- module: ^Course\ overview$
+  position: 2
 ---
 
-# Course outline
+This is a short course given the first two (three with the last minute
+help session) weeks of the autumn semester.
 
-This is a short course given the first two weeks of the autumn semester.
-
-This course gives a general introduction to the KTH computer environment with a 
-special focus on control of a computer from the command line (Bash), remote 
-access to KTH systems (SSH), version control of course work (Git and GitHub) 
-and production of technical reports (LaTeX).
-
+This course gives a general introduction to the KTH computer environment
+with a special focus on control of a computer from the command line
+(Bash), remote access to KTH systems (SSH), version control of course
+work (Git and GitHub) and production of technical reports (LaTeX).
 
 ## Structure
 
-The course consists of three modules: the terminal and SSH, collaboration and 
-version control, and finally, report writing with LaTeX. Each module contains 
-video material, reading material, an interactive tutorial session, and one or 
-more lab assignments.
+The course consists of three modules:
 
-### Video material
+-   [The
+    terminal](https://canvas.kth.se/courses/64041/modules/229781 "The terminal"){api-endpoint="https://canvas.kth.se/api/v1/courses/64041/modules/229781"
+    api-returntype="Module"}: covering the terminal both locally and
+    remotely (i.e. how to access KTH systems over the network, for
+    instance a super computer).
+-   [Collaboration](https://canvas.kth.se/courses/64041/modules/229782 "Collaboration"){api-endpoint="https://canvas.kth.se/api/v1/courses/64041/modules/229782"
+    api-returntype="Module"}: covering Git and GitHub, so that you can
+    version manage course materials. (Some introductory programming
+    courses even has this as a requirement.)
+-   [](https://canvas.kth.se/courses/64041/modules/229782 "Collaboration"){api-endpoint="https://canvas.kth.se/api/v1/courses/64041/modules/229782"
+    api-returntype="Module"}[Report
+    writing](https://canvas.kth.se/courses/64041/modules/229783 "Report writing"){api-endpoint="https://canvas.kth.se/api/v1/courses/64041/modules/229783"
+    api-returntype="Module"}: covering how to write technical reports.
+    (Writing maths, managing references, etc. can be a pain; LaTeX lets
+    you \"program\" your
+    document.)[](https://canvas.kth.se/courses/64041/modules/229781 "The terminal"){api-endpoint="https://canvas.kth.se/api/v1/courses/64041/modules/229781"
+    api-returntype="Module"}
 
-The video material is provided through the [FeedbackFruits platform][fbf]. This 
-allows you to ask questions while watching the video. It also allows your 
-teachers to insert quizzes to see how well you understand the material.
+Each module contains video material, reading material, and one or more
+lab assignments.
 
-However, for this to work, you need to register an account the first time you 
-use it. Just register with any email address of your choice, however, we 
-suggest that you use your KTH email address. Then you can use that email to log 
-in in the future.
+## Lab sessions
 
-![FeedbackFruits login screen with "Sign Up" and "Log in with email" 
-highlighted][fbf-login]
+There are also lab sessions scheduled in period 1 every year. During
+these sessions you can get help with the lab assignments. The dates and
+times for the lab sessions can also be found in [your
+schedule](https://cloud.timeedit.net/kth/web/).
 
-[fbf]: https://feedbackfruits.com/interactive-video
-[fbf-login]: https://github.com/dbosk/introtools/raw/master/modules/overview/fbf.png
-
-### Interactive tutorial sessions
-
-The interactive tutorial sessions are given live on Zoom, you can find the date 
-and time in [your schedule][schedule]. You can join the session by going to the 
-[course's Zoom room][zoom-room] or enter 633 069 655 31 as the meeting ID in 
-the Zoom client. There are numerous [Zoom clients][zoom-clients] that you can 
-use.
-
-[schedule]: https://www.kth.se/social/home/personal-menu/schema/
-[zoom-room]: https://kth-se.zoom.us/j/63306965531
-[zoom-web]: https://kth-se.zoom.us/join
-[zoom-clients]: https://zoom.us/download
-
-### Lab sessions
-
-There are also lab sessions scheduled. During these sessions you can get help 
-with the lab assignments. The dates and times for the lab sessions can also be 
-found in [your schedule][schedule].
-
-To get help, go to the [queue][queue]. To enter the queue:
-
-  1. Start a new Zoom meeting, copy the invitation link.
-  2. Paste the invitation link in the Location field.
-  3. Enter a short description of your problem (e.g. which lab) in the Comment 
-     field.
-  4. Click "Join queue".
-
-You can find some figures detailing the steps above on the Getting Help page 
-(next page).
-
-[queue]: https://queue.csc.kth.se/Queue/DD1301
-
-
-## Deadlines and passing the course
-
-To pass the course and get credits in LADOK, you must complete the assignments. 
-These assignments are constructed in such a way that we can check if you've 
-completed them (e.g. logged into a system). We check the assignments by 
-automation.
-
-Our grading bot runs once per day. So don't panic if you don't get feedback 
-immediately.
-
-Once per week, complete results are reported to LADOK. Then you get credits. 
-The date reported to LADOK is when you completed the last assignment.
-
-Due to this automation, you can complete the assignments of the course at any 
-time you like to get credits --- even next year. But you should study the 
-material already now, since you're expected to know how to use the computer 
-systems in other courses that you take now.
-
-### Help after the course
-
-After the course (i.e. after the first two weeks of the semester), help within 
-the course is limited to other students replying in the Canvas forum. But you 
-can find help from the tutors of [Allmänhandledningen][allmänhandledningen].
-
-[allmänhandledningen]: https://www.kth.se/social/group/allmanhandledning/
-
+You can find some figures detailing the steps on how to get help during
+the course on the page [How to get help with
+labs](https://canvas.kth.se/courses/64041/pages/how-to-get-help-with-labs "How to get help with labs"){api-endpoint="https://canvas.kth.se/api/v1/courses/64041/pages/how-to-get-help-with-labs"
+api-returntype="Page"}.

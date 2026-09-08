@@ -1,3 +1,7 @@
+\tableofcontents
+
+\section{Overview}
+
 We create an include file, [[common.sh]], to be included in other grading 
 scripts.
 <<common.sh>>=
@@ -25,16 +29,28 @@ The output will be a list of KTH usernames, that is without @kth.se at the end.
 In case the regexes for course and assignments match several courses, we sort 
 and return only unique students.
 So that we don't grade the same student twice.
+
+Finally, we exclude empty usernames from the output.
+We can't do anything about them anyway.
+(Students who have left the course, or KTH, have no username.)
+We exclude those by using AWK to filter out empty columns (although it's just 
+one column in this case.)
 <<function returning students to grade>>=
 students_to_grade() {
   canvaslms submissions -l -c "${1}" -a "${2}" \
+    | <<strip ending [[\r]]s>> \
     | <<exclude those who passed>> \
     | cut -f 3 \
     | sort -u \
+    | awk -F'\t' '$1 != ""' \
     | sed "s/@kth.se//"
 }
+@
+
+We exclude those who have already passed (grade P).
+We don't need to grade them again.
 <<exclude those who passed>>=
-egrep -v "\sP\s"
+awk -F'\t' '$4 != "P"'
 @
 
 For the second function, we want to find out who have been graded before and at 
@@ -47,25 +63,48 @@ For those who haven't been graded before, the last column will be empty.
 So we rewrite that to an all-zero date.
 We also normalize all timestamps to ISO 8601 format (YYYY-MM-DDTHH:MM:SS+TZ)
 to match the format from git log, ensuring proper comparison.
-Canvas timestamps are in local time (Stockholm, +02:00).
+Canvas timestamps are in local time (Stockholm timezone).
+We detect the current timezone offset dynamically to handle both summer time
+([[+02:00]]) and winter time ([[+01:00]]) correctly.
 <<function returning students to grade with last grading time>>=
 students_with_grading_time() {
+  local tz=$(date +%:z)
   canvaslms submissions -l -c "$1" -a "$2" \
+    | <<strip ending [[\r]]s>> \
     | <<exclude those who passed>> \
     | cut -f 3,6 \
     | sort -u \
-    | awk -F'\t' 'BEGIN {OFS="\t"} {
+    | awk -F'\t' -v timezone="$tz" -v OFS='\t' '$1 != "" {
         if ($2 == "" || $2 == "N/A")
           print $1, "0000-00-00T00:00:00+00:00"
         else if ($2 !~ /T/) {
           split($2, parts, " ")
-          print $1, parts[1] "T" parts[2] ":00+02:00"
+          print $1, parts[1] "T" parts[2] ":00" timezone
         }
         else
           print $0
       }' \
     | sed "s/@kth.se//"
 }
+@
+
+\subsection{Stripping carriage returns from canvaslms output}
+
+The [[canvaslms]] command outputs lines ending with [[\r]] (carriage return,
+Windows-style line endings).
+This causes problems in shell processing:
+\begin{itemize}
+\item AWK field separators don't recognize [[\r]] as whitespace
+\item String comparisons fail when [[\r]] is included in values
+\item Piping to other commands produces unexpected results
+\item Pattern matching with [[grep]], [[sed]], and [[awk]] behaves incorrectly
+\end{itemize}
+
+We must strip these carriage returns from all [[canvaslms]] output immediately
+after the command, before any further processing.
+This is done with [[sed 's/\r$//']].
+<<strip ending [[\r]]s>>=
+sed 's/\r$//'
 @
 
 
@@ -82,24 +121,28 @@ GitHub API URL, access token.
 We will pass them by command line.
 <<clone repos>>=
 clone_repos() {
-  local org=$1; shift
+  local org="$1"; shift
   local repos=$(mktemp -d)
   local students=$(mktemp)
 
-  mkdir -p $repos
-  echo $repos
+  mkdir -p "$repos"
+  echo "$repos"
 
-  for s in $*; do
-    echo $s >> $students
+  for s in "$@"; do
+    echo "$s" >> "$students"
   done
 
-  test -s $students || return 0
+  test -s "$students" || return 0
 
-  (cd $repos && repobee repos clone \
-    -u $REPOBEE_USER --bu $REPOBEE_URL -t $REPOBEE_TOKEN \
-      -qq --sf $students -o $org --discover-repos)
+  if ! (cd "$repos" && repobee repos clone \
+    -u "$REPOBEE_USER" --bu "$REPOBEE_URL" -t "$REPOBEE_TOKEN" \
+      -qq --sf "$students" -o "$org" --discover-repos 2>&1); then
+    echo "Warning: repobee clone failed for organization $org" >&2
+    echo "Check that REPOBEE_USER, REPOBEE_URL, and REPOBEE_TOKEN are set" >&2
+    echo "Student list in: $students" >&2
+  fi
 
-  rm $students
+  rm "$students"
 }
 @
 
@@ -116,16 +159,17 @@ It then outputs only those who should be graded.
 <<check dates on repos>>=
 students_to_actually_grade() {
   local students_w_times=$(cat)
-  local repos=$1
+  local repos="$1"
 
   for s in $(echo "$students_w_times" | cut -f 1); do
     time=$(echo "$students_w_times" | egrep "^$s\s" | cut -f 2)
 
-    for r in $(find $repos/$s -mindepth 1 -maxdepth 1 -type d 2>/dev/null); do
-      if [[ "$time" < "$(git -C $r log -1 --format=\%cI 2>/dev/null)" ]]; then
-        echo $s
+    while IFS= read -r -d '' r; do
+      repo_time=$(git -C "$r" log -1 --format=\%cI 2>/dev/null)
+      if [[ -n "$repo_time" ]] && [[ "$time" < "$repo_time" ]]; then
+        echo "$s"
       fi
-    done
+    done < <(find "$repos/$s" -mindepth 1 -maxdepth 1 -type d -print0 2>/dev/null)
   done
 }
 @
@@ -163,11 +207,13 @@ We simply need to remove the [[@REALM]] from there.
 SSH_USER=$(echo ${KRB_USER} | sed "s/@.*$//")
 @
 
-Now we simply let the function add [[-l ${SSH_USER}]] to the arguments of the 
+Now we simply let the function add [[-l ${SSH_USER}]] to the arguments of the
 [[ssh]] command ([[${SSH_PATH}]]).
-Then we simply pass all arguments to the function on to the real [[ssh]] 
+Then we simply pass all arguments to the function on to the real [[ssh]]
 command.
+We use [["$@"]] to properly preserve argument boundaries and handle arguments
+with spaces.
 <<handle ssh logins>>=
 function ssh() {
-  ${SSH_PATH} -l "${SSH_USER}" $*
+  ${SSH_PATH} -l "${SSH_USER}" "$@"
 }

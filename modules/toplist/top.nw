@@ -14,8 +14,13 @@
 \noweboptions{longxref,breakcode}
 \usepackage{didactic}
 \chapterstyle{arthangnum}
-\usepackage{hyperref}
+\usepackage[hidelinks]{hyperref}
 \usepackage{cleveref}
+
+% The tominted filter wraps LaTeX inside highlighted code in the private-use
+% characters U+E000 and U+E001; they show up when we list top.tex below.
+\DeclareUnicodeCharacter{E000}{\textbullet}
+\DeclareUnicodeCharacter{E001}{\textbullet}
 
 \title{Who finished datintro first?}
 \author{%
@@ -27,8 +32,15 @@
   }\\
   {\small with contributions from}\\
   Skye Kaijser\thanks{%
+    Student of datintro24.
     The solution to the challenge that Skye provided is licensed under a 
     CC-BY-SA 4.0 license.
+  }
+  and
+  Eric Gesien Andersson\thanks{%
+    Student of datintro26.
+    The solution to the ties exercise that Eric provided is licensed under 
+    a CC-BY-SA 4.0 license.
   }%
 }
 
@@ -58,11 +70,12 @@
 
 \section{Overview}\label{Overview}
 
-We want to take the submission times for the four assignments in the datintro 
-module (LAB1) and compute who finished first.
+We want to take the times at which the four assignments in the datintro 
+module (the assignment group LAB1) were passed and compute who finished 
+first.
 To finish first, they must have passed all four assignments.
-We want to write a small shell script [[<<top.sh>>]] that prints the top 10 to 
-standard output (stdout).
+We want to write a small shell script [[<<[[top.sh]]>>]] that prints the 
+top 10 to standard output (stdout).
 \ltnote{%
   We give the desired output and what the input looks like.
   This is the undivided whole.
@@ -72,15 +85,16 @@ The result should look like this:
 \begin{pycode}
 import subprocess
 
-submissions_file = "submissions.csv"
+submissions_file = "submissions26.csv"
+examples = "(Severholt|Bergengren|Wilmer)"
 
 def shell(cmd):
   output = subprocess.run(cmd,
                           shell=True,
                           stderr=subprocess.STDOUT,
                           stdout=subprocess.PIPE)
-  print(r"\begin{minted}{text}")
-  print(output.stdout.decode().strip())
+  print(r"\begin{minted}[breaklines]{text}")
+  print(output.stdout.decode().replace("\r\n", "\n").strip())
   print(r"\end{minted}")
 
 shell(f"bash ./top.sh {submissions_file} 10")
@@ -88,14 +102,38 @@ shell(f"bash ./top.sh {submissions_file} 10")
 
 We get the data containing all submissions by the line
 \begin{minted}{bash}
-canvaslms submissions -c "(datintro|progd)24" > submissions.csv
+canvaslms submissions list -c "^datintro26$" -A LAB1 > submissions26.csv
 \end{minted}
+The option [[-c]] picks the course by a regular expression (regex).
+The [[^]] and [[$]] say that the name must be exactly [[datintro26]], nothing 
+more, so that we don't get [[datintro26p3]] as well if there is such a course.
+The option [[-A]] picks the assignment group, in our case LAB1.
+That way we get exactly the four assignments that we care about and, as we'll 
+see, exactly four lines per student\footnote{%
+  Without [[-A LAB1]] we'd get every assignment in the course.
+  Most of the others are graded with points instead of P or F, so they'd never 
+  count as passed, but their lines would still be in the way when we count 
+  how many assignments a student has passed.
+}.
 The data is in CSV format.
 It looks something like this:
 \begin{pycode}
-shell(f"egrep '(Skye|Thorell|Vivas)' {submissions_file} | sed 's/\t/  /g'")
+shell(f"egrep '{examples}' {submissions_file} | sed 's/\t/  /g'")
 \end{pycode}
 Each column, or field, is separated by a tab.
+(Here we replaced the tabs by two spaces to make them visible, so the space 
+inside a time stamp is not a column separator.)
+The columns are: the course, the assignment, the student, the grade, the 
+submission date and the grade date.
+The value [[N/A]] means that there is no value.
+These four assignments aren't handed in through Canvas, the grade is entered 
+by a teaching assistant, so the submission date is always [[N/A]].
+It's the grade date, the last column, that tells us when a student passed.
+Note that the grade date has a space between the date and the time, and that 
+it's only accurate to the minute.
+The space will cause us some trouble in \cref{LastNameProblem}, and the minute 
+accuracy means that two students can finish at exactly the same time 
+(\cref{HandleTies}).
 
 It's from this data that we want to compute the top list above,
 the Top 10 \emph{on finishing fast}---this top list doesn't say anything about 
@@ -124,7 +162,7 @@ The second argument ([[${2}]]) will be how many should be included in the top
 list.
 This gives us the following (and one possible solution to 
 \cref{HighLevelApproach}):
-<<top.sh>>=
+<<[[top.sh]]>>=
 cat ${1} \
 | <<filter out the submission lines of everyone who passed>> \
 | <<sort the submission lines based on finishing time>> \
@@ -176,7 +214,7 @@ If we look at the example output from above, we see that there is a P in one of
 the columns on all assignments.
 So we can reduce the whole thing to one line per student, containing name and 
 the four grades.
-For example: [[Skye Kaijser P P P P]] from the data above.
+For example: [[Axel Bergengren P P P P]] from the data above.
 That way we can just check for lines with four P's.
 
 \begin{exercise}
@@ -184,14 +222,14 @@ That way we can just check for lines with four P's.
   student into one.
   That is turn
 \begin{pycode}
-shell(f"cat {submissions_file} | egrep '(Skye|Thorell|Vivas)'")
+shell(f"cat {submissions_file} | egrep '{examples}'")
 \end{pycode}
   into
 \begin{pycode}
-shell(f"cat {submissions_file} | egrep '(Skye|Thorell|Vivas)' \\" +
+shell(f"cat {submissions_file} | egrep '{examples}' \\" +
 r"""
 | cut -f 3,4 | sort \
-| sed -nEz 's/([A-Za-z -]+)\s([PF]?)\n\1\s([PF]?)\n\1\s([PF]?)\n\1\s([PF]?)/\1\t\2 \3 \4 \5/gp'
+| sed -nEz 's/([^\t\n]+)\s([PF]?)\n\1\s([PF]?)\n\1\s([PF]?)\n\1\s([PF]?)/\1\t\2 \3 \4 \5/gp'
 """)
 \end{pycode}
 \end{exercise}
@@ -227,7 +265,7 @@ cat ${1} | cut -f 3,4 | sort \
 
 We need to use [[cat ${1}]] to get the data from the file.
 Although this data is already in the pipe from the start of
-[[<<top.sh>>]],
+[[<<[[top.sh]]>>]],
 that data is piped into stdin of [[egrep]] in
 [[<<filter out the submission lines of everyone who passed>>]].
 That's why we need to read the file again here, to create another series of 
@@ -242,11 +280,11 @@ By now, the data in the pipe will look like this:
 \begin{pycode}
 regex_cmd = f"cat {submissions_file}" \
             f"| cut -f 3,4 | sort"
-shell(regex_cmd + " | egrep '(Skye|Thorell|Vivas)'")
+shell(regex_cmd + f" | egrep '{examples}'")
 \end{pycode}
 
 Now we want to merge all lines matching the same student into one line,
-[[Skye Kaijser P P P P]].
+[[Axel Bergengren P P P P]].
 We'll use [[sed]].
 This is pattern matching over several lines and [[sed]] normally does matching 
 over single lines.
@@ -271,13 +309,42 @@ first match.
   How can we use the matches to get the end result that we want?
 \end{exercise}
 
-We'll match a name ([[[A-Za-z -]]]) followed by a grade ([[[PF]]]), followed by 
+We'll match a name ([[[^\t\n]+]]) followed by a grade ([[[PF]]]), followed by 
 a new line ([[\n]]), followed by the same name ([[\1]]), another grade (not the 
 same as the first, hence no back reference, [[\2]]).
 These are separated by tabs in the data, but we use [[\s]] that matches any 
 whitespace character (easier to write).
+
+The name is simply everything up to the tab: [[[^\t\n]]] matches any character 
+that is neither a tab nor a new line, and the [[+]] says that we want at least 
+one such character, but as many as possible\footnote{%
+  We can't use [[.]] here, the usual \enquote{any character}.
+  The [[-z]] option makes [[sed]] read the whole file as one long line, so the 
+  new lines are ordinary characters that [[.]] would happily match.
+}.
+\ltnote{%
+  \Cref{WhyNotLetters} contrasts the robust pattern with the tempting one that 
+  the first version of this text actually used.
+  The critical aspect to discern is that a regex only matches what we tell it 
+  to; whatever we forget to include silently disappears.
+  Seeing a real student vanish from the top list makes that consequence 
+  concrete.
+}%
+\begin{exercise}\label{WhyNotLetters}
+  Why don't we simply list the letters that a name can contain, like 
+  [[[A-Za-z -]+]]?
+  What happens to a student whose name doesn't match?
+\end{exercise}
+The first version of this text did exactly that.
+But names contain more than the English alphabet: almost a fifth of this 
+year's students have an å, ä, ö or é in their name.
+\enquote{Wilmer Schéele} never matched, so Wilmer's four lines were never 
+merged into one line with four P's, and Wilmer simply disappeared from the top 
+list---without any error message.
+It's safer to say what a name is \emph{not}: it can't contain the tab that ends 
+it, nor a new line.
 <<name and grades to match>>=
-([A-Za-z -]+)\s([PF]?)\n\1\s([PF]?)\n\1\s([PF]?)\n\1\s([PF]?)
+([^\t\n]+)\s([PF]?)\n\1\s([PF]?)\n\1\s([PF]?)\n\1\s([PF]?)
 <<all on one line pattern>>=
 \1\t\2 \3 \4 \5
 @ We use references back to the name and grades.
@@ -287,9 +354,9 @@ we need it later.
 The output so far is the following, as desired:
 \begin{pycode}
 regex_cmd += r'| sed -nEz "' \
-             r's/([A-Za-z -]+)\s([PF]?)\n\1\s([PF]?)\n\1\s([PF]?)\n\1\s([PF]?)' \
+             r's/([^\t\n]+)\s([PF]?)\n\1\s([PF]?)\n\1\s([PF]?)\n\1\s([PF]?)' \
              r'/\1\t\2 \3 \4 \5/gp"'
-shell(regex_cmd + "| egrep '(Skye|Thorell|Vivas)'")
+shell(regex_cmd + f"| egrep '{examples}'")
 \end{pycode}
 
 Now we want to filter out only those who have four P's.
@@ -302,15 +369,15 @@ used above).
 The data in the pipe now looks like this:
 \begin{pycode}
 regex_cmd += r'| grep "P P P P" | cut -f 1'
-shell(regex_cmd + "| egrep '(Skye|Thorell|Vivas)'")
+shell(regex_cmd + f"| egrep '{examples}'")
 \end{pycode}
 
 \begin{exercise}
   How can we turn a list of names into the regex that we want?
   That is:
 \begin{pycode}
-shell(regex_cmd + r"""\
-| egrep '(Skye|Thorell|Vivas)' \
+shell(regex_cmd + rf"""\
+| egrep '{examples}' \
 | (echo -n '('; tr '\n' '|' | sed 's/|$//'; echo -n ')')
 """)
 \end{pycode}
@@ -342,7 +409,7 @@ we still need to close it to make it a syntactically valid expression.
 When we use our example from above, we get:
 \begin{pycode}
 make_regex = r'| (echo -n "("; tr "\n" "|" | sed "s/|$//"; echo -n ")")'
-shell(regex_cmd + "| egrep '(Skye|Thorell|Vivas)'" + make_regex)
+shell(regex_cmd + f"| egrep '{examples}'" + make_regex)
 regex_cmd += make_regex
 \end{pycode}
 
@@ -351,7 +418,7 @@ That concludes
 We now get the following.
 \begin{pycode}
 cmd += f' | egrep "$({regex_cmd})"'
-shell(cmd + " | egrep '(Skye|Thorell|Vivas)' | sed 's/\t/  /g'")
+shell(cmd + f" | egrep '{examples}' | sed 's/\t/  /g'")
 \end{pycode}
 This is in fact the same data as when we started above.
 Everyone in the example data had passed.
@@ -369,11 +436,14 @@ Now we should proceed to
 The data that we have in the pipe now are the lines one everyone who has 
 passed.
 
-We simply want to cut out the columns we need (name and time stamp) and then 
-sort them based on the time stamp.
+We simply want to cut out the columns we need and then sort them based on 
+the time stamp.
+The columns we need are the name (column 3) and the grade date (column 6).
+Remember that the submission date (column 5) is always [[N/A]] for these 
+assignments, it's the grade date that says when a student passed.
 \begin{pycode}
 cmd += " | cut -f 3,6 | sort -k 2 -t '\t'"
-shell(cmd + "| egrep '(Skye|Thorell|Vivas)' | sed 's/\t/  /g'")
+shell(cmd + f"| egrep '{examples}' | sed 's/\t/  /g'")
 \end{pycode}
 
 \begin{exercise}
@@ -394,16 +464,16 @@ cut -f 3,6 | sort -k 2 -t $'\t'
 Let's turn to the challenge and its solution.
 %
 \begin{pycode}
-shell("""
+subprocess.run(f"""
 mv times.txt times-full.txt
-grep -E '(Skye|Thorell|Vivas)' times-full.txt > times.txt
-""")
+grep -E '{examples}' times-full.txt > times.txt
+""", shell=True)
 \end{pycode}
 %
 \begin{exercise}[The challenge]
   How can we take the output just above, that is
 \begin{pycode}
-shell(cmd + "| egrep '(Skye|Thorell|Vivas)' | sed 's/\t/  /g'")
+shell(cmd + f"| egrep '{examples}' | sed 's/\t/  /g'")
 \end{pycode}
   where every name occurs four times and with different time stamps each time.
   We want to filter it so that every name occurs only once and with the latest 
@@ -420,7 +490,13 @@ Let's first have a look at Skye's solution.
 I have added some indentation to make the different parts easier to discern.
 I also added the [[head]] command at the end to only print the top 10 (which 
 wasn't a part of the given challenge).
-<<skye.sh>>=
+Finally, I replaced Skye's [[sort +2]] with [[sort -k 3]], which means the 
+same thing\footnote{%
+  The [[+2]] is an old way of writing it, where the columns are counted from 
+  zero, so [[+2]] means \enquote{start at the third column}.
+  The [[sort]] on today's computers no longer accepts it.
+}.
+<<[[skye.sh]]>>=
 sort times.txt \
 | awk '{print $1,$2}' \
 | uniq \
@@ -429,7 +505,7 @@ sort times.txt \
     | grep -E "$p" \
     | tail -1; \
   done \
-| sort +2 \
+| sort -k 3 \
 | while read line; do \
     num=$((num+1)); \
     echo "$num $line"; \
@@ -459,7 +535,7 @@ Remember, this data is sorted on times, so it's the correct one.
 The output from the first [[while]] loop contains the correct lines, but 
 they're no longer in the correct order.
 (Since we [[grep]]ed on name.)
-Thus we need [[sort +2]] to sort on time again.
+Thus we need [[sort -k 3]] to sort on time again.
 
 The last [[while]] loop numbers the lines.
 
@@ -487,16 +563,25 @@ shell("bash skye.sh")
   are not careful.
 }
 \begin{exercise}\label{LastNameProblem}
-  Why is Alexander in third place instead of second in the output above?
+  Why is Elias in third place instead of first in the output above?
 \end{exercise}
 
-Since Alexander has one more word in his name, the [[sort +2]] in Skye's 
+Since Elias has one more word in his name, the [[sort -k 3]] in Skye's 
 solution doesn't work as expected:
-[[sort +2]] sorts on the second \emph{white-space delimited} column.
-That is the time stamps for Liam and Skye, but Jernström for Alexander.
+[[sort -k 3]] sorts on the third \emph{white-space delimited} column and 
+onwards.
+For Axel and Wilmer, the third column is the date, followed by the time.
+(Remember that the time stamp contains a space, so it's two columns by 
+itself.)
+For Elias, however, the third column is Fourati, and letters sort after 
+digits.
 
-To fix it, we can change the [[sort +2]] to [[sort +2 -t $'\t']], to separate 
-columns on tabs instead of white space in general (space, tabs, etc.).
+To fix it, we can change the [[sort -k 3]] to [[sort -k 2 -t $'\t']], to 
+separate columns on tabs instead of white space in general (space, tabs, 
+etc.).
+Note that we must change the column number too: with tabs as the only 
+separator, the name is the first column and the whole time stamp is the 
+second.
 
 This illustrates how easy it is to introduce a bug.
 I also had this bug in the original version of my script.
@@ -520,7 +605,7 @@ So, we just sort it in the other order.
 This yields the following in the pipe.
 \begin{pycode}
 cmd += " | sort -k 2 -r -t '\t'"
-shell(cmd + "| egrep '(Skye|Thorell|Vivas)' | sed 's/\t/  /g'")
+shell(cmd + f"| egrep '{examples}' | sed 's/\t/  /g'")
 \end{pycode}
 
 Now we can read it in order, line by line.
@@ -566,7 +651,7 @@ cmd += " | (names=$(mktemp); " \
        "echo \"$line\"; " \
        "echo $name >> $names; " \
        "done)"
-shell(cmd + " | egrep '(Skye|Thorell|Vivas)' | sed 's/\t/  /g'")
+shell(cmd + f" | egrep '{examples}' | sed 's/\t/  /g'")
 \end{pycode}
 
 Now we must sort this on time again to get it in the correct order.
@@ -575,7 +660,7 @@ Now we must sort this on time again to get it in the correct order.
 @ This turns the data in the pipe into:
 \begin{pycode}
 cmd += " | sort -k 2 -t '\t'"
-shell(cmd + "| egrep '(Skye|Thorell|Vivas)' | sed 's/\t/  /g'")
+shell(cmd + f"| egrep '{examples}' | sed 's/\t/  /g'")
 \end{pycode}
 
 Finally, we must add the numbering.
@@ -587,7 +672,7 @@ the line.
 \begin{pycode}
 cmd_number = " | (num=0; while read line; do " \
              "num=$((num+1)); echo \"$num $line\"; done)"
-shell(cmd + "| egrep '(Skye|Thorell|Vivas)'"
+shell(cmd + f"| egrep '{examples}'"
       + cmd_number + " | sed 's/\t/  /g'")
 \end{pycode}
 
@@ -598,22 +683,537 @@ The final script is the following.
 The base code is above and the challenge code below the highlighted line.
 \inputminted[numbers=left,highlightlines=7]{bash}{top.sh}
 
-If we run it on the full data, we get same top list as in \cref{Overview}:
+If we run it on the full data, we get the same top list as in \cref{Overview}.
+But the script doesn't care which year's data we give it.
+It only relies on the columns being in the same places and on the time stamps 
+sorting correctly as text, which they do since they start with the year, then 
+the month, and so on.
+
+\subsection{The top lists over the years}\label{OverTheYears}
+
+\ltnote{%
+  Running the same script on three years of data, one of them in an older 
+  format, is the fusion step: the students see the pipeline as a tool that 
+  generalises, and see that it generalises because it depends on nothing but 
+  the column positions.
+}%
+So let's run it on the data from every year that the course has run in this 
+form.
+In 2024 and 2025, the LAB1 assignments were shared with the course DD1337 
+(progd), so those lists contain the students of both courses.
+We get that data with the same line as above, but with a regex that matches 
+both courses, for instance [[-c "^(datintro|progd)25$"]].
+The 2024 data is from an older version of [[canvaslms]], which wrote the time 
+stamps differently (and wrote nothing instead of [[N/A]]).
+As we said, the script doesn't mind.
 \begin{pycode}
-shell(f"bash ./top.sh {submissions_file} 10")
+for year in (24, 25, 26):
+  print(rf"\paragraph{{20{year}}}")
+  shell(f"bash ./top.sh submissions{year}.csv 10")
 \end{pycode}
 
-The only thing left to wish is that we could merge Oscar and Oskar into a 
-shared third place.
-They are in the same grading round, so finished the same time, it's only the 
-order of grading that determines the order.
+The only thing left to wish is that we could merge some of these into shared 
+places.
+In 2026, Jacob and Wilmer have exactly the same time stamp, since the time 
+stamps are only accurate to the minute; it's only the order in which they were 
+graded that puts Jacob before Wilmer.
+In 2024, Oscar and Oskar were graded two seconds apart, they were in the same 
+grading round, so they too finished at the same time for our purposes.
 
-\begin{exercise}[Handle ties]
+\begin{exercise}[Handle ties]\label{HandleTies}
   Write a script that takes lines with sufficiently close times and merges them 
   into one.
-  Let us determine what sufficiently close means by using a variable for that 
-  value.
 \end{exercise}
+
+\subsection{Eric's solution}\label{EricsSolution}
+
+\ltnote{%
+  Eric's contribution gets the same treatment as our own script: first the 
+  whole, as a run in the terminal, then the parts by stepwise refinement, 
+  in the same order as the steps of [[<<[[top.sh]]>>]], so that the 
+  student can compare the two solutions step by step.
+  The exercises come before the explanations, as in the rest of the text.
+  The script is presented as if written for this year's file.
+  Eric's mail read the time from column 5, matched names with the letter 
+  list of an earlier edition, and split the time stamps on the [[T]] of 
+  the 2024 export; those lines were updated silently, since a reader 
+  today has no old listing to compare with.
+}%
+Eric Gesien Andersson solved \cref{HandleTies} and sent me the script 
+[[<<[[eric.sh]]>>]].
+It doesn't extend [[<<[[top.sh]]>>]], it replaces it: it reads the CSV 
+file itself, does the filtering and sorting in its own way, and then 
+numbers the students with shared places.
+This is how we run it on this year's data:
+\begin{minted}{bash}
+bash eric.sh submissions26.csv
+\end{minted}
+This gives us everyone who has passed so far, in finishing order, with 
+shared places:
+\begin{pycode}
+shell("bash ./eric.sh submissions26.csv")
+\end{pycode}
+Compare this with the top list for 2026 above: Jacob and Wilmer now share 
+seventh place, just as we wished for, and there is no eighth.
+
+The script takes three options.
+With [[-n]] we say how many lines we want, so [[-n 10]] gives us a top 
+ten; without it we get up to 100 lines.
+With [[-d]] we say how many seconds apart two students may be and still 
+share a place; without it, 60 seconds.
+Note that [[-n]] counts lines, not places: if we ask for seven lines we 
+get eight, since the script would rather keep a shared place whole.
+The third option, [[-f]], forces exactly the number of lines we asked 
+for; with [[-n 7 -f]] Wilmer falls off.
+
+\begin{exercise}\label{EricsSteps}
+  Before we look at the script: what steps must it take to get from the 
+  CSV file to the list above?
+  Which of them does [[<<[[top.sh]]>>]] take too, and which are new?
+\end{exercise}
+
+Eric's script takes four steps.
+The first three we recognise from [[<<[[top.sh]]>>]]: read what we asked 
+for, find everyone who passed, find the latest time for each student.
+The fourth is the numbering, now with shared places.
+<<[[eric.sh]]>>=
+#!/bin/bash
+<<[[eric.sh]] read the options>>
+<<[[eric.sh]] find everyone who passed>>
+<<[[eric.sh]] find the latest time for each student>>
+<<[[eric.sh]] number the students, sharing places>>
+@ We'll take the steps one at a time and refine each of them into smaller 
+pieces, just like we did with [[<<[[top.sh]]>>]].
+
+\subsubsection{Reading the options}
+
+So far we have taken arguments by position: [[${1}]] is the file and 
+[[${2}]] how many lines we want.
+That works when there are exactly two and we always give both.
+Eric has three optional settings, in any order, so he needs something 
+better: first the default values, then a loop that reads the options one 
+at a time, and finally [[shift]], which throws the options away so that 
+the file name ends up in [[$1]] like before.
+<<[[eric.sh]] read the options>>=
+<<[[eric.sh]] default values>>
+while getopts "fn:d:" opt; do
+  <<[[eric.sh]] remember what the option says>>
+done;
+shift $((OPTIND -1));
+@
+
+The defaults are what we get when we give no options at all: 100 lines 
+and 60 seconds.
+The tab is written [[$'\t']] like in 
+[[<<sort the submission lines based on finishing time>>]].
+This is a [[bash]] script, not a script for just any shell: [[$'\t']] and 
+the [[[[ ... ]]]] test below are [[bash]]'s own.
+<<[[eric.sh]] default values>>=
+delim=$'\t'
+force=false
+maxEntries=100
+minTimeDifference=60
+@
+
+The string [[fn:d:]] lists the letters that we accept; a colon after a 
+letter means that it takes a value, and [[getopts]] puts that value in 
+[[OPTARG]].
+A value for [[-n]] or [[-d]] must be a number, which Eric checks with 
+[[bash]]'s own test [[[[ ... ]]]] and [[=~]] for regex matching: the 
+[[^]] and [[$]] say that the whole value must be digits, just like in 
+\cref{Overview}.
+(A bad value is reported, and then the script keeps its default.)
+When the loop is done, [[OPTIND]] points at the first argument that isn't 
+an option, and that is what the [[shift]] above uses.
+<<[[eric.sh]] remember what the option says>>=
+if [ "$opt" == "f" ]; then
+  force=true;
+elif [ "$opt" == "n" ]; then
+  if [[ "$OPTARG" =~ ^[0-9]+$ ]]; then
+    maxEntries=$OPTARG;
+  else
+    echo "Integer required for -n";
+  fi;
+elif [ "$opt" == "d" ]; then
+  if [[ "$OPTARG" =~ ^[0-9]+$ ]]; then
+    minTimeDifference=$OPTARG;
+  else
+    echo "Integer required for -d";
+  fi;
+fi;
+@
+
+\subsubsection{Finding everyone who passed}
+
+Who passed?
+This is the same job as 
+[[<<create pattern matching everyone who passed>>]], and Eric solves it 
+the same way, only he keeps the result in a variable instead of piping it 
+straight into [[egrep]].
+<<[[eric.sh]] find everyone who passed>>=
+peopleDone=$(cat "$1" | cut -d "$delim" -f 3,4 | sort -t "$delim" -k1 |
+  <<[[eric.sh]] merge each student's lines into one>> |
+  grep 'P P P P' | cut -d "$delim" -f 1);
+peoplePattern="($(echo "$peopleDone" |
+  <<[[eric.sh]] join the names into one regex>>))";
+@
+
+To merge the four lines of a student into one, Eric uses the very same 
+[[sed]] as we do, so we simply reuse our chunks.
+<<[[eric.sh]] merge each student's lines into one>>=
+sed -n -E -z 's/<<name and grades to match>>/<<all on one line pattern>>/gp'
+@
+
+The names come out one per line, and Eric wants them joined with [[|]] 
+into one regex, like we did.
+We used [[tr]] to turn every new line into a [[|]] and then had to remove 
+the last one.
+Eric uses a small [[sed]] program instead: [[:a]] is a label, [[N]] appends 
+the next line to the one that [[sed]] is holding, [[s/\n/|/]] replaces the 
+new line that now sits between them, and [[ta]] jumps back to [[a]] if that 
+replacement happened.
+When there is no next line, [[N]] ends the loop.
+So Eric only ever replaces a new line that has a name on both sides, and 
+there is no trailing [[|]] to clean up.
+(It's clever, but the [[tr]] version is easier to get right yourself.)
+<<[[eric.sh]] join the names into one regex>>=
+sed ':a; N; s/\n/|/; ta'
+@
+
+\subsubsection{Finding the latest time for each student}
+
+Then Eric wants the latest time for each student, what we did in 
+[[<<keep only the last submission time for each student>>]].
+He takes the name and the grade date, columns 3 and 6, but first he 
+removes something that we haven't seen yet.
+[[canvaslms]] writes its output with Python's [[csv]] module, which ends 
+every line with a carriage return before the new line, as the CSV 
+standard says.
+No listing shows it, but [[cat -A]] does, as [[^M]] (and the tabs as 
+[[^I]]):
+\begin{pycode}
+shell(f"egrep '{examples}' {submissions_file} | head -n 1 | cat -A")
+\end{pycode}
+It survives [[cut]] and sticks to whatever is in the last column, here the 
+time stamp, where it would make a mess of the arithmetic below.
+So [[tr -d '\r']] removes it before it can do any harm.
+The 2024 time stamps are then rewritten to look like today's, so that the 
+rest of the script only needs to know one form.
+<<[[eric.sh]] find the latest time for each student>>=
+peopleTimes=$(cat "$1" | tr -d '\r' | grep -E "$peoplePattern" |
+  cut -d "$delim" -f 3,6 |
+  <<[[eric.sh]] write 2024's time stamps like today's>> |
+  <<[[eric.sh]] keep only the latest line of each student>> |
+  sort -t "$delim" -k2);
+@
+
+We saw in \cref{OverTheYears} that the 2024 export wrote the time stamps 
+with a [[T]] and a [[Z]]: [[2024-08-26T09:32:39Z]].
+This [[sed]] rewrites them into today's form.
+It only touches a [[T]] that is followed by a time and a [[Z]] at the very 
+end of the line, so the names are safe (think of Theo).
+<<[[eric.sh]] write 2024's time stamps like today's>>=
+sed -E 's/T([0-9:]+)Z$/ \1/'
+@
+
+Keeping only the latest line is the nicest trick in the script.
+Eric sorts on the name and then on the time in \emph{reverse} 
+([[-k1,1 -k2r,2]]), so that each student's four lines come together with 
+the latest first.
+Then [[paste - - - -]] glues four lines into one: each [[-]] means 
+\enquote{read one line from standard input}, and four of them is no 
+coincidence.
+Finally [[cut -f 1,2]] keeps the first name and the first, that is the 
+latest, time.
+<<[[eric.sh]] keep only the latest line of each student>>=
+sort -t "$delim" -k1,1 -k2r,2 | paste - - - - | cut -d "$delim" -f 1,2
+@ This only works because every student has exactly four lines, which is 
+what [[-A LAB1]] bought us in \cref{Overview}.
+
+\begin{exercise}\label{FiveLines}
+  What would [[paste - - - -]] do if one student had five lines?
+  Would Skye's [[tail -1]] or our [[continue]] loop have the same 
+  problem?
+\end{exercise}
+
+A fifth line would shift everything after it by one: [[paste]] would glue 
+the fifth line to the next student's first three, and from there on every 
+\enquote{student} would be a mix of two.
+Skye's [[tail -1]] and our loop don't care how many lines there are, they 
+just take the last one.
+So these are three ways of saying \enquote{the last one}, but only two of 
+them survive a fifth line.
+
+\subsubsection{Numbering the students, sharing places}
+
+Finally the numbering.
+Eric reads the students in finishing order, counting the lines in 
+[[rank]].
+A student who finished together with the previous one shares the previous 
+one's place; otherwise the student gets a new place, which is simply the 
+line number.
+To decide \enquote{together}, the script must compare two time stamps, and 
+since a time stamp is text and we can't subtract text, Eric first defines 
+a function for that.
+<<[[eric.sh]] number the students, sharing places>>=
+<<[[eric.sh]] function to compute time difference>>
+previousTime="";
+previousDate="";
+rank=0;
+streak=1;
+echo "$peopleTimes" |
+  while read line; do
+    rank=$((rank + 1));
+    <<[[eric.sh]] split the time stamp into date and time>>
+    if <<[[eric.sh]] finished together with the previous one>>; then
+      <<[[eric.sh]] share the place>>
+    else
+      <<[[eric.sh]] start a new place>>
+    fi;
+    previousTime="$currentTime";
+    previousDate="$currentDate";
+  done;
+@
+
+The function turns a time like [[11:42]] into the number of seconds since 
+midnight, for both of its arguments, and subtracts.
+It answers by [[echo]]ing the number; whoever calls it catches the answer 
+with [[$( ... )]], the same sub-shell as in \cref{WhyNewCat}.
+Two details are worth a closer look.
+The [[${currentSeconds:-0}]] means \enquote{the value, or 0 if there is 
+none}: this year's time stamps have no seconds.
+The [[10#]] says that the number is written in base 10: without it, 
+[[bash]] reads a number with a leading zero as octal, and [[08]] and [[09]] 
+aren't valid octal numbers, so the script would crash on any time stamp 
+containing [[08]] or [[09]].
+<<[[eric.sh]] function to compute time difference>>=
+getTimeDifference(){
+  currentHours=$(echo "$1" | cut -d ':' -f 1);
+  currentMinutes=$(echo "$1" | cut -d ':' -f 2);
+  currentSeconds=$(echo "$1" | cut -d ':' -f 3);
+  currentSeconds="${currentSeconds:-0}";
+  totalCurrentSeconds=$((10#$currentHours * 60 * 60 \
+    + 10#$currentMinutes * 60 + 10#$currentSeconds));
+
+  oldHours=$(echo "$2" | cut -d ':' -f 1);
+  oldMinutes=$(echo "$2" | cut -d ':' -f 2);
+  oldSeconds=$(echo "$2" | cut -d ':' -f 3);
+  oldSeconds="${oldSeconds:-0}";
+  totalOldSeconds=$((10#$oldHours * 60 * 60 \
+    + 10#$oldMinutes * 60 + 10#$oldSeconds));
+  echo $(($totalCurrentSeconds - $totalOldSeconds));
+}
+@
+
+\ltnote{%
+  \Cref{Midnight} follows try-first, tell-later: it names the symptom 
+  only, so that the student discerns the problem and its fix themselves; 
+  both are told in \cref{EricImproved}.
+}%
+\begin{exercise}[Midnight]\label{Midnight}
+  Eric points out himself that the function breaks at midnight: a student 
+  graded at 23:59 and one graded at 00:01 the next day are two minutes 
+  apart, but the function says \(-1438\) minutes.
+  What's the problem?
+  How can we fix it?
+\end{exercise}
+
+We'll fix it in \cref{EricImproved}.
+
+Each line has the name, a tab and the time stamp; the time stamp has the 
+date, a space and the time.
+<<[[eric.sh]] split the time stamp into date and time>>=
+currentDate=$(echo "$line" | cut -d "$delim" -f 2 | cut -d ' ' -f 1);
+currentTime=$(echo "$line" | cut -d "$delim" -f 2 | cut -d ' ' -f 2);
+@
+
+Two students finished together when they were graded on the same date and 
+less than [[minTimeDifference]] seconds apart.
+(Read Eric's test backwards: it says that the limit is greater than the 
+difference.)
+The [[&&]] means that the time difference is only computed when the dates 
+are equal, so the function is never called on the first line, when 
+[[previousTime]] is still empty.
+<<[[eric.sh]] finished together with the previous one>>=
+[ "$currentDate" == "$previousDate" ] &&
+  [ $minTimeDifference -gt \
+    $(getTimeDifference $currentTime $previousTime) ]
+@
+
+When they finished together, the student gets the same place as the 
+previous one.
+[[streak]] counts how many lines the current shared place has used so far, 
+so [[rank - streak]] is the line where the shared place began, and 
+[[streak]] grows so that the next line repeats it too.
+The [[-f]] option only matters here: without it, a shared place is never 
+cut in half, even if that means more than [[-n]] lines.
+<<[[eric.sh]] share the place>>=
+if [ $force = true ] && [ $rank -gt $maxEntries ]; then
+  break;
+fi;
+echo "$((rank - streak)) $line";
+streak=$((streak + 1));
+@
+
+Otherwise the place is the line number, and a new streak begins.
+This is also where we stop after [[-n]] lines.
+<<[[eric.sh]] start a new place>>=
+if [ $rank -gt $maxEntries ]; then
+  break;
+fi;
+echo "$rank $line";
+streak=1;
+@ Let's trace it on the 2025 data below: Gustav gets 1, Hjalmar 2, Mauritz 
+gets \(3 - 1 = 2\), Rea gets \(4 - 2 = 2\) and Theo 5.
+Just like in athletics, two silver medals mean that there is no bronze.
+
+\subsubsection{The other years}
+
+That's the whole script.
+Let's run it on 2024 and 2025 too, as in \cref{OverTheYears}.
+\begin{pycode}
+for year in (24, 25):
+  print(rf"\paragraph{{20{year}}}")
+  shell(f"bash ./eric.sh -n 10 -d 60 submissions{year}.csv")
+\end{pycode}
+Oscar and Oskar share third place in 2024, as we wished for.
+
+\begin{exercise}[Strictly closer]\label{StrictlyCloser}
+  In 2025, Hjalmar and Mauritz share second place, graded in the same 
+  minute.
+  Gustav and Hjalmar are only a minute apart, but they don't share first 
+  place.
+  Why not?
+\end{exercise}
+
+Hjalmar and Mauritz were graded in the same minute, so their difference is 
+zero.
+Gustav and Hjalmar are exactly 60 seconds apart, and the test is 
+\emph{strictly} less than 60: sixty is not less than sixty.
+
+\begin{exercise}[Eric's chain]\label{EricsChain}
+  Eric points out a problem himself: the script compares each line only 
+  with the one before it.
+  If we allow 700 seconds in 2025, we get this:
+\begin{pycode}
+shell("bash ./eric.sh -n 8 -d 700 submissions25.csv")
+\end{pycode}
+  Theo and Nils share fifth place, although they are twelve minutes apart.
+  How did that happen, and what would the script have to remember to avoid 
+  it?
+  (To be fair to Eric, \cref{HandleTies} asked for \enquote{sufficiently 
+  close} without saying close to what.)
+\end{exercise}
+
+Each line is compared with the one before it only: Valentin is a minute 
+after Theo, Elias eleven minutes after Valentin, and Nils in the same 
+minute as Elias, each less than 700 seconds.
+To avoid the chain, the script would have to remember the time of the 
+\emph{first} student in the shared place and compare with that, instead 
+of with [[previousTime]].
+We'll do that in \cref{EricImproved}.
+
+\subsection{Improving Eric's solution}\label{EricImproved}
+
+\ltnote{%
+  This section closes the loop on \cref{Midnight,EricsChain}: the 
+  problems that the student was asked to discern are now fixed, and the 
+  fix reuses every chunk of [[<<[[eric.sh]]>>]] that was fine, so the 
+  student sees exactly how little has to change.
+}%
+\Cref{Midnight,EricsChain} found two things to fix, and both live in the 
+last step.
+So [[<<[[eric-improved.sh]]>>]] takes the first three steps from 
+[[<<[[eric.sh]]>>]] as they are, and only the numbering is new.
+<<[[eric-improved.sh]]>>=
+#!/bin/bash
+<<[[eric.sh]] read the options>>
+<<[[eric.sh]] find everyone who passed>>
+<<[[eric.sh]] find the latest time for each student>>
+<<[[eric-improved.sh]] number the students, sharing places>>
+@
+
+\subsubsection{Seconds since 1970 instead of since midnight}
+
+The problem in \cref{Midnight} is that the function counts seconds since 
+midnight, so the count starts over every day.
+Any fixed point in time will do instead, as long as it's the same for 
+everyone: the first submission, say, or simply 1970.
+That is what [[date]] gives us with [[date -d "$1" +%s]], if we give it 
+the whole time stamp, date and time.
+The whole function shrinks to one line.
+<<[[eric-improved.sh]] function to compute time difference>>=
+getTimeDifference(){
+  echo $(($(date -d "$1" +%s) - $(date -d "$2" +%s)));
+}
+@ Let's try the function across midnight, 00:01 minus 23:59 the day 
+before.
+We put the function and one call to it in a small script of its own:
+<<[[midnight.sh]]>>=
+<<[[eric-improved.sh]] function to compute time difference>>
+getTimeDifference "2026-09-02 00:01" "2026-09-01 23:59"
+@ Running it gives us
+\begin{pycode}
+shell("bash ./midnight.sh")
+\end{pycode}
+seconds, two minutes, as it should be.
+
+\subsubsection{Comparing with the first in the place}
+
+The problem in \cref{EricsChain} is that every student is compared with 
+the previous one, so a shared place can grow one small step at a time.
+Instead, we remember the time stamp of the student who \emph{opened} the 
+current shared place, in [[firstTime]], and compare everyone with that.
+It's only updated when a new place starts.
+The date check is gone, since the function now handles the dates itself; 
+instead we check that there is a first time stamp at all, which there 
+isn't on the first line.
+The two pieces that print the lines are Eric's, unchanged.
+<<[[eric-improved.sh]] number the students, sharing places>>=
+<<[[eric-improved.sh]] function to compute time difference>>
+firstTime="";
+rank=0;
+streak=1;
+echo "$peopleTimes" |
+  while read line; do
+    rank=$((rank + 1));
+    currentTime=$(echo "$line" | cut -d "$delim" -f 2);
+    if <<[[eric-improved.sh]] together with the first in the place>>; then
+      <<[[eric.sh]] share the place>>
+    else
+      <<[[eric.sh]] start a new place>>
+      firstTime="$currentTime";
+    fi;
+  done;
+<<[[eric-improved.sh]] together with the first in the place>>=
+[ -n "$firstTime" ] &&
+  [ $minTimeDifference -gt \
+    $(getTimeDifference "$currentTime" "$firstTime") ]
+@
+
+Let's run it on the chain from \cref{EricsChain}:
+\begin{pycode}
+shell("bash ./eric-improved.sh -n 8 -d 700 submissions25.csv")
+\end{pycode}
+Theo, Valentin, Elias and Nils are now two places, not one.
+
+\begin{exercise}
+  Run both scripts on this year's data with [[-d 60]].
+  Do the lists differ?
+  Why, or why not?
+\end{exercise}
+
+They don't: no shared place this year has more than two students, so 
+there is no chain for the fix to break.
+In 2024 there is a difference, though: a grading round at two in the 
+morning gave Eric's script a chain of thirteen students on place 35, 
+which the fix splits into three places.
+
+\subsection{Exercises for your future self after other 
+courses}\label{ExercisesForLater}
+
+The remaining exercises are meant for when you return to this text after 
+later courses.
 
 \ltnote{%
   Having learned about data structures in a programming course, 
@@ -706,9 +1306,30 @@ more readable.
 The differences between the Noweb source and the \LaTeX{} source are minimal.
 Noweb will simply translate its constructions to \LaTeX{} code.
 For example, consider the following lines:
-\inputminted[numbers=left,firstline=122,lastline=130]{latex}{top.nw}
+\begin{pycode}
+pytex.add_dependencies("top.nw", "top.tex")
+
+def line_range(path, first_text, last_text):
+  """Line numbers of the first line starting with `first_text` and the
+  first line after it starting with `last_text`, counting from one."""
+  lines = open(path).read().split("\n")
+  first = next(i for i, l in enumerate(lines) if l.startswith(first_text))
+  last = next(i for i, l in enumerate(lines)
+              if i > first and l.startswith(last_text))
+  return first + 1, last + 1
+
+def show_lines(path, first_text, last_text):
+  first, last = line_range(path, first_text, last_text)
+  print(rf"\inputminted[numbers=left,firstline={first},lastline={last}]"
+        rf"{{latex}}{{{path}}}")
+
+show_lines("top.nw", "This gives us the following (and one", "@")
+\end{pycode}
 Noweb will translate that into the following \LaTeX{} code:
-\inputminted[numbers=left,firstline=122,lastline=130]{latex}{top.tex}
+\begin{pycode}
+show_lines("top.tex", "This gives us the following (and one",
+           r"\nwnotused{")
+\end{pycode}
 
 Also worth mentioning is that a lot of the layout \enquote{magic} happens in 
 the package [[didactic.sty]]\footnote{%

@@ -274,3 +274,10 @@ TSWLatexianTemp*
 
 # Makeindex log files
 *.lpz
+
+## Canvas push stamps (modules/module.mk)
+.pushed-pages
+.pushed-pages.d/
+.pushed-assignments
+.pushed-assignments.d/
+.pushed-quizzes*

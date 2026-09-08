@@ -6,11 +6,39 @@ contain a title, a table of contents, a figure, a citation with a reference, a
 listing (using the listings package) that contains your command line history 
 (the output of the history command).
 
-We will use the [[canvaslms]] command to report the grades. This must be installed 
+We will use the [[canvaslms]] command to report the grades. This must be installed
 from
 \begin{center}
   \texttt{https://github.com/dbosk/canvaslms}.
 \end{center}
+
+\tableofcontents
+
+\section{Overview}
+
+The grading workflow follows these steps:
+\begin{enumerate}
+\item \textbf{Fetch students to grade}: Query Canvas LMS for students who haven't
+  received a passing grade yet.
+\item \textbf{Clone student repositories}: Use RepoBee to clone the designated
+  repositories from GitHub for each student.
+\item \textbf{Generate feedback}: For each repository:
+  \begin{itemize}
+    \item Find all \texttt{.tex} files
+    \item Check for required \LaTeX{} elements:
+    \begin{itemize}
+      \item Document class declaration
+      \item Title and title page generation
+      \item Table of contents
+      \item Figure (or table) environment
+      \item Citations
+      \item Code listing
+    \end{itemize}
+    \item Check for command-line history file
+  \end{itemize}
+\item \textbf{Submit grades}: If any required elements are missing, grade as Fail
+  (F) with specific feedback for each missing element; otherwise grade as Pass (P).
+\end{enumerate}
 
 We will do this as a shell script.
 <<grade.sh>>=
@@ -19,7 +47,12 @@ We will do this as a shell script.
 <<configuration variables>>
 <<common functions>>
 <<generate grade and feedback>>
-<<grade students>>
+
+# check if file is being sourced or executed
+(return 0 2>/dev/null) && SOURCED=1 || SOURCED=0
+if [ "$SOURCED" = 0 ]; then
+  <<grade students>>
+fi
 @
 
 \section{Settings}
@@ -84,97 +117,195 @@ The requirements specifies
 \item a citations with a reference,
 \item a listing containing the output of the history command.
 \end{itemize}
-We will search for a [[.tex]] file and simply grep(1) that file for the 
+We will search for a [[.tex]] file and simply grep(1) that file for the
 requirements.
 Then we look through all files for the [[history]] command.
 <<generate grade and feedback>>=
 generate_feedback() {
   local texfiles=$(mktemp)
 
-  find "$1" -type f -name \*.tex > $texfiles
+  find "$1" -type f -name \*.tex -print0 > "$texfiles"
 
-  if ! [ $(wc -l $texfiles | cut -f 1 -d " ") -gt 0 ]; then
+  if ! [ $(grep -zc . "$texfiles") -gt 0 ]; then
     echo "No LaTeX files found. Make sure that you commit the source file."
     echo "We don't care about the PDF, with the source files we can build"
     echo "that one by ourselves."
     echo
   else
-    if ! check_student $s $texfiles "documentclass"; then
-      echo "No document class found:"
-      echo "See the first video lecture (Video: Intro to LaTeX) from"
-      echo "https://daniel.bosk.se/introtools/modules/latex/latex"
-      echo "and read Lesson 5 from LearnLaTeX"
-      echo "https://www.learnlatex.org/en/lesson-05"
-      echo
-    fi
-    if ! check_student $s $texfiles "\\\\title"; then
-      echo "No title found:"
-      echo "See the first video lecture (Video: Intro to LaTeX) from"
-      echo "https://daniel.bosk.se/introtools/modules/latex/latex"
-      echo
-    fi
-    if ! check_student $s $texfiles "\\\\maketitle"; then
-      echo "No title page generated:"
-      echo "See the first video lecture (Video: Intro to LaTeX) from"
-      echo "https://daniel.bosk.se/introtools/modules/latex/latex"
-      echo
-    fi
-    if ! check_student $s $texfiles "\\\\tableofcontents"; then
-      echo "No table of contents found:"
-      echo "See the first video lecture (Video: Intro to LaTeX) from"
-      echo "https://daniel.bosk.se/introtools/modules/latex/latex"
-      echo
-    fi
-    if ! check_student $s $texfiles "\\\\begin ?{(.*figure|table)}"; then
-      echo "No figure found:"
-      echo "Hint: an image is not a figure, but a figure can contain an image."
-      echo "See the fourth video lecture (Video: Figures and Tables) from"
-      echo "https://daniel.bosk.se/introtools/modules/latex/latex"
-      echo "and read Lesson 7 from LearnLaTeX"
-      echo "https://www.learnlatex.org/en/lesson-07"
-      echo "particularly about floats."
-      echo
-    fi
-    if ! check_student $s $texfiles "\\\[a-z\]*cite"; then
-      echo "No citation found:"
-      echo "See the second video lecture (Video: References/Bibliography) from"
-      echo "https://daniel.bosk.se/introtools/modules/latex/latex"
-      echo "and read Lesson 12 from LearnLaTeX"
-      echo "https://www.learnlatex.org/en/lesson-12"
-      echo
-    fi
-    if ! check_student $s $texfiles "\\\\.*lst(input)?listing"; then
-      echo "No listing found:"
-      echo "See the documentation of the listings package linked in the"
-      echo "assessment section of"
-      echo "https://daniel.bosk.se/introtools/modules/latex/latex"
-      echo
-    fi
+    <<check LaTeX document structure>>
+    <<check LaTeX content elements>>
   fi
 
-  rm -f $texfiles
+  rm -f "$texfiles"
 
-  local allfiles=$(mktemp)
-
-  find "$1" -type f > $allfiles
-  if ! check_student $s $allfiles "history"; then
-    echo "No command-line history found:"
-    echo "See the requirements in the assessment section of"
-    echo "https://daniel.bosk.se/introtools/modules/latex/latex"
-    echo "and the assessment section of The Terminal assignment"
-    echo "https://daniel.bosk.se/introtools/modules/terminal/terminal"
-    echo
-  fi
-
-  rm -f $allfiles
+  <<check command-line history>>
 }
 @
 
+\subsection{Checking LaTeX document structure}
+
+We check the basic document structure elements that every LaTeX document should have:
+the document class, title, and table of contents.
+These are fundamental elements covered in introductory LaTeX materials.
+
+\subsubsection{Understanding through contrast: correct vs incorrect examples}
+
+According to variation theory of learning, understanding is enhanced by contrasting
+examples that highlight critical aspects.
+Here we show what passes versus what fails for document structure:
+
+\paragraph{Document class:} The critical aspect is that every LaTeX document must
+declare its document class.
+\begin{description}
+\item[Passes] \verb|\documentclass{article}| or
+  \verb|\documentclass[12pt]{report}|
+\item[Fails] No documentclass declaration, or just starting with
+  \verb|\begin{document}|
+\end{description}
+
+\paragraph{Title:} The critical aspect is having a title defined, not just displayed.
+\begin{description}
+\item[Passes] \verb|\title{My Report}| appears in the preamble
+\item[Fails] Using just \verb|\textbf{My Report}| in the document body,
+  or missing the title command entirely
+\end{description}
+
+\paragraph{Title page generation:} The critical aspect is using \LaTeX{}'s
+automatic title page generation, not manual formatting.
+\begin{description}
+\item[Passes] \verb|\maketitle| appears after \verb|\begin{document}|
+\item[Fails] Manually formatting a title with \verb|\textbf| or
+  \verb|\huge|, or having \verb|\title| but no \verb|\maketitle|
+\end{description}
+
+\paragraph{Table of contents:} The critical aspect is using \LaTeX{}'s automatic
+TOC generation based on sectioning commands.
+\begin{description}
+\item[Passes] \verb|\tableofcontents| appears in the document
+\item[Fails] Manually typing a list that looks like a table of contents,
+  or using sections but no \verb|\tableofcontents|
+\end{description}
+
+<<check LaTeX document structure>>=
+if ! check_student "$texfiles" "documentclass"; then
+  echo "No document class found:"
+  echo "See the first video lecture (Video: Intro to LaTeX) from"
+  echo "https://daniel.bosk.se/introtools/modules/latex/latex"
+  echo "and read Lesson 5 from LearnLaTeX"
+  echo "https://www.learnlatex.org/en/lesson-05"
+  echo
+fi
+if ! check_student "$texfiles" "\\\\title"; then
+  echo "No title found:"
+  echo "See the first video lecture (Video: Intro to LaTeX) from"
+  echo "https://daniel.bosk.se/introtools/modules/latex/latex"
+  echo
+fi
+if ! check_student "$texfiles" "\\\\maketitle"; then
+  echo "No title page generated:"
+  echo "See the first video lecture (Video: Intro to LaTeX) from"
+  echo "https://daniel.bosk.se/introtools/modules/latex/latex"
+  echo
+fi
+if ! check_student "$texfiles" "\\\\tableofcontents"; then
+  echo "No table of contents found:"
+  echo "See the first video lecture (Video: Intro to LaTeX) from"
+  echo "https://daniel.bosk.se/introtools/modules/latex/latex"
+  echo
+fi
+@
+
+\subsection{Checking LaTeX content elements}
+
+We check for more advanced content elements: figures/tables, citations, and code listings.
+These demonstrate the student's ability to include different types of content in their document.
+
+\subsubsection{Understanding through contrast: correct vs incorrect examples}
+
+Continuing with variation theory, we contrast correct and incorrect implementations of
+content elements:
+
+\paragraph{Figures:} The critical aspect is using the \texttt{figure} environment for
+proper floating and captioning, not just inserting images.
+\begin{description}
+\item[Passes] \verb|\begin{figure}...\end{figure}| or
+  \verb|\begin{table}...\end{table}| with \verb|\caption| and \verb|\label|
+\item[Fails] Just using \verb|\includegraphics| without a figure
+  environment, or forgetting that ``an image is not a figure, but a figure can
+  contain an image''
+\end{description}
+
+\paragraph{Citations:} The critical aspect is using proper citation commands to reference
+bibliography entries, not manual references.
+\begin{description}
+\item[Passes] \verb|\cite{key}|, \verb|\citep{key}|, \verb|\citet{key}|,
+  or any other citation command variant
+\item[Fails] Manually typing references like ``[1]'' or ``(Smith 2020)'',
+  or having a bibliography but no citation commands
+\end{description}
+
+\paragraph{Listings:} The critical aspect is using the listings package to format
+code with proper syntax highlighting and line numbers.
+\begin{description}
+\item[Passes] \verb|\begin{lstlisting}...\end{lstlisting}| or
+  \verb|\lstinputlisting{file}| from the listings package
+\item[Fails] Using \verb|\verbatim| without the listings package, or
+  pasting code as normal text without any formatting
+\end{description}
+
+<<check LaTeX content elements>>=
+if ! check_student "$texfiles" "\\\\begin ?{(.*figure|table)}"; then
+  echo "No figure found:"
+  echo "Hint: an image is not a figure, but a figure can contain an image."
+  echo "See the fourth video lecture (Video: Figures and Tables) from"
+  echo "https://daniel.bosk.se/introtools/modules/latex/latex"
+  echo "and read Lesson 7 from LearnLaTeX"
+  echo "https://www.learnlatex.org/en/lesson-07"
+  echo "particularly about floats."
+  echo
+fi
+if ! check_student "$texfiles" "\\\[a-z\]*cite"; then
+  echo "No citation found:"
+  echo "See the second video lecture (Video: References/Bibliography) from"
+  echo "https://daniel.bosk.se/introtools/modules/latex/latex"
+  echo "and read Lesson 12 from LearnLaTeX"
+  echo "https://www.learnlatex.org/en/lesson-12"
+  echo
+fi
+if ! check_student "$texfiles" "\\\\.*lst(input)?listing"; then
+  echo "No listing found:"
+  echo "See the documentation of the listings package linked in the"
+  echo "assessment section of"
+  echo "https://daniel.bosk.se/introtools/modules/latex/latex"
+  echo
+fi
+@
+
+\subsection{Checking command-line history}
+
+Finally, we check that the student has included their command-line history,
+which demonstrates they've been working with the terminal as required.
+<<check command-line history>>=
+local allfiles=$(mktemp)
+
+find "$1" -type f -print0 > "$allfiles"
+if ! check_student "$allfiles" "history"; then
+  echo "No command-line history found:"
+  echo "See the requirements in the assessment section of"
+  echo "https://daniel.bosk.se/introtools/modules/latex/latex"
+  echo "and the assessment section of The Terminal assignment"
+  echo "https://daniel.bosk.se/introtools/modules/terminal/terminal"
+  echo
+fi
+
+rm -f "$allfiles"
+@
+
 The [[check_student]] function will grep(1) the files for the provided regex.
-It will print and return false if the test failed.
+It takes a file list and a regex pattern, and returns true if the pattern is found.
 <<generate grade and feedback>>=
 check_student() {
-  cat "$2" | xargs -d "\n" egrep "$3" > /dev/null
+  cat "$1" | xargs -0 egrep "$2" > /dev/null
   if [ $? = 0 ]; then
     true
   else
@@ -191,47 +322,47 @@ To grade, we iterate through the remaining students, given by
 We run [[canvaslms]] as a background job, since it's so slow.
 However, we need a small delay to not run into Canvas' DoS protection.
 <<grade students>>=
+grade_students "${ASSIGNMENT}" ${COURSE_CODE_ORG}
+<<generate grade and feedback>>=
 grade_students() {
   local assignm="$1"; shift
 
-  for course in $*; do
-    local canvas=$(echo $course | cut -f 1 -d :)
-    local github=$(echo $course | cut -f 2 -d :)
+  for course in "$@"; do
+    local canvas=$(echo "$course" | cut -f 1 -d :)
+    local github=$(echo "$course" | cut -f 2 -d :)
 
     local students_w_times=$(students_with_grading_time "$canvas" "$assignm")
     if [[ -z "$students_w_times" ]]; then
       continue
     fi
 
-    local repos=$(clone_repos $github $(echo "$students_w_times" | cut -f 1))
+    local repos=$(clone_repos "$github" $(echo "$students_w_times" | cut -f 1))
 
     local students=$(echo "$students_w_times" | \
-      students_to_actually_grade $repos)
+      students_to_actually_grade "$repos")
 
     for s in $students; do
-      local feedback=$(generate_feedback $repos/$s)
+      local feedback=$(generate_feedback "$repos/$s")
 
       if [[ $(echo -n "$feedback" | wc -c) -gt 0 ]]; then
         echo "$s (attempted latex)"
 
         canvaslms grade -c "${canvas}" -a "${assignm}" \
-          -u $s@kth.se -g F -m "$feedback" &
+          -u "$s@kth.se" -g F -m "$feedback" &
       else
         echo "$s (latex)"
 
         canvaslms grade -c "${canvas}" -a "${assignm}" \
-          -u $s@kth.se -g P &
+          -u "$s@kth.se" -g P &
       fi
 
       sleep 0.2
     done
 
-    rm -Rf $repos
+    rm -Rf "$repos"
   done
 
   wait
 }
-
-grade_students "${ASSIGNMENT}" ${COURSE_CODE_ORG}
 @
 

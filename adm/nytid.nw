@@ -29,7 +29,7 @@ We add a note that this is the only part that needs updating from year to year,
 this way we can edit the [[nytid.sh]] file directly, if we like.
 <<variables>>=
 # This section is the only thing that needs updating from year to year.
-YEAR=25
+YEAR=26
 COURSE="datintro${YEAR}"
 @
 

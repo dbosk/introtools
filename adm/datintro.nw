@@ -17,7 +17,7 @@ We don't change the automation every year.
 It's a space-separated list.
 <<constants>>=
 CURRENT_YEAR=$(date +%y)
-YEARS="$(seq 25 ${CURRENT_YEAR})"
+YEARS="$(seq -s' ' 25 ${CURRENT_YEAR})"
 @
 
 \item [[COURSE_CODE_ORG]] is a space-separated list of Canvas-to-GitHub 
@@ -118,10 +118,17 @@ To do this, whenever we notice there are more than one matching course room in
 Canvas, we'll send an email to IT and ask them to merge the courses.
 However, we don't want to run this too often, so that we don't send another 
 email before IT has acted on the first.
+Also, we must ensure that we don't see old data based on the [[canvaslms]] 
+cache.
+We use the [[--no-cache]] option do check the available course rooms.
+Without it, it has happened that IT fixed it but we didn't see it due to the 
+cache.
 <<ask IT to merge Canvas rooms>>=
 YEAR=$(date +%y)
 <<condition to not send too often>>
-  course_rooms=$(canvaslms courses "DD1301.(HT${YEAR}|VT$(expr $YEAR + 1))")
+  course_rooms=$(canvaslms --no-cache \
+                    courses "DD1301.(HT${YEAR}|VT$(expr $YEAR + 1))" \
+                 | sed 's/\r$//')
   if test "$?" = "0" -a "$(echo "${course_rooms}" | wc -l)" -gt 1
   then
     <<send email to IT to merge Canvas rooms in [[course_rooms]]>>
@@ -165,6 +172,8 @@ We only want to ask IT to merge the rooms once every two weeks; particularly,
 only on days 1 and 15, that way we get twice a month.
 That way, they should have had the time to merge the rooms before we ask them 
 about the same thing again.
+Also, we don't want to send during the vacation period, usually July, as then 
+it might pass more than two weeks before they can process the previous email.
 
 However, this only works if we run the script \emph{at most once} every day.
 This is mostly the case, but we run it once an hour during September and end of 
@@ -176,7 +185,7 @@ August.
 \end{verbatim}
 So we avoid running this part during August and September.
 <<condition to not send too often>>=
-if ! test "$(date +%m)" = "09" -o "$(date +%m)" = "08"
+if ! test "$(date +%m)" = "09" -o "$(date +%m)" = "08" -o "$(date +%m)" = "07"
 then
   case "$(date +%d)" in
     01|15)
@@ -259,8 +268,9 @@ Then we report to LADOK using [[canvaslms]].
 <<create Cron log output and report to LADOK>>=
 echo "$out"
 echo
-echo "LADOK:"
+echo "LADOK: '${courses}' '${components}'"
 canvaslms results -c "$courses" -A "$components" | \
+  sed 's/\r$//' | \
   <<translate Canvas course identifiers to course codes>> | \
   ladok report -fv
 @
