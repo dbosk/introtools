@@ -49,6 +49,11 @@ sequentially (`unlock_at` 2026-08-23) and have the same order:
 2. the lab, a 1-point assignment whose single rubric criterion carries the
    module's outcome code, with the requirement `must_mark_done`.
 
+Collaboration opens with the page *Terminal mates* and three more
+assignments (*Strengthening the case for pair programming*, *The costs and
+benefits of pair programming*, *SSH keys for KTH GitHub*) before its Git
+lectures.
+
 The terminal module is the exception: text headers (SubHeader) split it
 into *Local terminal*, *Remote terminal*, *Summary* (the ssh lab) and
 *Using the terminal* (the lectures and the terminal lab), and the page

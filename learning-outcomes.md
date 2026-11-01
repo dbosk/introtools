@@ -25,6 +25,9 @@ rubric refers to them.
 
 # Outcomes by lab, module and deck
 
+Deck titles are the working titles in `modules/CLAUDE.md`, until the author
+confirms them.
+
 ## 10451: obtain access to the computational environment at KTH
 
 - Lab: *Guide to accessing the terminal* (`modules/ssh/guide.md`, Canvas
