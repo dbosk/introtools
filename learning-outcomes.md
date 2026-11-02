@@ -25,8 +25,8 @@ rubric refers to them.
 
 # Outcomes by lab, module and deck
 
-Deck titles are the working titles in `modules/CLAUDE.md`, until the author
-confirms them.
+Deck titles are those in `modules/CLAUDE.md`, where the git and LaTeX titles
+are still working titles.
 
 ## 10451: obtain access to the computational environment at KTH
 

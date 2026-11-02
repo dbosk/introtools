@@ -34,12 +34,12 @@ places is a defect.
 Each module has one or more deck directories building `slides.pdf` and
 `notes.pdf`; as of 2026-10-31 all are old-style `contents.tex` decks
 waiting for conversion. Canonical titles, used when one deck points at
-another in prose. **All English titles are working titles until the
-author confirms them**; where the column "Proposed" differs from the
-current `\title`, the proposal parallels the Swedish title (the
-pilot is already named *Interfaces*).
+another in prose. The titles of the course overview and the four
+terminal decks are decided (author, 2026-11-02), and the terminal decks'
+parallel their Swedish titles; a conversion replaces the current `\title`
+with them. The git and LaTeX titles are still working titles.
 
-| Directory | Current `\title` | Proposed English title | Swedish title |
+| Directory | Current `\title` | English title | Swedish title |
 |---|---|---|---|
 | `overview/slides` | DD1301 Datorintroduktion | *Course overview* | |
 | `terminal/slides-interfaces` | Briefly on interfaces | *Interfaces* | *Gränssnitt* |
@@ -92,16 +92,14 @@ ink only once its comments are fully addressed in a newer version (the
 
 ## Course-specific rules
 
-- **PROPOSAL, for the author to confirm.** Example data names: never the
-  author's (the current decks use "Daniel", "Bosk" and `dbosk@kth.se`,
-  e.g. `terminal/slides-pipes/names.csv`). Proposed: intropy's names
-  (Malvina as the single name; Ronja, Pippi, Madicken, then Birk, Annika,
-  Lisabet; Ada), so that the bilingual decks have one set of names in
-  both editions and the Swedish chapters match intropy's book. Until
-  confirmed, a conversion replaces the author's name with these and says
-  so in its report.
-- **PROPOSAL, for the author to confirm.** Every backed-claim appendix
-  chapter (B onwards; not the method chapter A) opens with the verbatim
+- Example data names: never the author's (the current decks use "Daniel",
+  "Bosk" and `dbosk@kth.se`, e.g. `terminal/slides-pipes/names.csv`), but
+  intropy's names (Malvina as the single name; Ronja, Pippi, Madicken, then
+  Birk, Annika, Lisabet; Ada), so that the bilingual decks have one set of
+  names in both editions and the Swedish chapters match intropy's book
+  (author, 2026-11-02). A conversion replaces the author's name with these.
+- Every backed-claim appendix chapter (B onwards; not the method chapter A;
+  author, 2026-11-02) opens with the verbatim
   `\chapterprecis{The author has not yet reviewed the results in this
   appendix in full.}` (in a bilingual deck through `\tr`, the Swedish half
   intropy's sentence `Författaren har ännu inte granskat resultaten i den
