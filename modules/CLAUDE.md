@@ -35,9 +35,9 @@ Each module has one or more deck directories building `slides.pdf` and
 `notes.pdf`; as of 2026-10-31 all are old-style `contents.tex` decks
 waiting for conversion. Canonical titles, used when one deck points at
 another in prose. The titles of the course overview and the four
-terminal decks are decided (author, 2026-11-02) and parallel the Swedish
-titles; a conversion replaces the current `\title` with them. The git and
-LaTeX titles are still working titles.
+terminal decks are decided (author, 2026-11-02), and the terminal decks'
+parallel their Swedish titles; a conversion replaces the current `\title`
+with them. The git and LaTeX titles are still working titles.
 
 | Directory | Current `\title` | English title | Swedish title |
 |---|---|---|---|
