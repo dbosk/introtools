@@ -121,6 +121,7 @@ Backed so far (question → answer): none yet.
 
 ## Build environment
 
-The `makefiles` submodule is at 1571556 (the `tominted-default-weave`
-lineage the deck template needs). In a fresh worktree run `git submodule
+The `makefiles` submodule is at fe00f3b (the `tominted-default-weave`
+lineage the deck template needs, with latexmk allowed ten runs). In a
+fresh worktree run `git submodule
 update --init --checkout makefiles`.
