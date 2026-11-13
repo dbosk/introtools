@@ -16,6 +16,7 @@ common.sh: ../../../adm/grading/common.sh.nw
 clean:
 	${RM} grade.sh grade.pdf regrade.sh regrade.pdf
 	${RM} grade.aux grade.fdb_latexmk grade.fls grade.log grade.tex
+	${RM} common.sh
 
 
 INCLUDE_MAKEFILES=../../../makefiles
