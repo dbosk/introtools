@@ -41,7 +41,7 @@ The grading workflow follows these steps:
 \end{enumerate}
 
 We will do this as a shell script.
-<<grade.sh>>=
+<<[[grade.sh]]>>=
 #!/bin/bash
 # This file is generated from grade.sh.nw
 <<configuration variables>>

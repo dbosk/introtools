@@ -42,7 +42,7 @@ We want to build a Docker image to run all the necessary grading in the course.
 We will use the [[dbosk/grader]] image as a base.
 This contains all necessary dependencies, such as [[canvaslms]] and 
 [[repobee]].
-<<Dockerfile>>=
+<<[[Dockerfile]]>>=
 FROM dbosk/grader:latest
 
 USER root
@@ -55,7 +55,7 @@ Next is building the Docker image.
 We use the phony target [[${IMAGE_TARGET}]] for this.
 This variable should be updated whenever we make significant changes, so that 
 the setup procedure can vary between courses.
-<<datintro-setup.mk>>=
+<<[[datintro-setup.mk]]>>=
 <<constants>>
 
 IMAGE_TARGET=   ${IMGNAME}-setup
@@ -95,7 +95,7 @@ For this we use the same variable as in the grading scripts:
 [[COURSE_CODE_ORG="datintro23:datintro23 "]]
 \end{center}
 This variable should be set in the environment.
-<<gits-setup.sh>>=
+<<[[gits-setup.sh]]>>=
 #!/bin/bash
 
 extract_users() {

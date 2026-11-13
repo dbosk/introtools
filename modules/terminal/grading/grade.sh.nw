@@ -35,7 +35,7 @@ This must be installed from
 \end{center}
 
 We will do this as a shell script.
-<<grade.sh>>=
+<<[[grade.sh]]>>=
 #!/bin/bash
 # This file is generated from grade.sh.nw
 

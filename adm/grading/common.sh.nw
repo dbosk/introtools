@@ -4,7 +4,7 @@
 
 We create an include file, [[common.sh]], to be included in other grading 
 scripts.
-<<common.sh>>=
+<<[[common.sh]]>>=
 <<variables>>
 <<function returning students to grade>>
 <<function returning students to grade with last grading time>>

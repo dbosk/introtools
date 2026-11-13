@@ -12,7 +12,7 @@ We'll create a fake course for all with the merged sign-up sheet.
 Finally, we want to send that sign-up sheet to Mottagningen.
 
 We'll do this as a shell script.
-<<nytid.sh>>=
+<<[[nytid.sh]]>>=
 #!/bin/bash
 
 # Configuration

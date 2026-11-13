@@ -50,7 +50,7 @@ We need Kerberos to authenticate to KTH.
 Then we install the depends and grading scripts and run them all by default.
 
 This means that we can use the [[dbosk/grader]] image.
-<<Dockerfile>>=
+<<[[Dockerfile]]>>=
 FROM dbosk/grader:latest
 
 <<set up grading scripts in container>>
@@ -60,7 +60,7 @@ Next is building the Docker image.
 We use the phony target [[${IMAGE_TARGET}]] for this.
 This variable should be updated whenever we change the assignments, so that the 
 grading procedure can vary between courses.
-<<datintro-grade.mk>>=
+<<[[datintro-grade.mk]]>>=
 <<constants>>
 
 IMAGE_TARGET=   ${IMGNAME}-grade
@@ -100,7 +100,7 @@ This script will also set up the prerequisites for the individual grading
 scripts.
 For starters, all scripts requires SSH to be set up with an agent to 
 authenticate using public keys.
-<<grade-all.sh>>=
+<<[[grade-all.sh]]>>=
 #!/bin/bash
 
 <<initialize SSH authentication for run>>
