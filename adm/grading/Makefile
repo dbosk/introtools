@@ -1,6 +1,14 @@
 .PHONY: all
 all: datintro-grade.pdf common.sh.pdf
 
+# Explicit rules: with a leftover .tex file, the generic rules would go by
+# way of that file and weave it without a preamble.
+datintro-grade.pdf: datintro-grade.nw
+	${NOWEAVE.pdf}
+
+common.sh.pdf: common.sh.nw
+	${NOWEAVE.pdf}
+
 include datintro-grade.mk
 
 .PHONY: clean

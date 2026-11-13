@@ -1,6 +1,11 @@
 .PHONY: all
 all: datintro-setup.pdf
 
+# An explicit rule: with a leftover datintro-setup.tex, the generic rules
+# would go by way of the .tex file and weave it without a preamble.
+datintro-setup.pdf: datintro-setup.nw
+	${NOWEAVE.pdf}
+
 include datintro-setup.mk
 
 .PHONY: clean
