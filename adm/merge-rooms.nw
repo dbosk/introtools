@@ -1,0 +1,137 @@
+\section{Overview}
+
+IT automatically creates separate Canvas rooms for all the course instances.
+However, we want to merge them into one, so that all students can communicate
+with each other.
+
+IT creates the course instances 270 days before the course start.
+This gives us time to email them as soon as the new course rooms pop up in
+Canvas, months before any students are in the course.
+
+That is what this script does: whenever there is more than one matching
+course room in Canvas, it sends an email to IT and asks them to merge the
+rooms.
+<<[[merge-rooms.sh]]>>=
+#!/bin/bash
+
+<<environment>>
+
+<<find the course rooms in [[course_rooms]]>>
+if <<there is more than one course room>>
+then
+  <<send email to IT to merge Canvas rooms in [[course_rooms]]>>
+fi
+@
+
+This is a script of its own, and not a part of [[datintro.sh]] (see
+[[datintro.nw]]), because the two must run on different schedules.
+The grading must run often, at times twice an hour.
+This email must be sent seldom, so that we don't send another one before IT
+has acted on the first.
+When the two shared a script, the email part had to guard itself with a test
+on the date, and that guard only worked as long as the script ran at most
+once a day.
+So every change of the grading schedule had to consider the emails too.
+
+Now Cron decides when each of them runs (see Section~\ref{sec:scheduling})
+and this script has no notion of time: every run checks the rooms and, if
+there is more than one, sends the email.
+That also lets us run it by hand to send the email right away.
+
+
+\section{Environment}
+
+Cron runs the script in a minimal environment, so we set up the same two
+things as [[datintro.sh]] does: the credentials in [[~/.credentials]], and a
+[[PATH]] that includes the locally installed Python commands, like
+[[canvaslms]].
+<<environment>>=
+source ~/.credentials
+PATH=${PATH}:~/.local/bin
+export PATH
+@
+
+
+\section{Finding the course rooms}
+
+The rooms to merge are those of the course round that starts this autumn and
+the one that starts next spring.
+
+We must ensure that we don't see old data from the [[canvaslms]] cache.
+We use the [[--no-cache]] option to check the available course rooms.
+Without it, it has happened that IT fixed it but we didn't see it due to the
+cache.
+<<find the course rooms in [[course_rooms]]>>=
+YEAR=$(date +%y)
+course_rooms=$(canvaslms --no-cache \
+                  courses "DD1301.(HT${YEAR}|VT$(expr $YEAR + 1))" \
+               | sed 's/\r$//')
+@
+
+We get one line per course room, so there is something to merge when there
+is more than one line.
+The [[$?]] must come right after the assignment above; it is the exit status
+of that pipeline, which means that of [[sed]].
+A failed lookup is caught by the line count instead: it yields no course
+rooms, and the empty string is still only one line when we [[echo]] it.
+<<there is more than one course room>>=
+test "$?" = "0" -a "$(echo "${course_rooms}" | wc -l)" -gt 1
+@
+
+
+\section{The email}
+
+We simply generate a message that we send to IT on the usual email address.
+Each line of [[course_rooms]] is one room, with tab-separated columns, so we
+split on newlines only when we loop over them.
+<<send email to IT to merge Canvas rooms in [[course_rooms]]>>=
+<<adjust IFS for the loop>>
+echo "
+Hej!
+
+Kan ni slå ihop följande canvasrum till DD1301 HT${YEAR} (datintro${YEAR})?
+
+$(for course in ${course_rooms}; do
+    echo -n " - "
+    echo "${course}" | cut -f 1,3- | sed "s/\t/ /g"
+  done)
+
+    Tack så mycket,
+
+        Daniel
+" | <<fix indents>> | mutt -s "Slå ihop canvasrum" it-support@kth.se
+<<restore IFS>>
+<<adjust IFS for the loop>>=
+oldIFS="$IFS"
+IFS=$'\n'
+<<restore IFS>>=
+IFS="$oldIFS"
+@
+
+Now, Noweb will indent the message, since the chunk is used inside the
+[[if]] statement, two spaces in.
+But we don't want an indented message.
+So we remove exactly that indentation; if the chunk ever moves to another
+depth, this must follow.
+<<fix indents>>=
+sed "s/^  //"
+@
+
+
+\section{Scheduling}
+\label{sec:scheduling}
+
+We run the script from Cron, at eight in the morning on days 1 and 15 of
+the month:
+\begin{verbatim}
+00 08 1,15 1-6,8-12 * /bin/bash ${HOME}/merge-rooms.sh
+\end{verbatim}
+
+Twice a month means that IT should have had the time to merge the rooms
+before we ask them about the same thing again.
+We don't send during the vacation period, usually July, as then it might
+pass more than two weeks before they can process the previous email.
+
+We used to skip August and September too.
+That was only because the grading runs twice an hour then, and this was a
+part of the grading script.
