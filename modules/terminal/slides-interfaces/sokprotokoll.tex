@@ -10,7 +10,7 @@
 \chapter{\ensv{Checking a claim}{Att kontrollera ett påstående}} % sync english=e8053b swedish=1bf2a3
 \label{app:checking}
 
-\begin{onlyin}{english} % sync english=0a8ac2 swedish=3d6d87
+\begin{onlyin}{english} % sync english=4fb89b swedish=f798cc
 These notes, like all teaching material, make a number of claims.  Most
 of them you can check at the keyboard: run \texttt{ls | wc -l} and see
 whether it prints what the notes say.  Others you can look up in a
@@ -23,8 +23,8 @@ stand behind \cref{sec:where-cli}:
   \item whether a command line is more efficient than a graphical
     interface for repeated or bulk tasks, and makes such work easier to
     redo;
-  \item whether the large computers of research, computing clusters, are
-    reached through a command line;
+  \item whether high-performance computers run Linux, and whether they
+    are reached through a command line;
   \item which of today's systems descend from Unix.
 \end{enumerate}
 How do you know the answer to such a question?  The same problem meets
@@ -48,7 +48,7 @@ inte avgöra dem.  Tre sådana frågor står bakom \cref{sec:where-cli}:
   \item om en kommandorad är effektivare än ett grafiskt gränssnitt för
     upprepade uppgifter och massuppgifter, och gör sådant arbete lättare
     att göra om;
-  \item om forskningens stora datorer, beräkningskluster, nås genom en
+  \item om superdatorer kör Linux, och om de nås genom en
     kommandorad;
   \item vilka av dagens system som härstammar från Unix.
 \end{enumerate}
@@ -286,37 +286,105 @@ den sökningen lämnade ogjort, och vad som skulle behöva studeras för ett
 säkrare svar.
 \end{onlyin}
 
-% TODO(claims): a table of the three questions and their answers,
-% tab:three-claims, once appendices B and C are final.
+\begin{onlyin}{english} % sync english=75c567 swedish=321a19
+\Cref{tab:three-claims} gives the three questions of these appendices
+with their answers, each at the strength its appendix supports.
+\end{onlyin}
+\begin{onlyin}{swedish}
+\Cref{tab:three-claims} ger bilagornas tre frågor med deras svar, vart
+och ett med den styrka som dess bilaga bär.
+\end{onlyin}
+
+\begin{table}[htbp]
+  \begin{sidecaption}{\ensv{The three questions of the appendices, where
+    each is answered and what the answer is, at the strength the appendix
+    supports.  The main text states each claim no stronger than this.}%
+    {Bilagornas tre frågor, var vart och ett besvaras och vad svaret är,
+    med den styrka som bilagan bär.  Huvudtexten anger inget påstående
+    starkare än så.}}[tab:three-claims] % sync english=c57a6f swedish=ff3bfc
+    \footnotesize
+    \begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}X
+        l>{\raggedright\arraybackslash}X@{}}
+      \toprule
+      \ensv{Question}{Fråga} & \ensv{Where}{Var} & \ensv{Answer}{Svar} \\ % sync english=289aff swedish=74aef9; english=1daaa3 swedish=605298; english=b2a3aa swedish=78ad65
+      \midrule
+      \ensv{Is a command line more efficient or reproducible than a
+        graphical interface for repeated or bulk tasks?}%
+        {Är en kommandorad effektivare eller lättare att upprepa än ett
+        grafiskt gränssnitt för upprepade uppgifter och massuppgifter?} % sync english=db83f6 swedish=2061b9
+        & \cref{app:cli-efficiency} &
+        \ensv{Not as a general rule.  A line of commands can be saved and
+        run again; experiments show no consistent efficiency advantage;
+        scripts for research are advice, not measured; a graphical
+        interface is usually easier at first.}%
+        {Inte som allmän regel.  En rad kommandon kan sparas och köras
+        igen; experimenten visar ingen genomgående fördel i
+        effektivitet; skript i forskningen är ett råd, inte uppmätt; ett
+        grafiskt gränssnitt är oftast lättare i början.} \\ % sync english=c1404a swedish=913980
+      \addlinespace
+      \ensv{Do high-performance computers run Linux, and are they reached
+        through a command line?}%
+        {Kör superdatorer Linux, och nås de genom en kommandorad?} % sync english=7201d3 swedish=d08f91
+        & \cref{app:hpc-cli} &
+        \ensv{Every TOP500 system has run Linux since November 2017 (the
+        list counts the 500 fastest submitted).  A command line over SSH
+        is the usual way in, not the only one: remote desktops and web
+        portals exist.}%
+        {Varje TOP500-system har kört Linux sedan november 2017 (listan
+        räknar de 500 snabbaste som skickats in).  En kommandorad över SSH
+        är den vanliga vägen in, inte den enda: fjärrskrivbord och
+        webbportaler finns.} \\ % sync english=5e0e3e swedish=4e5da1
+      \addlinespace
+      \ensv{Which of today's systems descend from Unix?}%
+        {Vilka av dagens system härstammar från Unix?} % sync english=9c8ed7 swedish=dff1b1
+        & \cref{app:unix-lineage} &
+        \ensv{The BSD systems, and macOS through them, descend from Unix;
+        Linux imitates it; Android is built on the Linux kernel.}%
+        {BSD-systemen, och macOS genom dem, härstammar från Unix; Linux
+        efterliknar det; Android är byggt på Linuxkärnan.} \\ % sync english=42475c swedish=18a7c3
+      \bottomrule
+    \end{tabularx}
+  \end{sidecaption}
+\end{table}
 
 \section{\ensv{A note on language models}%
   {En anmärkning om språkmodeller}} % sync english=9c8834 swedish=eaaa32
 
-\begin{onlyin}{english} % sync english=032880 swedish=acb44b
-The searches in these appendices gave hundreds of hits each.  A language
-model was used to \emph{sort} them (does the hit belong to the topic at
-all, and which way does it point?) so that the screening could be
-checked.  Notice the division of labour: the model sorted, but every
-source that is cited was read and chosen by a person, and the sorting
-too is to be confirmed by a person.  The model's classification
-therefore stands in the tables with its confidence, so that it can be
-questioned, and the start of each appendix says how far the human
-review has come.  Do use language models to find and sort; never let
-them be the last link.  They can be wrong, and it is you who must answer
-for the content.
+\begin{onlyin}{english} % sync english=295000 swedish=b79286
+The searches in these appendices gave hundreds or thousands of hits
+each.  A language model was used to \emph{sort} them (does the hit
+belong to the topic at all, and which way does it point?) so that the
+screening could be checked.  In these appendices an AI agent, a language
+model working for the author, also ran the searches, fetched the
+documents, found the quotations in them and wrote the notes on the
+sources and the drafts of the chapters; every quotation is taken from
+the source's text, not from the model's memory.  Notice the division of
+labour: the model sorted, searched and drafted, but every source that is
+cited is to be read and chosen by a person, and the sorting too is to be
+confirmed by a person.  A model that sorts by abstracts can be wrong.
+The model's classification therefore stands in the tables with its
+confidence, so that it can be questioned, and the start of each
+appendix says that the human review is not yet complete.  Do use
+language models to find and sort; never let them be the last link.  They
+can be wrong, and it is you who must answer for the content.
 \end{onlyin}
 \begin{onlyin}{swedish}
-Sökningarna i de här bilagorna gav hundratals träffar var.  En
-språkmodell användes för att \emph{sortera} dem (hör träffen alls till
-ämnet, och åt vilket håll pekar den?) så att gallringen kunde
-kontrolleras.  Lägg märke till arbetsfördelningen: modellen sorterade,
-men varje källa som citeras lästes och valdes av en människa, och även
-sorteringen ska bekräftas av en människa.  Modellens klassificering står
-därför i tabellerna med sin konfidens, så att den kan ifrågasättas, och
-början av varje bilaga säger hur långt den mänskliga granskningen har
-kommit.  Använd gärna språkmodeller för att hitta och sortera; låt dem
-aldrig vara den sista länken.  De kan ha fel, och det är du som måste
-stå för innehållet.
+Sökningarna i de här bilagorna gav hundratals eller tusentals träffar
+var.  En språkmodell användes för att \emph{sortera} dem (hör träffen
+alls till ämnet, och åt vilket håll pekar den?) så att gallringen kunde
+kontrolleras.  I de här bilagorna gjorde en AI-agent, en språkmodell som
+arbetade åt författaren, också sökningarna, hämtade dokumenten, letade
+upp citaten i dem och skrev anteckningarna om källorna och utkasten till
+kapitlen; varje citat är hämtat ur källans text, inte ur modellens
+minne.  Lägg märke till arbetsfördelningen: modellen sorterade, sökte och
+skrev utkast, men varje källa som citeras ska läsas och väljas av en
+människa, och även sorteringen ska bekräftas av en människa.  En modell
+som sorterar efter sammanfattningar kan ta miste.  Modellens
+klassificering står därför i tabellerna med sin konfidens, så att den
+kan ifrågasättas, och början av varje bilaga säger att den mänskliga
+granskningen ännu inte är avslutad.  Använd gärna språkmodeller för att
+hitta och sortera; låt dem aldrig vara den sista länken.  De kan ha fel,
+och det är du som måste stå för innehållet.
 \end{onlyin}
 
 % --- Appendix B: claim B, from its search of 2026-11-18 (scholar session
@@ -427,7 +495,11 @@ slutet, i \cref{sec:cli-efficiency-hits}.
 \section{\ensv{Method}{Metod}} % sync english=52a0f9 swedish=f41b92
 \label{sec:cli-efficiency-method}
 
-\begin{onlyin}{english} % sync english=153e41 swedish=3c05f3
+\begin{onlyin}{english} % sync english=d8e68a swedish=ff640e
+An AI agent, a language model working for the author, carried out the
+search, the screening and the reading reported in this appendix; where
+it says \emph{we}, it is that agent's work, which the author has not yet
+reviewed.
 We searched on 18 November 2026 with the tool \texttt{scholar}, which
 sends one query to several bibliographic databases and records every
 query, its results and how each database answered.  Before the search
@@ -442,6 +514,10 @@ real negative, and we did not use it for the other queries.  We used
 it, and Crossref, to look up missing abstracts.
 \end{onlyin}
 \begin{onlyin}{swedish}
+En AI-agent, en språkmodell som arbetade åt författaren, gjorde den
+sökning, den gallring och den läsning som bilagan redovisar; där den
+säger \emph{vi} är det agentens arbete, som författaren ännu inte har
+granskat.
 Vi sökte den 18 november 2026 med verktyget \texttt{scholar}, som
 skickar en fråga till flera bibliografiska databaser och sparar varje
 fråga, dess resultat och hur varje databas svarade.  Före sökningen
@@ -834,7 +910,7 @@ få tag på någon av dem.
 \end{onlyin}
 
 \paragraph{\ensv{Screening.}{Gallring.}} % sync english=156955 swedish=fe7361
-\begin{onlyin}{english} % sync english=d49134 swedish=2d4618
+\begin{onlyin}{english} % sync english=a1a7f5 swedish=e0ccc7
 The searches returned 10\,405 records, 9\,744 after records of the same
 work from different databases were merged.  A record is judged on its
 abstract, so a record without one is excluded unless one can be found.
@@ -848,15 +924,17 @@ excluded as \emph{no abstract}.  All other records were classified
 against a written statement of the research question by a language
 model (Claude Sonnet~5.5) from title and abstract, as supporting the
 claim, qualifying it, an adjacent subject or off topic, and every
-excluded record was given one of the labelled criteria below.  We then
-read the titles of all records the model kept as supporting or
-qualifying and of those it excluded with a confidence below 0.7, and
-the abstracts of those that might bear on the claim.  Then we read the
-abstract of every record still labelled supporting or qualifying and
-not yet cited, 154 works: 69 were confirmed and are cited below, 77
-were relabelled and excluded, 6 were further records of cited works,
-and two whose authors could not be verified are not cited.  In all we
-recorded 272 decisions of our own besides the \emph{no abstract} rule:
+excluded record was given one of the labelled criteria below.  An AI
+agent, a language model working with the tool, then read the titles of
+all records the model kept as supporting or qualifying and of those it
+excluded with a confidence below 0.7, and the abstracts of those that
+might bear on the claim.  Then it read the abstract of every record
+still labelled supporting or qualifying and not yet cited, 154 works:
+69 were confirmed and are cited below, 77 were relabelled and excluded,
+6 were further records of cited works, and two whose authors could not
+be verified are not cited.  In all the agent recorded 272 decisions
+besides the \emph{no abstract} rule, which the author has not yet
+reviewed and no person has yet checked:
 the 121 cited sources were kept with the theme under which they are
 cited, and 151 records were excluded, among them 26 duplicates of
 cited sources.  Of the 10\,405 records, 210 were kept (66 supporting
@@ -900,16 +978,18 @@ som \emph{ingen sammanfattning}.  Alla andra poster klassades mot en
 skriven formulering av forskningsfrågan av en språkmodell (Claude
 Sonnet~5.5) utifrån titel och sammanfattning, som stödjande,
 kvalificerande, angränsande ämne eller utanför ämnet, och varje utesluten
-post fick ett av de namngivna kriterierna nedan.  Sedan läste vi
-titlarna på alla poster som modellen behöll som stödjande eller
-kvalificerande och på dem som den uteslöt med en konfidens under 0,7,
-och sammanfattningarna av dem som kunde röra påståendet.  Därefter läste
-vi sammanfattningen av varje post som fortfarande var märkt stödjande
-eller kvalificerande och ännu inte citerad, 154 verk: 69 bekräftades och
-citeras nedan, 77 märktes om och uteslöts, sex var ytterligare poster
-för citerade verk, och två vars författare inte kunde kontrolleras
-citeras inte.  Sammanlagt registrerade vi 272 egna beslut utöver regeln
-om \emph{ingen sammanfattning}: de 121 citerade källorna behölls med det
+post fick ett av de namngivna kriterierna nedan.  En AI-agent, en
+språkmodell som arbetade med verktyget, läste sedan titlarna på alla
+poster som modellen behöll som stödjande eller kvalificerande och på dem
+som den uteslöt med en konfidens under 0,7, och sammanfattningarna av
+dem som kunde röra påståendet.  Därefter läste den sammanfattningen av
+varje post som fortfarande var märkt stödjande eller kvalificerande och
+ännu inte citerad, 154 verk: 69 bekräftades och citeras nedan, 77
+märktes om och uteslöts, sex var ytterligare poster för citerade verk,
+och två vars författare inte kunde kontrolleras citeras inte.
+Sammanlagt registrerade agenten 272 beslut utöver regeln om \emph{ingen
+sammanfattning}, som författaren ännu inte har granskat och ingen
+människa ännu har kontrollerat: de 121 citerade källorna behölls med det
 tema som de citeras under, och 151 poster uteslöts, bland dem 26
 dubbletter av citerade källor.  Av de 10\,405 posterna behölls 210 (66
 stödjande, 66 kvalificerande, 78 om ett angränsande ämne) och 10\,195
@@ -941,8 +1021,9 @@ utesluts om den är något av följande.
 \end{onlyin}
 
 \paragraph{\ensv{Reading.}{Läsning.}} % sync english=0b0b47 swedish=47095f
-\begin{onlyin}{english} % sync english=896837 swedish=05e628
-We read in full every cited source that we could obtain: the report of
+\begin{onlyin}{english} % sync english=fa45f5 swedish=e3be0b
+The agent read in full every cited source that it could obtain: the
+report of
 \textcite{Margono1995Study}, the paper of \textcite{Chen2007Comparing},
 the
 survey of \textcite{Voronkov2019System}, the guides of
@@ -957,7 +1038,8 @@ access or stopped it with a bot check; every other cited source was
 read in its abstract only.
 \end{onlyin}
 \begin{onlyin}{swedish}
-Vi läste i sin helhet varje citerad källa som vi kunde få tag på:
+Agenten läste i sin helhet varje citerad källa som den kunde få tag
+på:
 rapporten av \textcite{Margono1995Study}, artikeln av
 \textcite{Chen2007Comparing}, enkäten av \textcite{Voronkov2019System},
 guiderna av \textcite{Sandve2013Ten}, \textcite{Wilson2014Best} och
@@ -1447,7 +1529,7 @@ Willems2026Insights,Nust2022Infrastructures,Nong2023Open}.
 \end{onlyin}
 
 \paragraph{\ensv{Novices.}{Nybörjare.}} % sync english=418c40 swedish=545f0f
-\begin{onlyin}{english} % sync english=6ff930 swedish=efe6f1
+\begin{onlyin}{english} % sync english=8c5f08 swedish=be8045
 That newcomers find a command line harder at first is supported, but
 not without exceptions.  Novices made more errors and took longer with
 typed commands than with direct manipulation, and their errors were
@@ -1513,7 +1595,7 @@ command-language database interface led students to skip decision
 factors \autocite{Chen2001Investigation}, learners found a graphical
 library database easier \autocite{Gaff1994Gui}, and users of
 command-line computing clusters valued graphical desktops for getting in
-\autocite{Thota2019Research}.  Against these, a command interface built
+\autocite{Thota2019Desktops}.  Against these, a command interface built
 from novices' own commands came to recognise most of them
 \autocite{Good1984Building}, students who began with a command-line
 editor moved more easily to a graphical one than the reverse
@@ -1595,7 +1677,7 @@ kommandospråk fick studenter att hoppa över beslutsfaktorer
 \autocite{Chen2001Investigation}, de som lärde sig tyckte att en
 grafisk biblioteksdatabas var lättare \autocite{Gaff1994Gui}, och
 användare av beräkningskluster med kommandorad värdesatte grafiska
-skrivbord för att komma in \autocite{Thota2019Research}.  Mot dessa står
+skrivbord för att komma in \autocite{Thota2019Desktops}.  Mot dessa står
 att ett kommandogränssnitt byggt av nybörjarnas egna kommandon kom att
 känna igen de flesta av dem \autocite{Good1984Building}, att studenter
 som började med en kommandoradseditor gick lättare över till en grafisk
@@ -1611,7 +1693,7 @@ skenbara missuppfattningar hör till representationen snarare än till dem
 \section{\ensv{Discussion and limitations}{Diskussion och begränsningar}} % sync english=634094 swedish=5d16d0
 \label{sec:cli-efficiency-discussion}
 
-\begin{onlyin}{english} % sync english=100379 swedish=7b57ba
+\begin{onlyin}{english} % sync english=08377c swedish=2cf9d4
 The interface studies are old: most date from 1983 to 2000, when the
 graphical interface was new and the command lines compared were those
 of MS-DOS, early UNIX or special systems.  Several compare a legacy
@@ -1637,7 +1719,8 @@ again, mostly in R; they do not compare scripts with manual work.
 
 Our access to the sources limits the reading.  Most of the interface
 studies are behind publishers that refused the university's network or
-stopped it with a bot check, so we read them in abstract only, and an
+stopped it with a bot check, so the agent read them in abstract only,
+and an
 abstract reports a finding without its conditions.  The rule that a
 record without an abstract is excluded weighs most on the oldest
 studies: 62 records that the model had kept from their titles alone
@@ -1653,7 +1736,8 @@ the limits of the databases.  DBLP could not be searched at all.
 OpenAlex was searched in titles and abstracts, not in full text, and its
 abstracts are incomplete, so it does not equal the same search in Web
 of Science.  The screening was done by a language model, mostly from
-abstracts, and we read only the titles of the records it kept or was
+abstracts, and the agent read only the titles of the records it kept
+or was
 unsure of, and abstracts where a
 title suggested a bearing; a relevant study it excluded with confidence
 would be missed.  Of the 124 works that \cref{tab:sok-cli-efficiency}
@@ -1694,7 +1778,8 @@ igen, mest i R; de jämför inte skript med manuellt arbete.
 
 Vår åtkomst till källorna begränsar läsningen.  De flesta
 gränssnittsstudierna ligger hos förlag som nekade universitetets nätverk
-eller stoppade det med en kontroll mot robotar, så vi läste dem bara i
+eller stoppade det med en kontroll mot robotar, så agenten läste dem
+bara i
 sammanfattning, och en sammanfattning redovisar ett fynd utan dess
 villkor.  Regeln att en post utan sammanfattning utesluts väger tyngst
 på de äldsta studierna: 62 poster som modellen hade behållit enbart på
@@ -1710,7 +1795,8 @@ studier som bara kontrollen efter betydelse hittade.  Talen i
 inte genomsökas alls.  OpenAlex söktes i titlar och sammanfattningar,
 inte i fulltext, och dess sammanfattningar är ofullständiga, så den är
 inte likvärdig med samma sökning i Web of Science.  Gallringen gjordes
-av en språkmodell, mest utifrån sammanfattningar, och vi läste bara
+av en språkmodell, mest utifrån sammanfattningar, och agenten läste
+bara
 titlarna på de poster som den behöll eller var osäker på, och
 sammanfattningar där en titel antydde att posten rörde påståendet; en
 relevant studie som den uteslöt med säkerhet skulle missas.  Av de 124
@@ -1879,8 +1965,9 @@ kommandorad gör möjligt, inte av vad den gör snabbare.
 %                     7 questions before the repair, 3 after
 %   classification  : scholar llm context + llm classify --no-examples
 %                     --no-enrich -n 100, model anthropic/claude-sonnet-5-5;
-%                     272 human decisions in all via scholar sessions
-%                     decide (see Screening); read: titles of all kept
+%                     272 agent decisions in all (an AI agent, not the
+%                     author) via scholar sessions decide (see Screening);
+%                     read by the agent: titles of all kept
 %                     supports/qualifies rows and of the discarded rows
 %                     with confidence < 0.7, abstracts where relevant, and
 %                     the abstracts of the 154 works of the corroboration
@@ -1902,10 +1989,17 @@ kommandorad gör möjligt, inte av vad den gör snabbare.
 \input{litteratursokning/cli-efficiency-full-sv}
 \end{onlyin}
 
-% --- Appendix C: claim C.  A stub until the chapter (hpc-cli) is final.
-% TODO(claim C): the chapter and its bounds for sec:where-cli.
-\chapter{\ensv{Are computing clusters reached through a command line?}%
-  {Nås beräkningskluster genom en kommandorad?}} % sync english=91c6fc swedish=864ccd
+% --- Appendix C: claim C, from its search of 2026-11-18 and 19 (scholar
+% session hpc-cli).  The main text of sec:where-cli keeps within the
+% bounds its conclusion sets.
+\chapter[\ensv{Do high-performance computers run Linux, and are they
+  reached through a command line?}%
+  {Kör superdatorer Linux, och nås de genom en kommandorad?}]% % sync english=7201d3 swedish=d08f91
+  [\ensv{Linux and the command line in HPC}%
+  {Linux och kommandoraden i HPC}]% % sync english=a850fe swedish=ffb886
+  {\ensv{Do high-performance computers run Linux, and are they reached
+  through a command line?}%
+  {Kör superdatorer Linux, och nås de genom en kommandorad?}} % sync english=7201d3 swedish=d08f91
 \label{app:hpc-cli}
 
 \chapterprecis{\ensv{The author has not yet reviewed the results in this
@@ -1913,15 +2007,1176 @@ kommandorad gör möjligt, inte av vad den gör snabbare.
   {Författaren har ännu inte granskat resultaten i den här bilagan i sin
   helhet.}} % sync english=21ea16 swedish=60ed7a
 
-\begin{onlyin}{english} % sync english=a3bd8c swedish=d35af1
-This appendix is being written.  It will report how the computing
-clusters used in research are reached: through a command line, a
-graphical remote desktop or a web portal.
+\begin{onlyin}{english} % sync english=1a1bb9 swedish=b1c029
+In \cref{sec:where-cli} we say that the computers built for the largest
+calculations, supercomputers and the clusters of high-performance
+computing (HPC), run Linux, and that you reach them through a command
+line, usually over SSH.  An earlier version of these notes put it more
+strongly, \enquote{all HPCs run using CLIs}, with the TOP500 list of the
+fastest systems as its source.  The claim has two parts, and this chapter
+asks two questions.  Do high-performance computers run Linux?  And is a
+command line over SSH the way users reach them?  We test the first part
+at its full strength, \enquote{all of them}, and the second at the
+strength the section needs: the usual way in, not the only one.  The
+counter-side of the second part is HPC reached without a command line,
+through web portals, remote desktops and notebooks, and the evidence that
+the command line keeps new users out.
+
+\Cref{sec:hpc-cli-method} describes the search, \cref{sec:hpc-cli-results}
+gives what the TOP500 statistics, the Swedish centres' user guides and the
+literature say, and \cref{sec:hpc-cli-conclusion} answers the two
+questions.
 \end{onlyin}
 \begin{onlyin}{swedish}
-Den här bilagan skrivs just nu.  Den kommer att redovisa hur de
-beräkningskluster som används i forskningen nås: genom en kommandorad,
-ett grafiskt fjärrskrivbord eller en webbportal.
+I \cref{sec:where-cli} säger vi att de datorer som byggs för de största
+beräkningarna, superdatorer och kluster för högpresterande beräkningar
+(\foreignlanguage{english}{high-performance computing}, HPC), kör Linux,
+och att du når dem genom en kommandorad, oftast över SSH.  En tidigare
+version av det här materialet uttryckte det starkare,
+\foreignlanguage{english}{\enquote{all HPCs run using CLIs}}, med
+TOP500-listan över de snabbaste systemen som källa.  Påståendet har två
+delar, och kapitlet ställer två frågor.  Kör superdatorer Linux?  Och är
+en kommandorad över SSH det sätt som användarna når dem på?  Vi prövar
+den första delen i dess fulla styrka, \enquote{alla}, och den andra i den
+styrka som avsnittet behöver: det vanliga sättet att komma in, inte det
+enda.  Motsidan av den andra delen är HPC som nås utan kommandorad,
+genom webbportaler, fjärrskrivbord och notebooks, och beläggen för att
+kommandoraden håller nya användare ute.
+
+\Cref{sec:hpc-cli-method} beskriver sökningen, \cref{sec:hpc-cli-results}
+redovisar vad TOP500-statistiken, de svenska centrens användarguider och
+litteraturen säger, och \cref{sec:hpc-cli-conclusion} besvarar de två
+frågorna.
+\end{onlyin}
+
+\section{\ensv{Method}{Metod}} % sync english=52a0f9 swedish=f41b92
+\label{sec:hpc-cli-method}
+
+% Author's note (verification and reproduction): see the block above the
+% hit-list \input at the end of the chapter.
+
+\begin{onlyin}{english} % sync english=8479db swedish=bf7b1c
+We searched with the literature tool \texttt{scholar}, which sends one
+query to several bibliographic databases and records every query, its
+results and how each database answered.  OpenAlex, IEEE Xplore, Web of
+Science and Scopus were searched on 18 November 2026, Semantic Scholar on
+19 November.  DBLP answered every request with a page that stops
+automated clients instead of with data, so DBLP could not be searched.
+Semantic Scholar has two searches: its relevance search takes no Boolean
+operators and answered our first query with nothing, which is not a real
+negative, so we used its bulk search, which matches title and abstract
+and reduces words to their stems.  OpenAlex searches the full text of a
+work by default and then returned from about 3\,000 (S1) to 133\,000 (S4)
+records per query; we therefore searched its titles and abstracts only,
+as the other databases do.  Records that have no abstract can then be
+found only by their titles, so three of the queries search titles alone;
+Semantic Scholar's bulk search cannot be restricted to titles, so these
+three have no Semantic Scholar counterpart.
+
+Each query combines blocks of words, one block per concept of the claim,
+and each block gives the concept in several wordings.
+% Ragged right: the items are runs of long quoted query phrases.
+\begingroup\raggedright
+\begin{description}
+  \item[HPC] supercomputer, supercomputers, supercomputing,
+    \enquote{high-performance computing}, \enquote{high performance
+    computing}, HPC, \enquote{computing cluster}, \enquote{computer
+    cluster}, \enquote{compute cluster}.
+  \item[Operating system] Linux, \enquote{operating system},
+    \enquote{operating systems}, Unix.
+  \item[TOP500] TOP500, \enquote{TOP 500}.
+  \item[Share] trend, trends, history, evolution, \enquote{market
+    share}, share, dominance, dominant, adoption, popular, popularity,
+    prevalent, prevalence.
+  \item[Other kernel] \enquote{lightweight kernel}, \enquote{light-weight
+    kernel}, \enquote{lightweight operating system},
+    \enquote{light-weight operating system}, \enquote{compute node
+    kernel}, CNK, Catamount, Kitten, McKernel, microkernel,
+    \enquote{multi-kernel}, multikernel, Windows, \enquote{non-Linux}.
+  \item[Command line] \enquote{command line}, \enquote{command-line},
+    CLI, SSH, \enquote{secure shell}, \enquote{Unix shell},
+    \enquote{shell access}, terminal.
+  \item[Portal] portal, portals, \enquote{science gateway},
+    \enquote{science gateways}, \enquote{web interface}, \enquote{web
+    platform}, \enquote{web platforms}, \enquote{web application},
+    \enquote{remote desktop}, \enquote{graphical user interface},
+    \enquote{graphical interface}, GUI, \enquote{Open OnDemand},
+    Jupyter, JupyterHub.
+  \item[Interactive] \enquote{interactive HPC}, \enquote{interactive
+    high performance computing}, \enquote{interactive high-performance
+    computing}, \enquote{interactive supercomputing}, \enquote{on-demand
+    high performance computing}, \enquote{on-demand HPC},
+    \enquote{integrated development environment}, IDE.
+  \item[Access] access, accessible, login, \enquote{user interface},
+    users, usage.
+  \item[Barrier] \enquote{new users}, novice, novices, beginner,
+    beginners, inexperienced, \enquote{non-expert}, \enquote{non-experts},
+    barrier, barriers, usability, \enquote{learning curve}, \enquote{ease
+    of use}, \enquote{easy to use}, easier, \enquote{user-friendly},
+    \enquote{user friendly}, difficult, difficulty.
+  \item[Survey] \enquote{user survey}, \enquote{user surveys},
+    \enquote{users survey}, \enquote{survey of users}, questionnaire,
+    interview, interviews, \enquote{user study}, \enquote{user
+    experience}, \enquote{user experiences}.
+\end{description}
+\par\endgroup
+\Cref{tab:hpc-cli-queries} gives the queries and how many records each
+database returned.  The counter-queries C2--C6 reuse the HPC, Access and
+Barrier blocks of the support queries and set the Portal or Interactive
+block where the support queries have the Command line block; C4 has both.
+The first query has no Unix in its operating-system block; the others do.
+\end{onlyin}
+\begin{onlyin}{swedish}
+Vi sökte med litteraturverktyget \texttt{scholar}, som skickar en fråga
+till flera bibliografiska databaser och sparar varje fråga, dess resultat
+och hur varje databas svarade.  OpenAlex, IEEE Xplore, Web of Science och
+Scopus genomsöktes den 18 november 2026, Semantic Scholar den 19
+november.  DBLP svarade på varje förfrågan med en sida som stoppar
+automatiska klienter i stället för med data, så DBLP kunde inte
+genomsökas.  Semantic Scholar har två sökningar: dess relevanssökning tar
+inga booleska operatorer och svarade på vår första fråga med ingenting,
+vilket inte är ett verkligt negativt svar, så vi använde dess
+massökning, som matchar titel och sammanfattning och för orden till deras
+stammar.  OpenAlex söker som standard i ett verks fulltext och gav då
+från omkring 3\,000 (S1) till 133\,000 (S4) poster per fråga; vi sökte
+därför bara i dess titlar och sammanfattningar, som de andra databaserna
+gör.  Poster som saknar sammanfattning kan då bara hittas på sina titlar,
+så tre av frågorna söker bara i titlar; Semantic Scholars massökning kan
+inte begränsas till titlar, så de tre saknar motsvarighet i Semantic
+Scholar.
+
+Varje fråga förenar block av ord, ett block per begrepp i påståendet, och
+varje block ger begreppet i flera formuleringar.
+% Ragged right: the items are runs of long quoted query phrases.
+\begingroup\raggedright
+\begin{description}
+  \item[HPC] supercomputer, supercomputers, supercomputing,
+    \enquote{high-performance computing}, \enquote{high performance
+    computing}, HPC, \enquote{computing cluster}, \enquote{computer
+    cluster}, \enquote{compute cluster}.
+  \item[Operativsystem] Linux, \enquote{operating system},
+    \enquote{operating systems}, Unix.
+  \item[TOP500] TOP500, \enquote{TOP 500}.
+  \item[Andel] trend, trends, history, evolution, \enquote{market
+    share}, share, dominance, dominant, adoption, popular, popularity,
+    prevalent, prevalence.
+  \item[Annan kärna] \enquote{lightweight kernel},
+    \enquote{light-weight kernel}, \enquote{lightweight operating
+    system}, \enquote{light-weight operating system}, \enquote{compute
+    node kernel}, CNK, Catamount, Kitten, McKernel, microkernel,
+    \enquote{multi-kernel}, multikernel, Windows, \enquote{non-Linux}.
+  \item[Kommandorad] \enquote{command line}, \enquote{command-line},
+    CLI, SSH, \enquote{secure shell}, \enquote{Unix shell},
+    \enquote{shell access}, terminal.
+  \item[Portal] portal, portals, \enquote{science gateway},
+    \enquote{science gateways}, \enquote{web interface}, \enquote{web
+    platform}, \enquote{web platforms}, \enquote{web application},
+    \enquote{remote desktop}, \enquote{graphical user interface},
+    \enquote{graphical interface}, GUI, \enquote{Open OnDemand},
+    Jupyter, JupyterHub.
+  \item[Interaktiv] \enquote{interactive HPC}, \enquote{interactive
+    high performance computing}, \enquote{interactive high-performance
+    computing}, \enquote{interactive supercomputing}, \enquote{on-demand
+    high performance computing}, \enquote{on-demand HPC},
+    \enquote{integrated development environment}, IDE.
+  \item[Åtkomst] access, accessible, login, \enquote{user interface},
+    users, usage.
+  \item[Hinder] \enquote{new users}, novice, novices, beginner,
+    beginners, inexperienced, \enquote{non-expert}, \enquote{non-experts},
+    barrier, barriers, usability, \enquote{learning curve}, \enquote{ease
+    of use}, \enquote{easy to use}, easier, \enquote{user-friendly},
+    \enquote{user friendly}, difficult, difficulty.
+  \item[Enkät] \enquote{user survey}, \enquote{user surveys},
+    \enquote{users survey}, \enquote{survey of users}, questionnaire,
+    interview, interviews, \enquote{user study}, \enquote{user
+    experience}, \enquote{user experiences}.
+\end{description}
+\par\endgroup
+\Cref{tab:hpc-cli-queries} ger frågorna och hur många poster varje
+databas gav.  Motfrågorna C2--C6 återanvänder stödfrågornas block HPC,
+Åtkomst och Hinder och sätter blocket Portal eller Interaktiv där
+stödfrågorna har blocket Kommandorad; C4 har båda.  Den första frågan har
+inte Unix i sitt operativsystemsblock; de andra har det.
+\end{onlyin}
+
+\begin{table}[htbp]
+  \begin{sidecaption}{\ensv{Queries and the number of records each
+    database returned, 18 November 2026 (Semantic Scholar 19 November),
+    with the tool \texttt{scholar}.  S = support query, C =
+    counter-query; the words of each block are listed in the text, and
+    $\wedge$ means that a record must match a word of every block.
+    Databases: OpenAlex (OA; not open access), IEEE Xplore (IEEE), Web
+    of Science (WoS), Scopus, Semantic Scholar (S2).  OpenAlex was
+    searched in titles and abstracts, Semantic Scholar with its bulk
+    search (titles and abstracts, stemmed), the others as they search by
+    default (title, abstract and keywords); the queries marked
+    \enquote{titles} search titles only, which Semantic Scholar's bulk
+    search cannot do (\enquote{n/a}).  The searches have no upper limit:
+    the numbers are all the records returned.  DBLP could not be
+    searched: it answered every query with a page that stops automated
+    clients.  Web of Science got the words as \texttt{TS=(\dots)}
+    (titles: \texttt{TI=(\dots)}), Scopus as
+    \texttt{TITLE-ABS-KEY(\dots)} (titles: \texttt{TITLE(\dots)}), IEEE
+    Xplore (titles: every word as a \enquote{Document Title} term),
+    OpenAlex and Semantic Scholar as Boolean text.}%
+    {Frågor och antal poster som varje databas gav, 18 november 2026
+    (Semantic Scholar 19 november), med verktyget \texttt{scholar}.  S =
+    stödfråga, C = motfråga; orden i varje block anges i texten, och
+    $\wedge$ betyder att en post måste matcha ett ord ur varje block.
+    Databaser: OpenAlex (OA; inte open access), IEEE Xplore (IEEE), Web
+    of Science (WoS), Scopus, Semantic Scholar (S2).  OpenAlex söktes i
+    titlar och sammanfattningar, Semantic Scholar med sin massökning
+    (titlar och sammanfattningar, stammade), de andra som de söker som
+    standard (titel, sammanfattning och nyckelord); frågorna märkta
+    \enquote{titlar} söker bara i titlar, vilket Semantic Scholars
+    massökning inte kan (\enquote{n/a}).  Sökningarna har ingen övre
+    gräns: talen är alla poster som gavs.  DBLP kunde inte genomsökas:
+    den svarade på varje fråga med en sida som stoppar automatiska
+    klienter.  Web of Science fick orden som \texttt{TS=(\dots)} (titlar:
+    \texttt{TI=(\dots)}), Scopus som \texttt{TITLE-ABS-KEY(\dots)}
+    (titlar: \texttt{TITLE(\dots)}), IEEE Xplore (titlar: varje ord som
+    en term \enquote{Document Title}), OpenAlex och Semantic Scholar som
+    boolesk text.}% % sync english=f9e824 swedish=1953b1
+  }[tab:hpc-cli-queries]
+    \centering\footnotesize
+    \begin{tabular}{@{}lp{0.36\linewidth}rrrrr@{}}
+      \toprule
+      & \ensv{Blocks}{Block} & OA & IEEE & WoS & Scopus & S2 \\ % sync english=1cd5a6 swedish=211d0b
+      \midrule
+      S1 & \ensv{HPC $\wedge$ Operating system $\wedge$ TOP500}%
+           {HPC $\wedge$ Operativsystem $\wedge$ TOP500} % sync english=2859a2 swedish=fdc0b8
+        & 33 & 21 & 12 & 26 & 42 \\
+      S2 & \ensv{HPC $\wedge$ Operating system $\wedge$ Share}%
+           {HPC $\wedge$ Operativsystem $\wedge$ Andel} % sync english=8e9f88 swedish=a54e0e
+        & 1017 & 1983 & 380 & 452 & 1032 \\
+      S3 & \ensv{HPC $\wedge$ Command line $\wedge$ Access}%
+           {HPC $\wedge$ Kommandorad $\wedge$ Åtkomst} % sync english=21f091 swedish=017e99
+        & 615 & 358 & 175 & 284 & 446 \\
+      S4 & \ensv{HPC $\wedge$ Command line $\wedge$ Barrier}%
+           {HPC $\wedge$ Kommandorad $\wedge$ Hinder} % sync english=1effd4 swedish=4ab431
+        & 965 & 133 & 94 & 152 & 772 \\
+      S5 & \ensv{HPC $\wedge$ Survey}{HPC $\wedge$ Enkät} % sync english=eb21e5 swedish=d68de6
+        & 776 & 511 & 258 & 460 & 643 \\
+      S6 & \ensv{HPC $\wedge$ Operating system, titles}%
+           {HPC $\wedge$ Operativsystem, titlar} % sync english=605ac5 swedish=a8635f
+        & 151 & 21 & 44 & 68 & n/a \\
+      S7 & \ensv{HPC $\wedge$ Command line, titles}%
+           {HPC $\wedge$ Kommandorad, titlar} % sync english=463c60 swedish=211233
+        & 18 & 3 & 7 & 7 & n/a \\
+      \addlinespace
+      C1 & \ensv{HPC $\wedge$ Operating system $\wedge$ Other kernel}%
+           {HPC $\wedge$ Operativsystem $\wedge$ Annan kärna} % sync english=6687d3 swedish=22c9ba
+        & 507 & 347 & 148 & 380 & 419 \\
+      C2 & \ensv{HPC $\wedge$ Portal $\wedge$ Access}%
+           {HPC $\wedge$ Portal $\wedge$ Åtkomst} % sync english=ed2573 swedish=3ab6e9
+        & 1706 & 1035 & 711 & 1125 & 1370 \\
+      C3 & \ensv{HPC $\wedge$ Portal $\wedge$ Barrier}%
+           {HPC $\wedge$ Portal $\wedge$ Hinder} % sync english=3c1422 swedish=c210e9
+        & 1671 & 335 & 304 & 458 & 1470 \\
+      C4 & \ensv{HPC $\wedge$ Command line $\wedge$ Portal}%
+           {HPC $\wedge$ Kommandorad $\wedge$ Portal} % sync english=2bee00 swedish=6fc5ce
+        & 160 & 75 & 54 & 84 & 114 \\
+      C5 & \ensv{HPC $\wedge$ Portal, titles}{HPC $\wedge$ Portal, titlar} % sync english=87f926 swedish=39f894
+        & 120 & 14 & 44 & 57 & n/a \\
+      C6 & \ensv{HPC $\wedge$ Interactive $\wedge$ Barrier}%
+           {HPC $\wedge$ Interaktiv $\wedge$ Hinder} % sync english=e68b9e swedish=80bfed
+        & 125 & 37 & 15 & 22 & 165 \\
+      \bottomrule
+    \end{tabular}
+  \end{sidecaption}
+\end{table}
+
+\paragraph{\ensv{Exclusion criteria.}{Uteslutningskriterier.}} % sync english=1e8912 swedish=abd51f
+\begin{onlyin}{english} % sync english=f5b2eb swedish=443c9f
+A record is excluded if it is one of the following.
+\begin{description}
+  \item[No abstract] It has no abstract, none could be found from its
+    DOI, and no link of its leads to the full text.
+  \item[Not HPC] It is not about computers of the HPC kind: the
+    abbreviation HPC also stands for hospice palliative care and for a
+    cellulose, and \enquote{terminal} and \enquote{barrier} have other
+    meanings in other fields.
+  \item[No access mode] It is about HPC but says nothing about the
+    operating system of HPC systems or about how users reach them, for
+    instance a study of performance or scheduling.
+  \item[No evidence] It concerns the operating system or the access but
+    gives only an announcement or a tool description, with no data, no
+    user study and no statement of practice.
+  \item[Dataset record] It is a data set, a software release, a slide
+    deck or a poster file rather than a paper or a report.
+\end{description}
+\end{onlyin}
+\begin{onlyin}{swedish}
+En post utesluts om den är något av följande.
+\begin{description}
+  \item[Ingen sammanfattning] Den saknar sammanfattning, ingen kunde
+    hittas via dess DOI, och ingen av dess länkar leder till fulltexten.
+  \item[Inte HPC] Den handlar inte om datorer av HPC-slaget:
+    förkortningen HPC står också för palliativ vård och för en cellulosa,
+    och \enquote{terminal} och \enquote{barrier} har andra betydelser i
+    andra fält.
+  \item[Inget åtkomstsätt] Den handlar om HPC men säger inget om
+    HPC-systemens operativsystem eller om hur användarna når dem, till
+    exempel en studie av prestanda eller schemaläggning.
+  \item[Inga belägg] Den gäller operativsystemet eller åtkomsten men ger
+    bara ett tillkännagivande eller en verktygsbeskrivning, utan data,
+    utan användarstudie och utan en beskrivning av praxis.
+  \item[Datamängdspost] Den är en datamängd, en programutgåva, en
+    bildserie eller en posterfil snarare än en artikel eller en rapport.
+\end{description}
+\end{onlyin}
+
+\paragraph{\ensv{Records and copies.}{Poster och kopior.}} % sync english=f2d192 swedish=516696
+\begin{onlyin}{english} % sync english=099c41 swedish=0b0877
+\texttt{scholar} merges the copies of a work that one search returns from
+several databases: copies with the same DOI, or with the same title and
+authors and years at most one apart.  Copies that reached the session
+from different searches were listed by the tool and folded afterwards:
+14 pairs of a record with and without a DOI, decided alike.  That left
+11\,162 records.  Another 74 such pairs could not be folded because
+their decisions came from different screeners; where one copy had no
+abstract, it was given the decision of the copy that had one.
+\end{onlyin}
+\begin{onlyin}{swedish}
+\texttt{scholar} slår samman de kopior av ett verk som en sökning ger
+från flera databaser: kopior med samma DOI, eller med samma titel och
+författare och år som skiljer sig högst ett.  Kopior som kom in i
+sessionen från olika sökningar listades av verktyget och slogs samman
+efteråt: 14 par av en post med och utan DOI, med samma beslut.  Då
+återstod 11\,162 poster.  Ytterligare 74 sådana par kunde inte slås
+samman eftersom deras beslut kom från olika gallrare; där en kopia
+saknade sammanfattning fick den beslutet från den kopia som hade en.
+\end{onlyin}
+
+\paragraph{\ensv{Screening.}{Gallring.}} % sync english=156955 swedish=fe7361
+\begin{onlyin}{english} % sync english=42757b swedish=f8edfa
+A record is judged on its abstract, so a record without one is excluded
+unless one can be found.  After the searches 2\,781 records had no
+abstract, most of them from Scopus and Semantic Scholar, whose search
+results carry none.  We looked up each abstract by DOI, in OpenAlex,
+Semantic Scholar and Crossref, in three rounds, and found 753.  For 29
+more records the link to the full text led to a readable text, and its
+first 1\,500 characters stood in for the abstract; one of them is a book
+chapter we read in full through the university's access.  A further 69
+were copies of a record that had an abstract and took its decision.
+The others were excluded as \emph{no abstract}: 1\,933 records once
+copies were folded.  All other records were classified from title and
+abstract by a language model (Claude Sonnet~5.5) against a written
+statement of the research question, as supporting the claim, qualifying
+it, an adjacent subject or off topic, with one of the labelled criteria
+on every excluded record.  An AI agent then re-screened, from title and
+abstract and by the same criteria, all 511 records the model had kept
+and the 871 excluded records whose abstracts name a command line, SSH, a
+portal or gateway, Jupyter, a remote desktop, the TOP500 or a lightweight
+kernel together with users, access or an operating system, and later the
+70 records that got an abstract back or had been classified on
+non-abstract text.  The decisions are the model's for 7\,762 records and
+the agent's for 3\,400; the author has not reviewed them, and no random
+sample of them has yet been checked by a person.  Of the 11\,162
+records, 281 were kept (86 supporting the claim, 195 qualifying it) and
+10\,881 excluded (1\,933 for lack of an abstract, 5\,917 as an adjacent
+subject and 3\,031 as off topic).  Counted by criterion, which a few
+records carry two of, the exclusions were 5\,016 \emph{no access mode},
+3\,325 \emph{not HPC}, 1\,933 \emph{no abstract}, 383 \emph{dataset
+record} and 381 \emph{no evidence}.  We read the agent's notes on all
+281 kept records, and the abstracts, or the full texts where they could
+be obtained, of those we cite.  The table at the end of the chapter
+counts fewer, 81 supporting and 183 qualifying among 10\,449 works,
+because it also merges records whose titles differ only in case,
+punctuation or year, which the session keeps apart.
+\end{onlyin}
+\begin{onlyin}{swedish}
+En post bedöms på sin sammanfattning, så en post utan sammanfattning
+utesluts om ingen kan hittas.  Efter sökningarna saknade 2\,781 poster
+sammanfattning, de flesta från Scopus och Semantic Scholar, vars
+sökresultat inte har någon.  Vi slog upp varje sammanfattning via DOI, i
+OpenAlex, Semantic Scholar och Crossref, i tre omgångar, och hittade 753.
+För ytterligare 29 poster ledde länken till fulltexten till en läsbar
+text, och dess första 1\,500 tecken fick stå i stället för
+sammanfattningen; en av dem är ett bokkapitel som vi läste i sin helhet
+genom universitetets åtkomst.  Ytterligare 69 var kopior av en post som
+hade en sammanfattning och fick dess beslut.  De övriga uteslöts som
+\emph{ingen sammanfattning}: 1\,933 poster sedan kopiorna slagits
+samman.  Alla andra poster klassades utifrån titel och sammanfattning av
+en språkmodell (Claude Sonnet~5.5) mot en skriven formulering av
+forskningsfrågan, som stödjande, kvalificerande, angränsande ämne eller
+utanför ämnet, med ett av de namngivna kriterierna på varje utesluten
+post.  En AI-agent gallrade sedan om, utifrån titel och sammanfattning
+och efter samma kriterier, alla 511 poster som modellen hade behållit
+och de 871 uteslutna poster vars sammanfattningar nämner en kommandorad,
+SSH, en portal eller en gateway, Jupyter, ett fjärrskrivbord, TOP500
+eller en lättviktskärna tillsammans med användare, åtkomst eller ett
+operativsystem, och senare de 70 poster som fick tillbaka en
+sammanfattning eller hade klassats på annan text än en sammanfattning.
+Besluten är modellens för 7\,762 poster och agentens för 3\,400;
+författaren har inte granskat dem, och inget slumpmässigt urval av dem
+har ännu kontrollerats av en människa.  Av de 11\,162 posterna behölls 281
+(86 stödjande, 195 kvalificerande) och 10\,881 uteslöts (1\,933 i brist
+på sammanfattning, 5\,917 som angränsande ämne och 3\,031 som utanför
+ämnet).  Räknat efter kriterium, varav några poster har två, var
+uteslutningarna 5\,016 \emph{inget åtkomstsätt}, 3\,325 \emph{inte
+HPC}, 1\,933 \emph{ingen sammanfattning}, 383 \emph{datamängdspost} och
+381 \emph{inga belägg}.  Vi läste agentens anteckningar om alla 281
+behållna poster, och sammanfattningarna, eller fulltexterna där de gick
+att få tag på, av dem som vi citerar.  Tabellen i slutet av kapitlet
+räknar färre, 81 stödjande och 183 kvalificerande bland 10\,449 verk,
+eftersom den också slår samman poster vars titlar bara skiljer sig i
+versaler, skiljetecken eller år, vilka sessionen håller isär.
+\end{onlyin}
+
+\paragraph{\ensv{Studies the queries had to return.}%
+  {Studier som frågorna måste ge.}} % sync english=50f120 swedish=6aaaf2
+\begin{onlyin}{english} % sync english=75e90a swedish=7a9f2f
+A first round of queries and a search by meaning named studies that bear
+on the claim: the description of the Open OnDemand portal by its
+developers\autocite{Hudak2018OnDemand}, its later state of the
+platform\autocite{Chalker2021OnDemand}, a measurement of how users at
+Idaho National Laboratory reached its systems\autocite{Rothwell2022Web},
+a centre's report on lowering the barrier to entry for new
+users\autocite{Mullen2018Lessons}, the portal of the supercomputer
+Fugaku\autocite{Nakao2023Fugaku}, a gateway for new users tested against
+the command line\autocite{Sampedro2017Sandstone} and an introduction to
+the operating systems of supercomputers\autocite{Gerofi2019Intro}.  The
+final queries return all seven.  The first, the fourth and the last have
+no abstract in OpenAlex, or none that names a command line or a portal;
+they came back through the queries on titles (S6, C5) and through C6,
+whose Interactive block we added after the search by meaning had
+returned the fourth study and no query had.  The block names the
+concept, interactive HPC, but its wording is taken from that study.
+\end{onlyin}
+\begin{onlyin}{swedish}
+En första omgång frågor och en sökning efter betydelse namngav studier
+som rör påståendet: utvecklarnas beskrivning av portalen Open
+OnDemand\autocite{Hudak2018OnDemand}, dess senare lägesrapport om
+plattformen\autocite{Chalker2021OnDemand}, en mätning av hur användare
+vid Idaho National Laboratory nådde dess system%
+\autocite{Rothwell2022Web}, ett centrums rapport om att sänka tröskeln
+för nya användare\autocite{Mullen2018Lessons}, portalen till
+superdatorn Fugaku\autocite{Nakao2023Fugaku}, en gateway för nya
+användare som prövades mot kommandoraden%
+\autocite{Sampedro2017Sandstone} och en introduktion till superdatorers
+operativsystem\autocite{Gerofi2019Intro}.  De slutliga frågorna ger alla
+sju.  Den första, den fjärde och den sista saknar sammanfattning i
+OpenAlex, eller en som nämner en kommandorad eller en portal; de kom
+tillbaka genom frågorna på titlar (S6, C5) och genom C6, vars block
+Interaktiv vi lade till sedan sökningen efter betydelse hade gett den
+fjärde studien och ingen fråga hade gjort det.  Blocket namnger
+begreppet, interaktiv HPC, men dess formuleringar är hämtade från den
+studien.
+\end{onlyin}
+
+\paragraph{\ensv{The search by meaning.}{Sökningen efter betydelse.}} % sync english=973e4d swedish=575c97
+\begin{onlyin}{english} % sync english=f0d0f4 swedish=cabafd
+We asked OpenAlex's search by meaning six questions, one per concept, and
+looked up each of the 50 works it returned per question in our records.
+The questions were: \enquote{What share of the TOP500 supercomputers run
+the Linux operating system?}; \enquote{Lightweight kernels instead of
+Linux on the compute nodes of supercomputers}; \enquote{Users access
+high-performance computing clusters through a command-line interface over
+SSH}; \enquote{The command line is a barrier for new users of
+high-performance computing}; \enquote{Web portals and science gateways
+give researchers access to HPC without the command line}; and
+\enquote{Survey of HPC users about how they access and use supercomputing
+resources}.  After the final queries, between 17 and 35 of the 50 works
+per question were in none of our records.  Most of these are reports of
+the TOP500 lists, cluster descriptions and works whose abstract names
+neither an operating system, a command line nor a portal; some bear on
+the claim, such as a report on making HPC easier to use through the web,
+and are missing because they have no abstract or name their system
+rather than HPC.
+\end{onlyin}
+\begin{onlyin}{swedish}
+Vi ställde sex frågor till OpenAlex sökning efter betydelse, en per
+begrepp, och slog upp vart och ett av de 50 verk som den gav per fråga i
+våra poster.  Frågorna var: \foreignlanguage{english}{\enquote{What share
+of the TOP500 supercomputers run the Linux operating system?};
+\enquote{Lightweight kernels instead of Linux on the compute nodes of
+supercomputers}; \enquote{Users access high-performance computing
+clusters through a command-line interface over SSH}; \enquote{The
+command line is a barrier for new users of high-performance computing};
+\enquote{Web portals and science gateways give researchers access to HPC
+without the command line}}; och \foreignlanguage{english}{\enquote{Survey
+of HPC users about how they access and use supercomputing resources}}.
+Efter de slutliga frågorna fanns mellan 17 och 35 av de 50 verken per
+fråga i ingen av våra poster.  De flesta av dem är rapporter om
+TOP500-listorna, beskrivningar av kluster och verk vars sammanfattning
+varken nämner ett operativsystem, en kommandorad eller en portal; några
+rör påståendet, som en rapport om att göra HPC lättare att använda via
+webben, och saknas eftersom de inte har någon sammanfattning eller
+namnger sitt system snarare än HPC.
+\end{onlyin}
+
+\paragraph{\ensv{Known documents.}{Kända dokument.}} % sync english=7fd419 swedish=326ede
+\begin{onlyin}{english} % sync english=957017 swedish=cc9a30
+Three kinds of source are not research papers and were retrieved
+directly.  The TOP500's operating-system statistics come from the list's
+own statistics pages, queried for every list from June 1997 to November
+2026; they are the primary source of the count, and no paper can be more
+current than a list published the day before we searched.  How the
+Swedish centres are reached comes from their user guides: those of the
+National Supercomputer Centre (NSC) in Linköping, of the PDC Center for
+High Performance Computing at KTH, and of the National Academic
+Infrastructure for Supercomputing in Sweden (NAISS), which runs the
+national systems.  When NSC first offered a remote desktop comes from the
+Internet Archive's copies of its pages.  We read every page in full on
+the day of the search.
+\end{onlyin}
+\begin{onlyin}{swedish}
+Tre slags källor är inte forskningsartiklar och hämtades direkt.
+TOP500:s statistik över operativsystem kommer från listans egna
+statistiksidor, frågade för varje lista från juni 1997 till november
+2026; de är räkningens primärkälla, och ingen artikel kan vara mer
+aktuell än en lista som publicerades dagen innan vi sökte.  Hur de
+svenska centren nås kommer från deras användarguider: de från National
+Supercomputer Centre (NSC) i Linköping, från PDC Center for High
+Performance Computing vid KTH och från National Academic Infrastructure
+for Supercomputing in Sweden (NAISS), som driver de nationella systemen.
+När NSC först erbjöd ett fjärrskrivbord kommer från Internet Archives
+kopior av dess sidor.  Vi läste varje sida i sin helhet dagen för
+sökningen.
+\end{onlyin}
+
+\section{\ensv{Results}{Resultat}} % sync english=219c4a swedish=6e45f9
+\label{sec:hpc-cli-results}
+
+\paragraph{\ensv{Which operating systems do HPC systems run?}%
+  {Vilka operativsystem kör HPC-systemen?}} % sync english=ef5714 swedish=9318d3
+\begin{onlyin}{english} % sync english=af2afc swedish=9adfb3
+All 500 systems on the TOP500 list of November 2026 have an operating
+system of the Linux family, and so has every list since November 2017;
+the list of June 2017 still had 498 Linux systems and two Unix
+systems\autocite{Top500OSFamily2026}.  Within the family the systems name
+many distributions and vendor variants, from Red Hat Enterprise Linux and
+Ubuntu to HPE Cray OS\autocite{Top500OS2026}.  The book on the operating
+systems of supercomputers agrees that \textcquote[4]{Gerofi2019Intro}{Linux,
+in particular, is currently the dominant OS for these systems}, and so do
+researchers in operating systems: Linux-based systems are
+\textcquote{Kocoloski2014HPMMAP}{the environments of choice for the
+majority of modern HPC systems}, and Linux is
+\textcquote{Filipiuk2023CARAT}{the common, typically only, supported OS
+choice among supercomputing vendors}.  In 2003 Linux clusters were
+\textcquote{Papadopoulos2003Rocks}{rapidly becoming the dominant computing
+platform for a wide range of scientific disciplines}, and in 2023
+security researchers wrote of \textcquote{Vasilas2023HotnCold}{Linux
+operating systems, running on all Top500 HPC systems}.
+
+Two things qualify the count.  First, the TOP500 covers what it calls
+\textcquote{Top500Description2026}{the 500 most powerful commercially
+available computer systems known to us}, ranked by the LINPACK
+benchmark\autocite{Top500Introduction2026}, and a system is on the list
+only if someone submits it by the deadline\autocite{Top500Participation2026}.
+The thousands of smaller clusters at universities and companies are not
+counted, and neither is a large system whose owner does not submit it.
+Second, the label describes the system as a whole, not every node of it.
+A supercomputer has login and service nodes besides its compute
+nodes\autocite[4]{Gerofi2019Intro}, and the compute nodes may run another
+kernel.  On Blue Gene/L \textcquote{Moreira2006BlueGene}{[c]ompute nodes
+run a lightweight operating system called the compute node kernel. I/O
+nodes run a port of the Linux operating system}, yet the TOP500 records
+the Blue Gene/Q system Sequoia as running Linux\autocite{Top500Sequoia2026}.
+The book counts \textcquote[8]{Gerofi2019Intro}{in the Top 500 list
+published in June 2018, 95\% of the machines ran some variant of Linux},
+where the TOP500's own statistics give 500 of 500 for that
+list\autocite{Top500OSFamily2026}.  Such lightweight kernels have become
+rare: they \textcquote{Riesen2015LWK}{have been in use on the compute
+nodes of supercomputers for decades. Although many high-end systems now
+run Linux, interest in options and alternatives has increased}, and
+\textcquote[7]{Gerofi2019Intro}{there are only a few machines on the Top
+500 list today that run an LWK}.  The research that continues runs them
+beside Linux on the same node: on Fugaku, which
+\textcquote{Gerofi2021McKernel}{runs a highly tuned Linux environment},
+such a multi-kernel gained 4\,\% on average\autocite{Gerofi2021McKernel}.
+\end{onlyin}
+\begin{onlyin}{swedish}
+Alla 500 systemen på TOP500-listan från november 2026 har ett
+operativsystem ur Linuxfamiljen, och det har varje lista sedan november
+2017; listan från juni 2017 hade ännu 498 Linuxsystem och två
+Unixsystem\autocite{Top500OSFamily2026}.  Inom familjen anger systemen
+många distributioner och leverantörsvarianter, från Red Hat Enterprise
+Linux och Ubuntu till HPE Cray OS\autocite{Top500OS2026}.  Boken om
+superdatorers operativsystem håller med:
+\foreigntextcquote{english}[4]{Gerofi2019Intro}{Linux, in particular, is
+currently the dominant OS for these systems}, och det gör även forskare
+inom operativsystem: Linuxbaserade system är
+\foreigntextcquote{english}{Kocoloski2014HPMMAP}{the environments of
+choice for the majority of modern HPC systems}, och Linux är
+\foreigntextcquote{english}{Filipiuk2023CARAT}{the common, typically
+only, supported OS choice among supercomputing vendors}.  År 2003 var
+Linuxkluster \foreigntextcquote{english}{Papadopoulos2003Rocks}{rapidly
+becoming the dominant computing platform for a wide range of scientific
+disciplines}, och 2023 skrev säkerhetsforskare om
+\foreigntextcquote{english}{Vasilas2023HotnCold}{Linux operating systems,
+running on all Top500 HPC systems}.
+
+Två saker kvalificerar räkningen.  För det första omfattar TOP500 det som
+listan kallar \foreigntextcquote{english}{Top500Description2026}{the 500
+most powerful commercially available computer systems known to us},
+rangordnade efter LINPACK-testet\autocite{Top500Introduction2026}, och
+ett system finns på listan bara om någon skickar in det före
+tidsfristen\autocite{Top500Participation2026}.  De tusentals mindre
+klustren vid universitet och företag räknas inte, och inte heller ett
+stort system vars ägare inte skickar in det.  För det andra beskriver
+märkningen systemet som helhet, inte varje nod i det.  En superdator har
+inloggnings- och servicenoder utöver sina
+beräkningsnoder\autocite[4]{Gerofi2019Intro}, och beräkningsnoderna kan
+köra en annan kärna.  På Blue Gene/L
+\foreigntextcquote{english}{Moreira2006BlueGene}{[c]ompute nodes run a
+lightweight operating system called the compute node kernel. I/O nodes
+run a port of the Linux operating system}, men TOP500 anger att Blue
+Gene/Q-systemet Sequoia kör Linux\autocite{Top500Sequoia2026}.  Boken
+räknar \foreigntextcquote{english}[8]{Gerofi2019Intro}{in the Top 500
+list published in June 2018, 95\% of the machines ran some variant of
+Linux}, där TOP500:s egen statistik ger 500 av 500 för den
+listan\autocite{Top500OSFamily2026}.  Sådana lättviktskärnor har blivit
+sällsynta: de \foreigntextcquote{english}{Riesen2015LWK}{have been in use
+on the compute nodes of supercomputers for decades. Although many
+high-end systems now run Linux, interest in options and alternatives has
+increased}, och \foreigntextcquote{english}[7]{Gerofi2019Intro}{there are
+only a few machines on the Top 500 list today that run an LWK}.  Den
+forskning som pågår kör dem bredvid Linux på samma nod: på Fugaku, som
+\foreigntextcquote{english}{Gerofi2021McKernel}{runs a highly tuned Linux
+environment}, vann en sådan multikärna i genomsnitt 4\,procent%
+\autocite{Gerofi2021McKernel}.
+\end{onlyin}
+
+\paragraph{\ensv{How are the Swedish centres reached?}%
+  {Hur nås de svenska centren?}} % sync english=aa4cac swedish=c748a6
+\begin{onlyin}{english} % sync english=132481 swedish=646483
+At NSC in Linköping \textcquote{NSCGettingStarted2026}{\textins*{a}ll
+clusters support SSH logins}, and users
+\textcquote{NSCGettingStarted2026}{login to a login node (\enquote{head
+node}) to submit batch jobs or use the system interactively}.  The
+national cluster Tetralith and two others also have the remote desktop
+ThinLinc, and for graphical programs NSC
+\textcquote{NSCGraphics2026}{recommend\textins{s} using ThinLinc}.
+Arrhenius, the national system that entered production at Linköping
+University in May 2026\autocite{NAISSArrhenius2026}, is reached the same
+two ways: users \textcquote{NAISSArrheniusQuickstart2026}{use password and
+two-factor authentication (2FA) to login via SSH}, or connect with the
+ThinLinc client\autocite{NAISSArrheniusQuickstart2026}, which
+\textcquote{NAISSArrheniusThinLinc2026}{uses ssh for authentication and
+VNC for graphics} and gives a desktop on the login nodes.  KTH's system
+Dardel is reached with SSH keys uploaded through PDC's login
+portal\autocite{PDCSSHLogin2026,NAISSDardelQuickstart2026}, and for
+graphics through ThinLinc, from whose desktop Jupyter notebooks and
+programs such as Matlab can be started\autocite{PDCInteractive2026}.  At
+LUNARC in Lund a ThinLinc desktop has been in use since
+2013\autocite{Lindemann2024LUNARC}.  None of the guides we read names a
+web portal through which the systems themselves are used; PDC's login
+portal only registers keys.
+
+So at the Swedish centres SSH is the first way in, and the alternative is
+a remote desktop that is itself opened over SSH.  The desktop holds a
+terminal too\autocite{NAISSArrheniusThinLinc2026,PDCInteractive2026}, but
+a user can start graphical programs from its menus without typing a
+command.
+\end{onlyin}
+\begin{onlyin}{swedish}
+Vid NSC i Linköping
+\foreigntextcquote{english}{NSCGettingStarted2026}{\textins*{a}ll
+clusters support SSH logins}, och användarna
+\foreigntextcquote{english}{NSCGettingStarted2026}{login to a login node
+(\enquote{head node}) to submit batch jobs or use the system
+interactively}.  Det nationella klustret Tetralith och två andra har
+också fjärrskrivbordet ThinLinc, och för grafiska program
+rekommenderar NSC att man använder ThinLinc\autocite{NSCGraphics2026}.
+Arrhenius, det nationella system som togs i drift vid
+Linköpings universitet i maj 2026\autocite{NAISSArrhenius2026}, nås på
+samma två sätt: användarna
+\foreigntextcquote{english}{NAISSArrheniusQuickstart2026}{use password
+and two-factor authentication (2FA) to login via SSH}, eller ansluter
+med ThinLinc-klienten\autocite{NAISSArrheniusQuickstart2026}, som
+\foreigntextcquote{english}{NAISSArrheniusThinLinc2026}{uses ssh for
+authentication and VNC for graphics} och ger ett skrivbord på
+inloggningsnoderna.  KTH:s system Dardel nås med SSH-nycklar som laddas
+upp via PDC:s inloggningsportal%
+\autocite{PDCSSHLogin2026,NAISSDardelQuickstart2026}, och för grafik
+genom ThinLinc, från vars skrivbord Jupyter-notebooks och program som
+Matlab kan startas\autocite{PDCInteractive2026}.  Vid LUNARC i Lund har
+ett ThinLinc-skrivbord använts sedan 2013\autocite{Lindemann2024LUNARC}.
+Ingen av de guider vi läste nämner en webbportal genom vilken själva
+systemen används; PDC:s inloggningsportal registrerar bara nycklar.
+
+Vid de svenska centren är SSH alltså den första vägen in, och
+alternativet är ett fjärrskrivbord som självt öppnas över SSH.
+Skrivbordet har en terminal också%
+\autocite{NAISSArrheniusThinLinc2026,PDCInteractive2026}, men en
+användare kan starta grafiska program från dess menyer utan att skriva
+ett kommando.
+\end{onlyin}
+
+\paragraph{\ensv{What does the literature say about how HPC is reached?}%
+  {Vad säger litteraturen om hur HPC nås?}} % sync english=6ab27e swedish=f6473e
+\begin{onlyin}{english} % sync english=851649 swedish=b88ecb
+The literature states the command line as the usual way in, mostly in
+passing and without measuring it.  SSH \textcquote{Lafayette2022SSH}{is
+the typical way to access high-performance computing (HPC) systems},
+HPC systems \textcquote{Kuznia2022Masquerading}{are typically accessed
+through interactive Linux shell sessions},
+\textcquote{Rynge2011GlideinWMS}{the main mode of access for the current
+High Performance Computing and High Throughput Computing infrastructures
+today is logging in via ssh}, and researchers
+\textcquote{Suh2016EDISON}{typically use command-line interface (CLI) such
+as Terminal to access the HPC resources}.  A 2025 handbook for
+administrators says of remote user access that it
+\textcquote{Zhumatiy2025Remote}{is the main method of remote access to
+supercomputers today} and that \textcquote{Zhumatiy2025Remote}{access will
+be on the command line}.  The developers of the Open OnDemand portal give
+the same picture from the other side: \blockcquote[1]{Hudak2018OnDemand}{The
+web has become the dominant access mechanism for remote compute services
+in every computing area except high-performance computing (HPC).
+Accessing HPC resources, either at the campus or national level typically
+requires advanced knowledge of Linux, familiarity with command-line
+interfaces and installation and configuration of custom client software
+(e.g., Secure Shell (SSH) and Virtual Network Computing (VNC)).}  Two
+years later they still called HPC \textcquote{Chalker2021OnDemand}{a
+notable exception}, and centres describe command-line systems as those
+\textcquote{Thota2019Desktops}{which comprise the majority of
+high-performance computing environments in use}.  An MIT centre
+describes the effort HPC centres put into
+\textcquote[\S~2.4]{Mullen2018Lessons}{teaching new users the basics of
+Linux and the command line interface}.
+
+Only one study in our records measures the access modes at a centre over
+time.  At Idaho National Laboratory,
+\textcquote[3]{Rothwell2022Web}{\textins*{m}any of the HPC users had
+previously relied on PuTTY [24] or secure shell (SSH) to access the HPC
+systems}; after the laboratory opened Open
+OnDemand, \textcquote[5]{Rothwell2022Web}{over 25\% of the entire HPC
+userbase were accessing the HPC systems using Open OnDemand every month}.
+The same study shows how much of the command line stays: in a survey of
+the portal's users (15.6\,\% responded)
+\textcquote[5]{Rothwell2022Web}{\textins*{s}hell access to the HPC systems
+was identified as the most popular feature}, and the programs started
+from the portal used \textcquote[7]{Rothwell2022Web}{less than 1\% of the
+delivered core hours}.
+\end{onlyin}
+\begin{onlyin}{swedish}
+Litteraturen anger kommandoraden som den vanliga vägen in, mest i förbigående
+och utan att mäta det.  SSH \foreigntextcquote{english}{Lafayette2022SSH}{is
+the typical way to access high-performance computing (HPC) systems},
+HPC-system \foreigntextcquote{english}{Kuznia2022Masquerading}{are
+typically accessed through interactive Linux shell sessions},
+\foreigntextcquote{english}{Rynge2011GlideinWMS}{the main mode of access
+for the current High Performance Computing and High Throughput Computing
+infrastructures today is logging in via ssh}, och forskare
+\foreigntextcquote{english}{Suh2016EDISON}{typically use command-line
+interface (CLI) such as Terminal to access the HPC resources}.  En
+handbok för administratörer från 2025 säger om fjärråtkomst för användare
+att den \foreigntextcquote{english}{Zhumatiy2025Remote}{is the main method
+of remote access to supercomputers today} och att
+\foreigntextcquote{english}{Zhumatiy2025Remote}{access will be on the
+command line}.  Utvecklarna av portalen Open OnDemand ger samma bild från
+andra sidan:
+\foreignblockcquote{english}[1]{Hudak2018OnDemand}{The web has become
+the dominant access mechanism for remote compute services in every
+computing area except high-performance computing (HPC). Accessing HPC
+resources, either at the campus or national level typically requires
+advanced knowledge of Linux, familiarity with command-line interfaces and
+installation and configuration of custom client software (e.g., Secure
+Shell (SSH) and Virtual Network Computing (VNC)).}  Två år senare kallade
+de fortfarande HPC
+\foreigntextcquote{english}{Chalker2021OnDemand}{a notable exception},
+och centrum beskriver system med kommandorad som de
+\foreigntextcquote{english}{Thota2019Desktops}{which comprise the
+majority of high-performance computing environments in use}.  Ett
+centrum vid MIT beskriver det arbete som HPC-centren lägger på att
+\foreigntextcquote{english}[\S~2.4]{Mullen2018Lessons}{teaching new users
+the basics of Linux and the command line interface}.
+
+Bara en studie i våra poster mäter åtkomstsätten vid ett centrum över
+tid.  Vid Idaho National Laboratory
+\foreigntextcquote{english}[3]{Rothwell2022Web}{\textins*{m}any of the
+HPC users had previously relied on PuTTY [24] or secure shell (SSH) to
+access the HPC systems}; sedan laboratoriet öppnat Open OnDemand
+\foreigntextcquote{english}[5]{Rothwell2022Web}{over 25\% of the entire
+HPC userbase were accessing the HPC systems using Open OnDemand every
+month}.  Samma studie visar hur mycket av kommandoraden som finns kvar: i
+en enkät till portalens användare (15,6\,procent svarade)
+\foreigntextcquote{english}[5]{Rothwell2022Web}{\textins*{s}hell access
+to the HPC systems was identified as the most popular feature}, och de
+program som startades från portalen använde
+\foreigntextcquote{english}[7]{Rothwell2022Web}{less than 1\% of the
+delivered core hours}.
+\end{onlyin}
+
+\paragraph{\ensv{Can HPC be reached without a command line, and is the
+  command line a barrier?}%
+  {Kan HPC nås utan kommandorad, och är kommandoraden ett hinder?}} % sync english=4beb40 swedish=b85eb8
+\begin{onlyin}{english} % sync english=234b74 swedish=1a0bd4
+Yes to the first; to the second, mostly in the words of those who build
+the alternatives.  Web interfaces to HPC go back to Java applets in the
+1990s\autocite{Calegari2019Portals}.  Through the CIPRES gateway
+\textcquote{Miller2012CIPRES}{more than 4,000 unique users have run
+parallel tree inference jobs on TeraGrid/XSEDE resources} by 2012, in a
+web browser, and the national supercomputer Comet reached 10\,000 users in
+less than two years \textcquote{Strande2017Comet}{due in large part to the
+adoption of policies that favor smaller allocations and science
+gateways}.  At Indiana and Purdue universities virtual desktops to the
+clusters had \textcquote{Thota2019Desktops}{over two thousand annual
+active users combined}, and over three quarters of them called the
+desktops important for their use of HPC\autocite{Thota2019Desktops}.
+Fugaku introduced Open OnDemand because
+\textcquote{Nakao2023Fugaku}{the prerequisite knowledge required to use
+them is large, making the learning cost high for novice users}, and the
+AI supercomputer Isambard-AI is designed so that
+\textcquote{McIntoshSmith2024Isambard}{access will more typically be via
+Jupyter notebooks, MLOps, or other web-based, interactive interfaces,
+rather than the approach used on traditional supercomputers of ssh'ing
+into a system before submitting jobs to a batch scheduler}.  At NERSC
+Jupyter tools \textcquote{Paine2020Jupyter}{are being adopted and
+incorporated into High Performance Computing (HPC) and scientific user
+facilities}, and NERSC is moving automated access from SSH to web
+interfaces\autocite{Majumder2026HEPCloud}.  Nearly 5000 researchers in a
+survey on science gateways mostly rated such online resources important
+to their work\autocite{Lawrence2015Gateways}, though the abstract does not
+say how many of them use a gateway instead of a command line.
+
+That the command line is a barrier is said by the gateway community,
+\textcquote{Gesing2015Gateways}{the requirement to employ HPC
+infrastructures via command line often forms a huge hurdle}, by centres,
+where researchers hesitate because
+\textcquote{Karapetrovic2019Discovery}{learning how to use the command
+line or job scheduler can be intimidating}, and by
+researchers planning a study of first-time users, for whom shell
+scripting on Linux \textcquote{Ferdinandy2019FirstContact}{might be
+intimidating for research with small or no background in Information and
+Communications Technology}; 61 of the records we kept say the same, most
+of them in the abstract of a tool built to remove the barrier.  Two
+studies test it.  A usability study of 19 researchers found HPC clusters
+\textcquote{Suleman2025Usability}{complex and difficult to use} and called
+for a graphical portal, without singling out the command line, and a
+gateway for new users was compared with the command line in a usability
+study whose result the abstract does not give\autocite{Sampedro2017Sandstone}.
+We found no study that measures how quickly new users get started with
+and without a command line.
+\end{onlyin}
+\begin{onlyin}{swedish}
+Ja på den första; på den andra, mest med orden från dem som bygger
+alternativen.  Webbgränssnitt till HPC går tillbaka till Java-appletar på
+1990-talet\autocite{Calegari2019Portals}.  Genom gatewayen CIPRES hade
+fler än 4\,000 olika användare kört parallella beräkningar av släktträd
+på TeraGrid/XSEDE år 2012\autocite{Miller2012CIPRES}, i en webbläsare,
+och den nationella superdatorn Comet nådde 10\,000 användare på mindre
+än två år
+\foreigntextcquote{english}{Strande2017Comet}{due in large part to the
+adoption of policies that favor smaller allocations and science
+gateways}.  Vid universiteten i Indiana och Purdue hade virtuella
+skrivbord till klustren
+\foreigntextcquote{english}{Thota2019Desktops}{over two thousand annual
+active users combined}, och över tre fjärdedelar av dem kallade
+skrivborden viktiga för deras användning av
+HPC\autocite{Thota2019Desktops}.  Fugaku införde Open OnDemand eftersom
+\foreigntextcquote{english}{Nakao2023Fugaku}{the prerequisite knowledge
+required to use them is large, making the learning cost high for novice
+users}, och AI-superdatorn Isambard-AI är utformad så att
+\foreigntextcquote{english}{McIntoshSmith2024Isambard}{access will more
+typically be via Jupyter notebooks, MLOps, or other web-based,
+interactive interfaces, rather than the approach used on traditional
+supercomputers of ssh'ing into a system before submitting jobs to a
+batch scheduler}.  Vid NERSC håller Jupyter-verktyg på att tas in i
+HPC och i vetenskapliga användaranläggningar\autocite{Paine2020Jupyter},
+och NERSC flyttar automatiserad åtkomst från
+SSH till webbgränssnitt\autocite{Majumder2026HEPCloud}.  Nästan 5000
+forskare i en enkät om vetenskapliga gatewayer bedömde mestadels sådana
+nätresurser som viktiga för sitt arbete\autocite{Lawrence2015Gateways},
+fast sammanfattningen inte säger hur många av dem som använder en
+gateway i stället för en kommandorad.
+
+Att kommandoraden är ett hinder sägs av gatewaygemenskapen,
+\foreigntextcquote{english}{Gesing2015Gateways}{the requirement to
+employ HPC infrastructures via command line often forms a huge hurdle},
+av centrum, där forskare tvekar eftersom
+\foreigntextcquote{english}{Karapetrovic2019Discovery}{learning how to
+use the command line or job scheduler can be intimidating}, och av
+forskare som planerar en studie av förstagångsanvändare, för vilka
+skalskript på Linux
+\foreigntextcquote{english}{Ferdinandy2019FirstContact}{might be
+intimidating for research with small or no background in Information
+and Communications Technology}; 61 av de poster vi behöll säger detsamma,
+de flesta i sammanfattningen av ett verktyg byggt för att ta bort
+hindret.  Två studier prövar det.  En användbarhetsstudie med 19
+forskare fann HPC-kluster
+\foreigntextcquote{english}{Suleman2025Usability}{complex and difficult
+to use} och efterlyste en grafisk portal, utan att peka ut kommandoraden,
+och en gateway för nya användare jämfördes med kommandoraden i en
+användbarhetsstudie vars resultat sammanfattningen inte
+anger\autocite{Sampedro2017Sandstone}.  Vi hittade ingen studie som mäter
+hur snabbt nya användare kommer i gång med och utan en kommandorad.
+\end{onlyin}
+
+\paragraph{\ensv{The Linköping anecdote.}{Anekdoten från Linköping.}} % sync english=452497 swedish=eccfdc
+\begin{onlyin}{english} % sync english=210d46 swedish=387db5
+The earlier version of these notes told of two KTH students who got
+computer time at the HPC centre in Linköping for simulating the Tor
+network and had only SSH, command-line access.  NSC's pages do not say
+when ThinLinc was introduced.  The oldest copy of its graphics page in
+the Internet Archive, from July 2014, already recommends ThinLinc, then
+on the cluster Triolith only\autocite{NSCGraphics2014}.  So a remote
+desktop existed by 2014 at the latest, but the anecdote itself cannot be
+dated from any source: it is the author's own experience.
+\end{onlyin}
+\begin{onlyin}{swedish}
+Den tidigare versionen av det här materialet berättade om två studenter
+vid KTH som fick datortid vid HPC-centret i Linköping för att simulera
+Tornätverket och bara hade SSH, åtkomst via kommandorad.  NSC:s sidor
+säger inte när ThinLinc infördes.  Den äldsta kopian av dess grafiksida i
+Internet Archive, från juli 2014, rekommenderar redan ThinLinc, då bara
+på klustret Triolith\autocite{NSCGraphics2014}.  Ett fjärrskrivbord
+fanns alltså senast 2014, men själva anekdoten kan inte dateras från
+någon källa: den är författarens egen erfarenhet.
+\end{onlyin}
+
+\section{\ensv{Discussion and limitations}{Diskussion och begränsningar}} % sync english=634094 swedish=5d16d0
+
+\begin{onlyin}{english} % sync english=4dc801 swedish=795bfe
+The first part of the claim rests on the TOP500, which counts by
+submission: it is a census of the 500 fastest systems someone chose to
+submit, not of all HPC systems.  Smaller clusters may run other systems,
+and we found no count of them.  The family label also covers systems
+whose compute nodes run other kernels, and one book's count for June 2018
+(95\,\%) differs from the list's own (100\,\%) without saying how it
+counted.
+
+The second part rests on two kinds of evidence of different weight.  The
+centres' user guides are primary sources for what the Swedish centres
+offer, but they say what is offered, not how many use which way in.  The
+literature mostly states the command line as the usual way in without
+measuring it, and many of its statements come from developers of
+portals, who have reason to describe the command line as a gap.  The one
+measurement of access modes over time is from one American laboratory,
+with a survey answered by 15.6\,\% of its users; the counts of gateway
+and desktop users elsewhere have no count of command-line users beside
+them.
+
+The screening has three limits.  Records without an abstract were
+excluded, 1\,933 of them, so an older or grey-literature work indexed
+without an abstract is missed unless a query on titles or the search by
+meaning brought it up; 66 of them share their title with a record that
+had an abstract and may be copies of it, which we did not merge on the
+title alone.  The decisions were made by a language model and
+an AI agent from titles and abstracts; the author has not reviewed them,
+and no sample has been checked by a person, so the rate of wrong
+exclusions is unknown.  And most sources were read only in their
+abstracts, because the publishers' pages stopped automated downloads (ACM,
+Wiley, IEEE) or we have no subscription (Apress): of the sources we cite,
+only the TOP500 pages, the centres' guides, the book chapter on HPC
+operating systems, the Open OnDemand paper, the MIT report and the Idaho
+study were read in full.
+
+The OpenAlex searches covered titles and abstracts, and OpenAlex holds no
+abstract, or a shortened one, for many records; a study that names a
+command line only in its full text is missed there, and we did not use
+OpenAlex's full-text search, which returned thousands to over a hundred
+thousand records per query.  A study that names its system (Blue Gene)
+but none of the words of the HPC block cannot be returned by any query.
+DBLP could not be searched at all.
+\end{onlyin}
+\begin{onlyin}{swedish}
+Påståendets första del vilar på TOP500, som räknar efter inskickning:
+den är en inventering av de 500 snabbaste system som någon valde att
+skicka in, inte av alla HPC-system.  Mindre kluster kan köra andra
+system, och vi hittade ingen räkning av dem.  Familjemärkningen omfattar
+också system vars beräkningsnoder kör andra kärnor, och en boks räkning
+för juni 2018 (95\,procent) skiljer sig från listans egen (100\,procent)
+utan att säga hur den räknade.
+
+Den andra delen vilar på två slags belägg med olika tyngd.  Centrens
+användarguider är primärkällor för vad de svenska centren erbjuder, men
+de säger vad som erbjuds, inte hur många som använder vilken väg in.
+Litteraturen anger mestadels kommandoraden som den vanliga vägen in utan
+att mäta det, och många av dess uttalanden kommer från utvecklare av
+portaler, som har skäl att beskriva kommandoraden som en brist.  Den enda
+mätningen av åtkomstsätt över tid kommer från ett amerikanskt
+laboratorium, med en enkät som 15,6\,procent av dess användare besvarade;
+räkningarna av gateway- och skrivbordsanvändare på andra håll har ingen
+räkning av kommandoradsanvändare bredvid sig.
+
+Gallringen har tre gränser.  Poster utan sammanfattning uteslöts, 1\,933
+av dem, så ett äldre verk eller ett verk ur grå litteratur som
+indexerats utan sammanfattning missas om inte en fråga på titlar eller
+sökningen efter betydelse fick fram det; 66 av dem delar titel med en
+post som hade en sammanfattning och kan vara kopior av den, vilka vi inte
+slog samman på titeln ensam.  Besluten fattades av en språkmodell och en
+AI-agent utifrån titlar och sammanfattningar; författaren har inte
+granskat dem, och inget urval har kontrollerats av en människa, så
+andelen felaktiga uteslutningar är okänd.  Och de flesta källorna lästes
+bara i sina sammanfattningar, eftersom förlagens sidor stoppade
+automatiska nedladdningar (ACM, Wiley, IEEE) eller vi saknar prenumeration
+(Apress): av de källor vi citerar lästes bara TOP500-sidorna, centrens
+guider, bokkapitlet om HPC-operativsystem, artikeln om Open OnDemand,
+rapporten från MIT och studien från Idaho i sin helhet.
+
+Sökningarna i OpenAlex omfattade titlar och sammanfattningar, och
+OpenAlex har ingen sammanfattning, eller en förkortad, för många poster;
+en studie som nämner en kommandorad bara i sin fulltext missas där, och
+vi använde inte OpenAlex fulltextsökning, som gav tusentals till över
+hundratusen poster per fråga.  En studie som namnger sitt system (Blue
+Gene) men inget av orden i blocket HPC kan inte ges av någon fråga.  DBLP
+kunde inte genomsökas alls.
+\end{onlyin}
+
+\section{\ensv{Conclusion}{Slutsats}} % sync english=89db2a swedish=c3cc6f
+\label{sec:hpc-cli-conclusion}
+
+\begin{onlyin}{english} % sync english=b8de74 swedish=49a68d
+Yes to the first question and, with a reservation, to the second.  Every
+system on the TOP500 list has run an operating system of the Linux family
+since November 2017, but the TOP500 counts only the 500 fastest systems
+that were submitted, and the label covers the system rather than every
+node.  A command line over SSH is the first way into the HPC systems of
+the Swedish centres, and the literature describes it as the usual way
+into HPC; but it is not the only one.  The Swedish centres also offer a
+remote desktop, centres abroad offer web portals and notebooks that
+thousands use, and at least one new AI supercomputer is designed to be
+used mainly through them.
+
+For \cref{sec:where-cli} this means that the notes may say that
+supercomputers run Linux, citing the TOP500, and that you usually reach
+them through a command line over SSH, as at the Swedish centres.  They
+should not say that all HPC is used through a command line, and they
+should say that remote desktops and web portals exist.  That the command
+line keeps new users away is mostly the opinion of those building the
+alternatives, not a measured result.
+\end{onlyin}
+\begin{onlyin}{swedish}
+Ja på den första frågan och, med ett förbehåll, på den andra.  Varje
+system på TOP500-listan har kört ett operativsystem ur Linuxfamiljen sedan
+november 2017, men TOP500 räknar bara de 500 snabbaste system som
+skickades in, och märkningen gäller systemet snarare än varje nod.  En
+kommandorad över SSH är den första vägen in i de svenska centrens
+HPC-system, och litteraturen beskriver den som den vanliga vägen in i
+HPC; men den är inte den enda.  De svenska centren erbjuder också ett
+fjärrskrivbord, centrum utomlands erbjuder webbportaler och notebooks som
+tusentals använder, och minst en ny AI-superdator är utformad för att
+användas främst genom dem.
+
+För \cref{sec:where-cli} betyder det att texten får säga att superdatorer
+kör Linux, med TOP500 som källa, och att du oftast når dem genom en
+kommandorad över SSH, som vid de svenska centren.  Den bör inte säga att
+all HPC används genom en kommandorad, och den bör säga att
+fjärrskrivbord och webbportaler finns.  Att kommandoraden håller nya
+användare borta är mest en åsikt hos dem som bygger alternativen, inte
+ett uppmätt resultat.
+\end{onlyin}
+
+\section{\ensv{Further work}{Fortsatt arbete}} % sync english=a44494 swedish=969e69
+
+\begin{onlyin}{english} % sync english=9c4366 swedish=e12ec9
+This search left some things undone.  The full texts of most cited
+studies could not be obtained here, and the studies of science gateways,
+desktops and Jupyter may report how many users use which way in; the
+author can fetch them from a browser:
+\textcite{Chalker2021OnDemand,Lawrence2015Gateways,Paine2020Jupyter,%
+Thota2019Desktops,Sampedro2017Sandstone,Nakao2023Fugaku}.  The decisions
+of the model and the agent have not been checked by a person, and a
+random sample of them should be, to give their error rate.  DBLP could
+not be searched, and the search by meaning pointed to studies that name a
+system rather than HPC or have no abstract.
+
+The field lacks a count of how users reach HPC systems.  A survey across
+centres, or the centres' own logs of SSH logins, desktop sessions and
+portal sessions, would say whether \enquote{usually} holds today and how
+fast portals are changing it; the Idaho study suggests that the answer
+depends on the centre and on what it offers.  Nor has anyone in our
+records measured the barrier: a study that compares new users who start
+with a portal with new users who start with a command line would show
+whether the portal helps them in, and whether they later move to the
+command line.  If portals turn out to have taken over at most centres,
+the section should say that you may meet a command line, not that you
+will.
+\end{onlyin}
+\begin{onlyin}{swedish}
+Sökningen lämnade en del ogjort.  Fulltexterna av de flesta citerade
+studierna gick inte att få tag på här, och studierna av vetenskapliga
+gatewayer, skrivbord och Jupyter kan redovisa hur många användare som
+använder vilken väg in; författaren kan hämta dem från en webbläsare:
+\textcite{Chalker2021OnDemand,Lawrence2015Gateways,Paine2020Jupyter,%
+Thota2019Desktops,Sampedro2017Sandstone,Nakao2023Fugaku}.  Modellens och
+agentens beslut har inte kontrollerats av en människa, och ett
+slumpmässigt urval av dem bör kontrolleras, för att ge deras felandel.
+DBLP kunde inte genomsökas, och sökningen efter betydelse pekade på
+studier som namnger ett system snarare än HPC eller saknar
+sammanfattning.
+
+Fältet saknar en räkning av hur användare når HPC-system.  En enkät över
+flera centrum, eller centrens egna loggar över SSH-inloggningar,
+skrivbordssessioner och portalsessioner, skulle säga om \enquote{oftast}
+håller i dag och hur snabbt portaler ändrar det; studien från Idaho
+tyder på att svaret beror på centret och på vad det erbjuder.  Inte
+heller har någon i våra poster mätt hindret: en studie som jämför nya
+användare som börjar med en portal med nya användare som börjar med en
+kommandorad skulle visa om portalen hjälper dem in, och om de senare går
+över till kommandoraden.  Visar det sig att portaler har tagit över vid
+de flesta centrum bör avsnittet säga att du kan möta en kommandorad,
+inte att du kommer att göra det.
+\end{onlyin}
+
+\section{\ensv{Hits bearing on the claim}{Träffar som rör påståendet}} % sync english=b678a6 swedish=eaf510
+
+% Author's note (verification and reproduction):
+%   scholar session : hpc-cli
+%   exports         : litteratursokning/hpc-cli.csv (all records, their
+%                     tags and sources; the abstract column is dropped for
+%                     size, and every record keeps its DOI and URL, so its
+%                     abstract can be looked up) and the -full hit-list
+%                     tables in both languages
+%   searched        : 2026-11-18 openalex (title_and_abstract.search via
+%                     the backing-claims skill's openalex_title_abstract.py,
+%                     title.search via a variant of it), ieee, wos, scopus;
+%                     dblp failed every query (HTTP 202 anti-bot page); s2
+%                     key rejected on 2026-11-18, renewed key: s2 (via
+%                     bulk) 2026-11-19 02:51-02:55 for the ten
+%                     title+abstract queries; the s2 relevance search
+%                     answered S1 with 0 (no Boolean support,
+%                     scholar#161).  The queries are in the Method section
+%                     and tab:hpc-cli-queries.  Superseded records in the
+%                     session: first versions of S2-S5 and C1-C4 (narrower
+%                     word blocks, subsets of the final ones), a merged
+%                     dblp+wos+ieee record of S1, and IEEE title queries
+%                     in a malformed field syntax (0).
+%   no-abstract rule: 2781 records without abstract (1750 after the first
+%                     searches, 1031 among the s2 records); abstracts found
+%                     by DOI: 606 OpenAlex/S2 + 1 S2 + 12 Crossref (round 1),
+%                     95 OpenAlex/Crossref (s2 round; the s2 batch endpoint
+%                     gave none), 39 after the scholar#192 repair; 29 kept
+%                     on the start of their full text (1 Gerofi chapter
+%                     read via KTH); 69 no-abstract copies took the
+%                     decision of their twin with an abstract; 1933 tagged
+%                     no-abstract (sum differs by 3 from 2781-753-29-69:
+%                     lost-and-refound abstracts and folds).  Adding s2
+%                     results emptied ~1280 stored abstracts (scholar bug,
+%                     fixed in 0838b15, providers repaired by #192); they
+%                     were restored from the session's own earlier exports,
+%                     10 more by DOI lookup.  66 no-abstract records share a
+%                     title with a record that had an abstract (possible
+%                     copies, not folded).
+%   reconcile       : 13 + 1 copies folded; 74 pairs decided alike by
+%                     different sources stay unfolded.
+%   classification  : scholar llm context + llm classify --no-examples
+%                     --no-enrich -n 40, model anthropic/claude-sonnet-5-5;
+%                     the model never used qualifies-claim.  Agent review
+%                     (AI agent, recorded as source agent, not reviewed by
+%                     the author): 1382 rows (511 model keeps + 871
+%                     keyword-matched discards) screened by four Claude
+%                     Sonnet subagents against a written brief; 321 status
+%                     changes, plus 70 records re-screened after the repair.
+%   check by meaning: scholar sessions check hpc-cli -s <6 questions>
+%                     (OpenAlex search.semantic); the first run, before the
+%                     repair, led to S6, S7, C5 and C6.
+%   hit-list tables : scholar sessions export hpc-cli -f table
+%                     --bearing-only --lang en|sv --label sok-hpc-cli
+%                     --track "Claim C"|"Påstående C" --theme ... -o
+%                     litteratursokning/hpc-cli-full(-sv) (not hand-edited;
+%                     the caption counts by unique hits, 10449, and reads
+%                     "0 cited" since agent keeps await the author)
+%   provenance      : ltnotes.bib (CLAIM/FOUND-VIA/PICKED/QUOTE/VERIFIED/
+%                     COUNTER/DATE)
+\begin{onlyin}{english} % sync english=669266 swedish=f33544
+\input{litteratursokning/hpc-cli-full}
+\end{onlyin}
+\begin{onlyin}{swedish}
+\input{litteratursokning/hpc-cli-full-sv}
 \end{onlyin}
 
 % --- Appendix D: the Unix lineage, from the search of 2026-11-18
@@ -1991,6 +3246,19 @@ och svaret är ett olika förhållande för vart och ett.
 \end{onlyin}
 
 \section{\ensv{Method}{Metod}} % sync english=52a0f9 swedish=f41b92
+
+\begin{onlyin}{english} % sync english=cb0709 swedish=9673e7
+An AI agent, a language model working for the author, carried out the
+search, the screening and the reading reported in this appendix; where
+it says \emph{we}, it is that agent's work, which the author has not yet
+reviewed.
+\end{onlyin}
+\begin{onlyin}{swedish}
+En AI-agent, en språkmodell som arbetade åt författaren, gjorde den
+sökning, den gallring och den läsning som bilagan redovisar; där den
+säger \emph{vi} är det agentens arbete, som författaren ännu inte har
+granskat.
+\end{onlyin}
 
 \paragraph{\ensv{Known items.}{Kända titlar.}} % sync english=c6cf33 swedish=7be4e1
 \begin{onlyin}{english} % sync english=9d88bf swedish=c94841
@@ -2290,15 +3558,16 @@ begreppsorden; det är skälet till att de är kända titlar.
 
 \paragraph{\ensv{Screening and exclusion criteria.}%
   {Gallring och uteslutningskriterier.}} % sync english=c0d3d3 swedish=e2519b
-\begin{onlyin}{english} % sync english=24ba07 swedish=ae7b02
+\begin{onlyin}{english} % sync english=85081d swedish=967500
 The searches returned 1437 records, 1267 of them distinct.
 We classified all of them against the claim with a language model
 (\texttt{claude-sonnet-5-5}, without examples), one category each:
 supports the claim, qualifies it, adjacent subtopic, or off-topic false
 hit.
-We read the title of every record that the model labelled as supporting
-(100) or qualifying (nine), and the abstract where there was one,
-and decided ourselves; many have no abstract.
+An AI agent, a language model working with the tool, read the title of
+every record that the model labelled as supporting (100) or qualifying
+(nine), and the abstract where there was one, and decided; many have no
+abstract.  The author has not yet reviewed these decisions.
 A record is excluded if it is one of the following.
 \begin{description}
   \item[Tool use only] It uses Unix, Linux, Android or macOS only as the
@@ -2314,7 +3583,8 @@ A record is excluded if it is one of the following.
     (229 records).
 \end{description}
 (A record can meet more than one criterion.)
-Of these 109 records we kept 31, which are 26 distinct works; the table
+Of these 109 records the agent kept 31, which are 26 distinct works;
+the table
 at the end of the chapter lists them, and marks those that the text
 cites.
 The other 78, mostly user manuals and security books about Mac OS X and
@@ -2327,9 +3597,11 @@ Vi klassade alla mot påståendet med en språkmodell
 (\texttt{claude-sonnet-5-5}, utan exempel), en kategori var: stöder
 påståendet, kvalificerar det, angränsande delämne eller felträff utanför
 ämnet.
-Vi läste titeln på varje post som modellen märkte som stödjande (100)
+En AI-agent, en språkmodell som arbetade med verktyget, läste titeln på
+varje post som modellen märkte som stödjande (100)
 eller kvalificerande (nio), och sammanfattningen där det fanns en, och
-avgjorde själva; många saknar sammanfattning.
+avgjorde; många saknar sammanfattning.  Författaren har ännu inte
+granskat de besluten.
 En post utesluts om den är något av följande.
 \begin{description}
   \item[Bara verktyg] Den använder Unix, Linux, Android eller macOS bara
@@ -2345,7 +3617,8 @@ En post utesluts om den är något av följande.
     poster).
 \end{description}
 (En post kan uppfylla mer än ett kriterium.)
-Av de 109 posterna behöll vi 31, som är 26 olika verk; tabellen i slutet
+Av de 109 posterna behöll agenten 31, som är 26 olika verk; tabellen i
+slutet
 av kapitlet listar dem, och markerar dem som texten citerar.
 De övriga 78, mest användarmanualer och säkerhetsböcker om Mac OS X och
 sammanställningar av uppslagstext, uteslöts som \emph{inga belägg} eller
@@ -2751,7 +4024,7 @@ citerar den inte som det.
 
 \section{\ensv{Discussion and limitations}{Diskussion och begränsningar}} % sync english=634094 swedish=5d16d0
 
-\begin{onlyin}{english} % sync english=baab3d swedish=c5239d
+\begin{onlyin}{english} % sync english=5411cf swedish=5161be
 The evidence is of two kinds, and the limits differ.
 The statements about each system's origin come from documents written by
 the people involved or by the system's own project (Ritchie and Thompson,
@@ -2769,13 +4042,15 @@ refutes any part of it, and the qualifying sources concern wording and the
 Android user space.
 
 The limits are facts about our data and tools.
-The screening was at title level: we decided on the 109 records that the
+The screening was at title level: the agent decided on the 109 records
+that the
 model sorted as bearing on the claim mostly by their titles, reading an
 abstract where one was available, so a relevant study with an
 unrevealing title may have been excluded.
 The searches did not go through the university's network, and Scopus
 returns abstracts only there, so the Scopus records came without
-abstracts; for those records both the model and we had the title alone.
+abstracts; for those records both the model and the agent had the
+title alone.
 Semantic Scholar and DBLP could not be searched, and IEEE Xplore was
 searched only for the first four queries, so conference papers that only
 IEEE Xplore indexes are possibly missing for the macOS, Android and
@@ -2784,7 +4059,8 @@ OpenAlex searched title and abstract only, and many older records and
 books have no abstract; a search by meaning found works that the keywords
 had missed, and the repair queries recovered those that bear on macOS and
 Android.
-Of the cited sources we read these in full: Ritchie and Thompson,
+Of the cited sources the agent read these in full: Ritchie and
+Thompson,
 McKusick, Torvalds, the kernel documentation, the Open Group's pages,
 Apple's and Android's pages, Spinellis's journal papers, Takahashi and
 Takamatsu and the Android student report.
@@ -2827,13 +4103,14 @@ motsäger någon del av det, och de kvalificerande källorna gäller
 ordval och Androids användarmiljö.
 
 Gränserna är fakta om våra data och verktyg.
-Gallringen gjordes på titelnivå: vi avgjorde de 109 poster som modellen
+Gallringen gjordes på titelnivå: agenten avgjorde de 109 poster som
+modellen
 sorterade som relevanta för påståendet mest efter deras titlar, och
 läste en sammanfattning där en fanns, så en relevant studie med en
 intetsägande titel kan ha uteslutits.
 Sökningarna gick inte genom universitetets nätverk, och Scopus ger
 sammanfattningar bara där, så Scopus poster kom utan sammanfattningar;
-för de posterna hade både modellen och vi bara titeln.
+för de posterna hade både modellen och agenten bara titeln.
 Semantic Scholar och DBLP kunde inte genomsökas, och IEEE Xplore
 genomsöktes bara för de fyra första frågorna, så konferensbidrag som
 bara IEEE Xplore indexerar kan saknas för frågorna om macOS, Android och
@@ -2842,7 +4119,8 @@ OpenAlex söktes bara på titel och sammanfattning, och många äldre poster
 och böcker saknar sammanfattning; en sökning efter betydelse hittade
 verk som nyckelorden hade missat, och de reparerande frågorna fick
 tillbaka dem som rör macOS och Android.
-Av de citerade källorna läste vi dessa i sin helhet: Ritchie och
+Av de citerade källorna läste agenten dessa i sin helhet: Ritchie
+och
 Thompson, McKusick, Torvalds, kärnans dokumentation, The Open Groups
 sidor, Apples och Androids sidor, Spinellis tidskriftsartiklar, Takahashi
 och Takamatsu samt studentrapporten om Android.

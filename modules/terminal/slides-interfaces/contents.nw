@@ -1369,17 +1369,26 @@ kommandorad?
   \end{exercise}
 \end{frame}
 
-\begin{onlyin}{english} % sync english=684ddc swedish=40db5e
+\begin{onlyin}{english} % sync english=fc3c38 swedish=09d13c
 A \emph{server} is a computer that you reach over the network rather
 than sit at.  KTH has one for its students, [[student-shell]], and the
 way in is the command [[ssh]], which logs you into the other computer
 over an encrypted connection and gives you a command line there; the
 course's guide to accessing the terminal shows you how.
-% TODO(claim C): the sentence on clusters waits for claim C's bounds.
-Many of the large computers used in research, computing clusters, are
-reached mainly through such a command line too.\footnote{The scientific
-basis for this claim, and how far it holds, is in
-\cref{app:hpc-cli}.}
+The largest computers of research, supercomputers and the clusters of
+high-performance computing, run Linux: every system on the TOP500 list
+of the fastest computers has done so since November 2017, though the
+list counts only the 500 fastest systems that were
+submitted\autocite{Top500OSFamily2026,Top500Participation2026}.  They
+are reached mainly through such a command line, over SSH; it is the first
+way into the systems of the Swedish centres, but not the only one, since
+remote desktops and web portals serve thousands of users
+too\autocite{Lafayette2022SSH,NSCGettingStarted2026,%
+PDCSSHLogin2026,Thota2019Desktops,Strande2017Comet}.\footnote{The
+scientific basis is in \cref{app:hpc-cli}: it asks whether
+high-performance computers run Linux and are reached through a command
+line, and finds that every TOP500 system runs Linux and that a command
+line over SSH is the usual way in, but not the only one.}
 \end{onlyin}
 \begin{onlyin}{swedish}
 En \emph{server} är en dator som du når över nätverket i stället för att
@@ -1387,12 +1396,21 @@ sitta vid den.  KTH har en för sina studenter, [[student-shell]], och
 vägen in är kommandot [[ssh]], som loggar in dig på den andra datorn
 över en krypterad förbindelse och ger dig en kommandorad där; kursens
 guide till terminalen visar dig hur.
-% TODO(claim C): meningen om kluster väntar på påstående C:s gränser.
-Många av de stora datorer som används inom forskningen, beräkningskluster
-(\foreignlanguage{english}{computing clusters}), nås också huvudsakligen
-genom en sådan kommandorad.\footnote{Det vetenskapliga underlaget för
-det här påståendet, och hur långt det håller, finns i
-\cref{app:hpc-cli}.}
+Forskningens största datorer, superdatorer och beräkningskluster för
+högpresterande beräkningar (\foreignlanguage{english}{high-performance
+computing}), kör Linux: varje system på TOP500, listan över de snabbaste
+datorerna, har gjort det sedan november 2017, fast listan bara räknar de
+500 snabbaste system som skickats
+in\autocite{Top500OSFamily2026,Top500Participation2026}.  De nås
+huvudsakligen genom en sådan kommandorad, över SSH; det är den första
+vägen in i de svenska centrens system, men inte den enda, eftersom
+fjärrskrivbord och webbportaler också används av tusentals
+användare\autocite{Lafayette2022SSH,NSCGettingStarted2026,%
+PDCSSHLogin2026,Thota2019Desktops,Strande2017Comet}.\footnote{Det
+vetenskapliga underlaget finns i \cref{app:hpc-cli}: den frågar om
+superdatorer kör Linux och nås genom en kommandorad, och finner att
+varje TOP500-system kör Linux och att en kommandorad över SSH är den
+vanliga vägen in, men inte den enda.}
 \end{onlyin}
 
 \begin{onlyin}{english} % sync english=f01a82 swedish=762518

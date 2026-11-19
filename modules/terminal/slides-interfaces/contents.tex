@@ -406,7 +406,7 @@ kommandoradsgränssnitt sker samspelet med datorn genom textkommandon som
 skrivs in vid en prompt\autocite{OED2026CommandLineInterface}.
 \end{onlyin}
 
-\begin{onlyin}{english} % sync english=ad3a46 swedish=219d9d
+\begin{onlyin}{english} % sync english=ad3a46 swedish=4cec77
 \leavevmode\ltnote{%
   Relevant learning objective: \cref{InterfacesLOKinds}.
 
@@ -444,8 +444,8 @@ is done with other commands: {\Tt{}Get-ChildItem\nwendquote} in PowerShell
   på ett system.  PowerShell finns också för Linux, så \cref{ex:pwsh} är
   en riktig körning i samma katalog; dess prompt är förkortad till
   \texttt{PS>}, på samma sätt som \texttt{\$}-prompten i de andra
-  körningarna utelämnar katalogen.  Windows kommandoskal kan inte köras
-  på den dator där anteckningarna byggs, så \cref{fig:cli-cmd} är en
+  körningarna utelämnar katalogen.  Kommandotolken i Windows kan inte
+  köras på den dator där anteckningarna byggs, så \cref{fig:cli-cmd} är en
   skärmbild, av en annan katalog.
 }%
 En kommandorad är inte ett program på ett system.  Terminalen kör ett
@@ -453,11 +453,11 @@ program som kallas ett \emph{skal} (\foreignlanguage{english}{shell}),
 som läser dina kommandon och kör dem: på Linux till exempel skalet
 \emph{bash}, och på en Mac skalet \emph{zsh}, som den använder som
 standard sedan macOS 10.15\autocite{Apple2026Zsh}.  I båda listar {\Tt{}ls\nwendquote}
-en katalog.  Windows har två egna skal, kommandoskalet
+en katalog.  Windows har två egna skal, Kommandotolken
 (\foreignlanguage{english}{Command shell}) och
 PowerShell\autocite{Microsoft2025WindowsCommands}, där samma uppgift
 görs med andra kommandon: {\Tt{}Get-ChildItem\nwendquote} i PowerShell
-(\cref{ex:pwsh}) och {\Tt{}dir\nwendquote} i kommandoskalet (\cref{fig:cli-cmd}).
+(\cref{ex:pwsh}) och {\Tt{}dir\nwendquote} i Kommandotolken (\cref{fig:cli-cmd}).
 \end{onlyin}
 
 \begin{frame}[fragile]
@@ -488,11 +488,11 @@ i {\Tt{}demo\nwendquote}:
       \texttt{dir} shows each file's date, time and size.  Image:
       Loadmaster (David R.\ Tribble), public domain, via Wikimedia
       Commons.}%
-      {Att lista en katalog med \texttt{dir} i Windows kommandoskal:
+      {Att lista en katalog med \texttt{dir} i Kommandotolken i Windows:
       katalogen \texttt{C:\textbackslash Temp} på ett Windowssystem år
       2009.  Förutom namnen visar \texttt{dir} varje fils datum,
       klockslag och storlek.  Bild: Loadmaster (David R.\ Tribble),
-      allmän egendom, via Wikimedia Commons.}}[fig:cli-cmd] % sync english=79e724 swedish=49f5e2
+      allmän egendom, via Wikimedia Commons.}}[fig:cli-cmd] % sync english=79e724 swedish=5356f8
       \includegraphics[width=0.85\linewidth]{figs/cli-cmd-dir.png}
     \end{sidecaption}
   \end{figure}
@@ -1385,17 +1385,26 @@ kommandorad?
   \end{exercise}
 \end{frame}
 
-\begin{onlyin}{english} % sync english=684ddc swedish=40db5e
+\begin{onlyin}{english} % sync english=fc3c38 swedish=09d13c
 A \emph{server} is a computer that you reach over the network rather
 than sit at.  KTH has one for its students, {\Tt{}student-shell\nwendquote}, and the
 way in is the command {\Tt{}ssh\nwendquote}, which logs you into the other computer
 over an encrypted connection and gives you a command line there; the
 course's guide to accessing the terminal shows you how.
-% TODO(claim C): the sentence on clusters waits for claim C's bounds.
-Many of the large computers used in research, computing clusters, are
-reached mainly through such a command line too.\footnote{The scientific
-basis for this claim, and how far it holds, is in
-\cref{app:hpc-cli}.}
+The largest computers of research, supercomputers and the clusters of
+high-performance computing, run Linux: every system on the TOP500 list
+of the fastest computers has done so since November 2017, though the
+list counts only the 500 fastest systems that were
+submitted\autocite{Top500OSFamily2026,Top500Participation2026}.  They
+are reached mainly through such a command line, over SSH; it is the first
+way into the systems of the Swedish centres, but not the only one, since
+remote desktops and web portals serve thousands of users
+too\autocite{Lafayette2022SSH,NSCGettingStarted2026,%
+PDCSSHLogin2026,Thota2019Desktops,Strande2017Comet}.\footnote{The
+scientific basis is in \cref{app:hpc-cli}: it asks whether
+high-performance computers run Linux and are reached through a command
+line, and finds that every TOP500 system runs Linux and that a command
+line over SSH is the usual way in, but not the only one.}
 \end{onlyin}
 \begin{onlyin}{swedish}
 En \emph{server} är en dator som du når över nätverket i stället för att
@@ -1403,13 +1412,60 @@ sitta vid den.  KTH har en för sina studenter, {\Tt{}student-shell\nwendquote},
 vägen in är kommandot {\Tt{}ssh\nwendquote}, som loggar in dig på den andra datorn
 över en krypterad förbindelse och ger dig en kommandorad där; kursens
 guide till terminalen visar dig hur.
-% TODO(claim C): meningen om kluster väntar på påstående C:s gränser.
-Många av de stora datorer som används inom forskningen, beräkningskluster
-(\foreignlanguage{english}{computing clusters}), nås också huvudsakligen
-genom en sådan kommandorad.\footnote{Det vetenskapliga underlaget för
-det här påståendet, och hur långt det håller, finns i
-\cref{app:hpc-cli}.}
+Forskningens största datorer, superdatorer och beräkningskluster för
+högpresterande beräkningar (\foreignlanguage{english}{high-performance
+computing}), kör Linux: varje system på TOP500, listan över de snabbaste
+datorerna, har gjort det sedan november 2017, fast listan bara räknar de
+500 snabbaste system som skickats
+in\autocite{Top500OSFamily2026,Top500Participation2026}.  De nås
+huvudsakligen genom en sådan kommandorad, över SSH; det är den första
+vägen in i de svenska centrens system, men inte den enda, eftersom
+fjärrskrivbord och webbportaler också används av tusentals
+användare\autocite{Lafayette2022SSH,NSCGettingStarted2026,%
+PDCSSHLogin2026,Thota2019Desktops,Strande2017Comet}.\footnote{Det
+vetenskapliga underlaget finns i \cref{app:hpc-cli}: den frågar om
+superdatorer kör Linux och nås genom en kommandorad, och finner att
+varje TOP500-system kör Linux och att en kommandorad över SSH är den
+vanliga vägen in, men inte den enda.}
 \end{onlyin}
+
+\begin{onlyin}{english} % sync english=f01a82 swedish=762518
+\leavevmode\ltnote{%
+  \Cref{ex:tor} is the author's first-hand account (author, 2026-11-19);
+  the students are not named.  It illustrates what a command line on a
+  remote computer is used for, and it is not evidence for the claim
+  about computing clusters, which \cref{app:hpc-cli} examines.
+}%
+One example comes from KTH.
+\end{onlyin}
+\begin{onlyin}{swedish}
+\leavevmode\ltnote{%
+  \Cref{ex:tor} är författarens egen berättelse (författaren,
+  2026-11-19); studenterna namnges inte.  Den belyser vad en kommandorad
+  på en fjärrdator används till, och den är inget belägg för påståendet
+  om beräkningskluster, som \cref{app:hpc-cli} prövar.
+}%
+Ett exempel kommer från KTH.
+\end{onlyin}
+
+\begin{frame}[fragile]
+  \begin{example}[\ensv{A simulation too large for a laptop}%
+    {En simulering för stor för en bärbar dator}] % sync english=f6d4cc swedish=d0cc37
+    \label{ex:tor}
+\begin{onlyin}{english} % sync english=5c7532 swedish=7e7081
+Two KTH students had to simulate the Tor network.  That could not be
+done on a laptop: it required a high-performance computer.  They got
+computing time on one in Linköping, and the only way in was SSH, that
+is, a command line.
+\end{onlyin}
+\begin{onlyin}{swedish}
+Två studenter vid KTH behövde simulera Tornätverket.  Det gick inte att
+göra på en bärbar dator: det krävde en superdator.  De fick
+beräkningstid på en i Linköping, och den enda vägen in var SSH, alltså
+en kommandorad.
+\end{onlyin}
+  \end{example}
+\end{frame}
 
 \begin{onlyin}{english} % sync english=472ca6 swedish=3e6b05
 When you do research, in a degree project, say, your experiments leave

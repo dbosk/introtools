@@ -3792,35 +3792,6 @@
   doi = {10.1006/ijhc.1996.0106},
 }
 
-% === provenance: Thota2019Research ===
-% CLAIM: over 75% of surveyed users of HPC virtual desktops said these were
-%   moderately or extremely important for their ability to use command-line
-%   HPC resources
-% FOUND-VIA: scholar session "cli-efficiency": C2 [Scopus, WoS]; C3 [Scopus]
-% PICKED: corroboration (abstract-level round of the rows the model kept as
-%   supports-claim), theme novices. Note: experience report with user survey
-%   figure
-% QUOTE (abstract): "Over 75% of those users say that the desktop services
-%   are either moderately or extremely important for their ability to use HPC
-%   resources."
-% VERIFIED: abstract only (abstract in the session record; screened from the
-%   abstract by a subagent, finding and quote checked by the agent; quote
-%   checked mechanically as a verbatim substring of the abstract). Metadata
-%   from Crossref.
-% COUNTER: see the chapter; the counter queries C1-C7 returned the qualifying
-%   studies cited beside it.
-% DATE: 2026-11-18
-@inproceedings{Thota2019Research,
-  author = {Thota, Abhinav and Weakley, Le Mai and Fulton, Ben and Dennis, H. E. Cicada Brokaw and Huber, Laura and Michael, Scott and Snapp-Childs, Winona and Harrell, Stephen Lien and Younts, Alexander and Dietz, Daniel T. and Phillips, Christopher and Zhu, Xiao},
-  title = {Research Computing Desktops: Demystifying research computing
-           for non-Linux users},
-  year = {2019},
-  booktitle = {Proceedings of the Practice and Experience in Advanced Research Computing on Rise of the Machines (learning)},
-  pages = {1--8},
-  publisher = {ACM},
-  doi = {10.1145/3332186.3332206},
-}
-
 % === provenance: Gilfoil1982Warming ===
 % CLAIM: four computer-naive users did best with menus at first and moved to
 %   a command-driven dialogue after roughly 16-20 hours of experience
@@ -4081,4 +4052,1312 @@
   pages = {142--147},
   publisher = {ACM},
   doi = {10.1145/2184512.2184546},
+}
+
+% --- Appendix C, Linux and the command line in HPC (app:hpc-cli), from its
+% search (scholar session hpc-cli, 2026-11-18 and 19).
+
+% === provenance: Top500OSFamily2026 ===
+% CLAIM: All 500 systems on the November 2026 TOP500 list run an operating
+%   system of the Linux family, and every list since November 2017 has
+%   been 100 % Linux (June 2017: 498 Linux, 2 Unix).
+% FOUND-VIA: known item: top500.org "List Statistics" form
+%   (https://www.top500.org/statistics/list/), field stats_type=osfam,
+%   submitted with curl for lists 14, 18, 22, 26, 30, 34, 36, 38, 40-68
+%   (t500list ids; 68 = November 2026, 50 = November 2017,
+%   49 = June 2017), 2026-11-18. Task brief named top500.org as the
+%   source to verify (the old deck's footnote).
+% PICKED: the primary source: the list maintainers' own statistics; no
+%   secondary source can be more current than the list published
+%   2026-11-17.
+% QUOTE (Operating system Family, November 2026, data table row):
+%   "Linux", Count "500", System Share (%) "500 / 5" [= 100];
+%   (June 2017): "Linux" 498, "Unix" 2; (November 2017 and every list
+%   up to November 2026): "Linux" 500.
+% VERIFIED: full-text (web page, HTML with the data table) read for each list;
+%   applies because the table counts every system on the list by OS
+%   family.
+% COUNTER: Gerofi et al. 2019 report 95 % Linux for June 2018 where this
+%   table gives 500 of 500; the family label is system-level (see
+%   Top500Sequoia2026, Gerofi2019Intro) -- qualifies "runs Linux".
+% DATE: 2026-11-18
+@online{Top500OSFamily2026,
+  author       = {{TOP500}},
+  title        = {List Statistics: Operating System Family, November 2026},
+  organization = {TOP500.org},
+  date         = {2026-11-17},
+  url          = {https://www.top500.org/statistics/list/},
+  urldate      = {2026-11-18},
+  note         = {Selection: list November 2026 and earlier lists,
+                  statistic \enquote{Operating system Family}},
+}
+
+% === provenance: Top500OS2026 ===
+% CLAIM: Within the Linux family the November 2026 TOP500 systems name
+%   many different distributions and vendor variants.
+% FOUND-VIA: known item: top500.org List Statistics form,
+%   stats_type=os, t500list=68, curl, 2026-11-18.
+% PICKED: primary source, same table as Top500OSFamily2026 one level
+%   down.
+% QUOTE (Operating System, November 2026): "Linux", 111; "HPE Cray OS",
+%   37; "Red Hat Enterprise Linux", 23; "CentOS", 23; "RHEL", 16;
+%   "Ubuntu 22.04", 14
+% VERIFIED: full-text (web page) read; applies because it lists the OS each
+%   submission names.
+% COUNTER: queries C1-C6 of session hpc-cli (verbatim in report.md) -- none needed (descriptive count).
+% DATE: 2026-11-18
+@online{Top500OS2026,
+  author       = {{TOP500}},
+  title        = {List Statistics: Operating System, November 2026},
+  organization = {TOP500.org},
+  date         = {2026-11-17},
+  url          = {https://www.top500.org/statistics/list/},
+  urldate      = {2026-11-18},
+  note         = {Selection: list November 2026, statistic
+                  \enquote{Operating System}},
+}
+
+% === provenance: Top500Description2026 ===
+% CLAIM: The TOP500 lists the 500 most powerful commercially available
+%   computer systems known to the maintainers.
+% FOUND-VIA: known item: curl https://www.top500.org/project/top500_description/
+%   and https://www.top500.org/project/introduction/, 2026-11-18.
+% PICKED: the list's own statement of scope.
+% QUOTE (TOP500 Description): "The TOP500 table shows the 500 most
+%   powerful commercially available computer systems known to us."
+% VERIFIED: full-text (web page) read; applies because it states what the list
+%   covers.
+% COUNTER: queries C1-C6 of session hpc-cli (verbatim in report.md) -- n/a (scope statement).
+% DATE: 2026-11-18
+@online{Top500Description2026,
+  author       = {{TOP500}},
+  title        = {{TOP500} Description},
+  organization = {TOP500.org},
+  url          = {https://www.top500.org/project/top500_description/},
+  urldate      = {2026-11-18},
+}
+
+% === provenance: Top500Introduction2026 ===
+% CLAIM: The TOP500 ranks computers by their LINPACK performance and is
+%   compiled from submissions by experts, centres and manufacturers.
+% FOUND-VIA: known item: curl https://www.top500.org/project/introduction/,
+%   2026-11-18.
+% PICKED: the list's own statement of method.
+% QUOTE (Introduction and Objectives): "Our list has been compiled twice
+%   a year since June 1993 with the help of high-performance computer
+%   experts, computational scientists, manufacturers, and the Internet
+%   community in general who responded to a questionnaire we sent out"
+%   ... "In the present list (which we call the TOP500), we list
+%   computers ranked by their performance on the LINPACK Benchmark."
+% VERIFIED: full-text (web page) read.
+% COUNTER: queries C1-C6 of session hpc-cli (verbatim in report.md) -- n/a.
+% DATE: 2026-11-18
+@online{Top500Introduction2026,
+  author       = {{TOP500}},
+  title        = {Introduction and Objectives},
+  organization = {TOP500.org},
+  url          = {https://www.top500.org/project/introduction/},
+  urldate      = {2026-11-18},
+}
+
+% === provenance: Top500Participation2026 ===
+% CLAIM: A system enters the TOP500 only if it is submitted, with a
+%   Linpack result, by a deadline.
+% FOUND-VIA: known item: curl
+%   https://www.top500.org/project/call-for-participation/, 2026-11-18.
+% PICKED: the list's own submission rules.
+% QUOTE (Call for Participation): "The deadline for the submission of
+%   new sites for the November release of the TOP500 List is October
+%   24th (23:59 PST)." ... "(Systems must have been submitted by the
+%   deadline above)."
+% VERIFIED: full-text (web page) read; applies because it shows the list is built
+%   from submissions.
+% COUNTER: queries C1-C6 of session hpc-cli (verbatim in report.md) -- n/a.
+% DATE: 2026-11-18
+@online{Top500Participation2026,
+  author       = {{TOP500}},
+  title        = {Call for Participation in the {TOP500} / {Green500} Lists},
+  organization = {TOP500.org},
+  url          = {https://www.top500.org/project/call-for-participation/},
+  urldate      = {2026-11-18},
+}
+
+% === provenance: Top500Sequoia2026 ===
+% CLAIM: The TOP500 records the Blue Gene/Q system Sequoia, whose compute
+%   nodes ran IBM's lightweight kernel CNK (Gerofi2019Intro), with the
+%   operating system "Linux".
+% FOUND-VIA: known item: curl https://www.top500.org/system/177556/,
+%   2026-11-18 (looked up to explain the gap between Gerofi2019Intro's
+%   95 % and the 100 % of Top500OSFamily2026).
+% PICKED: the list's own system record.
+% QUOTE (system page): "Sequoia - BlueGene/Q, Power BQC 16C 1.60 GHz,
+%   Custom" ... "Operating System:" "Linux"
+% VERIFIED: full-text (web page) read.
+% COUNTER: queries C1-C6 of session hpc-cli (verbatim in report.md) -- n/a.
+% DATE: 2026-11-18
+@online{Top500Sequoia2026,
+  author       = {{TOP500}},
+  title        = {Sequoia -- {BlueGene/Q}, Power {BQC} 16C 1.60 {GHz}, Custom},
+  organization = {TOP500.org},
+  url          = {https://www.top500.org/system/177556/},
+  urldate      = {2026-11-18},
+}
+
+% === provenance: NSCGettingStarted2026 ===
+% CLAIM: At NSC (Linköping) every cluster is reached by SSH to a login
+%   node; Tetralith, Sigma and Freja also offer the ThinLinc remote
+%   desktop.
+% FOUND-VIA: known item named in the task brief; curl
+%   https://www.nsc.liu.se/support/getting-started/, 2026-11-18.
+% PICKED: the centre's own user documentation.
+% QUOTE (Accessing NSC compute resources): "Most NSC compute
+%   resources/systems are traditional HPC clusters where users login to
+%   a login node (“head node”) to submit batch jobs or use the system
+%   interactively." ... "All clusters support SSH logins, and file
+%   transfers using any method (e.g sftp, WinSCP) that uses SSH or
+%   SFTP." ... "Tetralith, Sigma and Freja also have remote desktop
+%   software (ThinLinc) installed, which allows you to run graphical
+%   applications with comparable responsiveness as if they ran on your
+%   own computer."
+% VERIFIED: full-text (web page, HTML) read.
+% COUNTER: queries C1-C6 of session hpc-cli (verbatim in report.md) -- the page names no web portal or Jupyter service; ThinLinc is
+%   the alternative to SSH.
+% DATE: 2026-11-18
+@online{NSCGettingStarted2026,
+  author       = {{National Supercomputer Centre}},
+  title        = {Getting Started: Accessing {NSC} Compute Resources},
+  organization = {Linköping University},
+  url          = {https://www.nsc.liu.se/support/getting-started/},
+  urldate      = {2026-11-18},
+}
+
+% === provenance: NSCGraphics2026 ===
+% CLAIM: NSC recommends the ThinLinc remote desktop over SSH X
+%   forwarding for graphical applications.
+% FOUND-VIA: known item; curl https://www.nsc.liu.se/support/graphics/,
+%   2026-11-18.
+% PICKED: the centre's own documentation.
+% QUOTE (Running graphical applications): "Note: For better performance
+%   when running graphical applications, we recommend using ThinLinc (See
+%   below) - a remote desktop/visualization software." ... "Note:
+%   Thinlinc is only available on Tetralith, Sigma, Freja and
+%   Berzelius."
+% VERIFIED: full-text (web page) read.
+% COUNTER: queries C1-C6 of session hpc-cli (verbatim in report.md) -- n/a (practice statement).
+% DATE: 2026-11-18
+@online{NSCGraphics2026,
+  author       = {{National Supercomputer Centre}},
+  title        = {Running Graphical Applications},
+  organization = {Linköping University},
+  url          = {https://www.nsc.liu.se/support/graphics/},
+  urldate      = {2026-11-18},
+}
+
+% === provenance: NSCGraphics2014 ===
+% CLAIM: NSC already offered ThinLinc, on Triolith, in July 2014 (the
+%   earliest archived copy of its graphics page); NSC's pages give no
+%   introduction date.
+% FOUND-VIA: Wayback Machine CDX API
+%   http://web.archive.org/cdx/search/cdx?url=www.nsc.liu.se/support/graphics/
+%   (earliest capture 20140716, first 200 capture 20140722043057), then
+%   curl of that capture, 2026-11-18.
+% PICKED: the only dated evidence found; NSC's current pages and a web
+%   search (WebSearch "site:nsc.liu.se ThinLinc Triolith remote desktop",
+%   2026-11-18: no dated page) give no date.
+% QUOTE (archived 2014-07-22): "Note: For better performance when
+%   running graphical applications, we recommend using ThinLinc (See
+%   below) - a remote desktop/visualization software." ... "Note:
+%   Thinlinc is only available on Triolith."
+% VERIFIED: full-text (archived web page) read; applies as a lower bound only (ThinLinc
+%   may be older than the first capture).
+% COUNTER: queries C1-C6 of session hpc-cli (verbatim in report.md) -- n/a.
+% DATE: 2026-11-18
+@online{NSCGraphics2014,
+  author       = {{National Supercomputer Centre}},
+  title        = {Running Graphical Applications},
+  organization = {Linköping University},
+  date         = {2014-07-22},
+  url          = {http://web.archive.org/web/20140722043057/http://www.nsc.liu.se/support/graphics/},
+  urldate      = {2026-11-18},
+  note         = {Archived copy, Internet Archive Wayback Machine},
+}
+
+% === provenance: NAISSArrhenius2026 ===
+% CLAIM: Arrhenius, NAISS's new system at Linköping University, entered
+%   production in May 2026.
+% FOUND-VIA: WebSearch "NSC Linköping Arrhenius supercomputer Tetralith
+%   successor" (2026-11-18) -> curl https://www.naiss.se/resource/arrhenius/
+% PICKED: the operator's own resource page.
+% QUOTE (Description): "Arrhenius is a powerful mid-range supercomputer
+%   that NAISS has installed together with EuroHPC JU. It entered
+%   production in May 2026."
+% VERIFIED: full-text (web page) read.
+% COUNTER: queries C1-C6 of session hpc-cli (verbatim in report.md) -- n/a.
+% DATE: 2026-11-18
+@online{NAISSArrhenius2026,
+  author       = {{National Academic Infrastructure for Supercomputing in Sweden}},
+  shortauthor  = {NAISS},
+  title        = {Arrhenius},
+  url          = {https://www.naiss.se/resource/arrhenius/},
+  urldate      = {2026-11-18},
+}
+
+% === provenance: NAISSArrheniusQuickstart2026 ===
+% CLAIM: Arrhenius is reached by SSH (password and two-factor
+%   authentication) or through the ThinLinc remote desktop.
+% FOUND-VIA: link "Quick start guide" on NAISSArrhenius2026; curl
+%   https://user.naiss.se/arrhenius_hpc/quickstart/, 2026-11-18.
+% PICKED: the operator's user documentation.
+% QUOTE (How to log in): "Users with an allocation via NAISS use
+%   password and two-factor authentication (2FA) to login via SSH." ...
+%   "In the ThinLinc client, select tl.hpc.arrhenius.naiss.se as the
+%   Server."
+% VERIFIED: full-text (web page) read.
+% COUNTER: queries C1-C6 of session hpc-cli (verbatim in report.md) -- no web portal or Jupyter service named.
+% DATE: 2026-11-18
+@online{NAISSArrheniusQuickstart2026,
+  author       = {{National Academic Infrastructure for Supercomputing in Sweden}},
+  shortauthor  = {NAISS},
+  title        = {Arrhenius: Quick Start},
+  url          = {https://user.naiss.se/arrhenius_hpc/quickstart/},
+  urldate      = {2026-11-18},
+}
+
+% === provenance: NAISSArrheniusThinLinc2026 ===
+% CLAIM: ThinLinc on Arrhenius gives a remote graphical desktop on the
+%   login nodes, authenticated over SSH.
+% FOUND-VIA: link "thinlinc" on NAISSArrheniusQuickstart2026; curl
+%   https://user.naiss.se/arrhenius_hpc/login/thinlinc/, 2026-11-18.
+% PICKED: the operator's user documentation.
+% QUOTE (What is ThinLinc?; How ThinLinc can help): "It uses ssh for
+%   authentication and VNC for graphics." ... "A user connecting to
+%   ThinLinc server is presented with a remote desktop graphical
+%   environment where they have access to graphical applications,
+%   utilities, terminal etc."
+% VERIFIED: full-text (web page) read.
+% COUNTER: queries C1-C6 of session hpc-cli (verbatim in report.md) -- n/a.
+% DATE: 2026-11-18
+@online{NAISSArrheniusThinLinc2026,
+  author       = {{National Academic Infrastructure for Supercomputing in Sweden}},
+  shortauthor  = {NAISS},
+  title        = {How to Use {ThinLinc} to Login to {Arrhenius}},
+  url          = {https://user.naiss.se/arrhenius_hpc/login/thinlinc/},
+  urldate      = {2026-11-18},
+}
+
+% === provenance: NAISSDardelQuickstart2026 ===
+% CLAIM: Dardel (PDC, KTH) is reached by SSH with keys registered in
+%   PDC's login portal, and by ThinLinc for interactive graphics.
+% FOUND-VIA: link from user.naiss.se; curl
+%   https://user.naiss.se/dardel/basics/quickstart/, 2026-11-18.
+% PICKED: NAISS's own Dardel guide.
+% QUOTE (How to log in): "First follow the instructions on how to
+%   generate an SSH key pair" ... "Goto PDC login portal and follow
+%   instructions." ... "ssh <user name>@dardel.pdc.kth.se" ... "If you
+%   need to use some graphics tools and want to use them interactively
+%   on a compute node, please log in to Thinlinc according to
+%   Interactive HPC at PDC ."
+% VERIFIED: full-text (web page) read.
+% COUNTER: queries C1-C6 of session hpc-cli (verbatim in report.md) -- the "login portal" uploads SSH keys; it is not a web front end
+%   to the system.
+% DATE: 2026-11-18
+@online{NAISSDardelQuickstart2026,
+  author       = {{National Academic Infrastructure for Supercomputing in Sweden}},
+  shortauthor  = {NAISS},
+  title        = {Dardel: Quick Start},
+  url          = {https://user.naiss.se/dardel/basics/quickstart/},
+  urldate      = {2026-11-18},
+}
+
+% === provenance: PDCSSHLogin2026 ===
+% CLAIM: PDC users log in with SSH keys uploaded through PDC's login
+%   portal.
+% FOUND-VIA: link from NAISSDardelQuickstart2026; curl
+%   https://support.pdc.kth.se/doc/login/ssh_login/, 2026-11-18.
+% PICKED: the centre's own documentation.
+% QUOTE (How to log in with SSH keys): "Users can upload their SSH
+%   (Secure Shell) public keys with the PDC login portal and then use
+%   them to log in to PDC resources."
+% VERIFIED: full-text (web page) read.
+% COUNTER: queries C1-C6 of session hpc-cli (verbatim in report.md) -- n/a.
+% DATE: 2026-11-18
+@online{PDCSSHLogin2026,
+  author       = {{PDC Center for High Performance Computing}},
+  title        = {How to Log in with {SSH} Keys},
+  organization = {KTH Royal Institute of Technology},
+  url          = {https://support.pdc.kth.se/doc/login/ssh_login/},
+  urldate      = {2026-11-18},
+}
+
+% === provenance: PDCInteractive2026 ===
+% CLAIM: On Dardel, ThinLinc gives a remote desktop from which graphical
+%   applications and Jupyter can be launched (gfxlauncher).
+% FOUND-VIA: link from NAISSDardelQuickstart2026; curl
+%   https://support.pdc.kth.se/doc/login/interactive_hpc/, 2026-11-18.
+% PICKED: the centre's own documentation.
+% QUOTE (How ThinLinc can help in my computation?): "A user connecting to
+%   ThinLinc server is presented with a remote desktop graphical
+%   environment where they have access to graphical applications,
+%   utilities, terminal etc. Users can create or update their files on
+%   Lustre file system, Submit interactive jobs to SLURM and can use
+%   interactive job launcher ‘gfxlauncher’ to start various graphical
+%   applications e.g. Matlab, RStudio, Mathemtica etc. and Jupyter
+%   Labs/Notebooks on Dardel."
+% VERIFIED: full-text (web page) read.
+% COUNTER: queries C1-C6 of session hpc-cli (verbatim in report.md) -- n/a.
+% DATE: 2026-11-18
+@online{PDCInteractive2026,
+  author       = {{PDC Center for High Performance Computing}},
+  title        = {Interactive {HPC} at {PDC}},
+  organization = {KTH Royal Institute of Technology},
+  url          = {https://support.pdc.kth.se/doc/login/interactive_hpc/},
+  urldate      = {2026-11-18},
+}
+% === provenance: Gerofi2019Intro ===
+% CLAIM: Linux is the dominant OS of supercomputers; only a few TOP500
+%   machines run a lightweight kernel; the book counts 95 % Linux for
+%   June 2018; multi-kernels (an LWK beside Linux on the compute node)
+%   are a research direction; the OS on compute nodes differs from that
+%   on login and service nodes.
+% FOUND-VIA: scholar search 'title.search:(H) AND (Linux OR "operating
+%   system" OR "operating systems" OR Unix)' -p openalex -l 0
+%   (session "hpc-cli", query S6, OpenAlex title search; H = the HPC
+%   term block of the chapter's method)
+% PICKED: the edited monograph on HPC operating systems, introduction
+%   written by its four editors (RIKEN, Intel), who cover LWKs, Linux
+%   and multi-kernels; the only source in the session that gives an
+%   overview of compute-node OSs with a TOP500 figure.
+% QUOTE (pp. 4, 7, 8): "A complete system includes other nodes that
+%   perform specific services such as I/O, machine-wide management, or
+%   serve as login and compile nodes." ... "Linux, in particular, is
+%   currently the dominant OS for these systems" ... "Multi-kernels that
+%   combine Linux compatibility with the scalability and performance of
+%   an LWK" ... "there are only a few machines on the Top 500 list today
+%   that run an LWK" ... "in the Top 500 list published in June 2018, 95%
+%   of the machines ran some variant of Linux"
+% VERIFIED: full text (chapter PDF via the KTH network, Springer); the
+%   95 % differs from TOP500's own OS-family count for June 2018
+%   (500 of 500), reported as such in the chapter.
+% COUNTER: query C1 (lightweight kernels, multi-kernels, Windows) --
+%   LWKs and multi-kernels exist on compute nodes (this source,
+%   Kocoloski2014HPMMAP); qualifies "runs Linux" to "runs Linux, at
+%   least on the nodes users log in to".
+% DATE: 2026-11-18
+@incollection{Gerofi2019Intro,
+  author    = {Gerofi, Balazs and Ishikawa, Yutaka and Riesen, Rolf and
+               Wisniewski, Robert W.},
+  title     = {Introduction to {HPC} Operating Systems},
+  booktitle = {Operating Systems for Supercomputers and High Performance
+               Computing},
+  editor    = {Gerofi, Balazs and Ishikawa, Yutaka and Riesen, Rolf and
+               Wisniewski, Robert W.},
+  series    = {High-Performance Computing Series},
+  publisher = {Springer},
+  address   = {Singapore},
+  year      = {2019},
+  pages     = {3--15},
+  doi       = {10.1007/978-981-13-6624-6_1},
+}
+
+% === provenance: Kocoloski2014HPMMAP ===
+% CLAIM: Linux-based OSs run the majority of modern HPC systems, while
+%   lightweight kernels remain an HPC research strand.
+% FOUND-VIA: scholar search "<query S2>" -p ieee / -p wos / scopus /
+%   openalex -l 0 (session "hpc-cli", query S2, all four providers)
+% PICKED: corroboration from the OS-research side (IPDPS).
+% QUOTE (abstract): "Linux-based operating systems and runtimes (OS/Rs)
+%   have emerged as the environments of choice for the majority of
+%   modern HPC systems." ... "there is a substantial history of work in
+%   the HPC community focused on lightweight OS/R architectures"
+% VERIFIED: abstract only (IEEE, not obtained).
+% COUNTER: queries C1-C6 of session hpc-cli (verbatim in report.md) -- see Gerofi2019Intro.
+% DATE: 2026-11-18
+@inproceedings{Kocoloski2014HPMMAP,
+  author    = {Kocoloski, Brian and Lange, John},
+  title     = {{HPMMAP}: Lightweight Memory Management for Commodity
+               Operating Systems},
+  booktitle = {2014 IEEE 28th International Parallel and Distributed
+               Processing Symposium},
+  publisher = {IEEE},
+  year      = {2014},
+  pages     = {649--658},
+  doi       = {10.1109/ipdps.2014.73},
+}
+
+% === provenance: Papadopoulos2003Rocks ===
+% CLAIM: By 2003 Linux clusters were becoming the dominant HPC platform
+%   for many sciences.
+% FOUND-VIA: scholar search "<query S2>" -p wos / scopus / openalex -l 0
+%   (session "hpc-cli", query S2)
+% PICKED: corroboration of the historical turn to Linux clusters.
+% QUOTE (abstract): "High-performance computing clusters (commodity
+%   hardware with low-latency, high-bandwidth interconnects) based on
+%   Linux are rapidly becoming the dominant computing platform for a
+%   wide range of scientific disciplines."
+% VERIFIED: abstract only (Wiley, Cloudflare check); corroboration.
+% COUNTER: queries C1-C6 of session hpc-cli (verbatim in report.md) -- n/a (historical, consistent with TOP500 counts).
+% DATE: 2026-11-18
+@article{Papadopoulos2003Rocks,
+  author  = {Papadopoulos, Philip M. and Katz, Mason J. and Bruno, Greg},
+  title   = {{NPACI} {Rocks}: Tools and Techniques for Easily Deploying
+             Manageable {Linux} Clusters},
+  journal = {Concurrency and Computation: Practice and Experience},
+  volume  = {15},
+  number  = {7--8},
+  pages   = {707--725},
+  year    = {2003},
+  doi     = {10.1002/cpe.722},
+}
+
+% === provenance: Vasilas2023HotnCold ===
+% CLAIM: HPC researchers state that Linux runs on all TOP500 systems.
+% FOUND-VIA: scholar search "<query S1>" -p ieee / scopus / openalex
+%   -l 0 (session "hpc-cli", query S1)
+% PICKED: corroboration (a secondary statement of the TOP500 count by
+%   HPC security researchers, 2023).
+% QUOTE (abstract): "Linux operating systems, running on all Top500 HPC
+%   systems, use kernel and user modes to implement security"
+% VERIFIED: abstract only (IEEE).
+% COUNTER: queries C1-C6 of session hpc-cli (verbatim in report.md) -- see Gerofi2019Intro (95 % for June 2018).
+% DATE: 2026-11-18
+@inproceedings{Vasilas2023HotnCold,
+  author    = {Vasilas, Teodora and Jakobsche, Thomas and Ciorba, Florina M.},
+  title     = {{Hot-n-Cold}: Mapping the Syscall Attack Surface Using
+               Thermal Side Channels},
+  booktitle = {2023 22nd International Symposium on Parallel and
+               Distributed Computing (ISPDC)},
+  publisher = {IEEE},
+  year      = {2023},
+  pages     = {93--100},
+  doi       = {10.1109/ispdc59212.2023.00022},
+}
+
+% === provenance: Rynge2011GlideinWMS ===
+% CLAIM: Logging in with SSH is the main mode of access to HPC and HTC
+%   infrastructures.
+% FOUND-VIA: scholar search "<query S3>" -p ieee / scopus / openalex
+%   -l 0, and "<query S4>" (session "hpc-cli", queries S3, S4)
+% PICKED: the only abstract in the session that states the access mode
+%   of HPC infrastructures as a fact in general terms (eScience 2011).
+% QUOTE (abstract): "Even with Grid technologies, the main mode of access
+%   for the current High Performance Computing and High Throughput
+%   Computing infrastructures today is logging in via ssh."
+% VERIFIED: abstract only (IEEE); a statement by system developers, not
+%   a measurement.
+% COUNTER: queries C1-C6 of session hpc-cli (verbatim in report.md) -- queries C2-C6; see Rothwell2022Web for a centre where a
+%   portal took a quarter of the users.
+% DATE: 2026-11-18
+@inproceedings{Rynge2011GlideinWMS,
+  author    = {Rynge, Mats and Juve, Gideon and Mehta, Gaurang and
+               Deelman, Ewa and Larson, Krista and Holzman, Burt and
+               Sfiligoi, Igor and Wurthwein, Frank and Berriman, G. Bruce
+               and Callaghan, Scott},
+  title     = {Experiences Using {GlideinWMS} and the {Corral} Frontend
+               across Cyberinfrastructures},
+  booktitle = {2011 IEEE Seventh International Conference on eScience},
+  publisher = {IEEE},
+  year      = {2011},
+  pages     = {311--318},
+  doi       = {10.1109/escience.2011.50},
+}
+
+% === provenance: Zhumatiy2025Remote ===
+% CLAIM: A 2025 handbook for supercomputer administrators presents
+%   command-line remote access as the main way users reach a
+%   supercomputer.
+% FOUND-VIA: scholar search "title_and_abstract.search:<query S3>"
+%   -p openalex -l 0 (session "hpc-cli", queries S3, S4)
+% PICKED: corroboration from practice (Apress handbook chapter).
+% QUOTE (abstract): "This is the main method of remote access to
+%   supercomputers today. Don't be intimidated by the fact that access
+%   will be on the command line and your users are working in graphical
+%   environments."
+% VERIFIED: abstract only (Springer preview through the KTH network
+%   shows only the abstract; no subscription). "This" refers to the
+%   chapter's subject, remote user access; the chapter body was not read.
+% COUNTER: queries C1-C6 of session hpc-cli (verbatim in report.md) -- as Rynge2011GlideinWMS.
+% DATE: 2026-11-18
+@incollection{Zhumatiy2025Remote,
+  author    = {Zhumatiy, Sergey},
+  title     = {Remote User Access},
+  booktitle = {Supercomputers for {Linux} {SysAdmins}},
+  publisher = {Apress},
+  address   = {Berkeley, CA},
+  year      = {2025},
+  pages     = {247--255},
+  doi       = {10.1007/979-8-8688-1600-0_18},
+}
+
+% === provenance: Hudak2018OnDemand ===
+% CLAIM: Reaching HPC typically requires Linux, the command line and
+%   client software such as SSH and VNC, unlike other remote computing,
+%   which the web dominates; Open OnDemand was built to close that gap.
+% FOUND-VIA: scholar search "title.search:(H) AND (P)" -p openalex -l 0
+%   (session "hpc-cli", query C5; JOSS records carry no abstract)
+% PICKED: the primary description of Open OnDemand by its developers
+%   (Ohio Supercomputer Center); the most deployed HPC portal in the
+%   session's records.
+% QUOTE (Summary, p. 1): "The web has become the dominant access
+%   mechanism for remote compute services in every computing area except
+%   high-performance computing (HPC). Accessing HPC resources, either at
+%   the campus or national level typically requires advanced knowledge
+%   of Linux, familiarity with command-line interfaces and installation
+%   and configuration of custom client software (e.g., Secure Shell
+%   (SSH) and Virtual Network Computing (VNC))."
+% VERIFIED: full text (JOSS PDF, open access); a statement by portal
+%   developers, who have a stake in calling the command line a gap.
+% COUNTER: queries C1-C6 of session hpc-cli (verbatim in report.md) -- this source is itself the counter-side (a portal).
+% DATE: 2026-11-18
+@article{Hudak2018OnDemand,
+  author  = {Hudak, Dave and Johnson, Doug and Chalker, Alan and Nicklas,
+             Jeremy and Franz, Eric and Dockendorf, Trey and McMichael,
+             Brian L.},
+  title   = {{Open OnDemand}: A Web-Based Client Portal for {HPC} Centers},
+  journal = {Journal of Open Source Software},
+  volume  = {3},
+  number  = {25},
+  pages   = {622},
+  year    = {2018},
+  doi     = {10.21105/joss.00622},
+}
+
+% === provenance: Chalker2021OnDemand ===
+% CLAIM: HPC is the notable exception to the web as dominant access
+%   mechanism, and the complex access hinders adoption.
+% FOUND-VIA: scholar search "<query C2>" -p wos / scopus / openalex -l 0,
+%   and C3 (session "hpc-cli")
+% PICKED: corroboration of Hudak2018OnDemand, three years on.
+% QUOTE (abstract): "HPC use and adoption by many researchers is often
+%   hindered by the complex way these resources are accessed. Indeed,
+%   while the web has become the dominant access mechanism for remote
+%   computing services in virtually every computing area, HPC is a
+%   notable exception."
+% VERIFIED: abstract only (Wiley, Cloudflare check).
+% COUNTER: queries C1-C6 of session hpc-cli (verbatim in report.md) -- as above.
+% DATE: 2026-11-18
+@article{Chalker2021OnDemand,
+  author  = {Chalker, Alan and Franz, Eric and Rodgers, Morgan and
+             Dockendorf, Trey and Johnson, Doug and Sajdak, Doris and
+             White, Joseph P. and Plessinger, Benjamin D. and Zia, Mohammad
+             and Gallo, Steven M. and Settlage, Robert E. and Hudak,
+             David E.},
+  title   = {{Open OnDemand}: State of the Platform, Project, and the
+             Future},
+  journal = {Concurrency and Computation: Practice and Experience},
+  volume  = {33},
+  number  = {19},
+  pages   = {e6114},
+  year    = {2020},
+  doi     = {10.1002/cpe.6114},
+}
+
+% === provenance: Rothwell2022Web ===
+% CLAIM: At Idaho National Laboratory, users had reached HPC through
+%   SSH/PuTTY; after Open OnDemand, over a quarter of all users logged in
+%   through it every month, yet shell access was the portal's most used
+%   feature and portal-launched applications used under 1 % of the core
+%   hours.
+% FOUND-VIA: scholar search "<query C2>" -p wos / scopus / openalex -l 0;
+%   "title.search:(H) AND (P)" (C5) (session "hpc-cli")
+% PICKED: the only multi-year measurement of access modes at an HPC
+%   centre in the session (PEARC 2022); found also by the semantic check.
+% QUOTE (pp. 3, 5, 7): "Many of the HPC users had previously relied on
+%   PuTTY [24] or secure shell (SSH) to access the HPC systems" ... "Shell
+%   access to the HPC systems was identified as the most popular
+%   feature." ... "At the end of the study period, over 25% of the entire
+%   HPC userbase were accessing the HPC systems using Open OnDemand every
+%   month." ... "the amount of core hours spent directly by Open OnDemand
+%   applications comprises less than 1% of the delivered core hours."
+% VERIFIED: full text (OSTI copy, INL/CON-22-65861-Revision-1, same text
+%   as the PEARC paper: title, authors, abstract and ACM reference
+%   format agree); the survey had a 15.6 % response rate.
+% COUNTER: queries C1-C6 of session hpc-cli (verbatim in report.md) -- both sides in one source.
+% DATE: 2026-11-18
+@inproceedings{Rothwell2022Web,
+  author    = {Rothwell, Bradlee and Sgambati, Matthew and Evans, Garrick
+               and Biggs, Brandon and Anderson, Matthew},
+  title     = {Quantifying the Impact of Advanced Web Platforms on High
+               Performance Computing Usage},
+  booktitle = {Practice and Experience in Advanced Research Computing
+               (PEARC '22)},
+  publisher = {ACM},
+  year      = {2022},
+  doi       = {10.1145/3491418.3530758},
+  note      = {Read in the OSTI copy, report INL/CON-22-65861-Revision-1},
+}
+
+% === provenance: Mullen2018Lessons ===
+% CLAIM: HPC centres put much effort into teaching new users Linux and
+%   the command line; MIT Lincoln Laboratory instead abstracts the command
+%   line away (interactive tools, Jupyter) for new user communities.
+% FOUND-VIA: scholar search "<query C6>" -p wos / scopus /
+%   title_and_abstract openalex -l 0 (session "hpc-cli"). Query C6
+%   (interactive and on-demand HPC) was added after the semantic check
+%   returned this study and no earlier query had; its wording comes from
+%   the concept, "interactive HPC", and is fitted to this study.
+% PICKED: the clearest statement from a centre of the CLI as the
+%   presumed prerequisite (ISC workshops 2018).
+% QUOTE (secs. 2.4, 5): "The community has put significant effort into
+%   teaching new users the basics of Linux and the command line interface
+%   and the gritty details of batch scheduler systems and MPI [24], [27]
+%   — effort that reinforces the belief that new user communities must
+%   adopt our workflows and tools." ... "we have since added HPC databases
+%   for analytics and Jupyter notebooks to abstract the command line
+%   concerns"
+% VERIFIED: full text (arXiv:1903.01982, the authors' version of the LNCS
+%   paper; title and authors agree); an experience report, not a study.
+% COUNTER: queries C1-C6 of session hpc-cli (verbatim in report.md) -- both sides.
+% DATE: 2026-11-18
+@inproceedings{Mullen2018Lessons,
+  author    = {Mullen, Julia and Reuther, Albert and Arcand, William and
+               Bergeron, Bill and Bestor, David and Byun, Chansup and
+               Gadepally, Vijay and Houle, Michael and Hubbell, Matthew
+               and Jones, Michael and Klein, Anna and Michaleas, Peter and
+               Milechin, Lauren and Prout, Andrew and Rosa, Antonio and
+               Samsi, Siddharth and Yee, Charles and Kepner, Jeremy},
+  title     = {Lessons Learned from a Decade of Providing Interactive,
+               On-Demand High Performance Computing to Scientists and
+               Engineers},
+  booktitle = {High Performance Computing: ISC High Performance 2018
+               International Workshops},
+  series    = {Lecture Notes in Computer Science},
+  publisher = {Springer},
+  year      = {2018},
+  pages     = {655--668},
+  doi       = {10.1007/978-3-030-02465-9_47},
+}
+
+% === provenance: Gesing2015Gateways ===
+% CLAIM: For domain researchers, having to use HPC through the command
+%   line is often a large hurdle; science gateways offer a graphical
+%   alternative.
+% FOUND-VIA: scholar search "<query C3>" -p ieee / wos / scopus /
+%   openalex -l 0, also S3, S4, C2, C4, C5 (session "hpc-cli")
+% PICKED: the most direct statement of the barrier from the
+%   science-gateway community (HPCS 2015).
+% QUOTE (abstract): "Domain researchers are mainly not IT specialists and
+%   the requirement to employ HPC infrastructures via command line often
+%   forms a huge hurdle for them." ... "Science gateways form a solution,
+%   which offer a graphical user interface tailored to a specific
+%   research domain"
+% VERIFIED: abstract only (IEEE); a position statement, no data.
+% COUNTER: queries C1-C6 of session hpc-cli (verbatim in report.md) -- n/a (this is the counter side).
+% DATE: 2026-11-18
+@inproceedings{Gesing2015Gateways,
+  author    = {Gesing, Sandra and Dooley, Rion and Pierce, Marlon and
+               Kruger, Jens and Grunzke, Richard and Herres-Pawlis, Sonja
+               and Hoffmann, Alexander},
+  title     = {Science Gateways -- Leveraging Modeling and Simulations in
+               {HPC} Infrastructures via Increased Usability},
+  booktitle = {2015 International Conference on High Performance
+               Computing \& Simulation (HPCS)},
+  publisher = {IEEE},
+  year      = {2015},
+  pages     = {19--26},
+  doi       = {10.1109/HPCSim.2015.7237017},
+}
+
+% === provenance: Karapetrovic2019Discovery ===
+% CLAIM: At a university cluster, researchers hesitate to start because
+%   learning the command line or the job scheduler can be intimidating.
+% FOUND-VIA: scholar search "<query S3>" -p wos / scopus / openalex -l 0,
+%   and S4 (session "hpc-cli")
+% PICKED: corroboration from a centre's user analysis (PEARC 2019).
+% QUOTE (abstract): "researchers are often hesitant to start using
+%   Discovery, as learning how to use the command line or job scheduler
+%   can be intimidating."
+% VERIFIED: abstract only (ACM, Cloudflare).
+% COUNTER: queries C1-C6 of session hpc-cli (verbatim in report.md) -- n/a.
+% DATE: 2026-11-18
+@inproceedings{Karapetrovic2019Discovery,
+  author    = {Karapetrovi{\'c}, Jelena and {\v{S}}abi{\'c}, Edin and
+               Dugas, Diana V.},
+  title     = {Community Outreach and the {Discovery} {HPC} Cluster: An
+               Analysis of User Profiles and Growth},
+  booktitle = {Practice and Experience in Advanced Research Computing
+               (PEARC '19)},
+  publisher = {ACM},
+  year      = {2019},
+  pages     = {1--4},
+  doi       = {10.1145/3332186.3333267},
+}
+
+% === provenance: Ferdinandy2019FirstContact ===
+% CLAIM: HPC requires shell scripting on Linux, which may be intimidating
+%   for researchers without an ICT background.
+% FOUND-VIA: scholar search "<query S5>" -p wos / scopus / openalex -l 0
+%   (session "hpc-cli")
+% PICKED: corroboration; a planned questionnaire study of ethology
+%   researchers (TEEM 2019).
+% QUOTE (abstract): "HPC requires various skills to use, such as parallel
+%   programming and shell scripting on linux system which may require a
+%   long time to acquire and might be intimidating for research with
+%   small or no background in Information and Communications Technology
+%   (ICT)"
+% VERIFIED: abstract only (ACM); the abstract describes a study in
+%   progress, so the statement is the authors' premise, not a result.
+% COUNTER: queries C1-C6 of session hpc-cli (verbatim in report.md) -- n/a.
+% DATE: 2026-11-18
+@inproceedings{Ferdinandy2019FirstContact,
+  author    = {Ferdinandy, Bence and Guerrero-Higueras, {\'A}ngel Manuel and
+               Verderber, {\'E}va and Mikl{\'o}si, {\'A}d{\'a}m and
+               Matell{\'a}n, Vicente},
+  title     = {Analysis of Users' First Contact with High-Performance
+               Computing: First Approach with Ethology Researchers},
+  booktitle = {Proceedings of the Seventh International Conference on
+               Technological Ecosystems for Enhancing Multiculturality
+               (TEEM '19)},
+  publisher = {ACM},
+  year      = {2019},
+  pages     = {554--557},
+  doi       = {10.1145/3362789.3362873},
+}
+
+% === provenance: Nakao2023Fugaku ===
+% CLAIM: Fugaku, a flagship supercomputer, introduced the Open OnDemand
+%   web portal because the knowledge needed to use an HPC cluster makes
+%   the learning cost high for novices.
+% FOUND-VIA: scholar search "<query C2>" -p wos / scopus / openalex -l 0;
+%   C3, C5, S5 (session "hpc-cli")
+% PICKED: the portal case at a top-ranked system (SC-W 2023); in the
+%   list of studies the queries had to return.
+% QUOTE (abstract): "One of the issues with high-performance computing
+%   (HPC) clusters is that the prerequisite knowledge required to use
+%   them is large, making the learning cost high for novice users."
+%   ... "This paper describes how we introduced Open OnDemand, a web
+%   portal that enables easy use of the computing resources of an HPC
+%   cluster, to Fugaku, a Japanese flagship supercomputer."
+% VERIFIED: abstract only (ACM PDF refused, HTTP 403).
+% COUNTER: queries C1-C6 of session hpc-cli (verbatim in report.md) -- n/a (counter side).
+% DATE: 2026-11-18
+@inproceedings{Nakao2023Fugaku,
+  author    = {Nakao, Masahiro and Kaneyama, Hidetomo and Nagaku, Masaru
+               and Fujiwara, Ikki and Takefusa, Atsuko and Miura, Shinichi
+               and Yamamoto, Keiji},
+  title     = {Introducing {Open OnDemand} to Supercomputer {Fugaku}},
+  booktitle = {Proceedings of the {SC} '23 Workshops of the International
+               Conference on High Performance Computing, Network,
+               Storage, and Analysis},
+  publisher = {ACM},
+  year      = {2023},
+  pages     = {720--727},
+  doi       = {10.1145/3624062.3624150},
+}
+
+% === provenance: Miller2012CIPRES ===
+% CLAIM: More than 4000 users ran parallel jobs on TeraGrid/XSEDE
+%   supercomputers through a browser-based gateway, without logging in
+%   to the systems themselves.
+% FOUND-VIA: scholar search "TITLE-ABS-KEY(<query C2>)" -p scopus -l 0;
+%   C3, S5 (session "hpc-cli")
+% PICKED: the largest user count for a gateway to HPC in the session's
+%   abstracts (XSEDE12).
+% QUOTE (abstract): "The CIPRES Science Gateway (CSG) provides
+%   browser-based access to computationally demanding phylogenetic codes
+%   run on large HPC resources." ... "As of April 2012, more than 4,000
+%   unique users have run parallel tree inference jobs on TeraGrid/XSEDE
+%   resources using the CSG."
+% VERIFIED: abstract only (ACM).
+% COUNTER: queries C1-C6 of session hpc-cli (verbatim in report.md) -- n/a (counter side).
+% DATE: 2026-11-18
+@inproceedings{Miller2012CIPRES,
+  author    = {Miller, Mark A. and Pfeiffer, Wayne and Schwartz, Terri},
+  title     = {The {CIPRES} Science Gateway: Enabling High-Impact Science
+               for Phylogenetics Researchers with Limited Resources},
+  booktitle = {Proceedings of the 1st Conference of the Extreme Science
+               and Engineering Discovery Environment (XSEDE '12)},
+  publisher = {ACM},
+  year      = {2012},
+  pages     = {1--8},
+  doi       = {10.1145/2335755.2335836},
+}
+
+% === provenance: Calegari2019Portals ===
+% CLAIM: Web portals to HPC have a history going back to the 1990s.
+% FOUND-VIA: scholar search "<query C2>" -p wos / scopus / openalex -l 0;
+%   C3, C5 (session "hpc-cli")
+% PICKED: the survey of HPC web portals (ACM TWEB).
+% QUOTE (abstract): "First, it presents a brief history, starting in the
+%   1990s with Java applets, of web interfaces used for accessing and
+%   making best possible use of remote HPC resources."
+% VERIFIED: abstract only (ACM).
+% COUNTER: queries C1-C6 of session hpc-cli (verbatim in report.md) -- n/a.
+% DATE: 2026-11-18
+@article{Calegari2019Portals,
+  author  = {Calegari, Patrice and Levrier, Marc and Balczy{\'n}ski,
+             Pawe{\l}},
+  title   = {Web Portals for High-performance Computing: A Survey},
+  journal = {ACM Transactions on the Web},
+  volume  = {13},
+  number  = {1},
+  pages   = {1--36},
+  year    = {2019},
+  doi     = {10.1145/3197385},
+}
+
+% === provenance: Paine2020Jupyter ===
+% CLAIM: Jupyter tools are increasingly adopted at HPC facilities (NERSC
+%   study with 29 interviews and 103 survey responses).
+% FOUND-VIA: scholar search "title_and_abstract.search:<query S5>"
+%   -p openalex -l 0; C2, C3 (session "hpc-cli")
+% PICKED: the one user study of a portal-type access mode at a large
+%   centre in the session.
+% QUOTE (abstract): "Increasingly Jupyter tools are being adopted and
+%   incorporated into High Performance Computing (HPC) and scientific
+%   user facilities." ... "We conducted twenty-nine interviews, and
+%   obtained 103 survey responses from NERSC Jupyter users"
+% VERIFIED: abstract only (eScholarship and OSTI PDFs refused, HTTP 403
+%   and an empty 202).
+% COUNTER: queries C1-C6 of session hpc-cli (verbatim in report.md) -- n/a.
+% DATE: 2026-11-18
+@techreport{Paine2020Jupyter,
+  author      = {Paine, Drew and Ramakrishnan, Lavanya},
+  title       = {Understanding Interactive and Reproducible Computing with
+                 {Jupyter} Tools at Facilities},
+  institution = {Lawrence Berkeley National Laboratory},
+  type        = {Report},
+  year        = {2020},
+  doi         = {10.2172/1695768},
+}
+
+% === provenance: Lawrence2015Gateways ===
+% CLAIM: A survey of nearly 5000 researchers found that most rate
+%   specialised online resources (gateways among them) as important to
+%   their work.
+% FOUND-VIA: scholar search "<query C2>" -p wos / scopus / openalex -l 0;
+%   C3 (session "hpc-cli")
+% PICKED: the largest survey on science gateways in the session.
+% QUOTE (abstract): "Through a large-scale survey, we measured the extent
+%   and characteristics of the gateway community" ... "Nearly 5000
+%   respondents represented diverse expertise and geography. The
+%   majority of researchers/educators indicated that specialized online
+%   resources were important to their work."
+% VERIFIED: abstract only (Wiley, Cloudflare); the abstract does not say
+%   how many respondents reach HPC through a gateway rather than a
+%   command line.
+% COUNTER: queries C1-C6 of session hpc-cli (verbatim in report.md) -- n/a.
+% DATE: 2026-11-18
+@article{Lawrence2015Gateways,
+  author  = {Lawrence, Katherine A. and Zentner, Michael and
+             Wilkins-Diehr, Nancy and Wernert, Julie A. and Pierce, Marlon
+             and Marru, Suresh and Michael, Scott},
+  title   = {Science Gateways Today and Tomorrow: Positive Perspectives of
+             Nearly 5000 Members of the Research Community},
+  journal = {Concurrency and Computation: Practice and Experience},
+  volume  = {27},
+  number  = {16},
+  pages   = {4252--4268},
+  year    = {2015},
+  doi     = {10.1002/cpe.3526},
+}
+
+% === provenance: Moreira2006BlueGene ===
+% CLAIM: On Blue Gene/L the compute nodes ran a lightweight kernel (the
+%   compute node kernel) and only the I/O nodes ran Linux.
+% FOUND-VIA: scholar search "<query C1>" -p ieee -l 0 and
+%   "title_and_abstract.search:<query C1>" -p openalex -l 0 (session
+%   "hpc-cli", query C1; queries verbatim in report.md)
+% PICKED: the system's designers (IBM, SC 2006) describing its operating
+%   systems; primary for what Blue Gene's compute nodes ran.
+% QUOTE (abstract): "Compute nodes run a lightweight operating system
+%   called the compute node kernel. I/O nodes run a port of the Linux
+%   operating system."
+% VERIFIED: abstract only (IEEE).
+% COUNTER: queries C1-C6 of session hpc-cli (verbatim in report.md) -- this is itself the qualifying side of C1.
+% DATE: 2026-11-19
+@inproceedings{Moreira2006BlueGene,
+  author    = {Moreira, Jose and Brutman, Michael and Castanos, Jose and
+               Engelsiepen, Thomas and Giampapa, Mark and Gooding, Tom and
+               Haskin, Roger and Inglett, Todd and Lieber, Derek and
+               McCarthy, Pat and Mundy, Mike and Parker, Jeff and
+               Wallenfelt, Brian},
+  title     = {Designing a Highly-Scalable Operating System: The {Blue
+               Gene/L} Story},
+  booktitle = {Proceedings of the 2006 ACM/IEEE Conference on
+               Supercomputing (SC '06)},
+  publisher = {IEEE},
+  year      = {2006},
+  pages     = {53},
+  doi       = {10.1109/sc.2006.23},
+}
+
+% === provenance: Riesen2015LWK ===
+% CLAIM: Lightweight kernels have run on supercomputer compute nodes for
+%   decades, although many high-end systems now run Linux.
+% FOUND-VIA: scholar search "<query C1>" -p openalex / s2 / scopus -l 0
+%   (session "hpc-cli", query C1)
+% PICKED: the community's own definition paper (ROSS 2015, 14 authors
+%   from the LWK projects).
+% QUOTE (abstract): "Lightweight kernels (LWK) have been in use on the
+%   compute nodes of supercomputers for decades. Although many high-end
+%   systems now run Linux, interest in options and alternatives has
+%   increased in the last couple of years."
+% VERIFIED: abstract only (ACM).
+% COUNTER: queries C1-C6 of session hpc-cli (verbatim in report.md) -- both sides in one sentence.
+% DATE: 2026-11-19
+@inproceedings{Riesen2015LWK,
+  author    = {Riesen, Rolf and Maccabe, Arthur Barney and Gerofi, Balazs
+               and Lombard, David N. and Lange, John Jack and Pedretti,
+               Kevin and Ferreira, Kurt and Lang, Mike and Keppel, Pardo
+               and Wisniewski, Robert W. and Brightwell, Ron and Inglett,
+               Todd and Park, Yoonho and Ishikawa, Yutaka},
+  title     = {What is a Lightweight Kernel?},
+  booktitle = {Proceedings of the 5th International Workshop on Runtime
+               and Operating Systems for Supercomputers (ROSS '15)},
+  publisher = {ACM},
+  year      = {2015},
+  pages     = {1--8},
+  doi       = {10.1145/2768405.2768414},
+}
+
+% === provenance: Gerofi2021McKernel ===
+% CLAIM: Fugaku runs a highly tuned Linux; a lightweight multi-kernel
+%   (IHK/McKernel) was deployed beside it for comparison and gained on
+%   average 4 % there.
+% FOUND-VIA: scholar search "<query C1>" -p ieee / openalex / s2 / scopus
+%   / wos -l 0, and S6 (session "hpc-cli")
+% PICKED: the measurement on a top-ranked system (SC 2021).
+% QUOTE (abstract): "Fugaku, the world's fastest supercomputer at the time
+%   of writing this paper, is based on Fujitsu's A64FX (aarch64) CPU that
+%   runs a highly tuned Linux environment." ... "on Fugaku we observe an
+%   average of 4% speedup across all our experiments"
+% VERIFIED: abstract only (ACM); corroboration.
+% COUNTER: queries C1-C6 of session hpc-cli (verbatim in report.md) -- both sides.
+% DATE: 2026-11-19
+@inproceedings{Gerofi2021McKernel,
+  author    = {Gerofi, Balazs and Tarumizu, Kohei and Zhang, Lei and
+               Okamoto, Takayuki and Takagi, Masamichi and Sumimoto, Shinji
+               and Ishikawa, Yutaka},
+  title     = {{Linux} vs. Lightweight Multi-Kernels for High Performance
+               Computing: Experiences at Pre-Exascale},
+  booktitle = {Proceedings of the International Conference for High
+               Performance Computing, Networking, Storage and Analysis
+               (SC '21)},
+  publisher = {ACM},
+  year      = {2021},
+  pages     = {1--13},
+  doi       = {10.1145/3458817.3476162},
+}
+
+% === provenance: Filipiuk2023CARAT ===
+% CLAIM: Linux is the common, typically the only, operating system that
+%   supercomputing vendors support.
+% FOUND-VIA: scholar search "<query S2>" -p s2 / scopus / wos -l 0, and
+%   S6 (session "hpc-cli")
+% PICKED: corroboration from HPC kernel research (SC-W 2023).
+% QUOTE (abstract): "Linux is the common, typically only, supported OS
+%   choice among supercomputing vendors."
+% VERIFIED: abstract only (ACM).
+% COUNTER: queries C1-C6 of session hpc-cli (verbatim in report.md) -- see Moreira2006BlueGene, Gerofi2021McKernel.
+% DATE: 2026-11-19
+@inproceedings{Filipiuk2023CARAT,
+  author    = {Filipiuk, Thomas and Wanninger, Nick and Dhiantravan,
+               Nadharm and Surmeier, Carson and Bernat, Alex and Dinda,
+               Peter},
+  title     = {{CARAT KOP}: Towards Protecting the Core {HPC} Kernel from
+               {Linux} Kernel Modules},
+  booktitle = {Proceedings of the {SC} '23 Workshops of the International
+               Conference on High Performance Computing, Network,
+               Storage, and Analysis},
+  publisher = {ACM},
+  year      = {2023},
+  pages     = {1596--1605},
+  doi       = {10.1145/3624062.3624237},
+}
+
+% === provenance: Lafayette2022SSH ===
+% CLAIM: SSH is the typical way to access HPC systems.
+% FOUND-VIA: scholar search "title_and_abstract.search:<query S3>"
+%   -p openalex -l 0; also S2, S4, S7 (session "hpc-cli")
+% PICKED: HPC centre staff (University of Melbourne) in a 2022 book on
+%   HPC security; states the practice in general terms.
+% QUOTE (abstract): "Secure Shell is a very well established
+%   cryptographic network protocol for accessing operating network
+%   services and is the typical way to access high-performance computing
+%   (HPC) systems in preference to various unsecured remote shell
+%   protocols"
+% VERIFIED: abstract only (CRC Press chapter).
+% COUNTER: queries C1-C6 of session hpc-cli (verbatim in report.md) -- queries C2-C6; see Rothwell2022Web, McIntoshSmith2024Isambard.
+% DATE: 2026-11-19
+@incollection{Lafayette2022SSH,
+  author    = {Lafayette, Lev and Chinnam, Narendra and Rice, Timothy},
+  title     = {Monitoring {HPC} Systems against Compromised {SSH}},
+  booktitle = {Cybersecurity and High-Performance Computing Environments},
+  publisher = {Chapman \& Hall/CRC},
+  year      = {2022},
+  pages     = {333--354},
+  doi       = {10.1201/9781003155799-12},
+}
+
+% === provenance: Kuznia2022Masquerading ===
+% CLAIM: Modern HPC systems are typically accessed through interactive
+%   Linux shell sessions on a login node.
+% FOUND-VIA: scholar search "<query S2>" -p openalex / s2 / scopus / wos
+%   -l 0 (session "hpc-cli")
+% PICKED: corroboration from an HPC centre (Arizona State University,
+%   PEARC 2022) whose data are shell histories since 2013.
+% QUOTE (abstract): "Modern high-performance computing (HPC) systems are
+%   typically accessed through interactive Linux shell sessions." ...
+%   "the system is accessed by researchers who will first access a login
+%   node and be provided a bash shell session."
+% VERIFIED: abstract only (ACM).
+% COUNTER: queries C1-C6 of session hpc-cli (verbatim in report.md) -- as Lafayette2022SSH.
+% DATE: 2026-11-19
+@inproceedings{Kuznia2022Masquerading,
+  author    = {Kuznia, Kirby and Shah, Dhruvil and Speyer, Gil and Yalim,
+               Jason},
+  title     = {Artificial Intelligence to Classify and Detect Masquerading
+               Users on {HPC} Systems from Shell Histories},
+  booktitle = {Practice and Experience in Advanced Research Computing
+               (PEARC '22)},
+  publisher = {ACM},
+  year      = {2022},
+  pages     = {1--4},
+  doi       = {10.1145/3491418.3535187},
+}
+
+% === provenance: Suh2016EDISON ===
+% CLAIM: Researchers typically use a command-line interface such as a
+%   terminal to access HPC resources.
+% FOUND-VIA: scholar search "<query C2>" -p ieee / openalex / s2 / scopus
+%   / wos -l 0; C3, C4 (session "hpc-cli")
+% PICKED: corroboration from the portal side (CCGrid 2016).
+% QUOTE (abstract): "The researchers typically use command-line interface
+%   (CLI) such as Terminal to access the HPC resources. But CLI may not
+%   be a useful tool to those who conduct research or get educated with
+%   the TCAD software, because of their unfamiliarity with executing a
+%   series of commands."
+% VERIFIED: abstract only (IEEE).
+% COUNTER: queries C1-C6 of session hpc-cli (verbatim in report.md) -- both sides.
+% DATE: 2026-11-19
+@inproceedings{Suh2016EDISON,
+  author    = {Suh, Young-Kyoon and Ryu, Hoon and Kim, Hangi and Cho, Kum
+               Won},
+  title     = {{EDISON}: A Web-Based {HPC} Simulation Execution Framework
+               for Large-Scale Scientific Computing Software},
+  booktitle = {2016 16th IEEE/ACM International Symposium on Cluster,
+               Cloud and Grid Computing (CCGrid)},
+  publisher = {IEEE},
+  year      = {2016},
+  pages     = {608--612},
+  doi       = {10.1109/CCGrid.2016.31},
+}
+
+% === provenance: Thota2019Desktops ===
+% CLAIM: Command-line systems make up most HPC environments; virtual
+%   desktop front-ends at Indiana and Purdue reached over two thousand
+%   annual active users, three quarters of whom call them important for
+%   using HPC.
+% FOUND-VIA: scholar search "<query S3>" -p openalex / s2 / scopus / wos
+%   -l 0; also S2, S4, C1-C4 (session "hpc-cli")
+% PICKED: the only source in the records that gives a user count and a
+%   survey figure for a desktop route into HPC (PEARC 2019).
+% QUOTE (abstract): "never had to learn how to use command-line based
+%   systems, which comprise the majority of high-performance computing
+%   environments in use." ... "we now have over two thousand annual
+%   active users combined. Over 75% of those users say that the desktop
+%   services are either moderately or extremely important for their
+%   ability to use HPC resources."
+% VERIFIED: abstract only (ACM).
+% COUNTER: queries C1-C6 of session hpc-cli (verbatim in report.md) -- both sides.
+% DATE: 2026-11-19
+% === provenance (Appendix B, key Thota2019Research before the merge): Thota2019Desktops ===
+% CLAIM: over 75% of surveyed users of HPC virtual desktops said these were
+%   moderately or extremely important for their ability to use command-line
+%   HPC resources
+% FOUND-VIA: scholar session "cli-efficiency": C2 [Scopus, WoS]; C3 [Scopus]
+% PICKED: corroboration (abstract-level round of the rows the model kept as
+%   supports-claim), theme novices. Note: experience report with user survey
+%   figure
+% QUOTE (abstract): "Over 75% of those users say that the desktop services
+%   are either moderately or extremely important for their ability to use HPC
+%   resources."
+% VERIFIED: abstract only (abstract in the session record; screened from the
+%   abstract by a subagent, finding and quote checked by the agent; quote
+%   checked mechanically as a verbatim substring of the abstract). Metadata
+%   from Crossref.
+% COUNTER: see the chapter; the counter queries C1-C7 returned the qualifying
+%   studies cited beside it.
+% DATE: 2026-11-18
+@inproceedings{Thota2019Desktops,
+  author    = {Thota, Abhinav and Weakley, Le Mai and Fulton, Ben and
+               Dennis, H. E. Cicada Brokaw and Huber, Laura and Michael,
+               Scott and Snapp-Childs, Winona and Harrell, Stephen Lien
+               and Younts, Alexander and Dietz, Daniel T. and Phillips,
+               Christopher and Zhu, Xiao},
+  title     = {Research Computing Desktops: Demystifying Research Computing
+               for Non-{Linux} Users},
+  booktitle = {Practice and Experience in Advanced Research Computing
+               (PEARC '19)},
+  publisher = {ACM},
+  year      = {2019},
+  pages     = {1--8},
+  doi       = {10.1145/3332186.3332206},
+}
+
+% === provenance: Lindemann2024LUNARC ===
+% CLAIM: LUNARC in Lund has offered a ThinLinc remote desktop to its
+%   cluster since 2013, with Jupyter notebooks submitted to the cluster.
+% FOUND-VIA: scholar search "<query C2>" -p ieee / openalex / s2 / scopus
+%   / wos -l 0; C3, C6, S5 (session "hpc-cli")
+% PICKED: the one Swedish centre in the records that dates its remote
+%   desktop (SC-W 2024).
+% QUOTE (abstract): "since 2013, we have been using a remote desktop
+%   environment based on Cendio's ThinLinc [1] combined with a custom
+%   backend framework, GfxLauncher [2], supporting hardware-accelerated
+%   graphics applications and Jupyter Notebooks [3] submitted to the
+%   backend cluster."
+% VERIFIED: abstract only (IEEE).
+% COUNTER: queries C1-C6 of session hpc-cli (verbatim in report.md) -- counter side.
+% DATE: 2026-11-19
+@inproceedings{Lindemann2024LUNARC,
+  author    = {Lindemann, Jonas and Follin, Anders},
+  title     = {Interactive {HPC} and the {LUNARC} Desktop Environment},
+  booktitle = {SC24-W: Workshops of the International Conference for High
+               Performance Computing, Networking, Storage and Analysis},
+  publisher = {IEEE},
+  year      = {2024},
+  pages     = {2012--2019},
+  doi       = {10.1109/SCW63240.2024.00251},
+}
+
+% === provenance: Strande2017Comet ===
+% CLAIM: The supercomputer Comet reached 10,000 users in under two years,
+%   largely through small allocations and science gateways.
+% FOUND-VIA: scholar search "<query C2>" -p openalex / s2 / scopus / wos
+%   -l 0 (session "hpc-cli")
+% PICKED: a national system's own count (PEARC 2017).
+% QUOTE (abstract): "The Comet project set an audacious goal of reaching
+%   over 10,000 users in its four years of planned operation. That goal
+%   was achieved in less than two years, due in large part to the
+%   adoption of policies that favor smaller allocations and science
+%   gateways."
+% VERIFIED: abstract only (ACM); the abstract does not split users by
+%   gateway and login.
+% COUNTER: queries C1-C6 of session hpc-cli (verbatim in report.md) -- counter side.
+% DATE: 2026-11-19
+@inproceedings{Strande2017Comet,
+  author    = {Strande, Shawn M. and Cai, Haisong and Cooper, Trevor and
+               Flammer, Karen and Irving, Christopher and von Laszewski,
+               Gregor and Majumdar, Amit and Mishin, Dmistry and
+               Papadopoulos, Philip and Pfeiffer, Wayne and Sinkovits,
+               Robert S. and Tatineni, Mahidhar and Wagner, Rick and Wang,
+               Fugang and Wilkins-Diehr, Nancy and Wolter, Nicole and
+               Norman, Michael L.},
+  title     = {Comet: Tales from the Long Tail: Two Years In and 10,000
+               Users Later},
+  booktitle = {Practice and Experience in Advanced Research Computing
+               2017 (PEARC17)},
+  publisher = {ACM},
+  year      = {2017},
+  pages     = {1--7},
+  doi       = {10.1145/3093338.3093383},
+}
+
+% === provenance: McIntoshSmith2024Isambard ===
+% CLAIM: The leadership-class AI supercomputer Isambard-AI is designed to
+%   be reached mostly through Jupyter and other web interfaces rather
+%   than by SSH and a batch scheduler.
+% FOUND-VIA: scholar search "<query C2>" -p openalex / s2 / wos -l 0; C3,
+%   C4, S3 (session "hpc-cli")
+% PICKED: the clearest statement by a large centre that its main route
+%   is not SSH (Cray User Group 2024).
+% QUOTE (abstract): "access will more typically be via Jupyter notebooks,
+%   MLOps, or other web-based, interactive interfaces, rather than the
+%   approach used on traditional supercomputers of ssh'ing into a system
+%   before submitting jobs to a batch scheduler."
+% VERIFIED: abstract only (ACM); a design intention, not a measurement.
+% COUNTER: queries C1-C6 of session hpc-cli (verbatim in report.md) -- counter side; it also confirms SSH as the traditional route.
+% DATE: 2026-11-19
+@inproceedings{McIntoshSmith2024Isambard,
+  author    = {McIntosh-Smith, Simon and Alam, Sadaf and Woods,
+               Christopher},
+  title     = {{Isambard-AI}: A Leadership-Class Supercomputer Optimised
+               Specifically for Artificial Intelligence},
+  booktitle = {Proceedings of the Cray User Group (CUG 2024)},
+  publisher = {ACM},
+  year      = {2024},
+  pages     = {44--54},
+  doi       = {10.1145/3725789.3725794},
+}
+
+% === provenance: Majumder2026HEPCloud ===
+% CLAIM: NERSC is moving automated access away from SSH towards web APIs.
+% FOUND-VIA: scholar search "title_and_abstract.search:<query S3>"
+%   -p openalex -l 0; S4 (session "hpc-cli")
+% PICKED: a recent report of a large centre changing its route in.
+% QUOTE (abstract): "HEPCloud currently provisions NERSC over SSH, but
+%   NERSC is moving away from that path as it adopts multi-factor
+%   authentication and directs automated access to its Superfacility API
+%   and the DOE Integrated Research Infrastructure (IRI) APIs."
+% VERIFIED: abstract only (OSTI record); concerns automated access, not
+%   interactive users.
+% COUNTER: queries C1-C6 of session hpc-cli (verbatim in report.md) -- counter side.
+% DATE: 2026-11-19
+@techreport{Majumder2026HEPCloud,
+  author      = {Majumder, Meghanto and Mambelli, Marco},
+  title       = {Integrating {DOE} {ASCR} Computing into {HEPCloud} through
+                 {GlideinWMS}},
+  institution = {Fermi National Accelerator Laboratory},
+  type        = {Report},
+  year        = {2026},
+  doi         = {10.2172/3393817},
+}
+
+% === provenance: Sampedro2017Sandstone ===
+% CLAIM: A gateway for new HPC users that abstracts the command line was
+%   assessed against the command line itself in a usability study.
+% FOUND-VIA: scholar search "<query C3>" and "<query C2>" -p wos /
+%   scopus / openalex -l 0 (session "hpc-cli")
+% PICKED: the only comparison of a portal with the command line in the
+%   records (PEARC 2017); in the list of studies the queries had to
+%   return.
+% QUOTE (abstract): "The complexity of high-performance computing (HPC)
+%   resources poses many challenges to new users." ... "We assess the
+%   degree to which Sandstone HPC improves upon the usability of the
+%   command-line interface by analyzing the results of a usability study
+%   conducted on both environments."
+% VERIFIED: abstract only (ACM); the abstract does not give the result.
+% COUNTER: queries C1-C6 of session hpc-cli (verbatim in report.md) -- counter side.
+% DATE: 2026-11-19
+@inproceedings{Sampedro2017Sandstone,
+  author    = {Sampedro, Zebula and Hauser, Thomas and Sood, Saurabh},
+  title     = {{Sandstone HPC}: A Domain-General Gateway for New {HPC}
+               Users},
+  booktitle = {Practice and Experience in Advanced Research Computing
+               2017 (PEARC17)},
+  publisher = {ACM},
+  year      = {2017},
+  pages     = {1--7},
+  doi       = {10.1145/3093338.3093360},
+}
+
+% === provenance: Suleman2025Usability ===
+% CLAIM: A usability study of 19 university researchers found HPC
+%   clusters complex and difficult to use and pointed to a graphical
+%   portal.
+% FOUND-VIA: scholar search "<query C2>" -p s2 -l 0; C3, S5 (session
+%   "hpc-cli")
+% PICKED: the one user study of HPC usability in the records (JOCSE 2025).
+% QUOTE (abstract): "HPC clusters can be complex and difficult to use,
+%   limiting their accessibility to researchers without a strong
+%   technical background." ... "A usability study of 19 university
+%   researchers was conducted" ... "Our findings reveal the need to
+%   build a customized graphical user interface HPC management portal"
+% VERIFIED: abstract only (open-access journal; not fetched); the
+%   abstract does not single out the command line.
+% COUNTER: queries C1-C6 of session hpc-cli (verbatim in report.md) -- counter side.
+% DATE: 2026-11-19
+@article{Suleman2025Usability,
+  author  = {Suleman, Mahmoud Junior and Latessa, Amy and Halse, Shane and
+             Kropczynski, Jess},
+  title   = {The Use of High-Performance Computing Services in University
+             Settings: A Usability Case Study of the {University of
+             Cincinnati}'s High-Performance Computing Clusters},
+  journal = {The Journal of Computational Science Education},
+  volume  = {16},
+  number  = {1},
+  pages   = {20--27},
+  year    = {2025},
+  doi     = {10.22369/issn.2153-4136/16/1/5},
 }
