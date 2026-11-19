@@ -406,7 +406,7 @@ kommandoradsgränssnitt sker samspelet med datorn genom textkommandon som
 skrivs in vid en prompt\autocite{OED2026CommandLineInterface}.
 \end{onlyin}
 
-\begin{onlyin}{english} % sync english=ad3a46 swedish=219d9d
+\begin{onlyin}{english} % sync english=ad3a46 swedish=4cec77
 \leavevmode\ltnote{%
   Relevant learning objective: \cref{InterfacesLOKinds}.
 
@@ -444,8 +444,8 @@ is done with other commands: [[Get-ChildItem]] in PowerShell
   på ett system.  PowerShell finns också för Linux, så \cref{ex:pwsh} är
   en riktig körning i samma katalog; dess prompt är förkortad till
   \texttt{PS>}, på samma sätt som \texttt{\$}-prompten i de andra
-  körningarna utelämnar katalogen.  Windows kommandoskal kan inte köras
-  på den dator där anteckningarna byggs, så \cref{fig:cli-cmd} är en
+  körningarna utelämnar katalogen.  Kommandotolken i Windows kan inte
+  köras på den dator där anteckningarna byggs, så \cref{fig:cli-cmd} är en
   skärmbild, av en annan katalog.
 }%
 En kommandorad är inte ett program på ett system.  Terminalen kör ett
@@ -453,11 +453,11 @@ program som kallas ett \emph{skal} (\foreignlanguage{english}{shell}),
 som läser dina kommandon och kör dem: på Linux till exempel skalet
 \emph{bash}, och på en Mac skalet \emph{zsh}, som den använder som
 standard sedan macOS 10.15\autocite{Apple2026Zsh}.  I båda listar [[ls]]
-en katalog.  Windows har två egna skal, kommandoskalet
+en katalog.  Windows har två egna skal, Kommandotolken
 (\foreignlanguage{english}{Command shell}) och
 PowerShell\autocite{Microsoft2025WindowsCommands}, där samma uppgift
 görs med andra kommandon: [[Get-ChildItem]] i PowerShell
-(\cref{ex:pwsh}) och [[dir]] i kommandoskalet (\cref{fig:cli-cmd}).
+(\cref{ex:pwsh}) och [[dir]] i Kommandotolken (\cref{fig:cli-cmd}).
 \end{onlyin}
 
 \begin{frame}[fragile]
@@ -488,11 +488,11 @@ i [[demo]]:
       \texttt{dir} shows each file's date, time and size.  Image:
       Loadmaster (David R.\ Tribble), public domain, via Wikimedia
       Commons.}%
-      {Att lista en katalog med \texttt{dir} i Windows kommandoskal:
+      {Att lista en katalog med \texttt{dir} i Kommandotolken i Windows:
       katalogen \texttt{C:\textbackslash Temp} på ett Windowssystem år
       2009.  Förutom namnen visar \texttt{dir} varje fils datum,
       klockslag och storlek.  Bild: Loadmaster (David R.\ Tribble),
-      allmän egendom, via Wikimedia Commons.}}[fig:cli-cmd] % sync english=79e724 swedish=49f5e2
+      allmän egendom, via Wikimedia Commons.}}[fig:cli-cmd] % sync english=79e724 swedish=5356f8
       \includegraphics[width=0.85\linewidth]{figs/cli-cmd-dir.png}
     \end{sidecaption}
   \end{figure}
@@ -1394,6 +1394,44 @@ genom en sådan kommandorad.\footnote{Det vetenskapliga underlaget för
 det här påståendet, och hur långt det håller, finns i
 \cref{app:hpc-cli}.}
 \end{onlyin}
+
+\begin{onlyin}{english} % sync english=f01a82 swedish=762518
+\leavevmode\ltnote{%
+  \Cref{ex:tor} is the author's first-hand account (author, 2026-11-19);
+  the students are not named.  It illustrates what a command line on a
+  remote computer is used for, and it is not evidence for the claim
+  about computing clusters, which \cref{app:hpc-cli} examines.
+}%
+One example comes from KTH.
+\end{onlyin}
+\begin{onlyin}{swedish}
+\leavevmode\ltnote{%
+  \Cref{ex:tor} är författarens egen berättelse (författaren,
+  2026-11-19); studenterna namnges inte.  Den belyser vad en kommandorad
+  på en fjärrdator används till, och den är inget belägg för påståendet
+  om beräkningskluster, som \cref{app:hpc-cli} prövar.
+}%
+Ett exempel kommer från KTH.
+\end{onlyin}
+
+\begin{frame}[fragile]
+  \begin{example}[\ensv{A simulation too large for a laptop}%
+    {En simulering för stor för en bärbar dator}] % sync english=f6d4cc swedish=d0cc37
+    \label{ex:tor}
+\begin{onlyin}{english} % sync english=5c7532 swedish=7e7081
+Two KTH students had to simulate the Tor network.  That could not be
+done on a laptop: it required a high-performance computer.  They got
+computing time on one in Linköping, and the only way in was SSH, that
+is, a command line.
+\end{onlyin}
+\begin{onlyin}{swedish}
+Två studenter vid KTH behövde simulera Tornätverket.  Det gick inte att
+göra på en bärbar dator: det krävde en superdator.  De fick
+beräkningstid på en i Linköping, och den enda vägen in var SSH, alltså
+en kommandorad.
+\end{onlyin}
+  \end{example}
+\end{frame}
 
 \begin{onlyin}{english} % sync english=472ca6 swedish=3e6b05
 When you do research, in a degree project, say, your experiments leave
