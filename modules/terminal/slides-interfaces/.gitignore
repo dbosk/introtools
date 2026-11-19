@@ -1,4 +1,19 @@
-ltxobj/
 notes.pdf
 slides.pdf
-
+notes-sv.pdf
+slides-sv.pdf
+# the build directory, and the one the other edition of a bilingual deck
+# builds in
+ltxobj/
+ltxobj-sv/
+contents.tex
+examples/
+# didactic's \runpython, \codebycode and \runbyrun write these into the
+# output directory since v2.18.1; older versions wrote them here, beside
+# the sources
+didactic_output_*.txt
+didactic_pair_*.txt
+*.pytxcode
+pythontex-files-*
+# tangled from the makefiles submodule's tex.mk.nw by the build
+latexmkrc

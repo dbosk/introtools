@@ -1,22 +1,67 @@
-% What's the problem?
-% Why is it a problem? Research gap left by other approaches?
-% Why is it important? Why care?
-% What's the approach? How to solve the problem?
-% What's the findings? How was it evaluated, what are the results, limitations, 
-% what remains to be done?
+% The abstract of the notes: Overview, Learning objectives, Prerequisites.
+% The headings and the objectives are \ensv pairs; the prose is in onlyin
+% blocks, English first, each with its Swedish partner.
 
-% XXX Summary
-\emph{Summary:}
-\dots
+\emph{\ensv{Overview}{Översikt}} % sync english=d4b1ea swedish=c21045
+\begin{onlyin}{english} % sync english=ee490e swedish=46f065
+We start from a word you have met before, \emph{interface}, and take it
+apart.  Then we do one task, listing the files of a directory, in three
+ways: in a file manager, at a command line and in a program.  What
+changes between them is who is on the other side: a person who looks and
+points, a person who types, or a program.  The command line turns out to
+serve a person and a program at once, and that is why the lectures that
+follow are about it.  We end with the places where you will meet a
+command line, and with a task that the lecture \emph{Scripts} solves.
+\end{onlyin}
+\begin{onlyin}{swedish}
+Vi börjar i ett ord som du har mött förut, \emph{gränssnitt}, och tar
+isär det.  Sedan gör vi en uppgift, att lista filerna i en katalog, på
+tre sätt: i en filhanterare, på en kommandorad och i ett program.  Det
+som ändras mellan dem är vem som finns på andra sidan: en människa som
+tittar och pekar, en människa som skriver, eller ett program.
+Kommandoraden visar sig tjäna en människa och ett program på samma gång,
+och det är därför de föreläsningar som följer handlar om den.  Vi slutar
+med de platser där du kommer att möta en kommandorad, och med en uppgift
+som föreläsningen \emph{Skript} löser.
+\end{onlyin}
 
-% XXX Motivation and intended learning outcomes
-\emph{Intended learning outcomes:}
-\dots
+\emph{\ensv{Learning objectives}{Lärandemål}} % sync english=8412b2 swedish=525913
+\ensv{After this lecture you should be able to:}%
+  {Efter den här föreläsningen ska du kunna:} % sync english=78f8fb swedish=7fba3d
+% Canvas outcome 10450: control the computer environment via the command
+% line (learning-outcomes.md).
+\begin{restatable}{lo}{InterfacesLOKinds}\label{InterfacesLOKinds}%
+  \ensv{explain what an interface is, and tell a graphical user
+    interface, a command-line interface and an application programming
+    interface apart by who is on each side of them.}%
+    {förklara vad ett gränssnitt är, och skilja ett grafiskt
+    användargränssnitt, ett kommandoradsgränssnitt och ett
+    programmeringsgränssnitt åt efter vem som finns på var sida om dem.} % sync english=6f2639 swedish=efa85b
+\end{restatable}
+% 10450
+\begin{restatable}{lo}{InterfacesLOBoth}\label{InterfacesLOBoth}%
+  \ensv{explain why a command-line interface serves both a person and a
+    program, and give tasks where that matters.}%
+    {förklara varför ett kommandoradsgränssnitt tjänar både en människa
+    och ett program, och ge exempel på uppgifter där det spelar roll.} % sync english=94753d swedish=1fdf4b
+\end{restatable}
+% 10450
+% TODO(claim C): "computing clusters" waits for claim C's bounds.
+\begin{restatable}{lo}{InterfacesLOWhere}\label{InterfacesLOWhere}%
+  \ensv{name settings where you will meet a command line, such as remote
+    servers, computing clusters and the processing of research data.}%
+    {nämna sammanhang där du kommer att möta en kommandorad, som
+    fjärrservrar, beräkningskluster och bearbetning av forskningsdata.} % sync english=fc7dfb swedish=914256
+\end{restatable}
 
-% XXX Prerequisites
-\emph{Prerequisites:}
-\dots
-
-% XXX Reading material
-\emph{Reading:}
-\dots
+\emph{\ensv{Prerequisites}{Förkunskaper}} % sync english=865514 swedish=192934
+\begin{onlyin}{english} % sync english=2811ae swedish=4d1d8c
+None beyond having used a computer through its graphical interface.  To
+try the commands at your own keyboard you need a terminal; the course's
+guide to accessing the terminal covers Linux, macOS and Windows.
+\end{onlyin}
+\begin{onlyin}{swedish}
+Inga utöver att ha använt en dator genom dess grafiska gränssnitt.  För
+att pröva kommandona vid ditt eget tangentbord behöver du en terminal;
+kursens guide till terminalen tar upp Linux, macOS och Windows.
+\end{onlyin}

@@ -1,0 +1,3022 @@
+% The appendices of the notes: Appendix A is the method, written for the
+% students; then one chapter per backed claim, B (CLI efficiency), C (HPC
+% and the command line) and D (the Unix lineage).  This is the first deck
+% in the course's reading order, so Appendix A describes the method in
+% full; the later decks' Appendix A points back here (the backing-claims
+% skill, appendix-guide.md, "One method chapter across a collection").
+% The prose stands in onlyin blocks, English first, each with its
+% Swedish partner, as in contents.nw.
+
+\chapter{\ensv{Checking a claim}{Att kontrollera ett påstående}} % sync english=e8053b swedish=1bf2a3
+\label{app:checking}
+
+\begin{onlyin}{english} % sync english=0a8ac2 swedish=3d6d87
+These notes, like all teaching material, make a number of claims.  Most
+of them you can check at the keyboard: run \texttt{ls | wc -l} and see
+whether it prints what the notes say.  Others you can look up in a
+source you can open, such as a dictionary or the documentation of a
+program, and the notes cite it where they make the claim.  But some
+claims are about what is true in the world in general, and a single
+source you happen to know cannot settle them.  Three such questions
+stand behind \cref{sec:where-cli}:
+\begin{enumerate}
+  \item whether a command line is more efficient than a graphical
+    interface for repeated or bulk tasks, and makes such work easier to
+    redo;
+  \item whether the large computers of research, computing clusters, are
+    reached through a command line;
+  \item which of today's systems descend from Unix.
+\end{enumerate}
+How do you know the answer to such a question?  The same problem meets
+you every time you read a textbook, a web page or an answer from a
+language model, and every time you write a report yourself.  This
+appendix describes a way of checking a claim against the research
+literature.  \Cref{app:cli-efficiency,app:hpc-cli,app:unix-lineage}
+carry it out for each of the three questions, and each of them can be
+read on its own.
+\end{onlyin}
+\begin{onlyin}{swedish}
+Den här texten gör, som allt undervisningsmaterial, ett antal
+påståenden.  De flesta kan du kontrollera vid tangentbordet: kör
+\texttt{ls | wc -l} och se om det skriver ut det som texten säger.
+Andra kan du slå upp i en källa som du kan öppna, som en ordbok eller
+dokumentationen till ett program, och texten hänvisar till den där
+påståendet görs.  Men en del påståenden gäller vad som är sant i
+världen i allmänhet, och en enskild källa som du råkar känna till kan
+inte avgöra dem.  Tre sådana frågor står bakom \cref{sec:where-cli}:
+\begin{enumerate}
+  \item om en kommandorad är effektivare än ett grafiskt gränssnitt för
+    upprepade uppgifter och massuppgifter, och gör sådant arbete lättare
+    att göra om;
+  \item om forskningens stora datorer, beräkningskluster, nås genom en
+    kommandorad;
+  \item vilka av dagens system som härstammar från Unix.
+\end{enumerate}
+Hur vet du svaret på en sådan fråga?  Samma problem möter dig varje gång
+du läser en lärobok, en webbsida eller ett svar från en språkmodell, och
+varje gång du själv skriver en rapport.  Den här bilagan beskriver ett
+sätt att kontrollera ett påstående mot forskningslitteraturen.
+\Cref{app:cli-efficiency,app:hpc-cli,app:unix-lineage} gör det för var
+och en av de tre frågorna, och var och en av dem kan läsas för sig.
+\end{onlyin}
+
+\section{\ensv{Turn the claim into a question}%
+  {Gör påståendet till en fråga}} % sync english=9f21d5 swedish=aad785
+
+\begin{onlyin}{english} % sync english=1ac72f swedish=d80b7b
+A claim can be checked only once it is clear what would show it to be
+\emph{wrong}.  So turn it into a question with an answer.  \enquote{Are
+computing clusters reached through a command line?} can be answered yes
+or no, while \enquote{the command line is important} cannot: no source
+could show it wrong, since \enquote{important} is a judgement, not a
+fact.  Whoever says it usually means something else, such as \enquote{is
+a command line faster for this kind of task?}, and that question can get
+the answer no, which is why it can be tested.  Often one claim hides
+several.  \enquote{Linux, macOS and Android descend from Unix} is three
+questions, and they need different sources.
+\end{onlyin}
+\begin{onlyin}{swedish}
+Ett påstående kan kontrolleras först när det är klart vad som skulle
+visa att det är \emph{fel}.  Gör det därför till en fråga med ett svar.
+\enquote{Nås beräkningskluster genom en kommandorad?} kan besvaras med
+ja eller nej, medan \enquote{kommandoraden är viktig} inte kan det:
+ingen källa kunde visa att det är fel, eftersom \enquote{viktig} är ett
+omdöme, inte ett faktum.  Den som säger det menar oftast något annat,
+som \enquote{är en kommandorad snabbare för den här sortens uppgift?},
+och den frågan kan få svaret nej, och därför går den att pröva.  Ofta
+döljer ett påstående flera.  \enquote{Linux, macOS och Android
+härstammar från Unix} är tre frågor, och de behöver olika källor.
+\end{onlyin}
+
+\section{\ensv{Choose the right kind of source}%
+  {Välj rätt sorts källa}} % sync english=ed2b21 swedish=a4a560
+
+\begin{onlyin}{english} % sync english=b0ea8e swedish=c84432
+Different questions are answered by different sources.
+\begin{description}
+  \item[Dictionaries and reference works] for what a word \emph{means}.
+    The analysis of \emph{interface} in \cref{sec:what-interface} comes
+    from a dictionary, and its footnote names the edition and the date
+    it was read: dictionaries change.
+  \item[The primary source] for where something \emph{comes from}, or
+    for what a system or a standard \emph{is}: the paper that first
+    described it, the organization that certifies it, the documentation
+    of its makers.
+  \item[Reviews] for whether something is \emph{established}, or for
+    what the research says \emph{taken together}.  A systematic review
+    goes through hundreds of studies by a stated method, and so weighs
+    more than a single study.
+  \item[Single studies] for one specific result, with the reservation
+    that a single study shows only that something was observed once.
+\end{description}
+Where to find them: the university library's search service, and
+databases such as Scopus, Web of Science, IEEE Xplore, the ACM Digital
+Library, DBLP (computer science) and OpenAlex (open).  Google Scholar
+covers a lot but ranks in ways nobody can inspect.  The appendices use
+the command-line tool \texttt{scholar}\footnote{The package
+\texttt{scholarcli} on PyPI:
+\url{https://pypi.org/project/scholarcli/}.}, which asks several
+databases the same question at once and records everything that
+happened in a \emph{session}.  What you get from the library's search
+service is the same, only slower.
+\end{onlyin}
+\begin{onlyin}{swedish}
+Olika frågor besvaras av olika källor.
+\begin{description}
+  \item[Ordböcker och uppslagsverk] för vad ett ord \emph{betyder}.
+    Analysen av \emph{gränssnitt} i \cref{sec:what-interface} kommer
+    från en ordbok, och dess fotnot anger utgåvan och dagen den lästes:
+    ordböcker ändras.
+  \item[Primärkällan] för var något \emph{kommer ifrån}, eller för vad
+    ett system eller en standard \emph{är}: artikeln som först beskrev
+    det, organisationen som certifierar det, dokumentationen från dem
+    som gjort det.
+  \item[Översikter] för om något är \emph{etablerat}, eller för vad
+    forskningen säger \emph{sammantaget}.  En systematisk översikt går
+    igenom hundratals studier enligt en angiven metod, och väger därför
+    tyngre än en enskild studie.
+  \item[Enskilda studier] för ett bestämt resultat, med förbehållet att
+    en enskild studie bara visar att något har observerats en gång.
+\end{description}
+Var du hittar dem: universitetsbibliotekets söktjänst, och databaser som
+Scopus, Web of Science, IEEE Xplore, ACM Digital Library, DBLP
+(datavetenskap) och OpenAlex (öppen).  Google Scholar täcker mycket men
+rangordnar på sätt som ingen kan granska.  Bilagorna använder
+kommandoradsverktyget \texttt{scholar}\footnote{Paketet
+\texttt{scholarcli} på PyPI:
+\url{https://pypi.org/project/scholarcli/}.}, som ställer samma fråga
+till flera databaser på en gång och sparar allt som hände i en
+\emph{session}.  Det du får från bibliotekets söktjänst är detsamma,
+bara långsammare.
+\end{onlyin}
+
+\section{\ensv{Search so that you can be wrong}%
+  {Sök så att du kan ha fel}} % sync english=9f82b4 swedish=c2fcb3
+
+\begin{onlyin}{english} % sync english=477fe8 swedish=4d62d6
+If you search for the names you already know, you find what you
+expected.  So search by \emph{topic}, by concept, not by author.  All
+the searches in these appendices were made that way; the sources that
+could only be reached as \emph{known items} (web pages, documentation,
+books, papers without a DOI) are said to be, with the reason.
+
+A few practical rules:
+\begin{itemize}
+  \item Keep the queries short.  Several short queries beat one long
+    one.
+  \item Ask \emph{the same} questions in every database, and search for
+    every name of a concept, in both directions.  A counter-search that
+    tried only one of the names, in one of the databases, does not show
+    that there are no objections.
+  \item Search for \emph{objections} too: add words such as
+    \enquote{critique}, \enquote{limitations} or \enquote{no
+    difference}.  A claim that has survived a counter-search is worth
+    more than one that was never tested, and an objection you find
+    becomes a \emph{reservation} in the answer, not a defeat.
+  \item Expect the databases' ranking to miss things: older journals,
+    conference papers without a DOI, web pages.  Then fetch the source
+    as a \emph{known item}: you know it exists and look it up directly.
+    That is in order, as long as you say so.
+\end{itemize}
+\end{onlyin}
+\begin{onlyin}{swedish}
+Söker du efter de namn du redan känner till hittar du det du väntade
+dig.  Sök därför efter \emph{ämne}, efter begrepp, inte efter
+författare.  Alla sökningar i de här bilagorna gjordes så; de källor som
+bara kunde nås som \emph{kända titlar} (webbsidor, dokumentation,
+böcker, artiklar utan DOI) sägs vara det, med skälet.
+
+Några praktiska regler:
+\begin{itemize}
+  \item Håll frågorna korta.  Flera korta frågor slår en lång.
+  \item Ställ \emph{samma} frågor i varje databas, och sök på varje namn
+    som ett begrepp har, i båda riktningarna.  En motsökning som bara
+    prövade ett av namnen, i en av databaserna, visar inte att det inte
+    finns några invändningar.
+  \item Sök efter \emph{invändningar} också: lägg till ord som
+    \enquote{critique}, \enquote{limitations} eller \enquote{no
+    difference}.  Ett påstående som har klarat en motsökning är värt
+    mer än ett som aldrig prövats, och en invändning som du hittar blir
+    ett \emph{förbehåll} i svaret, inte ett nederlag.
+  \item Räkna med att databasernas rangordning missar saker: äldre
+    tidskrifter, konferensbidrag utan DOI, webbsidor.  Hämta då källan
+    som en \emph{känd titel}: du vet att den finns och slår upp den
+    direkt.  Det är i sin ordning, så länge du säger det.
+\end{itemize}
+\end{onlyin}
+
+\section{\ensv{Read in full text, and write down how}%
+  {Läs i fulltext, och skriv ner hur}} % sync english=c1a202 swedish=f9f4d6
+
+\begin{onlyin}{english} % sync english=24ea6d swedish=971798
+A hit in a database is not evidence.  Nor is the abstract: it says what
+the authors want to have said, not what they showed.  Read the whole
+text and find \emph{the place} that supports the claim: a verbatim
+quotation with its page number.  If you find no such place, the source
+does not support the claim, however well its title fits.  A title is
+not evidence: a study whose title seems to support a claim may, when you
+read it, qualify the claim or have no result on it at all.  Where only
+the abstract could be had, say so, and weigh the source accordingly.
+
+Then write down how you went about it, so that someone else can follow
+the trail.  In these notes that record stands as a comment above each
+entry in the bibliography's source file, with fixed fields:
+\begin{description}
+  \item[\texttt{CLAIM}] the claim the source is to support;
+  \item[\texttt{FOUND-VIA}] how it was found: the query and the
+    database, or \enquote{known item};
+  \item[\texttt{PICKED}] why this source rather than another hit;
+  \item[\texttt{QUOTE}] the verbatim quotation, with its page;
+  \item[\texttt{VERIFIED}] that the full text was read, and where;
+  \item[\texttt{COUNTER}] the counter-search, and what it found;
+  \item[\texttt{DATE}] when.
+\end{description}
+It looks bureaucratic and takes a couple of minutes per source.  It is
+also the only thing that lets you answer, a year later, the question
+\enquote{how do you know?}
+\end{onlyin}
+\begin{onlyin}{swedish}
+En träff i en databas är inget belägg.  Det är inte sammanfattningen
+heller: den säger vad författarna vill ha sagt, inte vad de visade.  Läs
+hela texten och hitta \emph{stället} som stöder påståendet: ett ordagrant
+citat med sitt sidnummer.  Hittar du inget sådant ställe stöder källan
+inte påståendet, hur väl titeln än passar.  En titel är inget belägg: en
+studie vars titel tycks stödja ett påstående kan, när du läser den,
+kvalificera påståendet eller sakna resultat om det alls.  Där bara
+sammanfattningen gick att få tag på, säg det, och väg källan därefter.
+
+Skriv sedan ner hur du gick till väga, så att någon annan kan följa
+spåret.  I den här texten står den uppteckningen som en kommentar ovanför
+varje post i källförteckningens källfil, med fasta fält:
+\begin{description}
+  \item[\texttt{CLAIM}] påståendet som källan ska stödja;
+  \item[\texttt{FOUND-VIA}] hur den hittades: frågan och databasen,
+    eller \enquote{känd titel};
+  \item[\texttt{PICKED}] varför just den här källan och inte en annan
+    träff;
+  \item[\texttt{QUOTE}] det ordagranna citatet, med sin sida;
+  \item[\texttt{VERIFIED}] att fulltexten lästes, och var;
+  \item[\texttt{COUNTER}] motsökningen, och vad den gav;
+  \item[\texttt{DATE}] när.
+\end{description}
+Det ser byråkratiskt ut och tar ett par minuter per källa.  Det är också
+det enda som låter dig svara, ett år senare, på frågan \enquote{hur vet
+du det?}
+\end{onlyin}
+
+\section{\ensv{Draw the conclusion, with its reservations}%
+  {Dra slutsatsen, med förbehåll}} % sync english=aa6687 swedish=2e6213
+
+\begin{onlyin}{english} % sync english=8a7f23 swedish=9f88e7
+The answer is written out together with what speaks against it.  The
+reservations are not weaknesses of the answer.  They \emph{are} the
+answer, and they decide how the claim may be used in the notes: a claim
+is stated in the main text at the strength the appendix supports, never
+stronger.  Each appendix that reports a search therefore ends with a
+section \emph{Further work}: what that search left undone, and what
+would have to be studied for a surer answer.
+\end{onlyin}
+\begin{onlyin}{swedish}
+Svaret skrivs ut tillsammans med det som talar emot det.  Förbehållen är
+inte svagheter i svaret.  De \emph{är} svaret, och de avgör hur
+påståendet får användas i texten: ett påstående står i huvudtexten med
+den styrka som bilagan bär, aldrig starkare.  Varje bilaga som redovisar
+en sökning slutar därför med ett avsnitt \emph{Fortsatt arbete}: vad
+den sökningen lämnade ogjort, och vad som skulle behöva studeras för ett
+säkrare svar.
+\end{onlyin}
+
+% TODO(claims): a table of the three questions and their answers,
+% tab:three-claims, once appendices B and C are final.
+
+\section{\ensv{A note on language models}%
+  {En anmärkning om språkmodeller}} % sync english=9c8834 swedish=eaaa32
+
+\begin{onlyin}{english} % sync english=032880 swedish=acb44b
+The searches in these appendices gave hundreds of hits each.  A language
+model was used to \emph{sort} them (does the hit belong to the topic at
+all, and which way does it point?) so that the screening could be
+checked.  Notice the division of labour: the model sorted, but every
+source that is cited was read and chosen by a person, and the sorting
+too is to be confirmed by a person.  The model's classification
+therefore stands in the tables with its confidence, so that it can be
+questioned, and the start of each appendix says how far the human
+review has come.  Do use language models to find and sort; never let
+them be the last link.  They can be wrong, and it is you who must answer
+for the content.
+\end{onlyin}
+\begin{onlyin}{swedish}
+Sökningarna i de här bilagorna gav hundratals träffar var.  En
+språkmodell användes för att \emph{sortera} dem (hör träffen alls till
+ämnet, och åt vilket håll pekar den?) så att gallringen kunde
+kontrolleras.  Lägg märke till arbetsfördelningen: modellen sorterade,
+men varje källa som citeras lästes och valdes av en människa, och även
+sorteringen ska bekräftas av en människa.  Modellens klassificering står
+därför i tabellerna med sin konfidens, så att den kan ifrågasättas, och
+början av varje bilaga säger hur långt den mänskliga granskningen har
+kommit.  Använd gärna språkmodeller för att hitta och sortera; låt dem
+aldrig vara den sista länken.  De kan ha fel, och det är du som måste
+stå för innehållet.
+\end{onlyin}
+
+% --- Appendix B: claim B, from its search of 2026-11-18 (scholar session
+% cli-efficiency).  The main text of sec:where-cli keeps within the bounds
+% its conclusion sets.
+% The full question is the table of contents' entry; the running head,
+% which has room for one line, gets the short form.
+\chapter[\ensv{Is a command line more efficient or reproducible than a
+  graphical interface for repeated or bulk tasks?}%
+  {Är en kommandorad effektivare eller lättare att upprepa än ett
+  grafiskt gränssnitt för upprepade uppgifter och massuppgifter?}]% % sync english=db83f6 swedish=2061b9
+  [\ensv{Command line or graphical interface?}%
+  {Kommandorad eller grafiskt gränssnitt?}]% % sync english=b0df85 swedish=b14a13
+  {\ensv{Is a command line more efficient or reproducible than a
+  graphical interface for repeated or bulk tasks?}%
+  {Är en kommandorad effektivare eller lättare att upprepa än ett
+  grafiskt gränssnitt för upprepade uppgifter och massuppgifter?}} % sync english=db83f6 swedish=2061b9
+\label{app:cli-efficiency}
+
+\chapterprecis{\ensv{The author has not yet reviewed the results in this
+  appendix in full.}%
+  {Författaren har ännu inte granskat resultaten i den här bilagan i sin
+  helhet.}} % sync english=21ea16 swedish=60ed7a
+
+\begin{onlyin}{english} % sync english=589f3a swedish=819ab2
+In \cref{sec:cli-both} we let you try a bulk task in your head: put the
+contents of 368 daily reports, picked out of 3287 by their dates, into
+one file, first in a file manager and then at the command line.  The
+point of the section is that at a command line a program can take your
+place, so that work done once can be written down as commands and run
+again, on any number of files.  In \cref{sec:where-cli} we add that in
+research you will want to process the files your experiments produce
+with commands rather than by hand.  Behind both sections lies a claim:
+for repeated or bulk tasks a
+command-line interface, where commands can be combined and saved as a
+script, is more efficient than a graphical interface and makes the work
+easier to reproduce; but command lines are harder for novices to learn.
+
+That the line of commands can be saved and run again is not in doubt:
+it is a fact about the shell, and the lecture \emph{Scripts} shows it
+by running it.  What we test here are the empirical parts.  The
+question of this chapter is: \emph{is a command line more efficient or
+reproducible than a graphical interface for repeated or bulk tasks?}
+We split it into three sub-questions.
+\begin{description}
+  \item[Efficiency] Do people work faster or with fewer errors with a
+    command interface than with a graphical, menu or
+    direct-manipulation interface, and for which tasks and users?
+  \item[Reproducibility] Does scripted, command-line work make
+    research easier to reproduce than manual steps in a graphical
+    program, and is there evidence for this beyond advice?
+  \item[Novices] Are command lines harder for novices to learn than
+    graphical interfaces?
+\end{description}
+The strength we test is that of the deck's sections: not that a
+command line is always better, but that it pays off for repeated or
+bulk work and costs more at the start.  We describe the search in
+\cref{sec:cli-efficiency-method}, report what it found for each
+sub-question in \cref{sec:cli-efficiency-results}, discuss its limits
+in \cref{sec:cli-efficiency-discussion}, answer the question in
+\cref{sec:cli-efficiency-conclusion} and list what remains to be done
+in \cref{sec:cli-efficiency-further}.  The classified hits are listed
+at the end, in \cref{sec:cli-efficiency-hits}.
+\end{onlyin}
+\begin{onlyin}{swedish}
+I \cref{sec:cli-both} lät vi dig pröva en massuppgift i huvudet: att
+lägga innehållet i 368 dagliga rapporter, utvalda bland 3287 efter sina
+datum, i en fil, först i en filhanterare och sedan på kommandoraden.
+Poängen med avsnittet är att ett program kan ta din plats på en
+kommandorad, så att arbete som gjorts en gång kan skrivas ner som
+kommandon och köras igen, på hur många filer som helst.  I
+\cref{sec:where-cli} lägger vi till att du i forskningen kommer att
+vilja bearbeta de filer som dina experiment ger med kommandon snarare än
+för hand.  Bakom båda avsnitten ligger ett påstående: för upprepade
+uppgifter och massuppgifter är ett kommandoradsgränssnitt, där kommandon
+kan kombineras och sparas som ett skript, effektivare än ett grafiskt
+gränssnitt och gör arbetet lättare att upprepa; men kommandorader är
+svårare för nybörjare att lära sig.
+
+Att raden med kommandon kan sparas och köras igen är inte i tvivel: det
+är ett faktum om skalet, och föreläsningen \emph{Skript} visar det genom
+att köra den.  Det vi prövar här är de empiriska delarna.  Kapitlets
+fråga är: \emph{är en kommandorad effektivare eller lättare att upprepa
+än ett grafiskt gränssnitt för upprepade uppgifter och massuppgifter?}
+Vi delar upp den i tre delfrågor.
+\begin{description}
+  \item[Effektivitet] Arbetar människor snabbare eller med färre fel
+    med ett kommandogränssnitt än med ett grafiskt gränssnitt, ett
+    menygränssnitt eller ett gränssnitt för direkt manipulation, och för
+    vilka uppgifter och användare?
+  \item[Upprepbarhet] Gör skriptat arbete på kommandoraden forskning
+    lättare att upprepa än manuella steg i ett grafiskt program, och
+    finns det belägg för det utöver råd?
+  \item[Nybörjare] Är kommandorader svårare för nybörjare att lära sig
+    än grafiska gränssnitt?
+\end{description}
+Styrkan vi prövar är föreläsningsavsnittens: inte att en kommandorad
+alltid är bättre, utan att den lönar sig för upprepat arbete och
+massarbete och kostar mer i början.  Vi beskriver sökningen i
+\cref{sec:cli-efficiency-method}, redovisar vad den fann för varje
+delfråga i \cref{sec:cli-efficiency-results}, diskuterar dess gränser i
+\cref{sec:cli-efficiency-discussion}, besvarar frågan i
+\cref{sec:cli-efficiency-conclusion} och räknar upp det som återstår i
+\cref{sec:cli-efficiency-further}.  De klassade träffarna listas i
+slutet, i \cref{sec:cli-efficiency-hits}.
+\end{onlyin}
+
+\section{\ensv{Method}{Metod}} % sync english=52a0f9 swedish=f41b92
+\label{sec:cli-efficiency-method}
+
+\begin{onlyin}{english} % sync english=153e41 swedish=3c05f3
+We searched on 18 November 2026 with the tool \texttt{scholar}, which
+sends one query to several bibliographic databases and records every
+query, its results and how each database answered.  Before the search
+we checked the databases.  Web of Science, Scopus, IEEE Xplore and
+OpenAlex answered.  DBLP answered every request with a page that stops
+automated clients instead of with data, so DBLP could not be searched;
+its column in \cref{tab:cli-efficiency-queries} marks every query as
+failed.  Semantic Scholar first rejected our access key; with a new
+key later the same day, 18 November 2026, its search answered, but it
+takes no Boolean operators: query S1 returned nothing, which is not a
+real negative, and we did not use it for the other queries.  We used
+it, and Crossref, to look up missing abstracts.
+\end{onlyin}
+\begin{onlyin}{swedish}
+Vi sökte den 18 november 2026 med verktyget \texttt{scholar}, som
+skickar en fråga till flera bibliografiska databaser och sparar varje
+fråga, dess resultat och hur varje databas svarade.  Före sökningen
+kontrollerade vi databaserna.  Web of Science, Scopus, IEEE Xplore och
+OpenAlex svarade.  DBLP svarade på varje förfrågan med en sida som
+stoppar automatiska klienter i stället för med data, så DBLP kunde inte
+genomsökas; dess kolumn i \cref{tab:cli-efficiency-queries} markerar
+varje fråga som misslyckad.  Semantic Scholar avvisade först vår
+åtkomstnyckel; med en ny nyckel senare samma dag, den 18 november 2026,
+svarade dess sökning, men den tar inga booleska operatorer: frågan S1
+gav ingenting, vilket inte är ett verkligt negativt svar, och vi använde
+den inte för de andra frågorna.  Vi använde den, och Crossref, för att
+slå upp saknade sammanfattningar.
+\end{onlyin}
+
+\paragraph{\ensv{Concepts and their wordings.}%
+  {Begreppen och deras formuleringar.}} % sync english=ad9fc5 swedish=437460
+\begin{onlyin}{english} % sync english=29e2b4 swedish=bf4f18
+The claim rests on a small number of concepts, and we gave each of
+them several wordings, since a study that says \enquote{command
+language} is not found by a query for \enquote{command line}.  Words in
+quotation marks were searched as phrases; the blocks below were joined
+with \texttt{AND} and their words with \texttt{OR}.
+% Ragged right: the items are runs of long quoted query phrases.
+\begingroup\raggedright
+\begin{description}
+  \item[CLI] \enquote{command line}, \enquote{command-line},
+    \enquote{command language(s)}, \enquote{command-based},
+    \enquote{command-driven}, \enquote{command interface(s)},
+    \enquote{typed commands}, shell, Unix.
+  \item[CMD] command, commands: the bare words, used only beside the
+    narrow block DM, since alone they also mean a military command or a
+    voice command.
+  \item[GUI] \enquote{graphical user interface}, \enquote{graphical
+    interface}, GUI(s), \enquote{direct manipulation}, menu(s),
+    \enquote{menu-driven}, \enquote{point-and-click}, icon(s), iconic.
+  \item[DM] \enquote{direct manipulation}, iconic, \enquote{menu
+    selection}, \enquote{menu-driven}, \enquote{menu-based},
+    \enquote{menu interface(s)}, \enquote{graphical user
+    interface(s)}.
+  \item[EFF] \enquote{task performance}, \enquote{user performance},
+    \enquote{completion time}, \enquote{task time}, speed, efficiency,
+    errors, \enquote{error rate}, productivity.
+  \item[EXP] expert(s), expertise, \enquote{experienced users},
+    \enquote{frequent users}, \enquote{power users}, repetitive,
+    \enquote{repeated tasks}, \enquote{batch processing}, bulk.
+  \item[SCR] script(s), scripted, scripting.
+  \item[REP] reproducible, reproducibility, replicable, replicability,
+    \enquote{reproducible research}; in C7 also replication.
+  \item[MAN] \enquote{point-and-click}, \enquote{graphical user
+    interface}, \enquote{graphical interface}, GUI, \enquote{by hand},
+    \enquote{manual steps}, \enquote{manual data}, \enquote{manual
+    processing}.
+  \item[ADV] \enquote{best practices}, \enquote{good practices},
+    \enquote{good enough practices}, \enquote{simple rules},
+    \enquote{ten simple rules}.
+  \item[RES] \enquote{scientific computing}, \enquote{research
+    computing}, \enquote{computational research}, \enquote{computational
+    science}, \enquote{research software}; in S6 also \enquote{data
+    analysis} and bioinformatics.
+  \item[AUT] \enquote{command line}, \enquote{command-line}, shell,
+    script(s), scripted, scripting, automate(d), automation, automating.
+  \item[NOV] novice(s), beginner(s), \enquote{new users},
+    \enquote{casual users}, \enquote{occasional users},
+    \enquote{inexperienced users}, learnability, \enquote{ease of
+    learning}, \enquote{ease of use}.
+  \item[DIF] difficult, difficulty, difficulties, errors, mistakes,
+    misconception(s), barrier(s), \enquote{hard to learn}.
+  \item[STYLE] the field's own names for the concept:
+    \enquote{interaction style(s)}, \enquote{dialogue style},
+    \enquote{dialog style}, \enquote{interface style(s)}; in C2 and C3
+    also WIMP beside GUI and DM.
+  \item[NEG] \enquote{no significant difference}, \enquote{no
+    difference}, superior, outperform(ed), preferred, preference,
+    satisfaction, \enquote{easier to use}, \enquote{easier to learn}.
+  \item[FAIL] \enquote{not reproducible}, irreproducible,
+    \enquote{re-execution}, \enquote{re-execute}, \enquote{failed to
+    run}, \enquote{fail to run}, \enquote{execution errors},
+    \enquote{run successfully}, \enquote{executed successfully}; in C7
+    also \enquote{re-executed}, \enquote{without error(s)}.
+  \item[GREP] \enquote{graphical user interface}, \enquote{graphical
+    interface}, GUI, \enquote{point-and-click}, \enquote{workflow
+    system(s)}, \enquote{workflow management}.
+  \item[PROV] provenance, \enquote{without programming}, \enquote{no
+    programming}, \enquote{non-programmers}, \enquote{without coding}.
+\end{description}
+\par\endgroup
+The three title queries T1--T3 use wider wordings that would drown an
+abstract search: in T1, command(s), \enquote{command line},
+\enquote{command-line}, \enquote{command-based}, \enquote{command
+language}, \enquote{character-based} and \enquote{text-based} beside
+menu(s), \enquote{direct manipulation}, graphical, graphic, GUI,
+iconic, \enquote{point-and-click} and WIMP; in T2, the CLI block with
+\enquote{Unix shell}, \enquote{shell commands}, \enquote{shell
+scripting} and bash in place of the bare word shell, beside novice(s),
+beginner(s), learning, learn, learners, teaching, teach, students,
+errors, mistakes, difficulties and literacy; in T3, \enquote{command
+name(s)}, \enquote{command syntax}, CUI and \enquote{character user
+interface} beside the words of T2's second block, of T1's second block
+or desktop.
+\end{onlyin}
+\begin{onlyin}{swedish}
+Påståendet vilar på ett litet antal begrepp, och vi gav vart och ett av
+dem flera formuleringar, eftersom en studie som säger \enquote{command
+language} inte hittas av en fråga efter \enquote{command line}.  Ord
+inom citattecken söktes som fraser; blocken nedan förenades med
+\texttt{AND} och deras ord med \texttt{OR}.
+% Ragged right: the items are runs of long quoted query phrases.
+\begingroup\raggedright
+\begin{description}
+  \item[CLI] \enquote{command line}, \enquote{command-line},
+    \enquote{command language(s)}, \enquote{command-based},
+    \enquote{command-driven}, \enquote{command interface(s)},
+    \enquote{typed commands}, shell, Unix.
+  \item[CMD] command, commands: de nakna orden, använda bara bredvid det
+    snäva blocket DM, eftersom de ensamma också betyder en militär order
+    eller ett röstkommando.
+  \item[GUI] \enquote{graphical user interface}, \enquote{graphical
+    interface}, GUI(s), \enquote{direct manipulation}, menu(s),
+    \enquote{menu-driven}, \enquote{point-and-click}, icon(s), iconic.
+  \item[DM] \enquote{direct manipulation}, iconic, \enquote{menu
+    selection}, \enquote{menu-driven}, \enquote{menu-based},
+    \enquote{menu interface(s)}, \enquote{graphical user
+    interface(s)}.
+  \item[EFF] \enquote{task performance}, \enquote{user performance},
+    \enquote{completion time}, \enquote{task time}, speed, efficiency,
+    errors, \enquote{error rate}, productivity.
+  \item[EXP] expert(s), expertise, \enquote{experienced users},
+    \enquote{frequent users}, \enquote{power users}, repetitive,
+    \enquote{repeated tasks}, \enquote{batch processing}, bulk.
+  \item[SCR] script(s), scripted, scripting.
+  \item[REP] reproducible, reproducibility, replicable, replicability,
+    \enquote{reproducible research}; i C7 också replication.
+  \item[MAN] \enquote{point-and-click}, \enquote{graphical user
+    interface}, \enquote{graphical interface}, GUI, \enquote{by hand},
+    \enquote{manual steps}, \enquote{manual data}, \enquote{manual
+    processing}.
+  \item[ADV] \enquote{best practices}, \enquote{good practices},
+    \enquote{good enough practices}, \enquote{simple rules},
+    \enquote{ten simple rules}.
+  \item[RES] \enquote{scientific computing}, \enquote{research
+    computing}, \enquote{computational research}, \enquote{computational
+    science}, \enquote{research software}; i S6 också \enquote{data
+    analysis} och bioinformatics.
+  \item[AUT] \enquote{command line}, \enquote{command-line}, shell,
+    script(s), scripted, scripting, automate(d), automation, automating.
+  \item[NOV] novice(s), beginner(s), \enquote{new users},
+    \enquote{casual users}, \enquote{occasional users},
+    \enquote{inexperienced users}, learnability, \enquote{ease of
+    learning}, \enquote{ease of use}.
+  \item[DIF] difficult, difficulty, difficulties, errors, mistakes,
+    misconception(s), barrier(s), \enquote{hard to learn}.
+  \item[STYLE] fältets egna namn på begreppet:
+    \enquote{interaction style(s)}, \enquote{dialogue style},
+    \enquote{dialog style}, \enquote{interface style(s)}; i C2 och C3
+    också WIMP bredvid GUI och DM.
+  \item[NEG] \enquote{no significant difference}, \enquote{no
+    difference}, superior, outperform(ed), preferred, preference,
+    satisfaction, \enquote{easier to use}, \enquote{easier to learn}.
+  \item[FAIL] \enquote{not reproducible}, irreproducible,
+    \enquote{re-execution}, \enquote{re-execute}, \enquote{failed to
+    run}, \enquote{fail to run}, \enquote{execution errors},
+    \enquote{run successfully}, \enquote{executed successfully}; i C7
+    också \enquote{re-executed}, \enquote{without error(s)}.
+  \item[GREP] \enquote{graphical user interface}, \enquote{graphical
+    interface}, GUI, \enquote{point-and-click}, \enquote{workflow
+    system(s)}, \enquote{workflow management}.
+  \item[PROV] provenance, \enquote{without programming}, \enquote{no
+    programming}, \enquote{non-programmers}, \enquote{without coding}.
+\end{description}
+\par\endgroup
+De tre titelfrågorna T1--T3 använder vidare formuleringar som skulle
+dränka en sökning i sammanfattningar: i T1 command(s), \enquote{command
+line}, \enquote{command-line}, \enquote{command-based}, \enquote{command
+language}, \enquote{character-based} och \enquote{text-based} bredvid
+menu(s), \enquote{direct manipulation}, graphical, graphic, GUI, iconic,
+\enquote{point-and-click} och WIMP; i T2 blocket CLI med \enquote{Unix
+shell}, \enquote{shell commands}, \enquote{shell scripting} och bash i
+stället för det nakna ordet shell, bredvid novice(s), beginner(s),
+learning, learn, learners, teaching, teach, students, errors, mistakes,
+difficulties och literacy; i T3 \enquote{command name(s)},
+\enquote{command syntax}, CUI och \enquote{character user interface}
+bredvid orden i T2:s andra block, i T1:s andra block eller desktop.
+\end{onlyin}
+
+% Author's note (verification and reproduction): see the block above the
+% hit-list \input at the end of the chapter.
+\begin{table}[htbp]
+  \begin{sidecaption}{\ensv{Queries and hits per database, 18 November
+    2026, with the tool \texttt{scholar}.  S = support query, C = counter
+    query, T = query in titles only; no source was retrieved as a known
+    item.  The blocks are defined in the text.  Databases: OpenAlex
+    (OA; not open access), Web of Science (WoS), IEEE Xplore (IEEE),
+    Scopus, DBLP.  The searches have no upper limit: the numbers are
+    all hits.  OpenAlex was searched in title and abstract (S, C) or in
+    titles (T): its full-text search returned between 31\,405 and
+    2\,478\,176 records per query, too many to screen.  Web of Science
+    got the keywords as \texttt{TS=(\dots)} (T: \texttt{TI=(\dots)}),
+    Scopus as \texttt{TITLE-ABS-KEY(\dots)} (T: \texttt{TITLE(\dots)}),
+    IEEE as Boolean free text (T: every word as a \enquote{Document
+    Title} field).  \enquote{--} means that the search failed: DBLP
+    answered every query with a page that stops automated clients, so
+    DBLP could not be searched.  OpenAlex answered S3 at the third
+    attempt and S6 at the second (rate limit), IEEE answered C7 at the
+    second (timeout).  Semantic Scholar, not in the table, answered S1
+    with 0 hits: its search takes no Boolean operators, so it was not
+    used further.}%
+    {Frågor och träffar per databas, 18 november 2026, med verktyget
+    \texttt{scholar}.  S = stödfråga, C = motfråga, T = fråga bara i
+    titlar; ingen källa hämtades som känd titel.  Blocken definieras i
+    texten.  Databaser: OpenAlex (OA; inte open access), Web of Science
+    (WoS), IEEE Xplore (IEEE), Scopus, DBLP.  Sökningarna har ingen övre
+    gräns: talen är alla träffar.  OpenAlex söktes i titel och
+    sammanfattning (S, C) eller i titlar (T): dess fulltextsökning gav
+    mellan 31\,405 och 2\,478\,176 poster per fråga, för många att
+    gallra.  Web of Science fick nyckelorden som \texttt{TS=(\dots)} (T:
+    \texttt{TI=(\dots)}), Scopus som \texttt{TITLE-ABS-KEY(\dots)} (T:
+    \texttt{TITLE(\dots)}), IEEE som boolesk fritext (T: varje ord som
+    ett fält \enquote{Document Title}).  \enquote{--} betyder att
+    sökningen misslyckades: DBLP svarade på varje fråga med en sida som
+    stoppar automatiska klienter, så DBLP kunde inte genomsökas.
+    OpenAlex svarade på S3 vid tredje försöket och på S6 vid det andra
+    (hastighetsgräns), IEEE svarade på C7 vid det andra (tidsgräns).
+    Semantic Scholar, som inte står i tabellen, svarade på S1 med 0
+    träffar: dess sökning tar inga booleska operatorer, så den användes
+    inte vidare.}% % sync english=ba6a77 swedish=282400
+  }[tab:cli-efficiency-queries]
+    \centering\footnotesize
+    \begin{tabular}{@{}llrrrrr@{}}
+      \toprule
+      & \ensv{Blocks}{Block} & OA & WoS & IEEE & Scopus & DBLP \\ % sync english=1cd5a6 swedish=211d0b
+      \midrule
+      S1 & CLI, GUI, EFF & 869 & 209 & 214 & 407 & -- \\
+      S2 & CMD, DM, EFF & 820 & 205 & 472 & 407 & -- \\
+      S3 & CLI, GUI, EXP & 639 & 198 & 133 & 351 & -- \\
+      S4 & CMD, DM, EXP & 476 & 121 & 131 & 207 & -- \\
+      S5 & \ensv{CLI or SCR, REP, MAN}{CLI eller SCR, REP, MAN} % sync english=38a04e swedish=be1a35
+         & 893 & 157 & 25 & 212 & -- \\
+      S6 & ADV, RES, AUT & 611 & 104 & 222 & 278 & -- \\
+      S7 & spreadsheet(s), REP, error(s) & 348 & 37 & 7 & 68 & -- \\
+      S8 & ADV, RES & 554 & 133 & 535 & 234 & -- \\
+      S9 & \ensv{spreadsheet(s) or Excel, errors}%
+           {spreadsheet(s) eller Excel, errors} % sync english=0270a4 swedish=d31b9e
+         & 138 & 22 & 1 & 56 & -- \\
+      C1 & CLI, NOV, DIF & 1035 & 84 & 64 & 143 & -- \\
+      C2 & \ensv{CLI or STYLE, GUI, NOV or NEG}%
+           {CLI eller STYLE, GUI, NOV eller NEG} % sync english=d807ca swedish=ce2ec0
+         & 852 & 162 & 119 & 413 & -- \\
+      C3 & \ensv{CMD or STYLE, DM, NOV or NEG}%
+           {CMD eller STYLE, DM, NOV eller NEG} % sync english=b0f883 swedish=aa1ea1
+         & 858 & 150 & 207 & 376 & -- \\
+      C4 & \ensv{CLI or SCR, REP, FAIL}{CLI eller SCR, REP, FAIL} % sync english=5ea64c swedish=103da9
+         & 251 & 18 & 5 & 27 & -- \\
+      C5 & GREP, REP, PROV & 293 & 105 & 59 & 134 & -- \\
+      C6 & ADV, RES, AUT, criticism & 197 & 28 & 54 & 53 & -- \\
+      C7 & \ensv{CLI, SCR or code, REP, FAIL}%
+           {CLI, SCR eller code, REP, FAIL} % sync english=4ebab5 swedish=611218
+         & 811 & 114 & 57 & 145 & -- \\
+      T1 & \ensv{command words, graphical words}%
+           {kommandoord, grafiska ord} % sync english=5329ca swedish=644d44
+         & 260 & 109 & 35 & 161 & -- \\
+      T2 & \ensv{CLI words, learning words}{CLI-ord, inlärningsord} % sync english=1ad9ac swedish=fede24
+         & 221 & 64 & 12 & 81 & -- \\
+      T3 & \ensv{command names, CUI}{kommandonamn, CUI} % sync english=69763d swedish=ef3fdb
+         & 65 & 15 & 4 & 37 & -- \\
+      \bottomrule
+    \end{tabular}
+  \end{sidecaption}
+\end{table}
+
+\paragraph{\ensv{Queries.}{Frågor.}} % sync english=060671 swedish=26c3ae
+\begin{onlyin}{english} % sync english=b27c31 swedish=8630af
+\Cref{tab:cli-efficiency-queries} lists the queries.  S1--S4 search the
+efficiency side, comparisons of command and graphical interfaces in
+general (S1, S2) and for experts and repetitive work (S3, S4); S1 and S3
+use the phrases for a command line, S2 and S4 the bare word command
+beside the narrower block DM, as older studies say \enquote{command
+interface} or \enquote{commands vs.\ direct manipulation}.  S5--S9
+search the reproducibility side: scripted against manual or graphical
+work (S5), best-practice advice for research computing (S6, S8) and
+errors in spreadsheets (S7, S9).  C1--C7 are the counter queries.  They
+reuse every concept block of the support queries and add the field's
+own names for interaction styles: novices' difficulties with command
+lines (C1), studies where the graphical side won, where no difference
+was found, or where novices fared differently (C2, C3), scripts that
+fail to run again (C4, C7), graphical tools that make work
+reproducible (C5) and criticism of the best-practice advice (C6).  The
+title queries T1--T3 are described below, under deviations.
+\end{onlyin}
+\begin{onlyin}{swedish}
+\Cref{tab:cli-efficiency-queries} listar frågorna.  S1--S4 söker på
+effektivitetssidan, jämförelser av kommandogränssnitt och grafiska
+gränssnitt i allmänhet (S1, S2) och för experter och upprepat arbete
+(S3, S4); S1 och S3 använder fraserna för en kommandorad, S2 och S4 det
+nakna ordet command bredvid det snävare blocket DM, eftersom äldre
+studier säger \enquote{command interface} eller \enquote{commands vs.\
+direct manipulation}.  S5--S9 söker på upprepbarhetssidan: skriptat mot
+manuellt eller grafiskt arbete (S5), råd om bästa praxis för
+datoranvändning i forskning (S6, S8) och fel i kalkylblad (S7, S9).
+C1--C7 är motfrågorna.  De återanvänder varje begreppsblock i
+stödfrågorna och lägger till fältets egna namn på interaktionsstilar:
+nybörjares svårigheter med kommandorader (C1), studier där den grafiska
+sidan vann, där ingen skillnad hittades eller där nybörjare klarade sig
+annorlunda (C2, C3), skript som inte går att köra igen (C4, C7),
+grafiska verktyg som gör arbete upprepbart (C5) och kritik av råden om
+bästa praxis (C6).  Titelfrågorna T1--T3 beskrivs nedan, under
+avvikelser.
+\end{onlyin}
+
+\paragraph{\ensv{Studies the queries had to return.}%
+  {Studier som frågorna måste ge.}} % sync english=50f120 swedish=6aaaf2
+\begin{onlyin}{english} % sync english=504d13 swedish=ed63b4
+A first run of S1--S4 and C1--C3 returned, among others, the
+comparison of command, menu and iconic interfaces by
+\textcite{Whiteside1985User}, the file-manipulation experiment of
+\textcite{Margono1995Study} and the comparison of command, menu and
+natural-language interfaces by \textcite{Hauptmann1983Comparison}; a
+first run of S5--S6 returned the rules of \textcite{Sandve2013Ten} and
+the best practices of \textcite{Wilson2014Best}.  To these we added
+three studies we expected on the reproducibility side before relying on
+the search: the follow-up \enquote{good enough} practices
+\autocite{Wilson2017Good}, the audit of spreadsheet errors in genomics
+\autocite{Ziemann2016Gene} and a re-execution study of research code
+\autocite{Trisovic2022Large}.  The first run did not return these
+three; the repaired queries described next do, and all eight are in the
+final record.
+\end{onlyin}
+\begin{onlyin}{swedish}
+En första körning av S1--S4 och C1--C3 gav bland annat jämförelsen av
+kommando-, meny- och ikongränssnitt av \textcite{Whiteside1985User},
+experimentet med filhantering av \textcite{Margono1995Study} och
+jämförelsen av kommando-, meny- och naturligt språk-gränssnitt av
+\textcite{Hauptmann1983Comparison}; en första körning av S5--S6 gav
+reglerna av \textcite{Sandve2013Ten} och de bästa metoderna av
+\textcite{Wilson2014Best}.  Till dessa lade vi tre studier som vi
+väntade oss på upprepbarhetssidan innan vi litade på sökningen: den
+uppföljande \enquote{good enough}-praxisen\autocite{Wilson2017Good},
+granskningen av kalkylbladsfel i genomik\autocite{Ziemann2016Gene} och
+en studie av omkörning av forskningskod\autocite{Trisovic2022Large}.
+Den första körningen gav inte de tre; de reparerade frågor som beskrivs
+härnäst gör det, och alla åtta finns i den slutliga uppteckningen.
+\end{onlyin}
+
+\paragraph{\ensv{Check by meaning and deviations.}%
+  {Kontroll efter betydelse och avvikelser.}} % sync english=db4b61 swedish=2baf6e
+\begin{onlyin}{english} % sync english=0f2980 swedish=1b5782
+After the keyword searches we asked OpenAlex's search by meaning one
+question per concept, seven in all, and looked up each of the 50 works
+it returned per question in our record.  The check found gaps: older
+interface comparisons whose abstracts lack our outcome words, or whose
+record has no abstract at all, and studies that name the command side
+\enquote{character-based}, \enquote{text-based} or \enquote{CUI}.  We
+repaired them by concept, not by title: S6 was joined by S8 without
+the automation words, S7 by S9, C4 by C7 with the words code,
+replication and \enquote{without error(s)}, and we added the title
+queries T1--T3, which can use wide wordings because titles are short.
+S9's phrases \enquote{supplementary files} and \enquote{scientific
+literature} come from the abstract of \textcite{Ziemann2016Gene} and
+are in that sense fitted to it.  A second check by meaning, of the
+three concepts on interfaces and novices, found the gaps closed except
+for studies outside the claim (input devices, menu design, Unix
+textbooks) and two on it that have no abstract in OpenAlex and that no
+keyword query returned: an experiment on icons against text and direct
+manipulation against menus, and a comparison of a textual and a
+graphic interface for novice and expert searchers.  We could not
+obtain either.
+\end{onlyin}
+\begin{onlyin}{swedish}
+Efter nyckelordssökningarna ställde vi en fråga per begrepp till
+OpenAlex sökning efter betydelse, sju i allt, och slog upp vart och ett
+av de 50 verk som den gav per fråga i vår uppteckning.  Kontrollen fann
+luckor: äldre jämförelser av gränssnitt vars sammanfattningar saknar
+våra utfallsord, eller vars post inte har någon sammanfattning alls, och
+studier som kallar kommandosidan \enquote{character-based},
+\enquote{text-based} eller \enquote{CUI}.  Vi reparerade dem efter
+begrepp, inte efter titel: S6 fick sällskap av S8 utan
+automatiseringsorden, S7 av S9, C4 av C7 med orden code, replication och
+\enquote{without error(s)}, och vi lade till titelfrågorna T1--T3, som
+kan använda vida formuleringar eftersom titlar är korta.  S9:s fraser
+\enquote{supplementary files} och \enquote{scientific literature} kommer
+från sammanfattningen av \textcite{Ziemann2016Gene} och är i den
+meningen anpassade efter den.  En andra kontroll efter betydelse, av de
+tre begreppen om gränssnitt och nybörjare, fann luckorna stängda utom
+för studier utanför påståendet (inmatningsenheter, menydesign, läroböcker
+om Unix) och två om det som saknar sammanfattning i OpenAlex och som
+ingen nyckelordsfråga gav: ett experiment om ikoner mot text och direkt
+manipulation mot menyer, och en jämförelse av ett textbaserat och ett
+grafiskt gränssnitt för nybörjare och experter som söker.  Vi kunde inte
+få tag på någon av dem.
+\end{onlyin}
+
+\paragraph{\ensv{Screening.}{Gallring.}} % sync english=156955 swedish=fe7361
+\begin{onlyin}{english} % sync english=d49134 swedish=2d4618
+The searches returned 10\,405 records, 9\,744 after records of the same
+work from different databases were merged.  A record is judged on its
+abstract, so a record without one is excluded unless one can be found.
+After the searches 1\,955 records had no abstract.  Three of them were
+cited sources whose duplicate record held the abstract, which we
+copied, and five were duplicates of cited sources.  For the other
+1\,947 we looked up the abstract by DOI, in Semantic Scholar and then
+in Crossref: 464 gained one (393 from Semantic Scholar, 71 from
+Crossref), and the remaining 1\,483, of which 557 had no DOI, were
+excluded as \emph{no abstract}.  All other records were classified
+against a written statement of the research question by a language
+model (Claude Sonnet~5.5) from title and abstract, as supporting the
+claim, qualifying it, an adjacent subject or off topic, and every
+excluded record was given one of the labelled criteria below.  We then
+read the titles of all records the model kept as supporting or
+qualifying and of those it excluded with a confidence below 0.7, and
+the abstracts of those that might bear on the claim.  Then we read the
+abstract of every record still labelled supporting or qualifying and
+not yet cited, 154 works: 69 were confirmed and are cited below, 77
+were relabelled and excluded, 6 were further records of cited works,
+and two whose authors could not be verified are not cited.  In all we
+recorded 272 decisions of our own besides the \emph{no abstract} rule:
+the 121 cited sources were kept with the theme under which they are
+cited, and 151 records were excluded, among them 26 duplicates of
+cited sources.  Of the 10\,405 records, 210 were kept (66 supporting
+the claim, 66 qualifying it, 78 on an adjacent subject) and 10\,195
+excluded: 2\,670 as \emph{not interfaces}, 2\,668 as \emph{tool
+only}, 1\,483 as \emph{no abstract}, 1\,327 as \emph{other question},
+1\,218 as \emph{no evidence}, 803 as \emph{dataset record} and 26 as
+duplicates of cited sources.  The criteria are these: a record is
+excluded if it is one of the following.
+\begin{description}
+  \item[No abstract] It has no abstract, and none could be found from
+    its DOI.
+  \item[Not interfaces] It is not about people using computer
+    interfaces or research computing: another meaning of shell, menu,
+    command, script, terminal or icon, or another science.
+  \item[Tool only] It presents a software tool, system or interface
+    design and offers no evidence on users' efficiency, learning or the
+    reproducibility of their work.
+  \item[No evidence] It is an opinion, tutorial, textbook, editorial or
+    overview without data or a stated method, and not best-practice
+    advice on reproducibility.
+  \item[Other question] It is human--computer interaction or research
+    computing on a different question, such as menu layout, input
+    devices, voice or natural-language input, or code quality in
+    general.
+  \item[Dataset record] It is a dataset, supplementary file,
+    replication package or erratum rather than a study.
+\end{description}
+\end{onlyin}
+\begin{onlyin}{swedish}
+Sökningarna gav 10\,405 poster, 9\,744 efter att poster för samma verk
+från olika databaser slagits samman.  En post bedöms på sin
+sammanfattning, så en post utan sammanfattning utesluts om ingen kan
+hittas.  Efter sökningarna saknade 1\,955 poster sammanfattning.  Tre av
+dem var citerade källor vars dubblettpost hade sammanfattningen, som vi
+kopierade, och fem var dubbletter av citerade källor.  För de övriga
+1\,947 slog vi upp sammanfattningen via DOI, i Semantic Scholar och
+sedan i Crossref: 464 fick en (393 från Semantic Scholar, 71 från
+Crossref), och de återstående 1\,483, varav 557 saknade DOI, uteslöts
+som \emph{ingen sammanfattning}.  Alla andra poster klassades mot en
+skriven formulering av forskningsfrågan av en språkmodell (Claude
+Sonnet~5.5) utifrån titel och sammanfattning, som stödjande,
+kvalificerande, angränsande ämne eller utanför ämnet, och varje utesluten
+post fick ett av de namngivna kriterierna nedan.  Sedan läste vi
+titlarna på alla poster som modellen behöll som stödjande eller
+kvalificerande och på dem som den uteslöt med en konfidens under 0,7,
+och sammanfattningarna av dem som kunde röra påståendet.  Därefter läste
+vi sammanfattningen av varje post som fortfarande var märkt stödjande
+eller kvalificerande och ännu inte citerad, 154 verk: 69 bekräftades och
+citeras nedan, 77 märktes om och uteslöts, sex var ytterligare poster
+för citerade verk, och två vars författare inte kunde kontrolleras
+citeras inte.  Sammanlagt registrerade vi 272 egna beslut utöver regeln
+om \emph{ingen sammanfattning}: de 121 citerade källorna behölls med det
+tema som de citeras under, och 151 poster uteslöts, bland dem 26
+dubbletter av citerade källor.  Av de 10\,405 posterna behölls 210 (66
+stödjande, 66 kvalificerande, 78 om ett angränsande ämne) och 10\,195
+uteslöts: 2\,670 som \emph{inte gränssnitt}, 2\,668 som \emph{bara
+verktyg}, 1\,483 som \emph{ingen sammanfattning}, 1\,327 som \emph{annan
+fråga}, 1\,218 som \emph{inga belägg}, 803 som \emph{datamängdspost} och
+26 som dubbletter av citerade källor.  Kriterierna är dessa: en post
+utesluts om den är något av följande.
+\begin{description}
+  \item[Ingen sammanfattning] Den saknar sammanfattning, och ingen
+    kunde hittas via dess DOI.
+  \item[Inte gränssnitt] Den handlar inte om människor som använder
+    datorgränssnitt eller om datoranvändning i forskning: en annan
+    betydelse av shell, menu, command, script, terminal eller icon,
+    eller en annan vetenskap.
+  \item[Bara verktyg] Den presenterar ett programverktyg, ett system
+    eller en gränssnittsdesign och ger inga belägg om användarnas
+    effektivitet, inlärning eller hur upprepbart deras arbete är.
+  \item[Inga belägg] Den är en åsikt, en handledning, en lärobok, en
+    ledare eller en översikt utan data eller angiven metod, och inte råd
+    om bästa praxis för upprepbarhet.
+  \item[Annan fråga] Den gäller människa--datorinteraktion eller
+    datoranvändning i forskning men en annan fråga, som menylayout,
+    inmatningsenheter, röst- eller naturligt språk-inmatning eller
+    kodkvalitet i allmänhet.
+  \item[Datamängdspost] Den är en datamängd, en bilagefil, ett
+    replikationspaket eller en rättelse snarare än en studie.
+\end{description}
+\end{onlyin}
+
+\paragraph{\ensv{Reading.}{Läsning.}} % sync english=0b0b47 swedish=47095f
+\begin{onlyin}{english} % sync english=896837 swedish=05e628
+We read in full every cited source that we could obtain: the report of
+\textcite{Margono1995Study}, the paper of \textcite{Chen2007Comparing},
+the
+survey of \textcite{Voronkov2019System}, the guides of
+\textcite{Sandve2013Ten}, \textcite{Wilson2014Best} and
+\textcite{Wilson2017Good}, the audits of \textcite{Ziemann2016Gene},
+\textcite{Abeysooriya2021Gene}, \textcite{Trisovic2022Large} and
+\textcite{Saju2025Computational}, the comparison of
+\textcite{Magar2025Data} and the interview study of
+\textcite{Doyle2007Why}.  Most interface studies of the 1980s and
+1990s appeared with publishers that refused the university's network
+access or stopped it with a bot check; every other cited source was
+read in its abstract only.
+\end{onlyin}
+\begin{onlyin}{swedish}
+Vi läste i sin helhet varje citerad källa som vi kunde få tag på:
+rapporten av \textcite{Margono1995Study}, artikeln av
+\textcite{Chen2007Comparing}, enkäten av \textcite{Voronkov2019System},
+guiderna av \textcite{Sandve2013Ten}, \textcite{Wilson2014Best} och
+\textcite{Wilson2017Good}, granskningarna av \textcite{Ziemann2016Gene},
+\textcite{Abeysooriya2021Gene}, \textcite{Trisovic2022Large} och
+\textcite{Saju2025Computational}, jämförelsen av
+\textcite{Magar2025Data} och intervjustudien av \textcite{Doyle2007Why}.
+De flesta gränssnittsstudierna från 1980- och 1990-talen kom ut hos
+förlag som nekade universitetets nätverk åtkomst eller stoppade det med
+en kontroll mot robotar; varje annan citerad källa lästes bara i sin
+sammanfattning.
+\end{onlyin}
+
+\section{\ensv{Results}{Resultat}} % sync english=219c4a swedish=6e45f9
+\label{sec:cli-efficiency-results}
+
+\paragraph{\ensv{Efficiency.}{Effektivitet.}} % sync english=e29307 swedish=05a6b6
+\begin{onlyin}{english} % sync english=423fb1 swedish=b2439b
+The experiments that compare command interfaces with menu, iconic or
+direct-manipulation interfaces do not show a general advantage for
+either side.  The broadest of them measured 76 users with seven systems
+and concluded that \textcquote{Whiteside1985User}{interface style is
+not related to performance or preference (but careful design is)}.
+\Textcite{Hauptmann1983Comparison} gave one program a command, a menu
+and a natural-language interface and found \textcquote
+{Hauptmann1983Comparison}{\textins*{n}o significant differences
+\textelp{} for time, error and attitude measures}.  No difference is
+also the result for business students \autocite{Lindner1998Command},
+for the workload of a drawing task except under the heaviest secondary task
+\autocite{Eberleh1992Thinking}, and for a computer-aided design system
+with and without menus \autocite{Roy1992Evaluation}.  Where a side won,
+it was sometimes the command side.  In a computer-aided design system
+\textcquote{Antin1988Empirical}{command entry produced performance
+that was superior to the other two modes}, for experienced and novice
+users alike, although users preferred a mode that combined commands and
+menus; students who wrote essays with a command-driven word processor
+got better grades than those with a mouse and pull-down menus
+\autocite{Mahach1995Effects}.  More often it was the graphical side, by
+\textcquote{Karat1987Evaluating}{large differences in performance} in
+one experiment, and mainly for learners and newcomers: novices
+manipulated files faster and with fewer errors on a direct-manipulation
+interface than with typed commands \autocite{Margono1995Study};
+learners on a Macintosh \textcquote{Davis1993Training}{performed
+substantially better than those using the command-based interface},
+DOS, in two experiments \autocite{Davis1992Experimental}; secretaries
+learned a word processor more easily by direct manipulation
+\autocite{Jordan1992Claims}; graduate students did better with the
+menu version of a statistics package than with its command version
+\autocite{Schultz1998Effects}; users with a command language alone did
+worse than those who also had menus \autocite{Taylor1987Experimental};
+and 98 nurses were faster, made fewer errors and learned faster with a
+new graphical interface than with a legacy text-based one
+\autocite{Staggers2000Comparing}, as were physicians with a graphical
+patient record \autocite{Rodriguez2002Study}.
+
+Further experiments, read in their abstracts, point the same mixed way.
+Typed commands did better in some: they beat menu and hybrid modes on a
+space-station interface for experienced and inexperienced users alike
+\autocite{Antin1986Evaluation}, physicians entered orders faster with a
+command-line pathway \autocite{Lovis2001Evaluation}, users of a command
+interface performed better in a simulation task
+\autocite{Schar1997Effect}, students needed less training with native
+commands than with a menu front end to a bibliographic database, which
+did not change what they retrieved \autocite{Sullivan1990End}, and
+students querying in SQL were faster though they found it harder than a
+graphical query language \autocite{Jones1996Articulating}.  The
+graphical side did better in others: menus and choice systems were
+easier than commands in a decision-support system
+\autocite{Waring1992Factors}, a diagrammatic query language was easier
+than SQL \autocite{Catarci1995Diagrammatic}, direct manipulation was
+faster in a laboratory experiment \autocite{Lee2008Effects}, a GUI
+helped even skilled programmers of a virtual-reality tool
+\autocite{Fellmann2007Command}, and operators of milling machines
+preferred direct manipulation \autocite{TorresChazaro1992Design}.  In
+yet others the result was a trade-off: preference and performance went
+together and depended on experience \autocite{Kissel1997Influence},
+better usability did not mean better performance
+\autocite{Chhanabhai2004First}, and a command language proved flexible
+but hard to debug where direct manipulation gave a faster first
+prototype \autocite{Kjeldskov2008Interaction}.
+
+Expertise changes the picture, but not in one direction.  In a dental
+record system \textcquote{Chen2007Comparing}{the GUI interface was not
+better than the TUI for expert users. GUI interface was better for
+novice users}, and experienced users of a character-based word
+processor worked as fast as users of its graphical versions, mostly
+through function keys \autocite{dYdewalle1995Graphical}.  Against this,
+a desktop graphical interface beat a character-based menu interface
+for beginners and experts alike, and experts with the graphical
+interface needed 51~per~cent less time
+\autocite{Rauterberg1992Empirical}, though that comparison is of menus,
+not of typed commands.  How much a command line asks of its
+user also depends on the user: experts with a weak associative memory
+performed with commands like novices \autocite{Westerman1997Individual}.
+The one experiment that follows the change with practice found the
+pattern the claim assumes, for typed commands in general rather than a
+shell.  Its authors note that \textcquote{Remington2016With}{\textins*
+{i}t is widely believed that a graphical user interface (GUI) is
+superior to a command line interface (CLI) for novice users, but less
+efficient than the CLI after practice. However, there appears to be no
+detailed study of the crossover interaction that this implies}; in
+their experiment, keystroke commands overtook menu selection
+\textcquote{Remington2016With}{after approximately 200 responses}.
+Inside graphical programs, typed keyboard shortcuts are likewise the
+most efficient way to give a command, and those who use them finish
+tasks faster \autocite{Jardina2009Keyboard}, yet even experienced users
+seldom take them up \autocite{Lane2005Hidden,Tak2013Satisficing}: an
+efficiency that exists is not the same as one that is used.
+
+Further studies agree that typed commands pay off once known and that
+few make the switch: function-key commands sped up menu access
+\autocite{Hammontree1991Communicating}, grouped hotkeys were among the
+fastest ways to pick a command \autocite{Odell2004Toolglasses}, and
+users led towards hotkeys did better \autocite{Scarr2011Dips}; yet many
+users, experienced ones too, keep to menus
+\autocite{Giannisakis2019Promoting}, keyboard and mouse entry did not
+differ when the menu stayed visible \autocite{Davies1989Effects},
+shortcuts can slow users down \autocite{Howes2000Trouble}, and what
+users prefer predicts their performance poorly
+\autocite{Heasly1988Comparative}.
+
+None of these experiments tests the case of \cref{sec:cli-both}, a task
+repeated over many files and saved as a script.  One recent comparison
+of design workflows reports that \textcquote{Saddi2026Human}
+{automation, scalability, and repeatability are more likely to be
+achieved with CLI-based workflows}, but its abstract gives neither
+sample nor numbers.  Beyond it we found only what practitioners
+report.  System administrators, the users who
+do such work daily, mostly use command lines although graphical tools
+are offered, and \textcquote{Takayama2006Trust}{many of these power
+users perceive CLIs as more effective than GUIs}; interviews and a
+survey of 331 administrators describe a
+\textcquote{Mahendiran2014Understanding}{culture of command-line
+interface (CLI) use}.  In a survey of 300 administrators of
+firewalls, \textcquote[8]{Voronkov2019System}{\textins*{a}ll use cases
+associated with entering many similar rules on one computer or bulk
+changes on several computers at once require the use of a CLI}, and
+their remarks on the strengths of command lines named automation 64
+times out of 309; yet in the same survey
+\textcquote[1]{Voronkov2019System}{only 32\% of the respondents prefer
+CLIs for managing firewalls, while this figure reaches 60\% for GUIs}.
+A further survey sums up the trade-off in the administrators' own
+terms: command-line software \textcquote{Murillo2014Empowering}{is
+efficient but error prone}.  These are statements of experience and
+preference, not measurements.
+
+In clinical genomics, bioinformaticians preferred command lines where
+geneticists and counsellors wanted a graphical layout
+\autocite{Shyr2015Dynamic}; in flow cytometry, scripted analysis is
+reported to take a minute where manual analysis takes an expert hours
+\autocite{Brinkman2019Improving}.
+\end{onlyin}
+\begin{onlyin}{swedish}
+De experiment som jämför kommandogränssnitt med meny-, ikon- eller
+direktmanipulationsgränssnitt visar ingen allmän fördel för någon sida.
+Det bredaste av dem mätte 76 användare med sju system och drog
+slutsatsen att \foreigntextcquote{english}{Whiteside1985User}{interface
+style is not related to performance or preference (but careful design
+is)}.  \Textcite{Hauptmann1983Comparison} gav ett program ett
+kommando-, ett meny- och ett naturligt språk-gränssnitt och fann
+\foreigntextcquote{english}{Hauptmann1983Comparison}{\textins*{n}o
+significant differences \textelp{} for time, error and attitude
+measures}.  Ingen skillnad är också resultatet för ekonomistudenter
+\autocite{Lindner1998Command}, för arbetsbelastningen i en rituppgift
+utom under den tyngsta sidouppgiften \autocite{Eberleh1992Thinking}, och
+för ett system för datorstödd konstruktion med och utan menyer
+\autocite{Roy1992Evaluation}.  Där en sida vann var det ibland
+kommandosidan.  I ett system för datorstödd konstruktion
+\foreigntextcquote{english}{Antin1988Empirical}{command entry produced
+performance that was superior to the other two modes}, för erfarna
+användare och nybörjare lika, fastän användarna föredrog ett läge som
+förenade kommandon och menyer; studenter som skrev uppsatser med en
+kommandostyrd ordbehandlare fick bättre betyg än de som hade mus och
+rullgardinsmenyer \autocite{Mahach1995Effects}.  Oftare var det den
+grafiska sidan, med
+\foreigntextcquote{english}{Karat1987Evaluating}{large differences in
+performance} i ett experiment, och främst för de som lär sig och för
+nykomlingar: nybörjare hanterade filer snabbare och med färre fel i ett
+gränssnitt för direkt manipulation än med skrivna kommandon
+\autocite{Margono1995Study}; de som lärde sig på en Macintosh
+\foreigntextcquote{english}{Davis1993Training}{performed substantially
+better than those using the command-based interface}, DOS, i två
+experiment \autocite{Davis1992Experimental}; sekreterare lärde sig en
+ordbehandlare lättare genom direkt manipulation
+\autocite{Jordan1992Claims}; forskarstudenter klarade sig bättre med
+menyversionen av ett statistikpaket än med dess kommandoversion
+\autocite{Schultz1998Effects}; användare med bara ett kommandospråk
+klarade sig sämre än de som också hade menyer
+\autocite{Taylor1987Experimental}; och 98 sjuksköterskor var snabbare,
+gjorde färre fel och lärde sig snabbare med ett nytt grafiskt gränssnitt
+än med ett äldre textbaserat \autocite{Staggers2000Comparing}, liksom
+läkare med en grafisk patientjournal \autocite{Rodriguez2002Study}.
+
+Ytterligare experiment, lästa i sina sammanfattningar, pekar åt samma
+blandade håll.  Skrivna kommandon klarade sig bättre i några: de slog
+meny- och hybridlägen i ett gränssnitt för en rymdstation för både
+erfarna och oerfarna användare \autocite{Antin1986Evaluation}, läkare
+förde in ordinationer snabbare med en kommandoradsväg
+\autocite{Lovis2001Evaluation}, användare av ett kommandogränssnitt
+presterade bättre i en simuleringsuppgift \autocite{Schar1997Effect},
+studenter behövde mindre träning med de egna kommandona än med ett
+menygränssnitt framför en bibliografisk databas, vilket inte ändrade vad
+de hittade \autocite{Sullivan1990End}, och studenter som ställde frågor
+i SQL var snabbare fastän de tyckte att det var svårare än ett grafiskt
+frågespråk \autocite{Jones1996Articulating}.  Den grafiska sidan klarade
+sig bättre i andra: menyer och valsystem var lättare än kommandon i ett
+beslutsstödsystem \autocite{Waring1992Factors}, ett diagrambaserat
+frågespråk var lättare än SQL \autocite{Catarci1995Diagrammatic}, direkt
+manipulation var snabbare i ett laboratorieexperiment
+\autocite{Lee2008Effects}, ett GUI hjälpte även skickliga programmerare
+av ett verktyg för virtuell verklighet \autocite{Fellmann2007Command},
+och operatörer av fräsmaskiner föredrog direkt manipulation
+\autocite{TorresChazaro1992Design}.  I ytterligare andra blev resultatet
+en avvägning: preferens och prestation gick hand i hand och berodde på
+erfarenhet \autocite{Kissel1997Influence}, bättre användbarhet innebar
+inte bättre prestation \autocite{Chhanabhai2004First}, och ett
+kommandospråk visade sig flexibelt men svårt att felsöka där direkt
+manipulation gav en snabbare första prototyp
+\autocite{Kjeldskov2008Interaction}.
+
+Expertis ändrar bilden, men inte åt ett håll.  I ett journalsystem för
+tandvård \foreigntextcquote{english}{Chen2007Comparing}{the GUI
+interface was not better than the TUI for expert users. GUI interface
+was better for novice users}, och erfarna användare av en teckenbaserad
+ordbehandlare arbetade lika snabbt som användare av dess grafiska
+versioner, mest genom funktionstangenter
+\autocite{dYdewalle1995Graphical}.  Mot detta står att ett grafiskt
+skrivbordsgränssnitt slog ett teckenbaserat menygränssnitt för både
+nybörjare och experter, och experter med det grafiska gränssnittet
+behövde 51~procent kortare tid \autocite{Rauterberg1992Empirical},
+fastän den jämförelsen gäller menyer, inte skrivna kommandon.  Hur
+mycket en kommandorad kräver av sin användare beror också på användaren:
+experter med svagt associativt minne presterade med kommandon som
+nybörjare \autocite{Westerman1997Individual}.  Det enda experimentet som
+följer förändringen med övning fann det mönster som påståendet förutsätter,
+för skrivna kommandon i allmänhet snarare än ett skal.  Dess författare
+noterar att \foreigntextcquote{english}{Remington2016With}{\textins*{i}t
+is widely believed that a graphical user interface (GUI) is superior to
+a command line interface (CLI) for novice users, but less efficient than
+the CLI after practice. However, there appears to be no detailed study
+of the crossover interaction that this implies}; i deras experiment gick
+tangentkommandon förbi menyval
+\foreigntextcquote{english}{Remington2016With}{after approximately 200
+responses}.  Inuti grafiska program är skrivna kortkommandon på samma
+sätt det effektivaste sättet att ge ett kommando, och de som använder
+dem gör uppgifter snabbare \autocite{Jardina2009Keyboard}, men även
+erfarna användare tar sällan till dem
+\autocite{Lane2005Hidden,Tak2013Satisficing}: en effektivitet som finns
+är inte detsamma som en som används.
+
+Ytterligare studier är eniga om att skrivna kommandon lönar sig när man
+kan dem och att få byter: kommandon på funktionstangenter snabbade upp
+åtkomsten till menyer \autocite{Hammontree1991Communicating}, grupperade
+snabbtangenter var bland de snabbaste sätten att välja ett kommando
+\autocite{Odell2004Toolglasses}, och användare som leddes mot
+snabbtangenter klarade sig bättre \autocite{Scarr2011Dips}; men många
+användare, också erfarna, håller sig till menyer
+\autocite{Giannisakis2019Promoting}, inmatning med tangentbord och mus
+skilde sig inte åt när menyn förblev synlig \autocite{Davies1989Effects},
+kortkommandon kan göra användare långsammare \autocite{Howes2000Trouble},
+och vad användare föredrar förutsäger deras prestation dåligt
+\autocite{Heasly1988Comparative}.
+
+Inget av experimenten prövar fallet i \cref{sec:cli-both}, en uppgift
+som upprepas över många filer och sparas som ett skript.  En nyligen
+gjord jämförelse av designarbetsflöden rapporterar att
+\foreigntextcquote{english}{Saddi2026Human}{automation, scalability,
+and repeatability are more likely to be achieved with CLI-based
+workflows}, men dess sammanfattning ger varken urval eller siffror.
+Utöver den hittade vi bara vad yrkesverksamma rapporterar.
+Systemadministratörer, de användare som gör sådant arbete dagligen,
+använder mest kommandorader fastän grafiska verktyg erbjuds, och
+\foreigntextcquote{english}{Takayama2006Trust}{many of these power users
+perceive CLIs as more effective than GUIs}; intervjuer och en enkät med
+331 administratörer beskriver en
+\foreigntextcquote{english}{Mahendiran2014Understanding}{culture of
+command-line interface (CLI) use}.  I en enkät med 300 administratörer
+av brandväggar
+\foreigntextcquote{english}[8]{Voronkov2019System}{\textins*{a}ll use
+cases associated with entering many similar rules on one computer or
+bulk changes on several computers at once require the use of a CLI},
+och deras kommentarer om kommandoradernas styrkor nämnde automatisering
+64 gånger av 309; ändå
+\foreigntextcquote{english}[1]{Voronkov2019System}{only 32\% of the
+respondents prefer CLIs for managing firewalls, while this figure
+reaches 60\% for GUIs}.  En ytterligare enkät sammanfattar avvägningen i
+administratörernas egna ord: kommandoradsprogram
+\foreigntextcquote{english}{Murillo2014Empowering}{is efficient but
+error prone}.  Det är uttalanden om erfarenhet och preferens, inte
+mätningar.
+
+Inom klinisk genomik föredrog bioinformatiker kommandorader där
+genetiker och genetiska vägledare ville ha en grafisk layout
+\autocite{Shyr2015Dynamic}; inom flödescytometri rapporteras skriptad
+analys ta en minut där manuell analys tar en expert timmar
+\autocite{Brinkman2019Improving}.
+\end{onlyin}
+
+\paragraph{\ensv{Reproducibility.}{Upprepbarhet.}} % sync english=32663b swedish=188478
+\begin{onlyin}{english} % sync english=214354 swedish=06b48e
+The advice is clear and widely repeated.  Among rules for reproducible
+computational research, \textcquote[2]{Sandve2013Ten}{\textins*{w}henever
+possible, rely on the execution of programs instead of manual
+procedures to modify data. Such manual procedures are not only
+inefficient and error-prone, they are also difficult to reproduce. If
+working at the UNIX command line, manual modification of files can
+usually be replaced by the use of standard UNIX commands or small
+custom scripts.}  Best practices for scientific computing advise
+scientists to \textcquote[2]{Wilson2014Best}{make the computer repeat
+tasks (2a) and save recent commands in a file for re-use (2b)}, since
+those who repeat commands or clicks by hand will
+\textcquote[2]{Wilson2014Best}{sooner or later} make mistakes; the
+\enquote{good enough} practices that followed advise you to
+\textcquote[5]{Wilson2017Good}{write scripts for every stage of data
+processing}.  The advice rests on experience, and says
+so: the best practices cite two practitioner textbooks for the remark
+that the command line's \enquote{do this again} \textcquote[2]
+{Wilson2014Best}{saves time and reduces errors}, and the \enquote{good
+enough} practices draw on \textcquote[2]{Wilson2017Good}{our personal
+experience, and \textelp{} the experiences of the thousands of people
+who have taken part in Software Carpentry and Data Carpentry
+workshops}.  The counter query on the advice (C6) returned no
+evaluation of it.
+
+The same advice recurs across fields.  In ecology, scripts replicate an
+analysis exactly where point-and-click packages do not
+\autocite{Borregaard2016Towards}; in clinical and laboratory research,
+manual cleaning, point-and-click analysis and spreadsheets are advised
+against in favour of scripts
+\autocite{Kaizer2026Statistical,Obstfeld2026Reproducible,%
+Simons2019Reproducible}; in genomics, analyses are to run as automated,
+non-interactive pipelines
+\autocite{Vos2016Ten,Ziemann2023Recipe,Satagopam2025Best}; data
+processing is to be built from Unix tools with logging
+\autocite{Spinellis2024Engineering}; and further guides recommend code
+that records and regenerates the whole analysis
+\autocite{Kelley2008R,Valle2012Computer,RodriguezSanchez2016Ciencia,%
+Hutton2016Most,Petyuk2019Reproducibility,Kalenkovich2021Reproducible,%
+Finley2026Scripts,Schlogl2026Overcoming}.  One pilot converted ten
+psychology papers to single scripts and judged it a success
+\autocite{Baker2024Reproduceme}.
+
+Two kinds of evidence go beyond advice, and they point in different
+directions.  Manual work in a graphical data tool does introduce errors
+at scale: in leading genomics journals \textcquote{Ziemann2016Gene}
+{approximately one-fifth of papers with supplementary Excel gene lists
+contain erroneous gene name conversions}, made by the spreadsheet's
+default settings, and five years later the share had grown to
+\textcquote{Abeysooriya2021Gene}{30.9\% (3,436/11,117) of articles with
+supplementary Excel gene lists}.  But a script is no guarantee either:
+of more than 9000 R files published with research data,
+\textcquote{Trisovic2022Large}{74\% of R files failed to complete
+without error in the initial execution, while 56\% failed when code
+cleaning was applied}.  Audits in other fields agree: a quarter of the
+R scripts shared on one platform ran without error even after their
+environments were rebuilt \autocite{Saju2025Computational}, 7~per~cent
+of ecology papers provided code that ran \autocite{Kellner2024Functional},
+the results of 15~per~cent of statistics papers on brain imaging data
+could be reproduced \autocite{Xiong2022State}, of computational physics
+papers whose code was obtained two thirds could not easily be
+regenerated \autocite{Stodden2018Enabling}, and in hydrology
+1.6~per~cent of the tested articles could \autocite{Stagge2019Assessing}.
+And a graphical tool can keep the record that makes work repeatable:
+the \enquote{good enough} practices name data-cleaning tools that
+\textcquote[5]{Wilson2017Good}{provide a graphical user interface but
+also automatically keep track of each step in the process}.  The only
+comparison of the same analysis done in a spreadsheet and by script
+that we found is a preprint in which its author did one analysis of
+one data set both ways and found \textcquote{Magar2025Data}{that Excel
+is only efficient and error-free to the extent of basic analysis and
+simple outputs}.  We found no study in which someone else redid work
+first done by script or by hand in a graphical program.
+
+Further studies point both ways here too.  Excel's corruption of
+supplementary data continues year after year
+\autocite{DeRijk2018Opentsv}, a forensic reanalysis traced errors in
+published gene signatures to simple data management
+\autocite{Master2010Getting}, and none of ten hydrological models built
+through a graphical interface could easily be reproduced
+\autocite{Chawanda2020User}.  But code fails too: two thirds of the
+example code on model cards did not run \autocite{Yao2026Understanding},
+two of 19 notebooks from published papers were reproducible
+\autocite{Kashiwa2026Study}, few benchmark submissions could be installed
+as published \autocite{Lyu2026Code}, archived retrieval runs no longer
+replicated after four years \autocite{Lin2020Reproducibility}, and
+reproductions by a student, a hackathon, a review of geographic
+information science and an audit of published tools succeeded only in
+part \autocite{Oneka2018Evaluating,Willems2026Insights,%
+Nust2022Infrastructures,Nong2023Open}.
+\end{onlyin}
+\begin{onlyin}{swedish}
+Rådet är tydligt och upprepas ofta.  Bland regler för upprepbar
+beräkningsforskning står
+\foreigntextcquote{english}[2]{Sandve2013Ten}{\textins*{w}henever
+possible, rely on the execution of programs instead of manual procedures
+to modify data. Such manual procedures are not only inefficient and
+error-prone, they are also difficult to reproduce. If working at the
+UNIX command line, manual modification of files can usually be replaced
+by the use of standard UNIX commands or small custom scripts.}  Bästa
+praxis för vetenskapliga beräkningar råder forskare att
+\foreigntextcquote{english}[2]{Wilson2014Best}{make the computer repeat
+tasks (2a) and save recent commands in a file for re-use (2b)},
+eftersom de som upprepar kommandon eller klick för hand
+\foreigntextcquote{english}[2]{Wilson2014Best}{sooner or later} gör fel;
+den \enquote{good enough}-praxis som följde råder dig att
+\foreigntextcquote{english}[5]{Wilson2017Good}{write scripts for every
+stage of data processing}.  Rådet vilar på erfarenhet, och säger det:
+bästa praxis hänvisar till två läroböcker av yrkesverksamma för
+anmärkningen att kommandoradens \enquote{gör det här igen}
+\foreigntextcquote{english}[2]{Wilson2014Best}{saves time and reduces
+errors}, och \enquote{good enough}-praxisen bygger på
+\foreigntextcquote{english}[2]{Wilson2017Good}{our personal experience,
+and \textelp{} the experiences of the thousands of people who have taken
+part in Software Carpentry and Data Carpentry workshops}.  Motfrågan om
+rådet (C6) gav ingen utvärdering av det.
+
+Samma råd återkommer inom många fält.  Inom ekologi upprepar skript en
+analys exakt där peka-och-klicka-paket inte gör det
+\autocite{Borregaard2016Towards}; inom klinisk forskning och
+laboratorieforskning avråds manuell rensning, peka-och-klicka-analys och
+kalkylblad till förmån för skript
+\autocite{Kaizer2026Statistical,Obstfeld2026Reproducible,%
+Simons2019Reproducible}; inom genomik ska analyser köras som
+automatiserade, icke-interaktiva flöden
+\autocite{Vos2016Ten,Ziemann2023Recipe,Satagopam2025Best};
+databearbetning ska byggas av Unixverktyg med loggning
+\autocite{Spinellis2024Engineering}; och ytterligare guider
+rekommenderar kod som registrerar och återskapar hela analysen
+\autocite{Kelley2008R,Valle2012Computer,RodriguezSanchez2016Ciencia,%
+Hutton2016Most,Petyuk2019Reproducibility,Kalenkovich2021Reproducible,%
+Finley2026Scripts,Schlogl2026Overcoming}.  Ett pilotprojekt gjorde om
+tio psykologiartiklar till var sitt skript och bedömde det som en
+framgång \autocite{Baker2024Reproduceme}.
+
+Två sorters belägg går utöver råd, och de pekar åt olika håll.  Manuellt
+arbete i ett grafiskt dataverktyg ger fel i stor skala: i ledande
+tidskrifter i genomik
+\foreigntextcquote{english}{Ziemann2016Gene}{approximately one-fifth of
+papers with supplementary Excel gene lists contain erroneous gene name
+conversions}, orsakade av kalkylprogrammets standardinställningar, och
+fem år senare hade andelen vuxit till
+\foreigntextcquote{english}{Abeysooriya2021Gene}{30.9\%
+(3,436/11,117) of articles with supplementary Excel gene lists}.  Men
+ett skript är ingen garanti heller: av mer än 9000 R-filer som
+publicerats med forskningsdata
+\foreigntextcquote{english}{Trisovic2022Large}{74\% of R files failed to
+complete without error in the initial execution, while 56\% failed when
+code cleaning was applied}.  Granskningar inom andra fält håller med:
+en fjärdedel av de R-skript som delats på en plattform gick att köra
+utan fel även sedan deras miljöer byggts upp på nytt
+\autocite{Saju2025Computational}, 7~procent av artiklarna i ekologi
+tillhandahöll kod som gick att köra \autocite{Kellner2024Functional},
+resultaten i 15~procent av statistikartiklarna om hjärnavbildningsdata
+gick att återskapa \autocite{Xiong2022State}, av artiklarna i
+beräkningsfysik vars kod kunde fås gick två tredjedelar inte lätt att
+återskapa \autocite{Stodden2018Enabling}, och inom hydrologi gick det
+för 1,6~procent av de prövade artiklarna
+\autocite{Stagge2019Assessing}.  Och ett grafiskt verktyg kan föra den
+logg som gör arbete upprepbart: \enquote{good enough}-praxisen nämner
+verktyg för datarensning som
+\foreigntextcquote{english}[5]{Wilson2017Good}{provide a graphical user
+interface but also automatically keep track of each step in the
+process}.  Den enda jämförelse av samma analys gjord i ett kalkylblad och
+med skript som vi hittade är en förhandspublikation där författaren
+gjorde en analys av en datamängd på båda sätten och fann
+\foreigntextcquote{english}{Magar2025Data}{that Excel is only efficient
+and error-free to the extent of basic analysis and simple outputs}.  Vi
+hittade ingen studie där någon annan gjorde om arbete som först gjorts
+med skript eller för hand i ett grafiskt program.
+
+Ytterligare studier pekar åt båda hållen även här.  Excels förvanskning
+av bilagedata fortsätter år efter år \autocite{DeRijk2018Opentsv}, en
+kriminalteknisk omanalys spårade fel i publicerade gensignaturer till
+enkel datahantering \autocite{Master2010Getting}, och ingen av tio
+hydrologiska modeller som byggts genom ett grafiskt gränssnitt gick lätt
+att återskapa \autocite{Chawanda2020User}.  Men kod fallerar också: två
+tredjedelar av exempelkoden på modellkort gick inte att köra
+\autocite{Yao2026Understanding}, två av 19 notebooks från publicerade
+artiklar gick att återskapa \autocite{Kashiwa2026Study}, få bidrag till
+jämförelsetester gick att installera som de publicerats
+\autocite{Lyu2026Code}, arkiverade sökkörningar gick inte längre att
+upprepa efter fyra år \autocite{Lin2020Reproducibility}, och
+återskapanden gjorda av en student, ett hackathon, en översikt inom
+geografisk informationsvetenskap och en granskning av publicerade
+verktyg lyckades bara delvis \autocite{Oneka2018Evaluating,%
+Willems2026Insights,Nust2022Infrastructures,Nong2023Open}.
+\end{onlyin}
+
+\paragraph{\ensv{Novices.}{Nybörjare.}} % sync english=418c40 swedish=545f0f
+\begin{onlyin}{english} % sync english=6ff930 swedish=efe6f1
+That newcomers find a command line harder at first is supported, but
+not without exceptions.  Novices made more errors and took longer with
+typed commands than with direct manipulation, and their errors were
+those of a typed language: in the words of the experimenters,
+\textcquote{Margono1995Study}{\textins*{f}orgetting the punctuation,
+adding unnecessary spaces, and omitting the parameters in such commands
+as copy and rename were among the common problems the subjects had on
+the IBM PC}.  Composing complex UNIX commands strained novices so that
+\textcquote{Sohn1997Cognitive}{prompting novices with required
+knowledge is not sufficient to obtain correct performance; they must
+receive additional assistance that reduces working memory demands}.
+The newer graphical interface was also the faster one to learn for the
+nurses \autocite{Staggers2000Comparing}, the learners on the Macintosh
+did better than those on DOS without finding it easier
+\autocite{Davis1993Training}, and the menus helped the graduate
+students to find their errors \autocite{Schultz1998Effects}; 12
+undergraduates preferred a graphical library catalogue to a
+command-line one \autocite{Meadows2011Graphical}; and in a first
+programming course, visual tools \textcquote{Dillon2012Studying}{could
+provide a lower learning curve for novices, while command line tools
+could broaden their understanding of programming}.  Against this stand
+studies in which the command side held up.  High-school students with
+no computer experience made fewer errors learning the UNIX command
+language than an English-like one, but asked for help more often a
+week later, so that the authors conclude that \textcquote
+{DeLeon1983Trouble}{even though the UNIX command language may not be
+harder for novice users to learn, it is probably more difficult for
+them to use}.  People learning UNIX command sequences did better with a
+command line than with a menu, \textcquote{Durham1998Learning}
+{especially during retention testing}, while for a milling machine the
+opposite held: a week's break slowed operators on the command language
+but not on direct manipulation \autocite{TorresChazaro1992Comparison}.
+In one study learning a direct-manipulation interface took longer than
+learning a command language, which repaid it on complex tasks
+\autocite{Reinhard1991Effect}, and in two first programming courses
+more students finished a task with a command-line editor than with a
+web environment, though they felt less at ease with it
+\autocite{Cooper2020Exploring}.  How commands are named matters more
+than whether they are natural words: names that told operations with
+different syntax apart \textcquote{Landauer1983Natural}{greatly reduced
+difficulty}.  That many students arrive without any experience of a
+command line is reported by teachers \autocite{Kendon2016Unix}, and
+among computing teachers \textcquote{Doyle2007Why}{Unix as a command
+line interface superior to GUIs} is itself one of their conceptions of
+Unix, a less developed one than Unix as a tool for solving problems.
+
+Further learning studies, read in their abstracts, mostly agree.
+Direct manipulation was easier to learn or more motivating than a
+command style
+\autocite{Davis1994Effects,Davis2001Mediating,Davis1998Effect,%
+Wiedenbeck1997Influence}, a menu-to-command transition helped newcomers
+to UNIX \autocite{Badre1991Effects}, newcomers to a command interface
+met errors with no sign of being close \autocite{Lewis2003Menus},
+prompts did not suffice for composing complex UNIX commands
+\autocite{Doane1992Prompt}, students tended to learn more with a command
+line given graphical support \autocite{Herrera2005Training},
+computer-naive users did best with menus first and moved to commands
+after 16 to 20 hours \autocite{Gilfoil1982Warming}, a guided system was
+more efficient than a command line for novices
+\autocite{Westendorp1997Guided}, a GUI gave authors of tutoring systems
+a lower bar for entry \autocite{Devasani2012Evaluation}, a
+command-language database interface led students to skip decision
+factors \autocite{Chen2001Investigation}, learners found a graphical
+library database easier \autocite{Gaff1994Gui}, and users of
+command-line computing clusters valued graphical desktops for getting in
+\autocite{Thota2019Research}.  Against these, a command interface built
+from novices' own commands came to recognise most of them
+\autocite{Good1984Building}, students who began with a command-line
+editor moved more easily to a graphical one than the reverse
+\autocite{Dillon2012Mental}, the extremes of assisting features were a
+problem in either kind of environment \autocite{Dillon2012Comparing}, a
+rich web interface rather than the simplest point-and-click one was
+preferred \autocite{MarquezBarja2018Assessing}, and some of novices'
+apparent misconceptions belong to the representation rather than to
+them \autocite{Masson1988Misconceived}.
+\end{onlyin}
+\begin{onlyin}{swedish}
+Att nykomlingar till en början tycker att en kommandorad är svårare har
+stöd, men inte utan undantag.  Nybörjare gjorde fler fel och tog längre
+tid med skrivna kommandon än med direkt manipulation, och deras fel var
+ett skrivet språks: med försöksledarnas ord
+\foreigntextcquote{english}{Margono1995Study}{\textins*{f}orgetting the
+punctuation, adding unnecessary spaces, and omitting the parameters in
+such commands as copy and rename were among the common problems the
+subjects had on the IBM PC}.  Att sätta ihop komplexa UNIX-kommandon
+belastade nybörjare så att
+\foreigntextcquote{english}{Sohn1997Cognitive}{prompting novices with
+required knowledge is not sufficient to obtain correct performance; they
+must receive additional assistance that reduces working memory demands}.
+Det nyare grafiska gränssnittet var också det som gick snabbast att lära
+sig för sjuksköterskorna \autocite{Staggers2000Comparing}, de som lärde
+sig på Macintosh klarade sig bättre än de på DOS utan att tycka att det
+var lättare \autocite{Davis1993Training}, och menyerna hjälpte
+forskarstudenterna att hitta sina fel \autocite{Schultz1998Effects}; 12
+studenter föredrog en grafisk bibliotekskatalog framför en på
+kommandorad \autocite{Meadows2011Graphical}; och i en första
+programmeringskurs fann man att visuella verktyg
+\foreigntextcquote{english}{Dillon2012Studying}{could provide a lower
+learning curve for novices, while command line tools could broaden their
+understanding of programming}.  Mot detta står
+studier där kommandosidan höll.  Gymnasieelever utan datorerfarenhet
+gjorde färre fel när de lärde sig UNIX kommandospråk än ett
+engelskliknande, men bad oftare om hjälp en vecka senare, så att
+författarna drar slutsatsen att
+\foreigntextcquote{english}{DeLeon1983Trouble}{even though the UNIX
+command language may not be harder for novice users to learn, it is
+probably more difficult for them to use}.  De som lärde sig följder av
+UNIX-kommandon klarade sig bättre med en kommandorad än med en meny,
+\foreigntextcquote{english}{Durham1998Learning}{especially during
+retention testing}, medan motsatsen gällde för en fräsmaskin: en veckas
+uppehåll gjorde operatörerna långsammare med kommandospråket men inte
+med direkt manipulation \autocite{TorresChazaro1992Comparison}.  I en
+studie tog det längre tid att lära sig ett gränssnitt för direkt
+manipulation än ett kommandospråk, som betalade sig på komplexa uppgifter
+\autocite{Reinhard1991Effect}, och i två första programmeringskurser
+gjorde fler studenter klart en uppgift med en kommandoradseditor än med
+en webbmiljö, fastän de kände sig mindre hemma i den
+\autocite{Cooper2020Exploring}.  Hur kommandon heter spelar större roll
+än om de är naturliga ord: namn som skilde operationer med olika syntax
+åt \foreigntextcquote{english}{Landauer1983Natural}{greatly reduced
+difficulty}.  Att många studenter kommer utan någon erfarenhet av en
+kommandorad rapporteras av lärare \autocite{Kendon2016Unix}, och bland
+datavetenskapslärare är
+\foreigntextcquote{english}{Doyle2007Why}{Unix as a command line
+interface superior to GUIs} själv en av deras uppfattningar om Unix, en
+mindre utvecklad än Unix som ett verktyg för att lösa problem.
+
+Ytterligare studier av inlärning, lästa i sina sammanfattningar, håller
+mest med.  Direkt manipulation var lättare att lära sig eller mer
+motiverande än en kommandostil
+\autocite{Davis1994Effects,Davis2001Mediating,Davis1998Effect,%
+Wiedenbeck1997Influence}, en övergång från menyer till kommandon
+hjälpte nykomlingar till UNIX \autocite{Badre1991Effects}, nykomlingar
+till ett kommandogränssnitt mötte fel utan tecken på att vara nära
+\autocite{Lewis2003Menus}, uppmaningar räckte inte för att sätta ihop
+komplexa UNIX-kommandon \autocite{Doane1992Prompt}, studenter tenderade
+att lära sig mer med en kommandorad som fick grafiskt stöd
+\autocite{Herrera2005Training}, datorovana användare klarade sig bäst
+med menyer först och gick över till kommandon efter 16 till 20 timmar
+\autocite{Gilfoil1982Warming}, ett guidat system var effektivare än en
+kommandorad för nybörjare \autocite{Westendorp1997Guided}, ett GUI gav
+författare av handledningssystem en lägre tröskel
+\autocite{Devasani2012Evaluation}, ett databasgränssnitt med
+kommandospråk fick studenter att hoppa över beslutsfaktorer
+\autocite{Chen2001Investigation}, de som lärde sig tyckte att en
+grafisk biblioteksdatabas var lättare \autocite{Gaff1994Gui}, och
+användare av beräkningskluster med kommandorad värdesatte grafiska
+skrivbord för att komma in \autocite{Thota2019Research}.  Mot dessa står
+att ett kommandogränssnitt byggt av nybörjarnas egna kommandon kom att
+känna igen de flesta av dem \autocite{Good1984Building}, att studenter
+som började med en kommandoradseditor gick lättare över till en grafisk
+än tvärtom \autocite{Dillon2012Mental}, att ytterligheterna av
+hjälpfunktioner var ett problem i båda slagen av miljö
+\autocite{Dillon2012Comparing}, att ett rikt webbgränssnitt snarare än
+det enklaste peka-och-klicka-gränssnittet föredrogs
+\autocite{MarquezBarja2018Assessing}, och att en del av nybörjares
+skenbara missuppfattningar hör till representationen snarare än till dem
+\autocite{Masson1988Misconceived}.
+\end{onlyin}
+
+\section{\ensv{Discussion and limitations}{Diskussion och begränsningar}} % sync english=634094 swedish=5d16d0
+\label{sec:cli-efficiency-discussion}
+
+\begin{onlyin}{english} % sync english=100379 swedish=7b57ba
+The interface studies are old: most date from 1983 to 2000, when the
+graphical interface was new and the command lines compared were those
+of MS-DOS, early UNIX or special systems.  Several compare a legacy
+interface with a new one \autocite{Staggers2000Comparing}, so that age
+and care of design are confounded with interface style; within each
+style, \textcite{Whiteside1985User} found large differences between
+systems.  Several of the
+\enquote{text-based} or \enquote{character-based} interfaces are
+keyboard menus or forms rather than command lines
+\autocite{Rauterberg1992Empirical,dYdewalle1995Graphical,%
+  Chen2007Comparing},
+and the shortcut studies, the crossover experiment among them, concern
+keys inside graphical programs
+\autocite{Remington2016With,Lane2005Hidden,Tak2013Satisficing}; we
+cite them because they test the same argument, that typed commands pay
+off for those who know them, not because they test a shell.  The
+samples are small, from eight experts \autocite{Chen2007Comparing} to
+98 nurses \autocite{Staggers2000Comparing}, and the practitioners'
+reports are surveys of preference and opinion
+\autocite{Takayama2006Trust,Voronkov2019System,Murillo2014Empowering}.
+The audits of research code measure whether published scripts run
+again, mostly in R; they do not compare scripts with manual work.
+
+Our access to the sources limits the reading.  Most of the interface
+studies are behind publishers that refused the university's network or
+stopped it with a bot check, so we read them in abstract only, and an
+abstract reports a finding without its conditions.  The rule that a
+record without an abstract is excluded weighs most on the oldest
+studies: 62 records that the model had kept from their titles alone
+were excluded for want of an abstract.  Of these, 24 bear on the claim
+by their titles and could not be obtained, most of them from 1982 to
+1998; among them are studies of the errors Unix users make, of
+learning UNIX, of the transition from menus to commands, of command
+reuse in the shell, of interface style and problem solving, of keyboard
+shortcuts, and 17 further comparisons of command and graphical
+interfaces.  To these come the two studies that only the check by
+meaning found.  The counts in \cref{tab:cli-efficiency-queries} carry
+the limits of the databases.  DBLP could not be searched at all.
+OpenAlex was searched in titles and abstracts, not in full text, and its
+abstracts are incomplete, so it does not equal the same search in Web
+of Science.  The screening was done by a language model, mostly from
+abstracts, and we read only the titles of the records it kept or was
+unsure of, and abstracts where a
+title suggested a bearing; a relevant study it excluded with confidence
+would be missed.  Of the 124 works that \cref{tab:sok-cli-efficiency}
+lists as bearing on the claim, we cite 121; 52 were read in full or in
+their abstracts with a quote for each claim they carry, and the other
+69, the further studies of the results, only in their abstracts, each
+with one quote that we checked against the abstract word for word.  The
+three that are not cited are an earlier comparison of performance and
+preference in the two kinds of environment whose abstract states no
+result, a book chapter whose authors the metadata does not give, and a
+preprint whose author is given only by a first name.  The study of
+firewall administrators is cited in its first arXiv version, which is
+the one we read; its published version carries a different title.
+\end{onlyin}
+\begin{onlyin}{swedish}
+Gränssnittsstudierna är gamla: de flesta är från 1983 till 2000, när
+det grafiska gränssnittet var nytt och de kommandorader som jämfördes
+var MS-DOS, tidig UNIX eller specialsystem.  Flera jämför ett äldre
+gränssnitt med ett nytt \autocite{Staggers2000Comparing}, så att ålder
+och omsorg i utformningen blandas ihop med gränssnittsstil; inom varje
+stil fann \textcite{Whiteside1985User} stora skillnader mellan system.
+Flera av de \enquote{textbaserade} eller \enquote{teckenbaserade}
+gränssnitten är tangentbordsmenyer eller formulär snarare än
+kommandorader
+\autocite{Rauterberg1992Empirical,dYdewalle1995Graphical,%
+  Chen2007Comparing},
+och studierna av kortkommandon, korsningsexperimentet bland dem, gäller
+tangenter inuti grafiska program
+\autocite{Remington2016With,Lane2005Hidden,Tak2013Satisficing}; vi
+citerar dem eftersom de prövar samma argument, att skrivna kommandon
+lönar sig för dem som kan dem, inte för att de prövar ett skal.  Urvalen
+är små, från åtta experter \autocite{Chen2007Comparing} till 98
+sjuksköterskor \autocite{Staggers2000Comparing}, och de yrkesverksammas
+rapporter är enkäter om preferens och åsikt
+\autocite{Takayama2006Trust,Voronkov2019System,Murillo2014Empowering}.
+Granskningarna av forskningskod mäter om publicerade skript går att köra
+igen, mest i R; de jämför inte skript med manuellt arbete.
+
+Vår åtkomst till källorna begränsar läsningen.  De flesta
+gränssnittsstudierna ligger hos förlag som nekade universitetets nätverk
+eller stoppade det med en kontroll mot robotar, så vi läste dem bara i
+sammanfattning, och en sammanfattning redovisar ett fynd utan dess
+villkor.  Regeln att en post utan sammanfattning utesluts väger tyngst
+på de äldsta studierna: 62 poster som modellen hade behållit enbart på
+sina titlar uteslöts i brist på sammanfattning.  Av dem rör 24
+påståendet enligt sina titlar och gick inte att få tag på, de flesta
+från 1982 till 1998; bland dem finns studier av de fel som
+Unixanvändare gör, av att lära sig UNIX, av övergången från menyer till
+kommandon, av återanvändning av kommandon i skalet, av gränssnittsstil
+och problemlösning, av kortkommandon, och 17 ytterligare jämförelser av
+kommandogränssnitt och grafiska gränssnitt.  Till dem kommer de två
+studier som bara kontrollen efter betydelse hittade.  Talen i
+\cref{tab:cli-efficiency-queries} bär databasernas gränser.  DBLP kunde
+inte genomsökas alls.  OpenAlex söktes i titlar och sammanfattningar,
+inte i fulltext, och dess sammanfattningar är ofullständiga, så den är
+inte likvärdig med samma sökning i Web of Science.  Gallringen gjordes
+av en språkmodell, mest utifrån sammanfattningar, och vi läste bara
+titlarna på de poster som den behöll eller var osäker på, och
+sammanfattningar där en titel antydde att posten rörde påståendet; en
+relevant studie som den uteslöt med säkerhet skulle missas.  Av de 124
+verk som \cref{tab:sok-cli-efficiency} listar som relevanta för
+påståendet citerar vi 121; 52 lästes i sin helhet eller i sina
+sammanfattningar med ett citat för varje påstående de bär, och de andra
+69, resultatens ytterligare studier, bara i sina sammanfattningar, var
+och en med ett citat som vi kontrollerade mot sammanfattningen ord för
+ord.  De tre som inte citeras är en tidigare jämförelse av prestation
+och preferens i de två slagen av miljö vars sammanfattning inte anger
+något resultat, ett bokkapitel vars författare metadata inte anger, och
+en förhandspublikation vars författare bara anges med förnamn.  Studien
+av brandväggsadministratörer citeras i sin första arXiv-version, som är
+den vi läste; dess publicerade version har en annan titel.
+\end{onlyin}
+
+\section{\ensv{Conclusion}{Slutsats}} % sync english=89db2a swedish=c3cc6f
+\label{sec:cli-efficiency-conclusion}
+
+\begin{onlyin}{english} % sync english=fe9248 swedish=939c7e
+No, not as a general rule: the evidence supports a weaker claim than
+the one we tested.  For single tasks, some 45 experiments found no
+consistent efficiency advantage for command interfaces over graphical
+ones: several found no difference or a trade-off, several favoured
+commands, and more favoured the graphical side, mostly for learners and
+newcomers.  That
+typed commands become faster than pointing with practice is supported
+by the one experiment that measured it, for keystroke commands rather
+than a shell.  For repeated or bulk tasks saved as scripts we found no
+controlled experiment, only the consistent report of system
+administrators that bulk changes need a command line; the strength of
+command lines they named most often was flexibility and efficiency of
+use, and many (64 of 309 coded remarks) named automation.  That
+scripted work is easier to
+reproduce is advice, resting on experience, beside evidence that manual
+work in a spreadsheet corrupts data at scale and that most published
+research scripts do not run again as they stand.  That command lines are
+harder for novices holds for the start in most studies, not in all, and
+not as a measured size.
+
+For the deck this means that the main text may show what the reports
+task shows, that a line of commands can be written down and run again
+on any number of files while the clicks in a file manager are gone,
+since that is a fact about the tools.  It may say that people who do
+bulk work, such as system administrators, report that bulk changes need
+a command line, and that guides for research computing advise scripts
+instead of manual steps because manual steps are error-prone and hard
+to redo.  It may not say that a command line is faster or more
+efficient than a graphical interface, for experts or in general, nor
+that a script makes work reproducible by itself.
+\end{onlyin}
+\begin{onlyin}{swedish}
+Nej, inte som allmän regel: beläggen stöder ett svagare påstående än det
+vi prövade.  För enskilda uppgifter fann ett 45-tal experiment ingen
+genomgående fördel i effektivitet för kommandogränssnitt framför
+grafiska: flera fann ingen skillnad eller en avvägning, flera gynnade
+kommandon, och fler gynnade den grafiska sidan, mest för de som lär sig
+och för nykomlingar.  Att skrivna kommandon med övning blir snabbare än
+att peka stöds av det enda experiment som mätte det, för
+tangentkommandon snarare än ett skal.  För upprepade uppgifter och
+massuppgifter som sparas som skript hittade vi inget kontrollerat
+experiment, bara systemadministratörernas samstämmiga rapport att
+massändringar kräver en kommandorad; den styrka hos kommandorader som de
+oftast nämnde var flexibilitet och effektivitet i användningen, och
+många (64 av 309 kodade kommentarer) nämnde automatisering.  Att
+skriptat arbete är lättare att upprepa är ett råd,
+som vilar på erfarenhet, bredvid belägg för att manuellt arbete i ett
+kalkylblad förvanskar data i stor skala och att de flesta publicerade
+forskningsskript inte går att köra igen som de är.  Att kommandorader
+är svårare för nybörjare gäller början i de flesta studier, inte i
+alla, och inte som en uppmätt storlek.
+
+För föreläsningen betyder det att huvudtexten får visa det som
+rapportuppgiften visar, att en rad kommandon kan skrivas ner och köras
+igen på hur många filer som helst medan klicken i en filhanterare är
+borta, eftersom det är ett faktum om verktygen.  Den får säga att de
+som gör massarbete, som systemadministratörer, rapporterar att
+massändringar kräver en kommandorad, och att guider för
+datoranvändning i forskning råder till skript i stället för manuella
+steg eftersom manuella steg ger fel och är svåra att göra om.  Den får
+inte säga att en kommandorad är snabbare eller effektivare än ett
+grafiskt gränssnitt, för experter eller i allmänhet, och inte heller att
+ett skript i sig gör arbete upprepbart.
+\end{onlyin}
+
+\section{\ensv{Further work}{Fortsatt arbete}} % sync english=a44494 swedish=969e69
+\label{sec:cli-efficiency-further}
+
+\begin{onlyin}{english} % sync english=2d5c82 swedish=7bb856
+This search left work undone.  DBLP could not be searched, and the
+older interface studies were read in abstract only; the full texts of
+\textcite{Whiteside1985User}, \textcite{Antin1988Empirical},
+\textcite{Durham1998Learning} and \textcite{Staggers2000Comparing}
+would show the conditions under which each result held, and the full
+text of \textcite{Remington2016With} how far its keystroke commands
+resemble a shell.  The 26 studies mentioned in
+\cref{sec:cli-efficiency-discussion} could not be obtained at all; with
+some two dozen comparisons of the same kind unread, the balance of the
+efficiency results could still shift.  We
+searched OpenAlex in titles and abstracts only, and did not follow
+citations from the studies we read, which in a field whose
+classic studies have few abstracts would likely find more.
+
+The field lacks the study that would settle the claim as the deck
+makes it: a controlled comparison of the same bulk task, such as
+selecting and joining hundreds of files, done in a file manager and at
+a command line, by novices after a short introduction and by
+practised users, measuring time, errors and whether the work can be
+redone a week later.  A study of reproducibility would compare the same
+analysis done by script and by hand in a graphical program, redone by
+someone else.  If such studies favoured the command line, the deck
+could state its advantage for bulk work as measured; if they did not,
+the reports task would remain an illustration of what a command line
+makes possible, not of what it makes faster.
+\end{onlyin}
+\begin{onlyin}{swedish}
+Sökningen lämnade arbete ogjort.  DBLP kunde inte genomsökas, och de
+äldre gränssnittsstudierna lästes bara i sammanfattning; fulltexterna
+av \textcite{Whiteside1985User}, \textcite{Antin1988Empirical},
+\textcite{Durham1998Learning} och \textcite{Staggers2000Comparing}
+skulle visa under vilka villkor varje resultat gällde, och fulltexten av
+\textcite{Remington2016With} hur mycket dess tangentkommandon liknar ett
+skal.  De 26 studier som nämns i \cref{sec:cli-efficiency-discussion}
+gick inte att få tag på alls; med ett par dussin jämförelser av samma
+slag olästa kan balansen i effektivitetsresultaten fortfarande skifta.
+Vi sökte i OpenAlex bara i titlar och sammanfattningar, och följde inte
+citeringar från de studier vi läste, vilket i ett fält vars klassiska
+studier har få sammanfattningar troligen skulle hitta fler.
+
+Fältet saknar den studie som skulle avgöra påståendet så som
+föreläsningen gör det: en kontrollerad jämförelse av samma massuppgift,
+som att välja ut och foga samman hundratals filer, gjord i en
+filhanterare och på en kommandorad, av nybörjare efter en kort
+introduktion och av vana användare, som mäter tid, fel och om arbetet
+kan göras om en vecka senare.  En studie av upprepbarhet skulle jämföra
+samma analys gjord med skript och för hand i ett grafiskt program, och
+omgjord av någon annan.  Gynnade sådana studier kommandoraden kunde
+föreläsningen ange dess fördel för massarbete som uppmätt; gjorde de det
+inte skulle rapportuppgiften förbli en illustration av vad en
+kommandorad gör möjligt, inte av vad den gör snabbare.
+\end{onlyin}
+
+\section{\ensv{Hits bearing on the claim}{Träffar som rör påståendet}} % sync english=b678a6 swedish=eaf510
+\label{sec:cli-efficiency-hits}
+
+% Author's note (verification and reproduction):
+%   scholar session : cli-efficiency
+%   exports         : litteratursokning/cli-efficiency.csv (the session,
+%                     every record and its decision; the abstract column
+%                     is dropped for size, and every record keeps its DOI
+%                     and URL, so its abstract can be looked up) and the
+%                     -full hit-list tables
+%   searched        : 2026-11-18; providers openalex wos ieee scopus
+%                     (dblp: failed, anti-bot page HTTP 202 text/html, every
+%                     query; s2: searched with the key renewed on
+%                     2026-11-18, but it takes no Boolean operators, so S1's
+%                     0 is no real negative and s2 was not used for the
+%                     other queries; s2 and Crossref filled in abstracts);
+%                     openalex via the backing-claims skill's
+%                     scripts/openalex_title_abstract.py (S, C) and a
+%                     title.search variant of it (T); wos via TS=/TI=,
+%                     scopus via TITLE-ABS-KEY()/TITLE(), ieee free text /
+%                     "Document Title": fields; the queries are in the
+%                     Method section and tab:cli-efficiency-queries
+%   semantic check  : the backing-claims skill's scripts/semantic_check.py,
+%                     7 questions before the repair, 3 after
+%   classification  : scholar llm context + llm classify --no-examples
+%                     --no-enrich -n 100, model anthropic/claude-sonnet-5-5;
+%                     272 human decisions in all via scholar sessions
+%                     decide (see Screening); read: titles of all kept
+%                     supports/qualifies rows and of the discarded rows
+%                     with confidence < 0.7, abstracts where relevant, and
+%                     the abstracts of the 154 works of the corroboration
+%                     round
+%   no-abstract rule: abstracts looked up by DOI in S2, then Crossref; 464
+%                     rescued and reclassified, 1483 tagged no-abstract
+%   table caption   : hand-edited after export in both languages (scholar
+%                     calls uncategorised discards "duplicates or other
+%                     versions")
+%   hit-list tables : scholar sessions export cli-efficiency -f table
+%                     --bearing-only --lang en|sv --label sok-cli-efficiency
+%                     --track "Claim B"|"Påstående B" --theme ... -o
+%                     litteratursokning/cli-efficiency-full(-sv)
+%   provenance      : ltnotes.bib (CLAIM/FOUND-VIA/QUOTE/VERIFIED)
+\begin{onlyin}{english} % sync english=609530 swedish=e63cc8
+\input{litteratursokning/cli-efficiency-full}
+\end{onlyin}
+\begin{onlyin}{swedish}
+\input{litteratursokning/cli-efficiency-full-sv}
+\end{onlyin}
+
+% --- Appendix C: claim C.  A stub until the chapter (hpc-cli) is final.
+% TODO(claim C): the chapter and its bounds for sec:where-cli.
+\chapter{\ensv{Are computing clusters reached through a command line?}%
+  {Nås beräkningskluster genom en kommandorad?}} % sync english=91c6fc swedish=864ccd
+\label{app:hpc-cli}
+
+\chapterprecis{\ensv{The author has not yet reviewed the results in this
+  appendix in full.}%
+  {Författaren har ännu inte granskat resultaten i den här bilagan i sin
+  helhet.}} % sync english=21ea16 swedish=60ed7a
+
+\begin{onlyin}{english} % sync english=a3bd8c swedish=d35af1
+This appendix is being written.  It will report how the computing
+clusters used in research are reached: through a command line, a
+graphical remote desktop or a web portal.
+\end{onlyin}
+\begin{onlyin}{swedish}
+Den här bilagan skrivs just nu.  Den kommer att redovisa hur de
+beräkningskluster som används i forskningen nås: genom en kommandorad,
+ett grafiskt fjärrskrivbord eller en webbportal.
+\end{onlyin}
+
+% --- Appendix D: the Unix lineage, from the search of 2026-11-18
+% (scholar session unix-lineage).
+\chapter{\ensv{Which of today's systems descend from Unix?}%
+  {Vilka av dagens system härstammar från Unix?}} % sync english=9c8ed7 swedish=dff1b1
+\label{app:unix-lineage}
+
+\chapterprecis{\ensv{The author has not yet reviewed the results in this
+  appendix in full.}%
+  {Författaren har ännu inte granskat resultaten i den här bilagan i sin
+  helhet.}} % sync english=21ea16 swedish=60ed7a
+
+\begin{onlyin}{english} % sync english=9ad102 swedish=022606
+In \cref{sec:where-cli} we say that the command line you meet on Linux
+is much alike on macOS and the BSD systems, because the BSD systems and
+macOS descend from Unix while Linux imitates it, and that Android is
+built on the Linux kernel.
+Unix is the operating system that Ritchie and Thompson described at Bell
+Laboratories\autocite{RitchieThompson1974}.
+This appendix asks which of today's systems descend from it, and it
+separates three relations that everyday speech runs together.
+A system \emph{descends} from Unix if its code has a history that leads
+back to the Bell Labs system.
+A system is \emph{Unix-like} if it imitates Unix's interfaces and
+behaviour without having its code.
+A system is a \emph{certified UNIX} if The Open Group has registered it
+and allows it to carry the trademark.
+The claim we test is the following.
+\begin{quote}
+  Linux systems are Unix-like: they imitate Unix without descending
+  from its code.
+  The BSD systems descend from Unix.
+  macOS descends from Unix through BSD and is a certified UNIX.
+  Android is built on the Linux kernel.
+\end{quote}
+The question is therefore about the status of the \emph{fact}: it asks
+for evidence of descent, of imitation and of certification, one system
+at a time, and the answer is a different relation for each.
+\end{onlyin}
+\begin{onlyin}{swedish}
+I \cref{sec:where-cli} säger vi att den kommandorad som du möter på
+Linux är mycket lik den på macOS och BSD-systemen, eftersom BSD-systemen
+och macOS härstammar från Unix medan Linux efterliknar det, och att
+Android är byggt på Linuxkärnan.
+Unix är det operativsystem som Ritchie och Thompson beskrev vid Bell
+Laboratories\autocite{RitchieThompson1974}.
+Den här bilagan frågar vilka av dagens system som härstammar från det,
+och den skiljer på tre förhållanden som vardagligt tal blandar ihop.
+Ett system \emph{härstammar} från Unix om dess kod har en historia som
+leder tillbaka till systemet från Bell Labs.
+Ett system är \emph{Unixliknande} om det efterliknar Unix gränssnitt och
+beteende utan att ha dess kod.
+Ett system är ett \emph{certifierat UNIX} om The Open Group har
+registrerat det och tillåter det att bära varumärket.
+Påståendet vi prövar är följande.
+\begin{quote}
+  Linuxsystem är Unixliknande: de efterliknar Unix utan att härstamma
+  från dess kod.
+  BSD-systemen härstammar från Unix.
+  macOS härstammar från Unix genom BSD och är ett certifierat UNIX.
+  Android är byggt på Linuxkärnan.
+\end{quote}
+Frågan gäller alltså \emph{sakförhållandet}: den ber om belägg för
+härstamning, för efterlikning och för certifiering, ett system i taget,
+och svaret är ett olika förhållande för vart och ett.
+\end{onlyin}
+
+\section{\ensv{Method}{Metod}} % sync english=52a0f9 swedish=f41b92
+
+\paragraph{\ensv{Known items.}{Kända titlar.}} % sync english=c6cf33 swedish=7be4e1
+\begin{onlyin}{english} % sync english=9d88bf swedish=c94841
+Most of the evidence for this claim is a primary or authoritative
+document that we know by name, so we retrieved it directly (rows K1 to K7
+of \cref{tab:unix-lineage-queries}) and verified it by opening it:
+Ritchie and Thompson's paper for the origin of Unix (K1);
+McKusick's first-hand history of the Berkeley systems (K2), an open
+book chapter that no article database indexes;
+Torvalds's own announcement of Linux (K3) and the kernel's own
+documentation (K4);
+The Open Group's register of UNIX certified products (K5), which is the
+only authority for the word \enquote{certified};
+Apple's developer documentation of Darwin (K6);
+and the Android Open Source Project's kernel documentation (K7).
+Each is the party that makes the statement, so each is authoritative for
+what \emph{it} says and silent on how outsiders classify the system; the
+literature search supplies the outside view.
+The register's pages and the web documents were read on 18 November 2026;
+Ritchie and Thompson's paper was read in the electronic copy that
+Eric A.\ Brewer recreated from the 1974 text, because the publisher's
+own PDF refused the request.
+\end{onlyin}
+\begin{onlyin}{swedish}
+Det mesta av beläggen för påståendet är primära eller auktoritativa
+dokument som vi känner till vid namn, så vi hämtade dem direkt (raderna
+K1 till K7 i \cref{tab:unix-lineage-queries}) och kontrollerade dem
+genom att öppna dem:
+Ritchies och Thompsons artikel för Unix ursprung (K1);
+McKusicks förstahandsberättelse om Berkeleysystemen (K2), ett öppet
+bokkapitel som ingen artikeldatabas indexerar;
+Torvalds eget tillkännagivande av Linux (K3) och kärnans egen
+dokumentation (K4);
+The Open Groups register över UNIX-certifierade produkter (K5), som är
+den enda auktoriteten för ordet \enquote{certifierad};
+Apples utvecklardokumentation av Darwin (K6);
+och Android Open Source Projects dokumentation av kärnan (K7).
+Var och en är den part som gör uttalandet, så var och en är auktoritativ
+för vad \emph{den} säger och tyst om hur utomstående klassar systemet;
+litteratursökningen ger synen utifrån.
+Registrets sidor och webbdokumenten lästes den 18 november 2026;
+Ritchies och Thompsons artikel lästes i den elektroniska kopia som
+Eric A.\ Brewer återskapade från texten från 1974, eftersom förlagets
+egen PDF nekade förfrågan.
+\end{onlyin}
+
+\paragraph{\ensv{Literature search.}{Litteratursökning.}} % sync english=e81424 swedish=5ed9eb
+\begin{onlyin}{english} % sync english=3f7b28 swedish=c1fb28
+On 18 November 2026 we searched with the tool \texttt{scholar} in four
+databases: OpenAlex (OA; not open access), IEEE Xplore (IEEE),
+Web of Science (WoS) and Scopus.
+Semantic Scholar rejected our key (HTTP 403) and DBLP answered every
+request with a page that stops automated clients, so neither could be
+searched.
+IEEE Xplore stopped answering during the search because its daily quota
+of 200 requests was spent: it answered for the queries S1 to S4 and
+failed for all later ones, which \cref{tab:unix-lineage-queries} marks.
+OpenAlex's default search matches full texts and returned thousands of
+records for each query, so we searched OpenAlex on title and abstract,
+which is the field that Web of Science and Scopus search as well; its
+abstracts are sometimes shortened or missing, so it is not the same search
+as in Web of Science.
+No search had an upper limit.
+
+We built the queries from the concepts of the claim, each in several
+wordings, and ran every query with the same keywords on every database
+(Web of Science as \texttt{TS=(\dots)}, Scopus as
+\texttt{TITLE-ABS-KEY(\dots)}, the others as Boolean free text).
+% Ragged right: the items are runs of long quoted query phrases.
+\begingroup\raggedright
+\begin{description}
+  \item[Descent and lineage] \enquote{lineage}, \enquote{genealogy},
+    \enquote{family tree}, \enquote{descendants}, \enquote{Unix history},
+    \enquote{Unix evolution} (S1); BSD, FreeBSD, NetBSD, OpenBSD,
+    \enquote{Berkeley Software Distribution} with Unix and
+    history, descendant, derived or origins (S2).
+  \item[Imitation] \enquote{Unix-like}, \enquote{Unix like},
+    \enquote{Unix clone}, \enquote{clone of Unix}, \enquote{Linux
+    history} (S3); the same Unix-like terms with definition, taxonomy or
+    classification (C3).
+  \item[macOS] macOS, \enquote{Mac OS X}, \enquote{OS X}, XNU, Darwin and
+    Leopard with BSD, UNIX, certification, derived or compliance (S4,
+    S4b).
+  \item[Android] Android with \enquote{Linux kernel} and \enquote{based
+    on}, \enquote{built on}, \enquote{derived from} or
+    \enquote{Linux-based} (S5); Android with Linux or GNU/Linux and
+    adapting, differences, comparison or modifications (S5b).
+  \item[Counter-search] Linux with Unix and trademark, certification,
+    \enquote{UNIX 03} or \enquote{not Unix} (C1); the certification
+    vocabulary alone: \enquote{Single UNIX Specification},
+    \enquote{UNIX 03}, \enquote{UNIX certification}, \enquote{UNIX
+    trademark}, \enquote{POSIX compliance} (C2); and Android with
+    differs, \enquote{not Linux}, \enquote{GNU/Linux} or
+    \enquote{Linux distribution} (C4).
+\end{description}
+\par\endgroup
+After the keyword search we asked a search by meaning, one plain-language
+question per concept, in OpenAlex's semantic search, and looked up every
+work it returned in our records.
+It returned works with \enquote{Leopard} or \enquote{Linux for Android}
+in the title that the first wordings of the macOS and Android queries
+had missed, so we reworded those two concepts (S4b, S5b) and reran them;
+these are the two queries that were fitted to what the check showed.
+Old books and encyclopaedia entries without an abstract (for example
+\emph{The Unix story}) cannot be found by a search on title and abstract,
+and the check named several: this is a limit of the method that rewording
+does not remove.
+\end{onlyin}
+\begin{onlyin}{swedish}
+Den 18 november 2026 sökte vi med verktyget \texttt{scholar} i fyra
+databaser: OpenAlex (OA; inte open access), IEEE Xplore (IEEE),
+Web of Science (WoS) och Scopus.
+Semantic Scholar avvisade vår nyckel (HTTP 403) och DBLP svarade på
+varje förfrågan med en sida som stoppar automatiska klienter, så ingen
+av dem kunde genomsökas.
+IEEE Xplore slutade svara under sökningen eftersom dess dagskvot på 200
+förfrågningar var förbrukad: den svarade på frågorna S1 till S4 och
+misslyckades för alla senare, vilket \cref{tab:unix-lineage-queries}
+markerar.
+OpenAlex standardsökning matchar fulltexter och gav tusentals poster för
+varje fråga, så vi sökte i OpenAlex på titel och sammanfattning, som är
+det fält som Web of Science och Scopus också söker i; dess
+sammanfattningar är ibland förkortade eller saknas, så det är inte samma
+sökning som i Web of Science.
+Ingen sökning hade någon övre gräns.
+
+Vi byggde frågorna av påståendets begrepp, vart och ett i flera
+formuleringar, och körde varje fråga med samma nyckelord i varje databas
+(Web of Science som \texttt{TS=(\dots)}, Scopus som
+\texttt{TITLE-ABS-KEY(\dots)}, de andra som boolesk fritext).
+% Ragged right: the items are runs of long quoted query phrases.
+\begingroup\raggedright
+\begin{description}
+  \item[Släktlinje] \enquote{lineage},
+    \enquote{genealogy}, \enquote{family tree}, \enquote{descendants},
+    \enquote{Unix history}, \enquote{Unix evolution} (S1); BSD, FreeBSD,
+    NetBSD, OpenBSD, \enquote{Berkeley Software Distribution} med Unix
+    och history, descendant, derived eller origins (S2).
+  \item[Efterlikning] \enquote{Unix-like}, \enquote{Unix like},
+    \enquote{Unix clone}, \enquote{clone of Unix}, \enquote{Linux
+    history} (S3); samma Unixliknande termer med definition, taxonomy
+    eller classification (C3).
+  \item[macOS] macOS, \enquote{Mac OS X}, \enquote{OS X}, XNU, Darwin
+    och Leopard med BSD, UNIX, certification, derived eller compliance
+    (S4, S4b).
+  \item[Android] Android med \enquote{Linux kernel} och \enquote{based
+    on}, \enquote{built on}, \enquote{derived from} eller
+    \enquote{Linux-based} (S5); Android med Linux eller GNU/Linux och
+    adapting, differences, comparison eller modifications (S5b).
+  \item[Motsökning] Linux med Unix och trademark, certification,
+    \enquote{UNIX 03} eller \enquote{not Unix} (C1); certifieringens
+    ordförråd för sig: \enquote{Single UNIX Specification},
+    \enquote{UNIX 03}, \enquote{UNIX certification}, \enquote{UNIX
+    trademark}, \enquote{POSIX compliance} (C2); och Android med
+    differs, \enquote{not Linux}, \enquote{GNU/Linux} eller
+    \enquote{Linux distribution} (C4).
+\end{description}
+\par\endgroup
+Efter nyckelordssökningen gjorde vi en sökning efter betydelse, en fråga
+på vanligt språk per begrepp, i OpenAlex semantiska sökning, och slog
+upp varje verk som den gav i våra poster.
+Den gav verk med \enquote{Leopard} eller \enquote{Linux for Android} i
+titeln som de första formuleringarna av frågorna om macOS och Android
+hade missat, så vi formulerade om de två begreppen (S4b, S5b) och körde
+dem igen; det är de två frågor som anpassades efter vad kontrollen
+visade.
+Gamla böcker och uppslagsartiklar utan sammanfattning (till exempel
+\emph{The Unix story}) kan inte hittas av en sökning på titel och
+sammanfattning, och kontrollen nämnde flera: det är en gräns hos metoden
+som omformuleringar inte tar bort.
+\end{onlyin}
+
+\begin{table}[htbp]
+  % Author's note (verification and reproduction): see the block above
+  % the hit-list \input at the end of the chapter.
+  \begin{sidecaption}{\ensv{Queries and number of hits per database,
+    18 November 2026, tool \texttt{scholar}.
+    S = support query, C = counter query, K = known item.
+    Databases: OpenAlex (OA; not open access), IEEE Xplore (IEEE),
+    Web of Science (WoS), Scopus.
+    The searches have no upper limit: the numbers are all hits.
+    \enquote{--} means that the search failed (IEEE Xplore's daily
+    quota was spent after S4), so the database was not searched for that
+    query.
+    OpenAlex was searched on title and abstract.
+    S4b and S5b reword S4 and S5.
+    Semantic Scholar and DBLP could not be searched.}%
+    {Frågor och antal träffar per databas, 18 november 2026, verktyget
+    \texttt{scholar}.
+    S = stödfråga, C = motfråga, K = känd titel.
+    Databaser: OpenAlex (OA; inte open access), IEEE Xplore (IEEE),
+    Web of Science (WoS), Scopus.
+    Sökningarna har ingen övre gräns: talen är alla träffar.
+    \enquote{--} betyder att sökningen misslyckades (IEEE Xplores
+    dagskvot var förbrukad efter S4), så databasen genomsöktes inte för
+    den frågan.
+    OpenAlex söktes på titel och sammanfattning.
+    S4b och S5b formulerar om S4 och S5.
+    Semantic Scholar och DBLP kunde inte genomsökas.}% % sync english=59bdb4 swedish=d56275
+  }[tab:unix-lineage-queries]
+    \centering\footnotesize
+    \begin{tabular}{@{}lp{0.43\linewidth}rrrr@{}}
+      \toprule
+      & \ensv{Query concept}{Frågans begrepp} & OA & IEEE & WoS & Scopus \\ % sync english=beb164 swedish=80790f
+      \midrule
+      S1 & \ensv{Unix with lineage, genealogy, family tree, descendants,
+           Unix history}{Unix med lineage, genealogy, family tree,
+           descendants, Unix history} & 66 & 12 & 18 & 22 \\ % sync english=385d49 swedish=4162d3
+      S2 & \ensv{BSD systems with Unix and history, descendant, derived,
+           origins}{BSD-systemen med Unix och history, descendant,
+           derived, origins} & 71 & 10 & 13 & 22 \\ % sync english=114744 swedish=47d2da
+      S3 & \ensv{Linux with Unix-like, Unix clone, Linux history}%
+           {Linux med Unix-like, Unix clone, Linux history} % sync english=2dea17 swedish=d071b2
+           & 258 & 45 & 66 & 117 \\
+      S4 & \ensv{macOS, Mac OS X, XNU with BSD, UNIX 03, certification}%
+           {macOS, Mac OS X, XNU med BSD, UNIX 03, certification} % sync english=71d8c2 swedish=acd6d6
+           & 187 & 9 & 47 & 58 \\
+      S4b & \ensv{S4 reworded: OS X, Darwin, Leopard; derived,
+           compliance}{S4 omformulerad: OS X, Darwin, Leopard; derived,
+           compliance} & 76 & -- & 22 & 28 \\ % sync english=3e5cd4 swedish=5b1290
+      S5 & \ensv{Android with Linux kernel and based on, built on,
+           derived}{Android med Linux kernel och based on, built on,
+           derived} & 168 & -- & 62 & 102 \\ % sync english=45e1bf swedish=4933e8
+      S5b & \ensv{S5 reworded: Linux or GNU/Linux; adapting,
+           differences}{S5 omformulerad: Linux eller GNU/Linux;
+           adapting, differences} & 136 & -- & 48 & 55 \\ % sync english=9abb0c swedish=d50a81
+      C1 & \ensv{Linux and Unix with trademark, certification, not Unix}%
+           {Linux och Unix med trademark, certification, not Unix} % sync english=0edf1b swedish=a174a3
+           & 22 & -- & 0 & 2 \\
+      C2 & \ensv{Certification vocabulary: Single UNIX Specification,
+           UNIX 03, POSIX compliance}{Certifieringens ordförråd: Single
+           UNIX Specification, UNIX 03, POSIX compliance} % sync english=9ffa88 swedish=2020eb
+           & 245 & -- & 101 & 143 \\
+      C3 & \ensv{Unix-like with definition, taxonomy, classification}%
+           {Unix-like med definition, taxonomy, classification} % sync english=e2d9db swedish=1865fc
+           & 72 & -- & 33 & 28 \\
+      C4 & \ensv{Android with differs, not Linux, GNU/Linux}%
+           {Android med differs, not Linux, GNU/Linux} % sync english=d82e05 swedish=26ccea
+           & 16 & -- & 2 & 11 \\
+      \midrule
+      K1 & \ensv{Ritchie and Thompson 1974}{Ritchie och Thompson 1974} % sync english=1d74ce swedish=e1940e
+         & \multicolumn{4}{c}{\ensv{known item}{känd titel}} \\ % sync english=95335c swedish=f439fe
+      K2 & \ensv{McKusick on Berkeley Unix}{McKusick om Berkeley Unix} % sync english=c8cb82 swedish=81b9a7
+         & \multicolumn{4}{c}{\ensv{known item}{känd titel}} \\ % sync english=95335c swedish=f439fe
+      K3 & \ensv{Torvalds's announcement}{Torvalds tillkännagivande} % sync english=bec467 swedish=400270
+         & \multicolumn{4}{c}{\ensv{known item}{känd titel}} \\ % sync english=95335c swedish=f439fe
+      K4 & \ensv{Kernel documentation}{Kärnans dokumentation} % sync english=7774ff swedish=0cd16f
+         & \multicolumn{4}{c}{\ensv{known item}{känd titel}} \\ % sync english=95335c swedish=f439fe
+      K5 & \ensv{The Open Group register}{The Open Groups register} % sync english=fe0ef7 swedish=8e370b
+         & \multicolumn{4}{c}{\ensv{known item}{känd titel}} \\ % sync english=95335c swedish=f439fe
+      K6 & \ensv{Apple's Darwin documentation}%
+           {Apples dokumentation av Darwin} % sync english=04dd6b swedish=8d4db7
+         & \multicolumn{4}{c}{\ensv{known item}{känd titel}} \\ % sync english=95335c swedish=f439fe
+      K7 & \ensv{Android kernel documentation}%
+           {Androids dokumentation av kärnan} % sync english=36c1bf swedish=f862d1
+         & \multicolumn{4}{c}{\ensv{known item}{känd titel}} \\ % sync english=95335c swedish=f439fe
+      \bottomrule
+    \end{tabular}
+  \end{sidecaption}
+\end{table}
+
+\paragraph{\ensv{Studies the queries had to return.}%
+  {Studier som frågorna måste ge.}} % sync english=50f120 swedish=6aaaf2
+\begin{onlyin}{english} % sync english=7ac9a5 swedish=ba3587
+Before relying on the search we named studies that we knew to bear on the
+claim: Spinellis's repository of Unix history\autocite{Spinellis2016Repository}
+and his architecture study of the FreeBSD lineage%
+\autocite{SpinellisAvgeriou2021} for descent, and Takahashi and
+Takamatsu's history of the licence dispute\autocite{Takahashi2013Unix}
+for Linux.
+The first two came back from S1 and S2 in at least three of the four
+databases; Takahashi and Takamatsu came back from S3, in OpenAlex only.
+The study of how Android adapts the Linux kernel%
+\autocite{Khomh2012Adapting} came back only from the reworded S5b, which
+is why the Android concept has two queries.
+Ritchie and Thompson's paper and McKusick's chapter did not come back,
+because their titles and abstracts contain none of the concept words;
+that is the reason they are known items.
+\end{onlyin}
+\begin{onlyin}{swedish}
+Innan vi litade på sökningen namngav vi studier som vi visste rör
+påståendet: Spinellis arkiv över Unix
+historia\autocite{Spinellis2016Repository} och hans arkitekturstudie av
+FreeBSD:s släktlinje\autocite{SpinellisAvgeriou2021} för härstamningen,
+och Takahashis och Takamatsus historia om licenstvisten%
+\autocite{Takahashi2013Unix} för Linux.
+De två första kom tillbaka från S1 och S2 i minst tre av de fyra
+databaserna; Takahashi och Takamatsu kom tillbaka från S3, bara i
+OpenAlex.
+Studien av hur Android anpassar Linuxkärnan%
+\autocite{Khomh2012Adapting} kom tillbaka bara från den omformulerade
+S5b, och därför har begreppet Android två frågor.
+Ritchies och Thompsons artikel och McKusicks kapitel kom inte tillbaka,
+eftersom deras titlar och sammanfattningar inte innehåller något av
+begreppsorden; det är skälet till att de är kända titlar.
+\end{onlyin}
+
+\paragraph{\ensv{Screening and exclusion criteria.}%
+  {Gallring och uteslutningskriterier.}} % sync english=c0d3d3 swedish=e2519b
+\begin{onlyin}{english} % sync english=24ba07 swedish=ae7b02
+The searches returned 1437 records, 1267 of them distinct.
+We classified all of them against the claim with a language model
+(\texttt{claude-sonnet-5-5}, without examples), one category each:
+supports the claim, qualifies it, adjacent subtopic, or off-topic false
+hit.
+We read the title of every record that the model labelled as supporting
+(100) or qualifying (nine), and the abstract where there was one,
+and decided ourselves; many have no abstract.
+A record is excluded if it is one of the following.
+\begin{description}
+  \item[Tool use only] It uses Unix, Linux, Android or macOS only as the
+    environment, platform or tool of the study (738 records).
+  \item[App level only] It studies applications, malware, permissions or
+    security on one of these systems and says nothing about how the
+    system relates to Unix or Linux (162 records).
+  \item[Kernel internals] It studies one mechanism inside a kernel
+    (scheduling, drivers, memory, file systems) and says nothing about
+    lineage or classification (275 records).
+  \item[No evidence] It is an opinion, a user manual or an overview with
+    no evidence of its own, no source and no stated method
+    (229 records).
+\end{description}
+(A record can meet more than one criterion.)
+Of these 109 records we kept 31, which are 26 distinct works; the table
+at the end of the chapter lists them, and marks those that the text
+cites.
+The other 78, mostly user manuals and security books about Mac OS X and
+compilations of encyclopaedia text, were excluded as \emph{no evidence} or
+\emph{app level only}.
+\end{onlyin}
+\begin{onlyin}{swedish}
+Sökningarna gav 1437 poster, varav 1267 olika.
+Vi klassade alla mot påståendet med en språkmodell
+(\texttt{claude-sonnet-5-5}, utan exempel), en kategori var: stöder
+påståendet, kvalificerar det, angränsande delämne eller felträff utanför
+ämnet.
+Vi läste titeln på varje post som modellen märkte som stödjande (100)
+eller kvalificerande (nio), och sammanfattningen där det fanns en, och
+avgjorde själva; många saknar sammanfattning.
+En post utesluts om den är något av följande.
+\begin{description}
+  \item[Bara verktyg] Den använder Unix, Linux, Android eller macOS bara
+    som studiens miljö, plattform eller verktyg (738 poster).
+  \item[Bara appnivå] Den studerar program, skadlig kod, behörigheter
+    eller säkerhet i ett av systemen och säger inget om hur systemet
+    förhåller sig till Unix eller Linux (162 poster).
+  \item[Kärnans inre] Den studerar en mekanism inuti en kärna
+    (schemaläggning, drivrutiner, minne, filsystem) och säger inget om
+    släktlinje eller klassificering (275 poster).
+  \item[Inga belägg] Den är en åsikt, en användarmanual eller en
+    översikt utan egna belägg, utan källa och utan angiven metod (229
+    poster).
+\end{description}
+(En post kan uppfylla mer än ett kriterium.)
+Av de 109 posterna behöll vi 31, som är 26 olika verk; tabellen i slutet
+av kapitlet listar dem, och markerar dem som texten citerar.
+De övriga 78, mest användarmanualer och säkerhetsböcker om Mac OS X och
+sammanställningar av uppslagstext, uteslöts som \emph{inga belägg} eller
+\emph{bara appnivå}.
+\end{onlyin}
+
+\section{\ensv{Results}{Resultat}} % sync english=219c4a swedish=6e45f9
+
+\paragraph{\ensv{Unix, the origin.}{Unix, ursprunget.}} % sync english=be7e8c swedish=94b3a4
+\begin{onlyin}{english} % sync english=3ab957 swedish=092c08
+Ritchie and Thompson describe the system at Bell Laboratories and give
+its early history:
+\textcquote{RitchieThompson1974}{There have been three versions of UNIX.}
+They add that the system was first written in assembly language and
+then \textcquote{RitchieThompson1974}{rewritten in C} in the summer of
+1973, and it is this rewrite that made it portable.
+\enquote{Descend from Unix} therefore means a code history that leads
+back to this system.
+\end{onlyin}
+\begin{onlyin}{swedish}
+Ritchie och Thompson beskriver systemet vid Bell Laboratories och ger
+dess tidiga historia:
+\foreigntextcquote{english}{RitchieThompson1974}{There have been three
+versions of UNIX.}
+De tillägger att systemet först skrevs i assembler och sedan
+\foreigntextcquote{english}{RitchieThompson1974}{rewritten in C}
+sommaren 1973, och det är den omskrivningen som gjorde det flyttbart.
+\enquote{Härstamma från Unix} betyder därför en kodhistoria som leder
+tillbaka till det här systemet.
+\end{onlyin}
+
+\paragraph{\ensv{The BSD systems descend from Unix.}%
+  {BSD-systemen härstammar från Unix.}} % sync english=647f9c swedish=640f43
+\begin{onlyin}{english} % sync english=3d863f swedish=db5649
+McKusick, who worked on the Berkeley systems himself, tells how Berkeley
+began with Bell Labs' Unix and added to it.
+The first release for the VAX machine
+\textcquote{McKusick1999Berkeley}{included the virtual memory kernel, the
+standard 32/V utilities, and the additions from 2BSD}, and 32/V was
+Bell Labs' own port of Unix to the VAX.
+Spinellis's repository of Unix history has the same lineage as its
+backbone: it was built from \textcquote{Spinellis2016Repository}{24
+snapshots of systems developed at Bell Labs, the University of California
+at Berkeley, and the 386BSD team, two legacy repositories, and the modern
+repository of the open source FreeBSD system}, and it speaks of
+\textcquote{Spinellis2016Repository}{BSD Unix descendants}, among them
+FreeBSD, NetBSD and OpenBSD.
+In the same author's architecture study, a footnote explains that
+\enquote{Unix} stands for both the Bell Labs systems and for
+\textcquote{SpinellisAvgeriou2021}{Unix-like systems, such as FreeBSD,
+that descended from them}.
+The conference version of the repository paper%
+\autocite{Spinellis2015Repository}, a measurement of the similarity of
+the BSD versions%
+\autocite{Yamamoto2005Measuring} and an analysis that treats
+FreeBSD, NetBSD, OpenBSD and others as one family of software
+variants\autocite{Tenev2012Bioinformatics} corroborate that the BSD
+systems form one lineage.
+
+There is a qualification that matters for how we word it.
+In 1994 the University of California released 4.4BSD-Lite after a
+lawsuit with AT\&T's subsidiary.
+McKusick recounts the earlier work of
+\textcquote{McKusick1999Berkeley}{going over the entire distribution,
+file by file, removing code that had originated in the 32/V release},
+and he reports that after the settlement
+\textcquote{McKusick1999Berkeley}{all the BSD groups that were doing
+releases at that time, BSDI, NetBSD, and FreeBSD, had to restart their
+code base with the 4.4BSD-Lite sources}.
+So the BSD systems descend from Unix in the sense of a continuous code
+history, but since 1994 they rest on a release that Unix System
+Laboratories agreed not to sue over, and they are not certified: the
+lists in The Open Group's register of UNIX certified products named no
+BSD system when we read them.
+\end{onlyin}
+\begin{onlyin}{swedish}
+McKusick, som själv arbetade med Berkeleysystemen, berättar hur Berkeley
+började med Unix från Bell Labs och byggde vidare på det.
+Den första utgåvan för VAX-maskinen
+\foreigntextcquote{english}{McKusick1999Berkeley}{included the virtual
+memory kernel, the standard 32/V utilities, and the additions from
+2BSD}, och 32/V var Bell Labs egen överföring av Unix till VAX.
+Spinellis arkiv över Unix historia har samma släktlinje som ryggrad: det
+byggdes av \foreigntextcquote{english}{Spinellis2016Repository}{24
+snapshots of systems developed at Bell Labs, the University of California
+at Berkeley, and the 386BSD team, two legacy repositories, and the modern
+repository of the open source FreeBSD system}, och det talar om
+\foreigntextcquote{english}{Spinellis2016Repository}{BSD Unix
+descendants}, bland dem FreeBSD, NetBSD och OpenBSD.
+I samma författares arkitekturstudie förklarar en fotnot att
+\enquote{Unix} står både för systemen från Bell Labs och för
+\foreigntextcquote{english}{SpinellisAvgeriou2021}{Unix-like systems,
+such as FreeBSD, that descended from them}.
+Konferensversionen av artikeln om arkivet%
+\autocite{Spinellis2015Repository}, en mätning av hur lika
+BSD-versionerna är\autocite{Yamamoto2005Measuring} och en analys som
+behandlar FreeBSD, NetBSD, OpenBSD och andra som en familj av
+programvarianter\autocite{Tenev2012Bioinformatics} bekräftar att
+BSD-systemen bildar en släktlinje.
+
+Det finns en kvalifikation som spelar roll för hur vi formulerar det.
+År 1994 släppte University of California 4.4BSD-Lite efter en
+rättstvist med AT\&T:s dotterbolag.
+McKusick berättar om det tidigare arbetet med att
+\foreigntextcquote{english}{McKusick1999Berkeley}{going over the entire
+distribution, file by file, removing code that had originated in the
+32/V release}, och han berättar att efter förlikningen
+\foreigntextcquote{english}{McKusick1999Berkeley}{all the BSD groups
+that were doing releases at that time, BSDI, NetBSD, and FreeBSD, had to
+restart their code base with the 4.4BSD-Lite sources}.
+BSD-systemen härstammar alltså från Unix i betydelsen en obruten
+kodhistoria, men sedan 1994 vilar de på en utgåva som Unix System
+Laboratories gick med på att inte stämma för, och de är inte
+certifierade: listorna i The Open Groups register över UNIX-certifierade
+produkter nämnde inget BSD-system när vi läste dem.
+\end{onlyin}
+
+\paragraph{\ensv{Linux is Unix-like, written from scratch.}%
+  {Linux är Unixliknande, skrivet från grunden.}} % sync english=13287c swedish=7fca7f
+\begin{onlyin}{english} % sync english=3700b1 swedish=e497ad
+Torvalds announced the system in August 1991 as
+\textcquote{Torvalds1992History}{a (free) operating system (just a hobby,
+won't be big and professional like gnu) for 386(486) AT clones}, and
+added that it is \textcquote{Torvalds1992History}{free of any minix
+code}.
+The kernel's documentation still says what Linux is:
+\textcquote{LinuxKernelDocs2026Readme}{a clone of the operating system
+Unix, written from scratch by Linus Torvalds with assistance from a
+loosely-knit team of hackers across the Net}, which
+\textcquote{LinuxKernelDocs2026Readme}{aims towards POSIX and Single UNIX
+Specification compliance}.
+An independent business-history article agrees:
+\textcquote{Takahashi2013Unix}{Torvalds created Linux from the ground
+up as a student at the University of Helsinki, not infringing on the
+AT\&T license}, in the years of the licence dispute over BSD.
+That is the relation we call Unix-like: imitation of the interface, with
+no code in common at the start.
+\end{onlyin}
+\begin{onlyin}{swedish}
+Torvalds tillkännagav systemet i augusti 1991 som
+\foreigntextcquote{english}{Torvalds1992History}{a (free) operating
+system (just a hobby, won't be big and professional like gnu) for
+386(486) AT clones}, och lade till att det är
+\foreigntextcquote{english}{Torvalds1992History}{free of any minix
+code}.
+Kärnans dokumentation säger fortfarande vad Linux är:
+\foreigntextcquote{english}{LinuxKernelDocs2026Readme}{a clone of the
+operating system Unix, written from scratch by Linus Torvalds with
+assistance from a loosely-knit team of hackers across the Net}, som
+\foreigntextcquote{english}{LinuxKernelDocs2026Readme}{aims towards
+POSIX and Single UNIX Specification compliance}.
+En oberoende artikel i företagshistoria håller med:
+\foreigntextcquote{english}{Takahashi2013Unix}{Torvalds created Linux
+from the ground up as a student at the University of Helsinki, not
+infringing on the AT\&T license}, under åren med licenstvisten om BSD.
+Det är det förhållande som vi kallar Unixliknande: efterlikning av
+gränssnittet, utan någon gemensam kod från början.
+\end{onlyin}
+
+\paragraph{\ensv{\enquote{Unix-like} is a loose word.}%
+  {\enquote{Unixliknande} är ett löst ord.}} % sync english=2d419a swedish=9d034d
+\begin{onlyin}{english} % sync english=910232 swedish=5e5e8c
+The word has no definition that everyone uses.
+A user group tried to set criteria for Unix-like systems already in
+1982\autocite{Mason1982Criteria}.
+Spinellis and Avgeriou use \enquote{Unix-like} for the descendants as
+well, such as FreeBSD (above).
+A textbook chapter says that BSD and Linux alike are
+\textcquote{LaLau2021Unix}{systems that descend from or are inspired by
+Unix},
+and a book chapter calls BSD, Linux and Mac OS X
+\textcquote{MacForLinux2009Comparison}{branches straight from a single tap
+root: the UNIX operating system}.
+An article on Linux distributions calls Linux
+\textcquote{Jung2017Trend}{considered to be a subset of the UNIX
+operating system} (its Korean abstract says, in our reading, that Linux
+was regarded as an imitation of Unix), and a book on open source
+opens with a chapter on \enquote{How UNIX Gave Birth to
+Linux}\autocite{Meeker2008OpenSource}.
+Where sources write that Linux descends from Unix they mean its design
+inheritance, and the code history above does not support more.
+The deck therefore says \enquote{descend} for the BSD systems and
+\enquote{imitate} or \enquote{Unix-like} for Linux.
+One study found code flowing between the systems after their separate
+beginnings: code copied in one direction or the other between Linux and
+FreeBSD and OpenBSD, in the direction their licences allow%
+\autocite{German2009Siblings}.
+That is not descent, but it shows why the systems feel alike.
+\end{onlyin}
+\begin{onlyin}{swedish}
+Ordet har ingen definition som alla använder.
+En användarförening försökte sätta upp kriterier för Unixliknande system
+redan 1982\autocite{Mason1982Criteria}.
+Spinellis och Avgeriou använder \enquote{Unixliknande} även för
+ättlingarna, som FreeBSD (se ovan).
+Ett läroboksavsnitt säger att BSD och Linux båda är
+\foreigntextcquote{english}{LaLau2021Unix}{systems that descend from or
+are inspired by Unix},
+och ett bokkapitel kallar BSD, Linux och Mac OS X
+\foreigntextcquote{english}{MacForLinux2009Comparison}{branches straight
+from a single tap root: the UNIX operating system}.
+En artikel om Linuxdistributioner säger att Linux
+\foreigntextcquote{english}{Jung2017Trend}{considered to be a subset of
+the UNIX operating system} (dess koreanska sammanfattning säger, i vår
+läsning, att Linux sågs som en efterlikning av Unix), och en bok om
+öppen källkod börjar med ett kapitel om \enquote{How UNIX Gave Birth to
+Linux}\autocite{Meeker2008OpenSource}.
+Där källor skriver att Linux härstammar från Unix menar de dess arv i
+utformningen, och kodhistorien ovan stöder inte mer.
+Texten säger därför \enquote{härstammar} om BSD-systemen och
+\enquote{efterliknar} eller \enquote{Unixliknande} om Linux.
+En studie fann kod som flyttats mellan systemen efter deras skilda
+början: kod kopierad åt ena eller andra hållet mellan Linux och FreeBSD
+och OpenBSD, åt det håll som deras licenser
+tillåter\autocite{German2009Siblings}.
+Det är inte härstamning, men det visar varför systemen känns lika.
+\end{onlyin}
+
+\paragraph{\ensv{macOS descends from Unix through BSD.}%
+  {macOS härstammar från Unix genom BSD.}} % sync english=5a59eb swedish=ca72c6
+\begin{onlyin}{english} % sync english=5f506b swedish=b3a668
+Apple's documentation of the kernel says that
+\textcquote{Apple2013KernelProgramming}{A large portion of this technology
+is derived from FreeBSD, a version of 4.4BSD}.
+The kernel of macOS is XNU, which combines Mach, a BSD layer and the
+I/O Kit; a book on its internals describes it so%
+\autocite{Levin2012Internals}.
+The Apple page is archived and dated 2013, and describes OS X, so it
+shows where the BSD layer came from, not what today's macOS is made of.
+\end{onlyin}
+\begin{onlyin}{swedish}
+Apples dokumentation av kärnan säger att
+\foreigntextcquote{english}{Apple2013KernelProgramming}{A large portion
+of this technology is derived from FreeBSD, a version of 4.4BSD}.
+Kärnan i macOS är XNU, som förenar Mach, ett BSD-lager och I/O Kit; en
+bok om dess inre beskriver den så\autocite{Levin2012Internals}.
+Apples sida är arkiverad och daterad 2013, och beskriver OS X, så den
+visar var BSD-lagret kom ifrån, inte vad dagens macOS är gjort av.
+\end{onlyin}
+
+\paragraph{\ensv{macOS is a certified UNIX, with a caveat.}%
+  {macOS är ett certifierat UNIX, med ett förbehåll.}} % sync english=f893c4 swedish=6e4a3a
+\begin{onlyin}{english} % sync english=b1272c swedish=0fcb92
+The Open Group states the rule:
+\textcquote{OpenGroup2026UNIX}{Suppliers are granted a license to use the
+UNIX trademark in connection with a product when: The product has
+demonstrated passing the applicable certification test suites.}
+Its register has a page for each registered product.
+The pages that we opened name Apple Inc.\ as the company and macOS as the
+product, with a registration date: version 10.12 Sierra on 26 September
+2016, 10.13 High Sierra on 14 September 2017, 11.0 Big Sur on 6 October
+2020, 12.0 Monterey on 12 October 2021, 13.0 Ventura on 9 August 2022,
+14.0 Sonoma on 9 August 2023, 15.0 Sequoia on 12 September 2024 and
+26.0 Tahoe, for Apple silicon and for Intel, on 29 August 2025%
+\autocite{OpenGroup2026Register}.
+The caveat is that the register's overview pages, which list the
+certified products by standard and by company, did not show Apple on 18
+November 2026, although the product pages are still served; we could
+not find an explanation in a source that we could open.
+A web search also returned an Italian-language article that claims that
+Apple was removed from the list, and a commentary that says that the
+tested configuration differs from a default installation; both are
+secondary, we did not open them, and we do not rely on them.
+So the claim that macOS is a certified UNIX is backed by the register's
+own product pages, with the date of the latest one, and not by its
+overview lists.
+\end{onlyin}
+\begin{onlyin}{swedish}
+The Open Group anger regeln:
+\foreigntextcquote{english}{OpenGroup2026UNIX}{Suppliers are granted a
+license to use the UNIX trademark in connection with a product when: The
+product has demonstrated passing the applicable certification test
+suites.}
+Dess register har en sida för varje registrerad produkt.
+De sidor som vi öppnade anger Apple Inc.\ som företag och macOS som
+produkt, med ett registreringsdatum: version 10.12 Sierra den 26
+september 2016, 10.13 High Sierra den 14 september 2017, 11.0 Big Sur
+den 6 oktober 2020, 12.0 Monterey den 12 oktober 2021, 13.0 Ventura den
+9 augusti 2022, 14.0 Sonoma den 9 augusti 2023, 15.0 Sequoia den 12
+september 2024 och 26.0 Tahoe, för Apple silicon och för Intel, den 29
+augusti 2025\autocite{OpenGroup2026Register}.
+Förbehållet är att registrets översiktssidor, som listar de
+certifierade produkterna efter standard och efter företag, inte visade
+Apple den 18 november 2026, fastän produktsidorna fortfarande finns; vi
+kunde inte hitta någon förklaring i en källa som vi kunde öppna.
+En webbsökning gav också en italienskspråkig artikel som påstår att
+Apple har tagits bort från listan, och en kommentar som säger att den
+testade konfigurationen skiljer sig från en standardinstallation; båda
+är sekundära, vi öppnade dem inte, och vi bygger inte på dem.
+Påståendet att macOS är ett certifierat UNIX stöds alltså av registrets
+egna produktsidor, med datumet för den senaste, och inte av dess
+översiktslistor.
+\end{onlyin}
+
+\paragraph{\ensv{Linux and certification.}{Linux och certifiering.}} % sync english=72411b swedish=eb4aa1
+\begin{onlyin}{english} % sync english=027526 swedish=2f87ca
+The Open Group's page on the UNIX standard says of the look-alikes that
+\textcquote{OpenGroup2026UNIX}{Even a Linux distribution has become UNIX
+certified continuing the trend and value of basing operating systems on the
+UNIX standard}.
+This qualifies a bare \enquote{Linux is not UNIX}: certification is given
+to a product, not to a code history, and a Linux-based product has passed
+the test suites.
+The page does not name the distribution, and the product lists in the
+register that we read contain no Linux distribution.
+We therefore say that Linux systems are Unix-like, and that a registered
+Linux-based product would be a certified UNIX, which we could not find
+in the register.
+\end{onlyin}
+\begin{onlyin}{swedish}
+The Open Groups sida om UNIX-standarden säger om efterliknarna att
+\foreigntextcquote{english}{OpenGroup2026UNIX}{Even a Linux distribution
+has become UNIX certified continuing the trend and value of basing
+operating systems on the UNIX standard}.
+Det kvalificerar ett naket \enquote{Linux är inte UNIX}: certifiering
+ges till en produkt, inte till en kodhistoria, och en Linuxbaserad
+produkt har klarat testsviterna.
+Sidan namnger inte distributionen, och produktlistorna i registret som
+vi läste innehåller ingen Linuxdistribution.
+Vi säger därför att Linuxsystem är Unixliknande, och att en registrerad
+Linuxbaserad produkt skulle vara ett certifierat UNIX, vilket vi inte
+kunde hitta i registret.
+\end{onlyin}
+
+\paragraph{\ensv{Android is built on the Linux kernel, not on a Linux
+  system.}{Android är byggt på Linuxkärnan, inte på ett Linuxsystem.}} % sync english=3a3117 swedish=b3c1f8
+\begin{onlyin}{english} % sync english=e18a33 swedish=8668b8
+The Android Open Source Project says that
+\textcquote{Android2026Kernel}{The Android kernel is based on an upstream
+Linux Long Term Supported (LTS) kernel}.
+An empirical study from 2012 measured the adaptation:
+\textcquote{Khomh2012Adapting}{only 0.7\% of files from the Linux kernel
+are modified when reused for a mobile platform}.
+A textbook chapter says that \textcquote{Tarkoma2014Mobile}{Android is
+based on the Linux kernel, iOS on the Mac OS X kernel}, and a student
+report repeats it\autocite{Goel2021Android}.
+The sources that qualify the claim all concern the user space.
+A student project reports that Android
+\textcquote{Gupta2010DebianRunner}{runs atop the Linux kernel, yet lacks
+the ability to natively execute standard Linux desktop applications};
+a developer's guide to Android below the framework advertises that it
+shows how Android differs from its Linux roots\autocite{Yaghmour2013Embedded};
+and a paper proposes a thin layer to give Android applications POSIX.1
+conformance\autocite{Nafees2013POSIX}.
+We found no source that calls Android a UNIX, and it is on none of the
+register's lists.
+None of these sources says whether an Android device offers the command
+line you learn here; they say only that the kernel is Linux's and that
+the user space is not that of a Linux desktop.
+\end{onlyin}
+\begin{onlyin}{swedish}
+Android Open Source Project säger att
+\foreigntextcquote{english}{Android2026Kernel}{The Android kernel is
+based on an upstream Linux Long Term Supported (LTS) kernel}.
+En empirisk studie från 2012 mätte anpassningen:
+\foreigntextcquote{english}{Khomh2012Adapting}{only 0.7\% of files from
+the Linux kernel are modified when reused for a mobile platform}.
+Ett läroboksavsnitt säger att
+\foreigntextcquote{english}{Tarkoma2014Mobile}{Android is based on the
+Linux kernel, iOS on the Mac OS X kernel}, och en studentrapport
+upprepar det\autocite{Goel2021Android}.
+De källor som kvalificerar påståendet gäller alla användarmiljön.
+Ett studentprojekt rapporterar att Android
+\foreigntextcquote{english}{Gupta2010DebianRunner}{runs atop the Linux
+kernel, yet lacks the ability to natively execute standard Linux desktop
+applications};
+en utvecklarhandbok om Android under ramverket anger att den visar hur
+Android skiljer sig från sina rötter i
+Linux\autocite{Yaghmour2013Embedded};
+och en artikel föreslår ett tunt lager som ger Androidprogram
+POSIX.1-överensstämmelse\autocite{Nafees2013POSIX}.
+Vi hittade ingen källa som kallar Android ett UNIX, och det finns inte
+på någon av registrets listor.
+Ingen av källorna säger om en Androidenhet erbjuder den kommandorad som
+du lär dig här; de säger bara att kärnan är Linux och att
+användarmiljön inte är ett Linuxskrivbords.
+\end{onlyin}
+
+\paragraph{\ensv{The family tree that the old deck linked.}%
+  {Släktträdet som det gamla materialet länkade till.}} % sync english=a3dbd7 swedish=0b985c
+\begin{onlyin}{english} % sync english=65d6c4 swedish=44ffaa
+The previous version of this material linked to a web page with a family
+tree of operating systems\autocite{Eylenburg2026FamilyTree}.
+It is a personal compilation: the page names no author and gives no
+sources, and says itself that it includes only
+\textcquote{Eylenburg2026FamilyTree}{a few selected Linux/BSD/Solaris
+distributions}.
+It is useful as a picture of the landscape that you can explore, but it
+is not evidence for any claim in this appendix, and the text does not
+cite it as such.
+\end{onlyin}
+\begin{onlyin}{swedish}
+Den tidigare versionen av det här materialet länkade till en webbsida
+med ett släktträd över operativsystem\autocite{Eylenburg2026FamilyTree}.
+Det är en personlig sammanställning: sidan namnger ingen författare och
+anger inga källor, och säger själv att den bara tar med
+\foreigntextcquote{english}{Eylenburg2026FamilyTree}{a few selected
+Linux/BSD/Solaris distributions}.
+Den är användbar som en bild av landskapet som du kan utforska, men den
+är inget belägg för något påstående i den här bilagan, och texten
+citerar den inte som det.
+\end{onlyin}
+
+\section{\ensv{Discussion and limitations}{Diskussion och begränsningar}} % sync english=634094 swedish=5d16d0
+
+\begin{onlyin}{english} % sync english=baab3d swedish=c5239d
+The evidence is of two kinds, and the limits differ.
+The statements about each system's origin come from documents written by
+the people involved or by the system's own project (Ritchie and Thompson,
+McKusick, Torvalds, the kernel documentation, Apple, the Android Open
+Source Project) and from three peer-reviewed studies; these documents are
+authoritative on what they say, and interested in saying it.
+The statements about certification come from The Open Group, which sells
+the certification.
+The outside literature that we found adds corroboration for the BSD
+lineage and for the Android kernel, and it adds the observation that
+authors use \enquote{Unix-like} and \enquote{descend} loosely.
+It adds nothing on the certification of macOS.
+We found no study that tests the claim as a whole, no source that
+refutes any part of it, and the qualifying sources concern wording and the
+Android user space.
+
+The limits are facts about our data and tools.
+The screening was at title level: we decided on the 109 records that the
+model sorted as bearing on the claim mostly by their titles, reading an
+abstract where one was available, so a relevant study with an
+unrevealing title may have been excluded.
+The searches did not go through the university's network, and Scopus
+returns abstracts only there, so the Scopus records came without
+abstracts; for those records both the model and we had the title alone.
+Semantic Scholar and DBLP could not be searched, and IEEE Xplore was
+searched only for the first four queries, so conference papers that only
+IEEE Xplore indexes are possibly missing for the macOS, Android and
+counter queries.
+OpenAlex searched title and abstract only, and many older records and
+books have no abstract; a search by meaning found works that the keywords
+had missed, and the repair queries recovered those that bear on macOS and
+Android.
+Of the cited sources we read these in full: Ritchie and Thompson,
+McKusick, Torvalds, the kernel documentation, the Open Group's pages,
+Apple's and Android's pages, Spinellis's journal papers, Takahashi and
+Takamatsu and the Android student report.
+The following were read in abstract or publisher's description only: the
+studies by Khomh and others, by German and others, by Mason, by Jung, by
+Yamamoto and others, and by Tenev and Duszynski, the chapters by Tarkoma
+and others and by La Lau, the two books on the internals of macOS and of
+Android, whose publishers' descriptions we saw, the book on open source,
+of which we saw only a table of contents, and the student report on
+DebianRunner.
+No page numbers were available for the web documents, and the quotation
+from Ritchie and Thompson has no page because the copy that we read has
+none of the original's page numbers.
+The Apple page is archived, and the Open Group pages carry no revision
+date.
+The Open Group's register lists did not show macOS on the day we read
+them, as described above; a later read may show something else.
+One subject that this search did not settle: the search by meaning
+returned works on a litigation between SCO and others (one is titled
+\emph{Closed Source Fights Back: SCO vs.\ The World}), whose subject and
+outcome we did not verify.
+If it concerned whether Linux contains Unix code, it should be read
+before the claim about Linux is repeated.
+\end{onlyin}
+\begin{onlyin}{swedish}
+Beläggen är av två slag, och gränserna skiljer sig åt.
+Uppgifterna om varje systems ursprung kommer från dokument som skrivits
+av de inblandade eller av systemets eget projekt (Ritchie och Thompson,
+McKusick, Torvalds, kärnans dokumentation, Apple, Android Open Source
+Project) och från tre referentgranskade studier; dokumenten är
+auktoritativa för vad de säger, och har ett intresse av att säga det.
+Uppgifterna om certifiering kommer från The Open Group, som säljer
+certifieringen.
+Den utomstående litteratur som vi hittade bekräftar BSD-släktlinjen och
+Androids kärna, och den tillför iakttagelsen att författare använder
+\enquote{Unixliknande} och \enquote{härstamma} löst.
+Den tillför inget om certifieringen av macOS.
+Vi hittade ingen studie som prövar påståendet som helhet, ingen källa som
+motsäger någon del av det, och de kvalificerande källorna gäller
+ordval och Androids användarmiljö.
+
+Gränserna är fakta om våra data och verktyg.
+Gallringen gjordes på titelnivå: vi avgjorde de 109 poster som modellen
+sorterade som relevanta för påståendet mest efter deras titlar, och
+läste en sammanfattning där en fanns, så en relevant studie med en
+intetsägande titel kan ha uteslutits.
+Sökningarna gick inte genom universitetets nätverk, och Scopus ger
+sammanfattningar bara där, så Scopus poster kom utan sammanfattningar;
+för de posterna hade både modellen och vi bara titeln.
+Semantic Scholar och DBLP kunde inte genomsökas, och IEEE Xplore
+genomsöktes bara för de fyra första frågorna, så konferensbidrag som
+bara IEEE Xplore indexerar kan saknas för frågorna om macOS, Android och
+för motfrågorna.
+OpenAlex söktes bara på titel och sammanfattning, och många äldre poster
+och böcker saknar sammanfattning; en sökning efter betydelse hittade
+verk som nyckelorden hade missat, och de reparerande frågorna fick
+tillbaka dem som rör macOS och Android.
+Av de citerade källorna läste vi dessa i sin helhet: Ritchie och
+Thompson, McKusick, Torvalds, kärnans dokumentation, The Open Groups
+sidor, Apples och Androids sidor, Spinellis tidskriftsartiklar, Takahashi
+och Takamatsu samt studentrapporten om Android.
+Följande lästes bara i sammanfattning eller förlagets beskrivning:
+studierna av Khomh med flera, av German med flera, av Mason, av Jung, av
+Yamamoto med flera och av Tenev och Duszynski, kapitlen av Tarkoma med
+flera och av La Lau, de två böckerna om det inre i macOS och i Android,
+vars förlagsbeskrivningar vi såg, boken om öppen källkod, där vi bara
+såg en innehållsförteckning, och studentrapporten om DebianRunner.
+Inga sidnummer fanns för webbdokumenten, och citatet från Ritchie och
+Thompson har ingen sida eftersom kopian som vi läste saknar originalets
+sidnummer.
+Apples sida är arkiverad, och The Open Groups sidor har inget
+revisionsdatum.
+The Open Groups registerlistor visade inte macOS den dag vi läste dem,
+som beskrivs ovan; en senare läsning kan visa något annat.
+En sak som sökningen inte avgjorde: sökningen efter betydelse gav verk
+om en rättstvist mellan SCO och andra (ett har titeln \emph{Closed
+Source Fights Back: SCO vs.\ The World}), vars ämne och utgång vi inte
+kontrollerade.
+Om den gällde huruvida Linux innehåller kod från Unix, bör den läsas
+innan påståendet om Linux upprepas.
+\end{onlyin}
+
+\section{\ensv{Conclusion}{Slutsats}} % sync english=89db2a swedish=c3cc6f
+
+\begin{onlyin}{english} % sync english=9fad17 swedish=ef5ae3
+Of today's systems, the BSD systems, and macOS through them, descend from
+Unix; Linux does not, but imitates it; and Android is built on Linux's
+kernel.
+In detail, the BSD systems have a code history that leads from Bell
+Labs' Unix through Berkeley and 386BSD to FreeBSD, NetBSD and OpenBSD,
+although since 1994 they rest on a release that its former owner agreed
+not to sue over.
+macOS has a BSD layer derived from FreeBSD and its product pages are in
+The Open Group's register of UNIX certified products, the latest for
+macOS 26.0 Tahoe, registered on 29 August 2025; the register's overview
+lists did not show Apple on 18 November 2026.
+Linux was written from scratch as a clone of Unix, and the Linux kernel's
+own documentation and Torvalds's first announcement say so; it is
+Unix-like in the sense of imitation, even though a Linux-based product
+has been registered as a UNIX.
+Android uses a modified Linux kernel (a study from 2012 found that
+only 0.7\% of the kernel's files were modified) and a user space of its
+own, so it is built on Linux's kernel but is not a Linux desktop system.
+The deck's main text may therefore say that Linux, macOS and the BSD
+systems are alike because the BSD systems and macOS descend from Unix and
+Linux imitates it, and that Android builds on the Linux kernel.
+It should not say that Linux descends from Unix, that the BSD systems
+are certified UNIX systems, or that you can expect the same command line
+on Android: no source that we found says so.
+\end{onlyin}
+\begin{onlyin}{swedish}
+Av dagens system härstammar BSD-systemen, och macOS genom dem, från
+Unix; Linux gör det inte, men efterliknar det; och Android är byggt på
+Linux kärna.
+I detalj har BSD-systemen en kodhistoria som leder från Unix vid Bell
+Labs genom Berkeley och 386BSD till FreeBSD, NetBSD och OpenBSD, fastän
+de sedan 1994 vilar på en utgåva som dess tidigare ägare gick med på att
+inte stämma för.
+macOS har ett BSD-lager som härletts från FreeBSD, och dess
+produktsidor finns i The Open Groups register över UNIX-certifierade
+produkter, den senaste för macOS 26.0 Tahoe, registrerad den 29 augusti
+2025; registrets översiktslistor visade inte Apple den 18 november 2026.
+Linux skrevs från grunden som en klon av Unix, och Linuxkärnans egen
+dokumentation och Torvalds första tillkännagivande säger det; det är
+Unixliknande i betydelsen efterlikning, även om en Linuxbaserad produkt
+har registrerats som ett UNIX.
+Android använder en modifierad Linuxkärna (en studie från 2012 fann att
+bara 0,7 procent av kärnans filer var ändrade) och en egen
+användarmiljö, så det är byggt på Linux kärna men är inte ett
+Linuxskrivbordssystem.
+Föreläsningens huvudtext får därför säga att Linux, macOS och
+BSD-systemen liknar varandra eftersom BSD-systemen och macOS härstammar
+från Unix och Linux efterliknar det, och att Android bygger på
+Linuxkärnan.
+Den bör inte säga att Linux härstammar från Unix, att BSD-systemen är
+certifierade UNIX-system, eller att du kan räkna med samma kommandorad
+på Android: ingen källa som vi hittade säger det.
+\end{onlyin}
+
+\section{\ensv{Further work}{Fortsatt arbete}} % sync english=a44494 swedish=969e69
+
+\begin{onlyin}{english} % sync english=38ecc6 swedish=816ada
+This search left some things undone.
+The search should be redone through the university's network, so that
+Scopus returns abstracts, and the records should then be screened on
+their abstracts, not their titles.
+IEEE Xplore, Semantic Scholar and DBLP should be searched when their
+limits reset or their keys are replaced; the queries S5, S5b, S4b and the
+counter queries C1 to C4 failed on IEEE Xplore.
+The studies by Khomh and others and by German and others, and the
+chapters by Tarkoma and others and by La Lau, are read in abstract only
+and should be read in full; the first two need the publisher's
+subscription.
+The Open Group's certificate of conformance for macOS 26.0 Tahoe was
+not opened, and neither was the explanation of why the register's
+overview lists do not show Apple; both should be asked of The Open Group.
+The litigation that disputed whether Linux contains Unix code should be
+read from a court document or a legal history, not from a news summary.
+
+What the field lacks is as follows.
+No study measures how much of today's BSD code is Bell Labs code, or
+how much Linux and the BSD systems share; Spinellis's repository makes it
+possible, and German and others began on the Linux and BSD part.
+There is no study of how novices understand the claim that two systems
+\enquote{are Unix} or \enquote{are Unix-like}, which would show whether
+the wording in \cref{sec:where-cli} helps or misleads.
+If such a study showed that little Bell Labs code remains in today's
+BSD systems, the text would have to say that they descend from Unix in
+design and history, not in code; if it confirmed the code lineage, the
+text would stand as it is.
+\end{onlyin}
+\begin{onlyin}{swedish}
+Sökningen lämnade en del ogjort.
+Sökningen bör göras om genom universitetets nätverk, så att Scopus ger
+sammanfattningar, och posterna bör då gallras på sina sammanfattningar,
+inte sina titlar.
+IEEE Xplore, Semantic Scholar och DBLP bör genomsökas när deras gränser
+återställs eller deras nycklar byts; frågorna S5, S5b, S4b och
+motfrågorna C1 till C4 misslyckades i IEEE Xplore.
+Studierna av Khomh med flera och av German med flera, och kapitlen av
+Tarkoma med flera och av La Lau, är bara lästa i sammanfattning och bör
+läsas i sin helhet; de två första kräver förlagets prenumeration.
+The Open Groups intyg om överensstämmelse för macOS 26.0 Tahoe öppnades
+inte, och inte heller förklaringen till varför registrets
+översiktslistor inte visar Apple; båda bör efterfrågas hos The Open
+Group.
+Rättstvisten om huruvida Linux innehåller kod från Unix bör läsas i ett
+domstolsdokument eller en rättshistorisk framställning, inte i en
+nyhetssammanfattning.
+
+Det här saknar forskningsfältet.
+Ingen studie mäter hur stor del av dagens BSD-kod som är kod från Bell
+Labs, eller hur mycket Linux och BSD-systemen delar; Spinellis arkiv gör
+det möjligt, och German med flera började på delen om Linux och BSD.
+Det finns ingen studie av hur nybörjare förstår påståendet att två
+system \enquote{är Unix} eller \enquote{är Unixliknande}, vilket skulle
+visa om formuleringen i \cref{sec:where-cli} hjälper eller vilseleder.
+Visade en sådan studie att lite kod från Bell Labs finns kvar i dagens
+BSD-system, skulle texten behöva säga att de härstammar från Unix i
+utformning och historia, inte i kod; bekräftade den kodlinjen, skulle
+texten stå som den är.
+\end{onlyin}
+
+\section{\ensv{Hits bearing on the claim}{Träffar som rör påståendet}} % sync english=b678a6 swedish=eaf510
+
+% Author's note (verification and reproduction):
+%   scholar session : unix-lineage
+%   exports         : litteratursokning/unix-lineage.csv (the session,
+%                     every record and its decision; the abstract column
+%                     is dropped for size, and every record keeps its DOI
+%                     and URL, so its abstract can be looked up) and the
+%                     -full hit-list tables
+%   searched        : 2026-11-18; providers openalex (title and abstract,
+%                     via scripts/openalex_title_abstract.py; default
+%                     full-text search superseded), wos, scopus, ieee
+%                     (daily quota spent after S4: S4b, S5, S5b, C1-C4
+%                     failed); s2: key rejected, HTTP 403; dblp: failed,
+%                     anti-bot page; not through the KTH tunnel, so Scopus
+%                     returned no abstracts
+%   classification  : scholar llm context + llm classify --no-examples,
+%                     model anthropic/claude-sonnet-5-5; 109 supports or
+%                     qualifies rows read at title (and abstract where one
+%                     existed) level, 31 rows (26 works) kept, 78 rows
+%                     discarded as no-evidence or app-level-only
+%   hit-list tables : scholar sessions export unix-lineage -f table
+%                     --bearing-only --lang en|sv --label sok-unix-lineage
+%                     --track "Claim D"|"Påstående D" --theme ... -o
+%                     litteratursokning/unix-lineage-full(-sv)
+%   provenance      : ltnotes.bib (CLAIM/FOUND-VIA/QUOTE/VERIFIED)
+\begin{onlyin}{english} % sync english=2a400c swedish=2d84d4
+\input{litteratursokning/unix-lineage-full}
+\end{onlyin}
+\begin{onlyin}{swedish}
+\input{litteratursokning/unix-lineage-full-sv}
+\end{onlyin}
