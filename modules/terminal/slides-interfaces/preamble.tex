@@ -22,6 +22,10 @@
 % them between letters rather than run them into the margin.
 \setcounter{biburllcpenalty}{7000}
 \setcounter{biburlucpenalty}{8000}
+% A URL that may break between letters is still stretched to the full
+% line in a justified bibliography, which spreads its letters apart; set
+% the bibliography ragged right instead.
+\AtBeginBibliography{\raggedright}
 
 \usepackage[all]{foreign}
 \renewcommand{\foreignfullfont}{}

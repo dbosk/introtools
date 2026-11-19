@@ -38,9 +38,9 @@ os.environ["COLUMNS"] = "64"
 \mode*
 \label{sec:what-interface}
 
-\begin{onlyin}{english} % sync english=8612e3 swedish=76a68b
+\begin{onlyin}{english} % sync english=5a4a39 swedish=1b6afa
 \leavevmode\ltnote{%
-  Relevant learning objective: \cref{InterfacesLOKinds}.
+  Relevant learning objective: \ref{InterfacesLOKinds}.
 
   The lecture opens with the word before the computer.  Students arrive
   with meanings of \emph{interface} from everyday life and from other
@@ -59,7 +59,7 @@ start with that word.
 \end{onlyin}
 \begin{onlyin}{swedish}
 \leavevmode\ltnote{%
-  Relevant lärandemål: \cref{InterfacesLOKinds}.
+  Relevant lärandemål: \ref{InterfacesLOKinds}.
 
   Föreläsningen börjar med ordet, före datorn.  Studenterna har med sig
   betydelser av \emph{gränssnitt} från vardagen och från andra ämnen, och
@@ -106,9 +106,9 @@ i båda finns två sidor som möts, och gränssnittet är platsen där de
 möts.  Ordet säger det självt.
 \end{onlyin}
 
-\begin{onlyin}{english} % sync english=5c6348 swedish=460844
+\begin{onlyin}{english} % sync english=75edfc swedish=be6663
 \leavevmode\ltnote{%
-  Relevant learning objective: \cref{InterfacesLOKinds}.
+  Relevant learning objective: \ref{InterfacesLOKinds}.
 
   The word analysis comes before the definition, and the definition
   comes last \parencite[13]{Marton2015}: the student first builds a
@@ -138,7 +138,7 @@ ground between two parties, systems, or disciplines}.
 \end{onlyin}
 \begin{onlyin}{swedish}
 \leavevmode\ltnote{%
-  Relevant lärandemål: \cref{InterfacesLOKinds}.
+  Relevant lärandemål: \ref{InterfacesLOKinds}.
 
   Ordanalysen kommer före definitionen, och definitionen kommer sist
   \parencite[13]{Marton2015}: studenten bygger först en betydelse av
@@ -205,9 +205,9 @@ dem.
 \mode*
 \label{sec:gui-cli}
 
-\begin{onlyin}{english} % sync english=c1ffa2 swedish=ae6764
+\begin{onlyin}{english} % sync english=cd2ff6 swedish=4364ff
 \leavevmode\ltnote{%
-  Relevant learning objective: \cref{InterfacesLOKinds}.
+  Relevant learning objective: \ref{InterfacesLOKinds}.
 
   \textbf{Variation pattern}: contrast, then generalization.
   \textbf{What stays invariant}: the task (see which files a directory
@@ -227,7 +227,7 @@ folder, a named place where files are kept.  Ours is called
 \end{onlyin}
 \begin{onlyin}{swedish}
 \leavevmode\ltnote{%
-  Relevant lärandemål: \cref{InterfacesLOKinds}.
+  Relevant lärandemål: \ref{InterfacesLOKinds}.
 
   \textbf{Variationsmönster}: kontrast, sedan generalisering.
   \textbf{Vad som hålls invariant}: uppgiften (se vilka filer en katalog
@@ -358,7 +358,7 @@ människa, men dialogen är text i båda riktningarna.
 
 \begin{frame}[fragile]
   \begin{definition}[\ensv{Graphical user interface (GUI)}%
-    {Grafiskt användargränssnitt}] % sync english=dd3a55 swedish=8902fd
+    {Grafiskt användargränssnitt (GUI)}] % sync english=dd3a55 swedish=0ac4a6
     \label{def:gui}
 \begin{onlyin}{english} % sync english=53d90f swedish=f4ba8a
 An interface between a person and a computer in which the computer shows
@@ -370,7 +370,7 @@ som fönster och ikoner, och människan pekar på dem.
 \end{onlyin}
   \end{definition}
   \begin{definition}[\ensv{Command-line interface (CLI)}%
-    {Kommandoradsgränssnitt}] % sync english=3c4acf swedish=88b18e
+    {Kommandoradsgränssnitt (CLI)}] % sync english=3c4acf swedish=82eae2
     \label{def:cli}
 \begin{onlyin}{english} % sync english=043efa swedish=0cda37
 An interface between a person and a computer in which the person types
@@ -406,9 +406,9 @@ kommandoradsgränssnitt sker samspelet med datorn genom textkommandon som
 skrivs in vid en prompt\autocite{OED2026CommandLineInterface}.
 \end{onlyin}
 
-\begin{onlyin}{english} % sync english=ad3a46 swedish=4cec77
+\begin{onlyin}{english} % sync english=27573b swedish=26fecf
 \leavevmode\ltnote{%
-  Relevant learning objective: \cref{InterfacesLOKinds}.
+  Relevant learning objective: \ref{InterfacesLOKinds}.
 
   \textbf{Variation pattern}: generalization of the CLI.  \textbf{What
   stays invariant}: the task and the kind of dialogue (a typed command,
@@ -434,7 +434,7 @@ is done with other commands: [[Get-ChildItem]] in PowerShell
 \end{onlyin}
 \begin{onlyin}{swedish}
 \leavevmode\ltnote{%
-  Relevant lärandemål: \cref{InterfacesLOKinds}.
+  Relevant lärandemål: \ref{InterfacesLOKinds}.
 
   \textbf{Variationsmönster}: generalisering av CLI.  \textbf{Vad som
   hålls invariant}: uppgiften och sorten av dialog (ett skrivet
@@ -498,12 +498,12 @@ i [[demo]]:
   \end{figure}
 \end{frame}
 
-\begin{onlyin}{english} % sync english=e6d2b6 swedish=9fedd4
+\begin{onlyin}{english} % sync english=f4fdfd swedish=9fedd4
 \leavevmode\ltnote{%
   \Cref{fig:gui-systems} shows two systems.  Desktops of Windows and
   macOS and the home screen of an iPhone wait for the author: no image
-  under a free licence was found, Microsoft allows screenshots that its
-  author takes himself, and Apple's terms need written consent.
+  under a free licence was found, Microsoft allows screenshots that the
+  author takes, and Apple's terms need written consent.
 }%
 Graphical interfaces, too, differ from one system to the next, as
 \cref{fig:gui-systems} shows, and in the same way: what they look like
@@ -541,9 +541,10 @@ finger i stället för en mus.
   \end{figure}
 \end{frame}
 
-\begin{onlyin}{english} % sync english=452f2c swedish=991f93
+\begin{onlyin}{english} % sync english=38db76 swedish=3059b2
 \leavevmode\ltnote{%
-  Relevant learning objectives: \cref{InterfacesLOKinds,InterfacesLOBoth}.
+  Relevant learning objectives: \ref{InterfacesLOKinds} and
+  \ref{InterfacesLOBoth}.
 
   An open exercise: many differences are true, and the class's answers
   are gone through on the slides.  The model answer after it is in
@@ -559,7 +560,8 @@ We have now seen the same task done through two user interfaces.
 \end{onlyin}
 \begin{onlyin}{swedish}
 \leavevmode\ltnote{%
-  Relevanta lärandemål: \cref{InterfacesLOKinds,InterfacesLOBoth}.
+  Relevanta lärandemål: \ref{InterfacesLOKinds} och
+  \ref{InterfacesLOBoth}.
 
   En öppen övningsuppgift: många skillnader är sanna, och klassens svar
   gås igenom på bilderna.  Modellsvaret efter den finns bara i
@@ -622,9 +624,9 @@ program behöva titta på bilder och flytta en pekare.
 \mode*
 \label{sec:api}
 
-\begin{onlyin}{english} % sync english=8ab1ce swedish=1a8550
+\begin{onlyin}{english} % sync english=e1bea3 swedish=57a2d9
 \leavevmode\ltnote{%
-  Relevant learning objective: \cref{InterfacesLOKinds}.
+  Relevant learning objective: \ref{InterfacesLOKinds}.
 
   \textbf{Variation pattern}: contrast, continued.  \textbf{What stays
   invariant}: the task and the directory.  \textbf{What varies}: who is
@@ -639,7 +641,7 @@ instead.
 \end{onlyin}
 \begin{onlyin}{swedish}
 \leavevmode\ltnote{%
-  Relevant lärandemål: \cref{InterfacesLOKinds}.
+  Relevant lärandemål: \ref{InterfacesLOKinds}.
 
   \textbf{Variationsmönster}: kontrast, fortsatt.  \textbf{Vad som
   hålls invariant}: uppgiften och katalogen.  \textbf{Vad som varierar}:
@@ -725,7 +727,7 @@ Kört i [[demo]] skriver [[ls-api.py]] ut samma sex namn som [[ls]]:
   \end{example}
 \end{frame}
 
-\begin{onlyin}{english} % sync english=0ffee1 swedish=9abe08
+\begin{onlyin}{english} % sync english=0ffee1 swedish=57b2e5
 You need not follow the Python in this lecture; three details show what
 a program has to do for itself.  First, [[os.listdir]] also gives names
 that start with a dot.  Such files are hidden by convention: [[ls]] and
@@ -748,7 +750,7 @@ visar vad ett program måste göra själv.  För det första ger
 [[os.listdir]] också namn som börjar med en punkt.  Sådana filer är
 dolda enligt en konvention: [[ls]] och filhanteraren utelämnar dem, och
 [[demo]] innehåller en, som föreläsningen \emph{Kommandon och
-filsystemet} visar dig hur du ser.  Programmet måste utelämna dem själv.
+filsystemet} visar hur du ser.  Programmet måste utelämna dem själv.
 För det andra säger dokumentationen av [[os.listdir]] att listan är i
 godtycklig ordning (\foreignlanguage{english}{\enquote{the list is in
 arbitrary order}}), medan [[ls]] sorterar namnen; programmet sorterar
@@ -794,7 +796,7 @@ det anropar och data som det får tillbaka.
 
 \begin{frame}[fragile]
   \begin{definition}[\ensv{Application programming interface (API)}%
-    {Programmeringsgränssnitt}] % sync english=1ebefb swedish=7b1de7
+    {Programmeringsgränssnitt (API)}] % sync english=1ebefb swedish=c5b7e4
     \label{def:api}
 \begin{onlyin}{english} % sync english=04d22e swedish=74702c
 An interface between two programs: the functions one program can call
@@ -824,9 +826,10 @@ liknande\autocite{OED2026ApplicationProgrammingInterface}.  Funktionerna
 i [[os]] är en sådan samling, för operativsystemet.
 \end{onlyin}
 
-\begin{onlyin}{english} % sync english=77d055 swedish=dc4b09
+\begin{onlyin}{english} % sync english=9df5d2 swedish=c6e7c1
 \leavevmode\ltnote{%
-  Relevant learning objectives: \cref{InterfacesLOKinds,InterfacesLOBoth}.
+  Relevant learning objectives: \ref{InterfacesLOKinds} and
+  \ref{InterfacesLOBoth}.
 
   \Cref{ex:ls-py} is kept for its size, not for its Python: the
   students need not understand [[filter]], [[lambda]] or [[shutil]],
@@ -847,7 +850,8 @@ instead how much of the program the columns take.
 \end{onlyin}
 \begin{onlyin}{swedish}
 \leavevmode\ltnote{%
-  Relevanta lärandemål: \cref{InterfacesLOKinds,InterfacesLOBoth}.
+  Relevanta lärandemål: \ref{InterfacesLOKinds} och
+  \ref{InterfacesLOBoth}.
 
   \Cref{ex:ls-py} finns med för sin storlek, inte för sin Python:
   studenterna behöver inte förstå [[filter]], [[lambda]] eller
@@ -971,9 +975,9 @@ programmeringsgränssnitt.
 \mode*
 \label{sec:cli-both}
 
-\begin{onlyin}{english} % sync english=21574f swedish=1a1494
+\begin{onlyin}{english} % sync english=20a87e swedish=55f0a6
 \leavevmode\ltnote{%
-  Relevant learning objective: \cref{InterfacesLOBoth}.
+  Relevant learning objective: \ref{InterfacesLOBoth}.
 
   A predict-the-output exercise, used here because it tests a
   misconception: that a command's output is fixed, whoever reads it.
@@ -991,7 +995,7 @@ screen.
 \end{onlyin}
 \begin{onlyin}{swedish}
 \leavevmode\ltnote{%
-  Relevant lärandemål: \cref{InterfacesLOBoth}.
+  Relevant lärandemål: \ref{InterfacesLOBoth}.
 
   En övningsuppgift där studenten förutsäger utskriften, använd här
   därför att den prövar en missuppfattning: att ett kommandos utskrift
@@ -1089,9 +1093,10 @@ upphovspersoner aldrig tänkte på varandra: [[ls]] och [[wc]] skrevs var
 för sig, och inget av dem känner till det andra.
 \end{onlyin}
 
-\begin{onlyin}{english} % sync english=6802c9 swedish=9478d2
+\begin{onlyin}{english} % sync english=543571 swedish=19ba41
 \leavevmode\ltnote{%
-  Relevant learning objectives: \cref{InterfacesLOKinds,InterfacesLOBoth}.
+  Relevant learning objectives: \ref{InterfacesLOKinds} and
+  \ref{InterfacesLOBoth}.
 
   \textbf{Variation pattern}: contrast of two languages for one task.
   \textbf{What stays invariant}: the task (the visible names of
@@ -1108,7 +1113,8 @@ and [[grep -v]] drops the lines that match a pattern, here
 \end{onlyin}
 \begin{onlyin}{swedish}
 \leavevmode\ltnote{%
-  Relevanta lärandemål: \cref{InterfacesLOKinds,InterfacesLOBoth}.
+  Relevanta lärandemål: \ref{InterfacesLOKinds} och
+  \ref{InterfacesLOBoth}.
 
   \textbf{Variationsmönster}: kontrast mellan två språk för en uppgift.
   \textbf{Vad som hålls invariant}: uppgiften (de synliga namnen i
@@ -1116,7 +1122,7 @@ and [[grep -v]] drops the lines that match a pattern, here
   \cref{ex:ls-api-run,ex:ls-grep}.  \textbf{Vad som varierar}: språket,
   ett Pythonprogram mot en kedja av två program.  Studenterna förväntas
   inte läsa något av dem; poängen är avvägningen som texten namnger, så
-  att skalet inte framställs som enkelt bättre.
+  att skalet inte framställs som helt enkelt bättre.
 }%
 Röret ger oss också ett andra sätt att göra det som [[ls-api.py]] gör.
 [[ls -a]] listar alla namn, också de som börjar med en punkt, och
@@ -1162,9 +1168,9 @@ kolumner som det vill; men du skriver mer själv.  Föreläsningarna
 vidare på skalets sida.
 \end{onlyin}
 
-\begin{onlyin}{english} % sync english=b68126 swedish=7f7d43
+\begin{onlyin}{english} % sync english=253bc2 swedish=5c8b5b
 \leavevmode\ltnote{%
-  Relevant learning objective: \cref{InterfacesLOBoth}.
+  Relevant learning objective: \ref{InterfacesLOBoth}.
 
   The reports task is posed here and solved in the lecture
   \emph{Scripts}: this lecture needs the question, not the answer.
@@ -1182,7 +1188,7 @@ lets only the first lines through, shows how they are named:
 \end{onlyin}
 \begin{onlyin}{swedish}
 \leavevmode\ltnote{%
-  Relevant lärandemål: \cref{InterfacesLOBoth}.
+  Relevant lärandemål: \ref{InterfacesLOBoth}.
 
   Rapportuppgiften ställs här och löses i föreläsningen \emph{Skript}:
   den här föreläsningen behöver frågan, inte svaret.  \Cref{ex:reports}
@@ -1321,9 +1327,9 @@ skriver den raden i föreläsningen \emph{Skript}.
 \mode*
 \label{sec:where-cli}
 
-\begin{onlyin}{english} % sync english=ca5dd1 swedish=251bc4
+\begin{onlyin}{english} % sync english=44c0dc swedish=df9641
 \leavevmode\ltnote{%
-  Relevant learning objective: \cref{InterfacesLOWhere}.
+  Relevant learning objective: \ref{InterfacesLOWhere}.
 
   \Cref{ex:where-cli} activates what the students already know or
   guess about computing outside their own laptops before the section
@@ -1332,15 +1338,15 @@ skriver den raden i föreläsningen \emph{Skript}.
   source the student can open, and is stated at the strength that
   source supports: in particular, the section does not say that a
   command line is faster or more efficient than a graphical interface,
-  since \cref{app:cli-efficiency} found no evidence that it is in
-  general.
+  since \cref{app:cli-efficiency} found no general advantage in
+  efficiency.
 }%
 The reports were a task on your own computer.  Some of the computers
 you will work with are not in front of you at all.
 \end{onlyin}
 \begin{onlyin}{swedish}
 \leavevmode\ltnote{%
-  Relevant lärandemål: \cref{InterfacesLOWhere}.
+  Relevant lärandemål: \ref{InterfacesLOWhere}.
 
   \Cref{ex:where-cli} aktiverar det som studenterna redan vet eller
   gissar om datoranvändning utanför den egna datorn innan avsnittet
@@ -1349,7 +1355,8 @@ you will work with are not in front of you at all.
   eller i en källa som studenten kan öppna, och står med den styrka som
   källan bär: i synnerhet säger avsnittet inte att en kommandorad är
   snabbare eller effektivare än ett grafiskt gränssnitt, eftersom
-  \cref{app:cli-efficiency} inte fann något stöd för det i allmänhet.
+  \cref{app:cli-efficiency} inte fann någon allmän fördel i
+  effektivitet.
 }%
 Rapporterna var en uppgift på din egen dator.  En del av de datorer som
 du kommer att arbeta med står inte framför dig alls.
@@ -1369,26 +1376,26 @@ kommandorad?
   \end{exercise}
 \end{frame}
 
-\begin{onlyin}{english} % sync english=fc3c38 swedish=09d13c
+\begin{onlyin}{english} % sync english=43f7c1 swedish=c6946e
 A \emph{server} is a computer that you reach over the network rather
 than sit at.  KTH has one for its students, [[student-shell]], and the
 way in is the command [[ssh]], which logs you into the other computer
 over an encrypted connection and gives you a command line there; the
 course's guide to accessing the terminal shows you how.
-The largest computers of research, supercomputers and the clusters of
-high-performance computing, run Linux: every system on the TOP500 list
-of the fastest computers has done so since November 2017, though the
-list counts only the 500 fastest systems that were
-submitted\autocite{Top500OSFamily2026,Top500Participation2026}.  They
-are reached mainly through such a command line, over SSH; it is the first
-way into the systems of the Swedish centres, but not the only one, since
-remote desktops and web portals serve thousands of users
-too\autocite{Lafayette2022SSH,NSCGettingStarted2026,%
-PDCSSHLogin2026,Thota2019Desktops,Strande2017Comet}.\footnote{The
-scientific basis is in \cref{app:hpc-cli}: it asks whether
-high-performance computers run Linux and are reached through a command
-line, and finds that every TOP500 system runs Linux and that a command
-line over SSH is the usual way in, but not the only one.}
+The fastest computers of research run Linux: every system on the
+TOP500, the list of the 500 fastest supercomputers submitted to it, has
+done so since November 2017, though smaller clusters are not
+counted\autocite{Top500OSFamily2026,Top500Participation2026}.
+High-performance computers are reached mainly through such a command
+line, over SSH, and it is the first way into the systems of the Swedish
+centres; but it is not the only one, since the Swedish centres also offer
+remote desktops, and centres abroad offer web portals and notebooks that
+thousands use\autocite{Lafayette2022SSH,NSCGettingStarted2026,%
+NSCGraphics2026,Strande2017Comet}.\footnote{The scientific basis is in
+\cref{app:hpc-cli}: it asks whether high-performance computers run Linux
+and are reached through a command line, and finds that every TOP500
+system runs Linux, though the list leaves smaller clusters out, and that
+a command line over SSH is the usual way in, but not the only one.}
 \end{onlyin}
 \begin{onlyin}{swedish}
 En \emph{server} är en dator som du når över nätverket i stället för att
@@ -1396,21 +1403,23 @@ sitta vid den.  KTH har en för sina studenter, [[student-shell]], och
 vägen in är kommandot [[ssh]], som loggar in dig på den andra datorn
 över en krypterad förbindelse och ger dig en kommandorad där; kursens
 guide till terminalen visar dig hur.
-Forskningens största datorer, superdatorer och beräkningskluster för
-högpresterande beräkningar (\foreignlanguage{english}{high-performance
-computing}), kör Linux: varje system på TOP500, listan över de snabbaste
-datorerna, har gjort det sedan november 2017, fast listan bara räknar de
-500 snabbaste system som skickats
-in\autocite{Top500OSFamily2026,Top500Participation2026}.  De nås
-huvudsakligen genom en sådan kommandorad, över SSH; det är den första
-vägen in i de svenska centrens system, men inte den enda, eftersom
-fjärrskrivbord och webbportaler också används av tusentals
-användare\autocite{Lafayette2022SSH,NSCGettingStarted2026,%
-PDCSSHLogin2026,Thota2019Desktops,Strande2017Comet}.\footnote{Det
-vetenskapliga underlaget finns i \cref{app:hpc-cli}: den frågar om
-superdatorer kör Linux och nås genom en kommandorad, och finner att
-varje TOP500-system kör Linux och att en kommandorad över SSH är den
-vanliga vägen in, men inte den enda.}
+Forskningens snabbaste datorer kör Linux: varje system på TOP500,
+listan över de 500 snabbaste superdatorer som skickats in till den, har
+gjort det sedan november 2017, fast mindre kluster inte
+räknas\autocite{Top500OSFamily2026,Top500Participation2026}.
+Högpresterande datorer (\foreignlanguage{english}{high-performance
+computing}, HPC) nås huvudsakligen genom en sådan kommandorad, över
+SSH, och det är den första vägen in i de svenska centrens system; men den
+är inte den enda, eftersom de svenska centren också erbjuder
+fjärrskrivbord, och centrum utomlands erbjuder webbportaler och
+interaktiva anteckningsböcker (\foreignlanguage{english}{notebooks}) som
+tusentals använder\autocite{Lafayette2022SSH,NSCGettingStarted2026,%
+NSCGraphics2026,Strande2017Comet}.\footnote{Det vetenskapliga underlaget finns
+i
+\cref{app:hpc-cli}: den frågar om högpresterande datorer kör Linux och
+nås genom en kommandorad, och finner att varje TOP500-system kör Linux,
+fast listan utelämnar mindre kluster, och att en kommandorad över SSH är
+den vanliga vägen in, men inte den enda.}
 \end{onlyin}
 
 \begin{onlyin}{english} % sync english=f01a82 swedish=762518
@@ -1436,7 +1445,7 @@ Ett exempel kommer från KTH.
   \begin{example}[\ensv{A simulation too large for a laptop}%
     {En simulering för stor för en bärbar dator}] % sync english=f6d4cc swedish=d0cc37
     \label{ex:tor}
-\begin{onlyin}{english} % sync english=5c7532 swedish=7e7081
+\begin{onlyin}{english} % sync english=5c7532 swedish=3cf919
 Two KTH students had to simulate the Tor network.  That could not be
 done on a laptop: it required a high-performance computer.  They got
 computing time on one in Linköping, and the only way in was SSH, that
@@ -1444,7 +1453,7 @@ is, a command line.
 \end{onlyin}
 \begin{onlyin}{swedish}
 Två studenter vid KTH behövde simulera Tornätverket.  Det gick inte att
-göra på en bärbar dator: det krävde en superdator.  De fick
+göra på en bärbar dator: det krävde en högpresterande dator.  De fick
 beräkningstid på en i Linköping, och den enda vägen in var SSH, alltså
 en kommandorad.
 \end{onlyin}
@@ -1482,11 +1491,13 @@ tillsammans med forskningsdata gick 74 procent inte att köra utan
 fel\autocite{Trisovic2022Large}.
 \end{onlyin}
 
-\begin{onlyin}{english} % sync english=30986c swedish=c86a6a
+\begin{onlyin}{english} % sync english=bc4bdc swedish=aacf9c
 System administrators, who look after computers for others, have been
-asked which interface they use.  In a survey of 300
-administrators of firewalls, \textcquote[8]{Voronkov2019System}%
-{\textins*{a}ll use cases associated with entering many similar rules
+asked which interface they use.  From a survey of 300
+administrators of firewalls, the authors sum up which interface the
+respondents found suited to which task:
+\textcquote[8]{Voronkov2019System}{\textins*{a}ll use cases associated with
+entering many similar rules
 on one computer or bulk changes on several computers at once require the
 use of a CLI}, and several of them named automation as a strength of
 command lines; yet in the same survey 60 per cent preferred graphical
@@ -1494,45 +1505,52 @@ interfaces for managing firewalls, and 32 per cent command
 lines\autocite[1]{Voronkov2019System}.  Neither kind of interface is
 simply better.  A graphical interface is usually, though not always, the
 easier one to start with\autocite{Margono1995Study,Staggers2000Comparing,%
-DeLeon1983Trouble,Durham1998Learning}; with practice typed commands can
-become faster than choosing from menus\autocite{Remington2016With}, but
-many experienced users never switch, not even to the keyboard shortcuts
-of the programs they use every day\autocite{Lane2005Hidden,%
-Tak2013Satisficing}.  What a command line gives you for certain is what
+DeLeon1983Trouble,Durham1998Learning}.  With practice, typing a command
+can become faster than choosing it from a menu, as an experiment showed
+for keyboard shortcuts, not for a shell\autocite{Remington2016With}; but
+many experienced users never switch to the shortcuts of the programs
+they use every day\autocite{Lane2005Hidden,Tak2013Satisficing}.  What a command
+line gives you for certain is what
 the reports showed: a line of commands that you can write down and run
 again, on any number of files.\footnote{The scientific basis for these
 paragraphs is in \cref{app:cli-efficiency}: it asks whether a command
-line is more efficient or more reproducible than a graphical interface,
-and finds that it is not, as a general rule.}
+line is more efficient than a graphical interface or makes work more
+reproducible, and finds no general advantage in efficiency, and that
+running the steps as scripts is advised for reproducibility but has not
+been measured.}
 \end{onlyin}
 \begin{onlyin}{swedish}
 Systemadministratörer, som sköter datorer åt andra, har fått frågan
-vilket gränssnitt de använder.  I en enkät till 300
-administratörer av brandväggar svarade de att alla användningsfall som
-gäller att föra in många likadana regler på en dator, eller ändringar i
-klump på flera datorer på en gång, kräver ett
+vilket gränssnitt de använder.  Ur en enkät till 300
+administratörer av brandväggar sammanfattar författarna vilket
+gränssnitt de svarande ansåg passa vilken uppgift: alla användningsfall
+som gäller att föra in många likadana regler på en dator, eller ändringar
+i klump på flera datorer på en gång, kräver ett
 CLI\autocite[8]{Voronkov2019System}, och flera av dem nämnde
 automatisering som en styrka hos kommandorader; ändå föredrog 60 procent
 i samma enkät grafiska gränssnitt för att sköta brandväggar, och 32
 procent kommandorader\autocite[1]{Voronkov2019System}.  Ingen av
-sorterna är enkelt bättre.  Ett grafiskt gränssnitt är oftast, men inte
-alltid, det lättare att börja
+sorterna är helt enkelt bättre.  Ett grafiskt gränssnitt är oftast, men
+inte alltid, det lättare att börja
 med\autocite{Margono1995Study,Staggers2000Comparing,DeLeon1983Trouble,%
-Durham1998Learning}; med övning kan skrivna kommandon bli snabbare än att
-välja i menyer\autocite{Remington2016With}, men många erfarna användare
-byter aldrig, inte ens till kortkommandona i de program som de använder
-varje dag\autocite{Lane2005Hidden,Tak2013Satisficing}.  Det som en
+Durham1998Learning}.  Med övning kan det gå snabbare att skriva ett
+kommando än att välja det i en meny, som ett experiment visade för
+kortkommandon, inte för ett skal\autocite{Remington2016With}; men många
+erfarna användare går aldrig över till kortkommandona i de program som
+de använder varje dag\autocite{Lane2005Hidden,Tak2013Satisficing}.  Det som en
 kommandorad säkert ger dig är det som rapporterna visade: en rad
 kommandon som du kan skriva ner och köra igen, på hur många filer som
 helst.\footnote{Det vetenskapliga underlaget för de här styckena finns i
 \cref{app:cli-efficiency}: den frågar om en kommandorad är effektivare
-eller lättare att upprepa än ett grafiskt gränssnitt, och finner att den
-inte är det som allmän regel.}
+än ett grafiskt gränssnitt eller gör arbete mer reproducerbart
+(\foreignlanguage{english}{reproducible}), och finner ingen allmän fördel
+i effektivitet, och att det rekommenderas att köra stegen som skript för
+reproducerbarhetens skull, men att det inte har mätts.}
 \end{onlyin}
 
-\begin{onlyin}{english} % sync english=64da9e swedish=7d87cc
+\begin{onlyin}{english} % sync english=586658 swedish=61541b
 The command line you meet in these lectures runs on Linux, and on macOS
-and the BSD systems you meet one that is much alike.  That is because
+and the BSD systems you meet one that is much the same.  That is because
 these systems share a history: the BSD systems, and macOS through them,
 descend from Unix, the system that Ritchie and Thompson described at
 Bell Laboratories in 1974, while Linux was written from scratch to
@@ -1546,7 +1564,7 @@ cannot expect the same command line there.
 \end{onlyin}
 \begin{onlyin}{swedish}
 Den kommandorad som du möter i de här föreläsningarna körs på Linux, och
-på macOS och BSD-systemen möter du en som är mycket lik.  Det beror på
+på macOS och BSD-systemen möter du en som är nästan likadan.  Det beror på
 att systemen har en gemensam historia: BSD-systemen, och macOS genom
 dem, härstammar från Unix, det system som Ritchie och Thompson beskrev
 vid Bell Laboratories 1974, medan Linux skrevs från grunden för att
@@ -1555,8 +1573,8 @@ efterlikna det.\footnote{Det vetenskapliga underlaget finns i
 härstammar från Unix, och finner att BSD-systemen och macOS gör det, att
 Linux efterliknar det och att Android är byggt på Linuxkärnan; svaret är
 olika för olika system.}  Android, ett system för mobiltelefoner, är byggt
-på Linuxkärnan, men resten av det är inte en Linuxdators, så du kan
-inte räkna med samma kommandorad där.
+på Linuxkärnan, men resten av systemet är inte som på en Linuxdator, så
+du kan inte räkna med samma kommandorad där.
 \end{onlyin}
 
 \mode<all>
