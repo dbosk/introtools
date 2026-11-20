@@ -1,0 +1,1622 @@
+% Interfaces / Gränssnitt: one source, two editions.  Shared material
+% (chunks, runs, figures, structure) is written once; the prose stands in
+% onlyin blocks, English first, each followed by its Swedish partner.  The
+% author reviews the English edition first and the Swedish one after it.
+% Titles and captions are \ensv pairs.  Only didactic-sync.py writes the
+% trailing sync stamps.
+\mode<all>
+% The runs' language.  Every run below goes through the shell, and what
+% the shell's programs print can depend on the locale: messages, dates,
+% the order ls sorts names in.  Each edition fixes its own, so the runs
+% print the same on every build machine and in the edition's language.
+% didactic's run functions copy os.environ when they start a program, so
+% setting it once here holds for every run that follows.
+\begin{onlyin}{english} % sync english=2f9b69 swedish=456bf0
+\begin{pycode}
+import os
+
+os.environ["LC_ALL"] = "en_GB.UTF-8"
+\end{pycode}
+\end{onlyin}
+\begin{onlyin}{swedish}
+\begin{pycode}
+import os
+
+os.environ["LC_ALL"] = "sv_SE.UTF-8"
+\end{pycode}
+\end{onlyin}
+% The terminal's width, the same in both editions.  ls and the program
+% ls.py set the names out in columns as wide as the terminal, and both
+% read the width from COLUMNS before they ask the terminal itself.  64
+% columns is a narrow terminal window, and what a slide holds.
+\begin{pycode}
+os.environ["COLUMNS"] = "64"
+\end{pycode}
+
+\decksection{\ensv{Interface}{Gränssnitt}}% % sync english=c26b3e swedish=ee459c
+  {\ensv{What is an interface?}{Vad är ett gränssnitt?}} % sync english=2415af swedish=0ba868
+\mode*
+\label{sec:what-interface}
+
+\begin{onlyin}{english} % sync english=5a4a39 swedish=1b6afa
+\leavevmode\ltnote{%
+  Relevant learning objective: \ref{InterfacesLOKinds}.
+
+  The lecture opens with the word before the computer.  Students arrive
+  with meanings of \emph{interface} from everyday life and from other
+  subjects, and \cref{ex:where-met} collects them before any definition
+  is given, so that the definition can later be held against what they
+  said.  The question asks for what the meanings have in common without
+  saying what that is: the common core (two sides that meet) is the
+  critical aspect, and pointing it out in the question would leave
+  nothing to discern \parencite[13, 89 and 91]{Marton2015}.  The answers
+  are also a pre-test: a class that already says \enquote{between two
+  things} needs less of the word analysis that follows.
+}%
+This lecture is about the ways we work with a computer, and the ways
+programs work with each other.  All of them turn on one word, and we
+start with that word.
+\end{onlyin}
+\begin{onlyin}{swedish}
+\leavevmode\ltnote{%
+  Relevant lärandemål: \ref{InterfacesLOKinds}.
+
+  Föreläsningen börjar med ordet, före datorn.  Studenterna har med sig
+  betydelser av \emph{gränssnitt} från vardagen och från andra ämnen, och
+  \cref{ex:where-met} samlar in dem innan någon definition ges, så att
+  definitionen sedan kan hållas mot vad de sa.  Frågan ber om det som
+  betydelserna har gemensamt utan att säga vad det är: den gemensamma
+  kärnan (två sidor som möts) är den kritiska aspekten, och pekar frågan
+  ut den finns inget kvar att urskilja \parencite[13, 89 och
+  91]{Marton2015}.  Svaren är också ett förtest: en klass som redan
+  säger \enquote{mellan två saker} behöver mindre av ordanalysen som
+  följer.
+}%
+Den här föreläsningen handlar om hur vi arbetar med en dator, och hur
+program arbetar med varandra.  Allt det vilar på ett ord, och vi börjar
+med det ordet.
+\end{onlyin}
+
+\begin{frame}[fragile]
+  \begin{exercise}[\ensv{A word you know}{Ett ord du känner}] % sync english=4af46d swedish=bf3bd3
+    \label{ex:where-met}
+\begin{onlyin}{english} % sync english=22c2b5 swedish=169c44
+You have met the word \emph{interface} before, perhaps outside
+computing too.  Where have you met it?  What do the things you call
+interfaces have in common?
+\end{onlyin}
+\begin{onlyin}{swedish}
+Du har mött ordet \emph{gränssnitt} förut, kanske utanför datorvärlden
+också.  Var har du mött det?  Vad har de saker som du kallar gränssnitt
+gemensamt?
+\end{onlyin}
+  \end{exercise}
+\end{frame}
+
+\begin{onlyin}{english} % sync english=aff972 swedish=143a12
+You may have thought of the interface of a phone or an app, of the port
+where a keyboard is plugged into a computer, or of the boundary between
+oil and water in a glass.  They look different, but each has two sides
+that meet, and it is where they meet.  The word itself says so.
+\end{onlyin}
+\begin{onlyin}{swedish}
+Du kanske tänkte på gränssnittet i en telefon eller en app, eller på
+uttaget där ett tangentbord kopplas in i en dator.  De ser olika ut, men
+i båda finns två sidor som möts, och gränssnittet är platsen där de
+möts.  Ordet säger det självt.
+\end{onlyin}
+
+\begin{onlyin}{english} % sync english=75edfc swedish=be6663
+\leavevmode\ltnote{%
+  Relevant learning objective: \ref{InterfacesLOKinds}.
+
+  The word analysis comes before the definition, and the definition
+  comes last \parencite[13]{Marton2015}: the student first builds a
+  meaning from the parts and from \cref{ex:where-met}, then meets the
+  definition as a summary.  The analysis is also a tool used three more
+  times: \cref{ex:gui-term,ex:cli-term,ex:api-term} ask the student to
+  take \emph{graphical user interface}, \emph{command-line interface}
+  and \emph{application programming interface} apart the same way.  Each
+  edition analyses its own word (\emph{inter-} and \emph{face};
+  \emph{gräns} and \emph{snitt}) and cites its own language's
+  dictionary, since the analysis of a word in translation would teach
+  nothing.  That is also why the two editions' answers to
+  \cref{ex:where-met} differ: the oil and the water are an
+  \emph{interface} in the dictionary's oldest sense, but Svensk ordbok
+  gives \emph{gränssnitt} only its computing senses.
+}%
+The Oxford English Dictionary says that \emph{interface} was formed in
+English from the prefix \emph{inter-} and the noun \emph{face}, and its
+oldest quotation, from a book on hydrostatics of 1882, explains the word
+by its parts: \textcquote{OED2026Interface}{The term interface denotes a
+face of separation, plane or curved, between two contiguous portions of
+the same substance}.  That is the oil and the water.  The sense the
+dictionary records from 1962 on is the one this lecture needs:
+\textcquote{OED2026Interface}{\textins*{a} means or place of interaction
+between two systems, organizations, etc.; a meeting-point or common
+ground between two parties, systems, or disciplines}.
+\end{onlyin}
+\begin{onlyin}{swedish}
+\leavevmode\ltnote{%
+  Relevant lärandemål: \ref{InterfacesLOKinds}.
+
+  Ordanalysen kommer före definitionen, och definitionen kommer sist
+  \parencite[13]{Marton2015}: studenten bygger först en betydelse av
+  delarna och av \cref{ex:where-met}, och möter sedan definitionen som
+  en sammanfattning.  Analysen är också ett verktyg som används tre
+  gånger till: \cref{ex:gui-term,ex:cli-term,ex:api-term} ber studenten
+  ta isär \emph{grafiskt användargränssnitt},
+  \emph{kommandoradsgränssnitt} och \emph{programmeringsgränssnitt} på
+  samma sätt.  Varje utgåva analyserar sitt eget ord (\emph{inter-} och
+  \emph{face}; \emph{gräns} och \emph{snitt}) och hänvisar till sitt
+  eget språks ordbok, eftersom analysen av ett ord i översättning inte
+  skulle lära ut något.  Det är också därför som utgåvornas svar på
+  \cref{ex:where-met} skiljer sig åt: oljan och vattnet är ett
+  \foreignlanguage{english}{interface} i den engelska ordbokens äldsta
+  betydelse, men Svensk ordbok ger \emph{gränssnitt} bara dess
+  betydelser inom datorvärlden.
+}%
+Ordet är sammansatt av \emph{gräns} och \emph{snitt}, och Svensk ordbok
+förklarar \emph{snitt} som \textcquote{SO2026Snitt}{resultat av skärning
+i eller genom något}.  Läst efter sina delar är ett gränssnitt alltså ett
+snitt längs en gräns, där två saker möts.  Ordboken ger ingen härledning
+av ordet själv, men den beskriver ett gränssnitt som en
+\textcquote{SO2026Gransnitt}{förbindelselänk mellan en dator och annan
+utrustning som kopplas till den}, och särskilt med tanke på
+\textcquote{SO2026Gransnitt}{möjligheten för användaren (lekmannen) att
+samverka med och utföra operationer på system}.  Det är just det mötet
+den här föreläsningen handlar om.
+\end{onlyin}
+
+\begin{frame}[fragile]
+  \begin{definition}[\ensv{Interface}{Gränssnitt}] % sync english=c26b3e swedish=ee459c
+    \label{def:interface}
+\begin{onlyin}{english} % sync english=e1ba3d swedish=bed45b
+In this lecture an \emph{interface} is the place where two systems meet
+and act on each other.
+\end{onlyin}
+\begin{onlyin}{swedish}
+I den här föreläsningen är ett \emph{gränssnitt} platsen där två system
+möts och verkar på varandra.
+\end{onlyin}
+  \end{definition}
+\end{frame}
+
+\begin{onlyin}{english} % sync english=0c3387 swedish=917e18
+You use your phone through its screen, not through its circuits; the
+keyboard reaches the computer through the port, whatever happens inside
+either.  So the question to ask of any interface is: who, or what, is
+on each side?  The answer is what tells the kinds of interface in
+computing apart, and the rest of this lecture asks it of three of them.
+\end{onlyin}
+\begin{onlyin}{swedish}
+Du använder telefonen genom dess skärm, inte genom dess kretsar;
+tangentbordet når datorn genom uttaget, vad som än händer inuti
+någondera.  Frågan att ställa om varje gränssnitt är alltså: vem, eller
+vad, finns på var sida?  Svaret skiljer de olika sorternas gränssnitt i
+datorvärlden åt, och resten av föreläsningen ställer frågan om tre av
+dem.
+\end{onlyin}
+
+\mode<all>
+\decksection{\ensv{GUI and CLI}{GUI och CLI}}% % sync english=838973 swedish=ffac87
+  {\ensv{One task, two user interfaces}%
+    {En uppgift, två användargränssnitt}} % sync english=1766ed swedish=fdd1f2
+\mode*
+\label{sec:gui-cli}
+
+\begin{onlyin}{english} % sync english=cd2ff6 swedish=4364ff
+\leavevmode\ltnote{%
+  Relevant learning objective: \ref{InterfacesLOKinds}.
+
+  \textbf{Variation pattern}: contrast, then generalization.
+  \textbf{What stays invariant}: the task (see which files a directory
+  holds) and the directory itself, \texttt{demo}, with the same six
+  files in \cref{fig:demo-gui} and \cref{ex:ls}.
+  \textbf{What varies}: how the person and the computer talk, pictures
+  and pointing against typed text.  With the directory and the task held
+  still, the only thing left to discern is the kind of dialogue, which is
+  the critical aspect for telling a GUI from a CLI.  The generalization
+  that follows keeps the kind of dialogue invariant and varies the system
+  (\cref{ex:pwsh,fig:cli-cmd,fig:gui-systems}).
+}%
+We now do one ordinary task in two ways: we find out which files a
+directory holds.  A \emph{directory} is what graphical systems call a
+folder, a named place where files are kept.  Ours is called
+[[demo]]; \cref{fig:demo-gui} shows it in a file manager.
+\end{onlyin}
+\begin{onlyin}{swedish}
+\leavevmode\ltnote{%
+  Relevant lärandemål: \ref{InterfacesLOKinds}.
+
+  \textbf{Variationsmönster}: kontrast, sedan generalisering.
+  \textbf{Vad som hålls invariant}: uppgiften (se vilka filer en katalog
+  innehåller) och själva katalogen, \texttt{demo}, med samma sex filer i
+  \cref{fig:demo-gui} och \cref{ex:ls}.
+  \textbf{Vad som varierar}: hur människan och datorn talar med
+  varandra, bilder och pekande mot skriven text.  När katalogen och
+  uppgiften hålls stilla återstår bara sorten av dialog att urskilja, och
+  den är den kritiska aspekten för att skilja ett GUI från ett CLI.
+  Generaliseringen som följer håller sorten av dialog invariant och
+  varierar systemet (\cref{ex:pwsh,fig:cli-cmd,fig:gui-systems}).
+}%
+Vi gör nu en vanlig uppgift på två sätt: vi tar reda på vilka filer en
+katalog innehåller.  En \emph{katalog} (\foreignlanguage{english}%
+{directory}) är det som grafiska system kallar en mapp, en namngiven
+plats där filer förvaras.  Vår heter [[demo]]; \cref{fig:demo-gui} visar
+den i en filhanterare.
+\end{onlyin}
+
+\begin{frame}[fragile]
+  \begin{figure}[htbp]
+    \begin{sidecaption}{\ensv{The directory \texttt{demo} in a file
+      manager, GNOME Files: six files, each shown as an icon with its
+      name.  The directory also holds a hidden file, which the file
+      manager does not show.  Screenshot taken for this course.}%
+      {Katalogen \texttt{demo} i en filhanterare, GNOME Files: sex
+      filer, var och en visad som en ikon med sitt namn.  Katalogen
+      innehåller också en dold fil, som filhanteraren inte visar.
+      Skärmbilden är tagen för den här kursen.}}[fig:demo-gui] % sync english=d6e14f swedish=d9e898
+      \includegraphics[width=0.9\linewidth,height=0.55\textheight,
+        keepaspectratio]{figs/gui-files-demo.png}
+    \end{sidecaption}
+  \end{figure}
+\end{frame}
+
+\begin{frame}[fragile]
+  \begin{exercise}[\ensv{Taking the term apart}{Att ta isär termen}] % sync english=4ddbb5 swedish=e55f66
+    \label{ex:gui-term}
+\begin{onlyin}{english} % sync english=06ef6f swedish=265aa1
+The window in a file manager is part of a \emph{graphical user
+interface}, a GUI.  Take the term apart, as we took \emph{interface}
+apart.  Who meets whom in it, and through what?
+\end{onlyin}
+\begin{onlyin}{swedish}
+Fönstret i en filhanterare är en del av ett \emph{grafiskt
+användargränssnitt} (\foreignlanguage{english}{graphical user
+interface}, GUI).  Ta isär termen, som vi tog isär \emph{gränssnitt}.
+Vem möter vem i det, och genom vad?
+\end{onlyin}
+  \end{exercise}
+\end{frame}
+
+\begin{onlyin}{english} % sync english=20ac1f swedish=49b76d
+\emph{User}: on one side is a person, the user of the computer.
+\emph{Graphical}: the computer shows that person pictures, such as
+windows and icons, and the person points at them and clicks.  In a GUI,
+then, a person meets the computer through pictures.
+
+There is another way to do the same task.  We open a terminal, a window
+in which we type, and type the command [[ls]], short for \emph{list},
+then press Enter.  The computer answers with the names of the files,
+as \cref{ex:ls} shows.
+\end{onlyin}
+\begin{onlyin}{swedish}
+\emph{Användar-}: på ena sidan finns en människa, datorns användare.
+\emph{Grafiskt}: datorn visar den människan bilder, som fönster och
+ikoner, och människan pekar på dem och klickar.  I ett GUI möter alltså
+en människa datorn genom bilder.
+
+Det finns ett annat sätt att göra samma uppgift.  Vi öppnar en terminal,
+ett fönster som vi skriver i, och skriver kommandot [[ls]], kort för
+engelskans \foreignlanguage{english}{\emph{list}} (lista), och trycker
+på Enter.  Datorn svarar med filernas namn, som \cref{ex:ls} visar.
+\end{onlyin}
+
+\begin{frame}[fragile]
+  \begin{example}[\ensv{The same directory at a command line}%
+    {Samma katalog på kommandoraden}] % sync english=b3773c swedish=e70941
+    \label{ex:ls}
+\begin{onlyin}{english} % sync english=fb4f07 swedish=42a7eb
+We type [[ls]] in the directory [[demo]], and the computer answers:
+\end{onlyin}
+\begin{onlyin}{swedish}
+Vi skriver [[ls]] i katalogen [[demo]], och datorn svarar:
+\end{onlyin}
+    \runshell[transcript, cwd=demo]{ls}
+  \end{example}
+\end{frame}
+
+\begin{onlyin}{english} % sync english=113f79 swedish=1f6d75
+The [[$]] at the start of the line is the \emph{prompt}: the computer's
+sign that it waits for a command.  We typed what follows it.
+\end{onlyin}
+\begin{onlyin}{swedish}
+Tecknet [[$]] i början av raden är \emph{prompten}
+(\foreignlanguage{english}{prompt}): datorns tecken på att den väntar på
+ett kommando.  Det som följer efter den skrev vi.
+\end{onlyin}
+
+\begin{frame}[fragile]
+  \begin{exercise}[\ensv{Taking the next term apart}%
+    {Att ta isär nästa term}] % sync english=6b4331 swedish=c3efa7
+    \label{ex:cli-term}
+\begin{onlyin}{english} % sync english=0562e0 swedish=aa8956
+This is a \emph{command-line interface}, a CLI.  Take this term apart
+too.  Who meets whom in it, and through what?
+\end{onlyin}
+\begin{onlyin}{swedish}
+Det här är ett \emph{kommandoradsgränssnitt}
+(\foreignlanguage{english}{command-line interface}, CLI).  Ta isär den
+här termen också.  Vem möter vem i det, och genom vad?
+\end{onlyin}
+  \end{exercise}
+\end{frame}
+
+\begin{onlyin}{english} % sync english=057c57 swedish=438ec3
+\emph{Command}: you tell the computer what to do with a command, a word
+you type.  \emph{Line}: you type it on a line, and the computer answers
+in text on the lines below.  On the other side there is still a person,
+but the dialogue is text in both directions.
+\end{onlyin}
+\begin{onlyin}{swedish}
+\emph{Kommando}: du säger åt datorn vad den ska göra med ett kommando,
+ett ord som du skriver.  \emph{Rad}: du skriver det på en rad, och datorn
+svarar med text på raderna under.  På andra sidan finns fortfarande en
+människa, men dialogen är text i båda riktningarna.
+\end{onlyin}
+
+\begin{frame}[fragile]
+  \begin{definition}[\ensv{Graphical user interface (GUI)}%
+    {Grafiskt användargränssnitt (GUI)}] % sync english=dd3a55 swedish=0ac4a6
+    \label{def:gui}
+\begin{onlyin}{english} % sync english=53d90f swedish=f4ba8a
+An interface between a person and a computer in which the computer shows
+pictures, such as windows and icons, and the person points at them.
+\end{onlyin}
+\begin{onlyin}{swedish}
+Ett gränssnitt mellan en människa och en dator där datorn visar bilder,
+som fönster och ikoner, och människan pekar på dem.
+\end{onlyin}
+  \end{definition}
+  \begin{definition}[\ensv{Command-line interface (CLI)}%
+    {Kommandoradsgränssnitt (CLI)}] % sync english=3c4acf swedish=82eae2
+    \label{def:cli}
+\begin{onlyin}{english} % sync english=043efa swedish=0cda37
+An interface between a person and a computer in which the person types
+commands as lines of text, and the computer answers in text.
+\end{onlyin}
+\begin{onlyin}{swedish}
+Ett gränssnitt mellan en människa och en dator där människan skriver
+kommandon som textrader, och datorn svarar med text.
+\end{onlyin}
+  \end{definition}
+\end{frame}
+
+\begin{onlyin}{english} % sync english=03cb9f swedish=173e05
+The dictionary draws the same line.  The Oxford English Dictionary
+describes a graphical user interface as one in which programs, files and
+commands are \textcquote{OED2026GraphicalUserInterface}{represented on
+screen by graphical symbols (such as icons, menu items, and windows)
+which can be manipulated or activated directly without the need to learn
+a command language}, and a command line interface as
+\textcquote{OED2026CommandLineInterface}{a user interface in which
+interaction with a computer is by means of textual commands entered at a
+prompt}.
+\end{onlyin}
+\begin{onlyin}{swedish}
+Svensk ordbok nämner \emph{användargränssnitt} bland sammansättningarna
+med gränssnitt\autocite{SO2026Gransnitt}.  De engelska termerna, som
+förkortningarna GUI och CLI kommer från, drar samma gräns i Oxford
+English Dictionary: i ett grafiskt användargränssnitt visas program,
+filer och kommandon som grafiska symboler, som ikoner, menyval och
+fönster, som man kan hantera direkt utan att lära sig ett
+kommandospråk\autocite{OED2026GraphicalUserInterface}, och i ett
+kommandoradsgränssnitt sker samspelet med datorn genom textkommandon som
+skrivs in vid en prompt\autocite{OED2026CommandLineInterface}.
+\end{onlyin}
+
+\begin{onlyin}{english} % sync english=27573b swedish=26fecf
+\leavevmode\ltnote{%
+  Relevant learning objective: \ref{InterfacesLOKinds}.
+
+  \textbf{Variation pattern}: generalization of the CLI.  \textbf{What
+  stays invariant}: the task and the kind of dialogue (a typed command,
+  an answer in text).  \textbf{What varies}: the system and the shell,
+  with the command's name and the form of the answer.  Without this step
+  a student who has seen only [[ls]] could take the CLI to be one
+  program on one system.  PowerShell also runs on Linux, so
+  \cref{ex:pwsh} is a real run on the same directory; its prompt is
+  shortened to \texttt{PS>}, as the \texttt{\$} prompt of the other runs
+  leaves out the directory.  The Command shell cannot run on the build
+  machine, so \cref{fig:cli-cmd} is a screenshot, of another directory.
+}%
+A command line is not one program on one system.  The terminal runs a
+program called a \emph{shell}, which reads your commands and runs them:
+on Linux, for example, the shell \emph{bash}, and on a Mac the shell
+\emph{zsh}, which it uses by default since macOS
+10.15\autocite{Apple2026Zsh}.  In both of them [[ls]] lists a directory.
+Windows has two shells of its own, the Command shell and
+PowerShell\autocite{Microsoft2025WindowsCommands}, where the same task
+is done with other commands: [[Get-ChildItem]] in PowerShell
+(\cref{ex:pwsh}), and [[dir]] in the Command shell
+(\cref{fig:cli-cmd}).
+\end{onlyin}
+\begin{onlyin}{swedish}
+\leavevmode\ltnote{%
+  Relevant lärandemål: \ref{InterfacesLOKinds}.
+
+  \textbf{Variationsmönster}: generalisering av CLI.  \textbf{Vad som
+  hålls invariant}: uppgiften och sorten av dialog (ett skrivet
+  kommando, ett svar i text).  \textbf{Vad som varierar}: systemet och
+  skalet, med kommandots namn och svarets form.  Utan det här steget
+  kunde en student som bara sett [[ls]] tro att ett CLI är ett program
+  på ett system.  PowerShell finns också för Linux, så \cref{ex:pwsh} är
+  en riktig körning i samma katalog; dess prompt är förkortad till
+  \texttt{PS>}, på samma sätt som \texttt{\$}-prompten i de andra
+  körningarna utelämnar katalogen.  Kommandotolken i Windows kan inte
+  köras på den dator där anteckningarna byggs, så \cref{fig:cli-cmd} är en
+  skärmbild, av en annan katalog.
+}%
+En kommandorad är inte ett program på ett system.  Terminalen kör ett
+program som kallas ett \emph{skal} (\foreignlanguage{english}{shell}),
+som läser dina kommandon och kör dem: på Linux till exempel skalet
+\emph{bash}, och på en Mac skalet \emph{zsh}, som den använder som
+standard sedan macOS 10.15\autocite{Apple2026Zsh}.  I båda listar [[ls]]
+en katalog.  Windows har två egna skal, Kommandotolken
+(\foreignlanguage{english}{Command shell}) och
+PowerShell\autocite{Microsoft2025WindowsCommands}, där samma uppgift
+görs med andra kommandon: [[Get-ChildItem]] i PowerShell
+(\cref{ex:pwsh}) och [[dir]] i Kommandotolken (\cref{fig:cli-cmd}).
+\end{onlyin}
+
+\begin{frame}[fragile]
+  \begin{example}[\ensv{The same directory in PowerShell}%
+    {Samma katalog i PowerShell}] % sync english=6de47c swedish=47452d
+    \label{ex:pwsh}
+\begin{onlyin}{english} % sync english=3e5e30 swedish=9001ec
+In PowerShell the command is [[Get-ChildItem]], and its option [[-Name]]
+asks for the names only\autocite{Microsoft2026GetChildItem}.  We type
+it in [[demo]]:
+\end{onlyin}
+\begin{onlyin}{swedish}
+I PowerShell heter kommandot [[Get-ChildItem]], och dess flagga [[-Name]]
+ber om bara namnen\autocite{Microsoft2026GetChildItem}.  Vi skriver det
+i [[demo]]:
+\end{onlyin}
+    \runshell[showcommand, cwd=demo, prompt={PS> },
+      commandtext={Get-ChildItem -Name}, timeout=120]%
+      {pwsh -NoProfile -NonInteractive -Command Get-ChildItem -Name}
+  \end{example}
+\end{frame}
+
+\begin{frame}[fragile]
+  \begin{figure}[htbp]
+    \begin{sidecaption}{\ensv{Listing a directory with \texttt{dir} in
+      the Command shell of Windows: the directory \texttt{C:\textbackslash
+      Temp} of a Windows system in 2009.  Besides the names,
+      \texttt{dir} shows each file's date, time and size.  Image:
+      Loadmaster (David R.\ Tribble), public domain, via Wikimedia
+      Commons.}%
+      {Att lista en katalog med \texttt{dir} i Kommandotolken i Windows:
+      katalogen \texttt{C:\textbackslash Temp} på ett Windowssystem år
+      2009.  Förutom namnen visar \texttt{dir} varje fils datum,
+      klockslag och storlek.  Bild: Loadmaster (David R.\ Tribble),
+      allmän egendom, via Wikimedia Commons.}}[fig:cli-cmd] % sync english=79e724 swedish=5356f8
+      \includegraphics[width=0.85\linewidth]{figs/cli-cmd-dir.png}
+    \end{sidecaption}
+  \end{figure}
+\end{frame}
+
+\begin{onlyin}{english} % sync english=f4fdfd swedish=9fedd4
+\leavevmode\ltnote{%
+  \Cref{fig:gui-systems} shows two systems.  Desktops of Windows and
+  macOS and the home screen of an iPhone wait for the author: no image
+  under a free licence was found, Microsoft allows screenshots that the
+  author takes, and Apple's terms need written consent.
+}%
+Graphical interfaces, too, differ from one system to the next, as
+\cref{fig:gui-systems} shows, and in the same way: what they look like
+varies, while the dialogue stays one of pictures and pointing, on a
+phone with a finger instead of a mouse.
+\end{onlyin}
+\begin{onlyin}{swedish}
+\leavevmode\ltnote{%
+  \Cref{fig:gui-systems} visar två system.  Skrivbord i Windows och
+  macOS och hemskärmen på en iPhone väntar på författaren: ingen bild
+  under fri licens hittades, Microsoft tillåter skärmbilder som
+  författaren tar själv, och Apples villkor kräver skriftligt samtycke.
+}%
+Även grafiska gränssnitt skiljer sig från ett system till ett annat, som
+\cref{fig:gui-systems} visar, och på samma sätt: hur de ser ut varierar,
+medan dialogen förblir en av bilder och pekande, på en telefon med ett
+finger i stället för en mus.
+\end{onlyin}
+
+\begin{frame}[fragile]
+  \begin{figure}[htbp]
+    \begin{sidecaption}{\ensv{Graphical user interfaces of two systems:
+      the desktop of Ubuntu 24.04, a Linux system (left), and the home
+      screen of Android 14 (Go edition) on a phone (right).  Images:
+      Canonical Inc, GPL (left); Paowee, Apache License 2.0 (right);
+      both via Wikimedia Commons.}%
+      {Grafiska användargränssnitt i två system: skrivbordet i Ubuntu
+      24.04, ett Linuxsystem (till vänster), och hemskärmen i Android 14
+      (Go-utgåvan) på en telefon (till höger).  Bilder: Canonical Inc,
+      GPL (vänster); Paowee, Apache License 2.0 (höger); båda via
+      Wikimedia Commons.}}[fig:gui-systems] % sync english=70d0fa swedish=a2a016
+      \includegraphics[height=3.6cm]{figs/gui-ubuntu.png}\hspace{1em}%
+      \includegraphics[height=3.6cm]{figs/gui-android.png}
+    \end{sidecaption}
+  \end{figure}
+\end{frame}
+
+\begin{onlyin}{english} % sync english=38db76 swedish=3059b2
+\leavevmode\ltnote{%
+  Relevant learning objectives: \ref{InterfacesLOKinds} and
+  \ref{InterfacesLOBoth}.
+
+  An open exercise: many differences are true, and the class's answers
+  are gone through on the slides.  The model answer after it is in
+  the notes only.  It points to the
+  difference the rest of the lecture builds on, text in both directions,
+  which a program can write and read as well as a person can; it is not
+  the only defensible answer, and a class that names recall against
+  recognition, or speed against learnability, has found real
+  differences.  The question \enquote{which is crucial} is there to make
+  the students weigh the differences, not to have them guess ours.
+}%
+We have now seen the same task done through two user interfaces.
+\end{onlyin}
+\begin{onlyin}{swedish}
+\leavevmode\ltnote{%
+  Relevanta lärandemål: \ref{InterfacesLOKinds} och
+  \ref{InterfacesLOBoth}.
+
+  En öppen övningsuppgift: många skillnader är sanna, och klassens svar
+  gås igenom på bilderna.  Modellsvaret efter den finns bara i
+  anteckningarna.  Det pekar på den skillnad som resten av föreläsningen
+  bygger på, text i båda riktningarna, som ett program kan skriva och
+  läsa lika väl som en människa; det är inte det enda försvarbara
+  svaret, och en klass som nämner att minnas mot att känna igen, eller
+  snabbhet mot lättlärdhet, har hittat verkliga skillnader.  Frågan
+  \enquote{vilken är avgörande} finns där för att studenterna ska väga
+  skillnaderna, inte för att de ska gissa vår.
+}%
+Vi har nu sett samma uppgift göras genom två användargränssnitt.
+\end{onlyin}
+
+\begin{frame}[fragile]
+  \begin{exercise}[\ensv{The crucial difference}%
+    {Den avgörande skillnaden}] % sync english=8077f5 swedish=61d2a9
+    \label{ex:crucial-difference}
+\begin{onlyin}{english} % sync english=4e2489 swedish=85931d
+List some differences between a graphical user interface and a
+command-line interface.  Which of them would you say is the crucial
+one?
+\end{onlyin}
+\begin{onlyin}{swedish}
+Räkna upp några skillnader mellan ett grafiskt användargränssnitt och
+ett kommandoradsgränssnitt.  Vilken av dem skulle du säga är den
+avgörande?
+\end{onlyin}
+  \end{exercise}
+\end{frame}
+
+\begin{solution}[\ensv{A model answer}{Ett modellsvar}] % sync english=55b158 swedish=fa89ac
+  \label{sol:crucial-difference}
+\begin{onlyin}{english} % sync english=1e3d7d swedish=a6d4b8
+There are many.  In the GUI you see what is there and point at it, so
+there is little to remember and little to mistype; at the command line
+you must remember the command's name and type it right, but one line can
+say a lot.  For what follows, the crucial difference is that at the
+command line the whole dialogue is text: the command you type is text,
+and the answer is text.  A program can type that command and read that
+answer just as you can.  To work a GUI in your place, a program would
+have to look at pictures and move a pointer.
+\end{onlyin}
+\begin{onlyin}{swedish}
+Det finns många.  I ett GUI ser du vad som finns och pekar på det, så
+det finns lite att minnas och lite att skriva fel; på kommandoraden
+måste du minnas kommandots namn och skriva det rätt, men en rad kan säga
+mycket.  För det som följer är den avgörande skillnaden att hela
+dialogen på kommandoraden är text: kommandot du skriver är text, och
+svaret är text.  Ett program kan skriva det kommandot och läsa det
+svaret lika väl som du.  För att sköta ett GUI i ditt ställe skulle ett
+program behöva titta på bilder och flytta en pekare.
+\end{onlyin}
+\end{solution}
+
+\mode<all>
+\decksection{API}%
+  {\ensv{The same task for a program}%
+    {Samma uppgift åt ett program}} % sync english=7361df swedish=0b441a
+\mode*
+\label{sec:api}
+
+\begin{onlyin}{english} % sync english=e1bea3 swedish=57a2d9
+\leavevmode\ltnote{%
+  Relevant learning objective: \ref{InterfacesLOKinds}.
+
+  \textbf{Variation pattern}: contrast, continued.  \textbf{What stays
+  invariant}: the task and the directory.  \textbf{What varies}: who is
+  on the other side, now a program instead of a person.
+  \Cref{ex:program-needs} is a design question asked before the API is
+  named: the student has to work out that a program needs the names as
+  data and a way to ask for them, which is what makes an API an
+  interface for programs.
+}%
+So far a person has been on one side.  Now we put a program there
+instead.
+\end{onlyin}
+\begin{onlyin}{swedish}
+\leavevmode\ltnote{%
+  Relevant lärandemål: \ref{InterfacesLOKinds}.
+
+  \textbf{Variationsmönster}: kontrast, fortsatt.  \textbf{Vad som
+  hålls invariant}: uppgiften och katalogen.  \textbf{Vad som varierar}:
+  vem som finns på andra sidan, nu ett program i stället för en
+  människa.  \Cref{ex:program-needs} är en designfråga som ställs innan
+  API:et får sitt namn: studenten måste komma fram till att ett program
+  behöver namnen som data och ett sätt att be om dem, och det är det som
+  gör ett API till ett gränssnitt för program.
+}%
+Hittills har en människa funnits på ena sidan.  Nu sätter vi ett program
+där i stället.
+\end{onlyin}
+
+\begin{frame}[fragile]
+  \begin{exercise}[\ensv{What a program needs}{Vad ett program behöver}] % sync english=5b8ac8 swedish=ef5244
+    \label{ex:program-needs}
+\begin{onlyin}{english} % sync english=5daee7 swedish=438317
+Suppose a program, not a person, needs the list of files in [[demo]],
+say to make a backup copy of each.  It cannot look at a window, and it
+has no hands.  What must it be given, and in what form?
+\end{onlyin}
+\begin{onlyin}{swedish}
+Anta att ett program, inte en människa, behöver listan över filerna i
+[[demo]], till exempel för att göra en säkerhetskopia av var och en.
+Det kan inte titta på ett fönster, och det har inga händer.  Vad måste
+det få, och i vilken form?
+\end{onlyin}
+  \end{exercise}
+\end{frame}
+
+\begin{onlyin}{english} % sync english=9822f1 swedish=370b10
+It needs the names themselves, as data it can work with, and a way to
+ask for them.  In Python the data is a list of strings, and the way to
+ask is a function to call: [[os.listdir]], from the module [[os]],
+Python's interface to the operating system.  The program in
+\cref{ex:ls-api} uses it.
+\end{onlyin}
+\begin{onlyin}{swedish}
+Det behöver själva namnen, som data som det kan arbeta med, och ett sätt
+att be om dem.  I Python är datan en lista av strängar, och sättet att
+be om den är en funktion att anropa: [[os.listdir]], från modulen
+[[os]], Pythons gränssnitt mot operativsystemet.  Programmet i
+\cref{ex:ls-api} använder den.
+\end{onlyin}
+
+\begin{frame}[fragile]
+  \begin{example}[\ensv{A program that lists a directory}%
+    {Ett program som listar en katalog}] % sync english=eea1d4 swedish=f82a40
+    \label{ex:ls-api}
+\begin{onlyin}{english} % sync english=6c6a6d swedish=5726cc
+The program [[ls-api.py]] asks for the names and prints each one that
+does not start with a dot:
+\end{onlyin}
+\begin{onlyin}{swedish}
+Programmet [[ls-api.py]] ber om namnen och skriver ut vart och ett som
+inte börjar med en punkt:
+\end{onlyin}
+<<[[ls-api.py]]>>=
+import os
+
+def main():
+    for filename in sorted(os.listdir(".")):
+        if filename[0] != ".":
+            print(filename)
+
+if __name__ == "__main__":
+    main()
+@
+  \end{example}
+\end{frame}
+
+\begin{frame}[fragile]
+  \begin{example}[\ensv{Running the program}{När programmet körs}] % sync english=4835c6 swedish=055591
+    \label{ex:ls-api-run}
+\begin{onlyin}{english} % sync english=c97e5a swedish=c6ad44
+Run in [[demo]], [[ls-api.py]] prints the same six names as [[ls]]:
+\end{onlyin}
+\begin{onlyin}{swedish}
+Kört i [[demo]] skriver [[ls-api.py]] ut samma sex namn som [[ls]]:
+\end{onlyin}
+    \runshell[transcript, cwd=demo, deps={examples/ls-api.py}]%
+      {python3 ../examples/ls-api.py}
+  \end{example}
+\end{frame}
+
+\begin{onlyin}{english} % sync english=0ffee1 swedish=57b2e5
+You need not follow the Python in this lecture; three details show what
+a program has to do for itself.  First, [[os.listdir]] also gives names
+that start with a dot.  Such files are hidden by convention: [[ls]] and
+the file manager leave them out, and [[demo]] holds one, which the
+lecture \emph{Commands and the file system} shows you how to see.  The
+program has to leave them out itself.  Second, the documentation of
+[[os.listdir]] says that \enquote{the list is in arbitrary order}, while
+[[ls]] sorts the names; the program sorts them itself with [[sorted]].
+Third, the program is kept in another directory, [[examples]], next to
+[[demo]], and [[../examples/ls-api.py]] is how we name it from inside
+[[demo]]: [[..]] is the directory above.  The same lecture explains such
+paths.
+
+A set of functions like [[os.listdir]], through which one program uses
+another, is the third kind of interface.
+\end{onlyin}
+\begin{onlyin}{swedish}
+Du behöver inte följa Pythonkoden i den här föreläsningen; tre detaljer
+visar vad ett program måste göra själv.  För det första ger
+[[os.listdir]] också namn som börjar med en punkt.  Sådana filer är
+dolda enligt en konvention: [[ls]] och filhanteraren utelämnar dem, och
+[[demo]] innehåller en, som föreläsningen \emph{Kommandon och
+filsystemet} visar hur du ser.  Programmet måste utelämna dem själv.
+För det andra säger dokumentationen av [[os.listdir]] att listan är i
+godtycklig ordning (\foreignlanguage{english}{\enquote{the list is in
+arbitrary order}}), medan [[ls]] sorterar namnen; programmet sorterar
+dem själv med [[sorted]].  För det tredje ligger programmet i en annan
+katalog, [[examples]], bredvid [[demo]], och [[../examples/ls-api.py]]
+är hur vi namnger det inifrån [[demo]]: [[..]] är katalogen ovanför.
+Samma föreläsning förklarar sådana sökvägar.
+
+En samling funktioner som [[os.listdir]], genom vilka ett program
+använder ett annat, är den tredje sortens gränssnitt.
+\end{onlyin}
+
+\begin{frame}[fragile]
+  \begin{exercise}[\ensv{The third term}{Den tredje termen}] % sync english=168be1 swedish=10e4a8
+    \label{ex:api-term}
+\begin{onlyin}{english} % sync english=02dea2 swedish=9b54af
+This kind of interface is called an \emph{application programming
+interface}, an API.  Take the term apart.  Who meets whom in it, and
+through what?
+\end{onlyin}
+\begin{onlyin}{swedish}
+Den här sortens gränssnitt kallas ett \emph{programmeringsgränssnitt}
+(\foreignlanguage{english}{application programming interface}, API).
+Ta isär termen.  Vem möter vem i det, och genom vad?
+\end{onlyin}
+  \end{exercise}
+\end{frame}
+
+\begin{onlyin}{english} % sync english=f5e6a5 swedish=0999bc
+\emph{Application}: a program.  \emph{Programming}: the interface is used
+by writing a program, not by pointing or typing commands.  In an API, a
+program meets another program, here the operating system, through
+functions it calls and data it gets back.
+\end{onlyin}
+\begin{onlyin}{swedish}
+\emph{Programmering}: gränssnittet används genom att man skriver ett
+program, inte genom att peka eller skriva kommandon.  I den engelska
+termen står \foreignlanguage{english}{\emph{application}} för ett
+program, och det är det som finns på andra sidan.  I ett API möter ett
+program ett annat program, här operativsystemet, genom funktioner som
+det anropar och data som det får tillbaka.
+\end{onlyin}
+
+\begin{frame}[fragile]
+  \begin{definition}[\ensv{Application programming interface (API)}%
+    {Programmeringsgränssnitt (API)}] % sync english=1ebefb swedish=c5b7e4
+    \label{def:api}
+\begin{onlyin}{english} % sync english=04d22e swedish=74702c
+An interface between two programs: the functions one program can call
+in the other, and the data that passes between them.
+\end{onlyin}
+\begin{onlyin}{swedish}
+Ett gränssnitt mellan två program: de funktioner som det ena programmet
+kan anropa i det andra, och den data som går mellan dem.
+\end{onlyin}
+  \end{definition}
+\end{frame}
+
+\begin{onlyin}{english} % sync english=6b76fa swedish=75bea7
+The Oxford English Dictionary puts it more broadly: an application
+programming interface is \textcquote{OED2026ApplicationProgrammingInterface}%
+{\textins*{a} set of routines, protocols, and tools designed to allow
+the development of applications that can utilize or operate in
+conjunction with a given item of software, set of data, website, etc.}
+The functions of [[os]] are such a set, for the operating system.
+\end{onlyin}
+\begin{onlyin}{swedish}
+Oxford English Dictionary beskriver den engelska termen bredare, som en
+samling rutiner, protokoll och verktyg som gör det möjligt att utveckla
+program som använder eller samverkar med en viss programvara, en
+datamängd, en webbplats eller
+liknande\autocite{OED2026ApplicationProgrammingInterface}.  Funktionerna
+i [[os]] är en sådan samling, för operativsystemet.
+\end{onlyin}
+
+\begin{onlyin}{english} % sync english=9df5d2 swedish=c6e7c1
+\leavevmode\ltnote{%
+  Relevant learning objectives: \ref{InterfacesLOKinds} and
+  \ref{InterfacesLOBoth}.
+
+  \Cref{ex:ls-py} is kept for its size, not for its Python: the
+  students need not understand [[filter]], [[lambda]] or [[shutil]],
+  and the prose says so.  What they should see is how much code the
+  columns cost, which [[ls]] gives a person for free, so that the
+  fusion paragraph after it (the user interfaces are built on the
+  programming interface) has something concrete to rest on.
+}%
+[[ls]] does more than list, though.  In a terminal it sets the names out
+in columns that fit the window.  To do that as well, a program must find
+out how wide the window is and how wide the longest name is, and work
+out how many names fit on a line.  The program [[ls.py]] in
+\cref{ex:ls-py} does so.  Again you need not follow its Python:
+[[filter]] with a [[lambda]] keeps the names that do not start with a
+dot, the same test as in [[ls-api.py]] in another notation, and
+[[shutil.get_terminal_size]] asks how wide the terminal is.  Notice
+instead how much of the program the columns take.
+\end{onlyin}
+\begin{onlyin}{swedish}
+\leavevmode\ltnote{%
+  Relevanta lärandemål: \ref{InterfacesLOKinds} och
+  \ref{InterfacesLOBoth}.
+
+  \Cref{ex:ls-py} finns med för sin storlek, inte för sin Python:
+  studenterna behöver inte förstå [[filter]], [[lambda]] eller
+  [[shutil]], och texten säger det.  Det de ska se är hur mycket kod
+  kolumnerna kostar, som [[ls]] ger en människa gratis, så att
+  fusionsstycket efter det (användargränssnitten är byggda på
+  programmeringsgränssnittet) har något konkret att vila på.
+}%
+Men [[ls]] gör mer än att lista.  I en terminal ställer den upp namnen i
+kolumner som passar fönstret.  För att göra det också måste ett program
+ta reda på hur brett fönstret är och hur brett det längsta namnet är, och
+räkna ut hur många namn som får plats på en rad.  Programmet [[ls.py]] i
+\cref{ex:ls-py} gör det.  Inte heller här behöver du följa Pythonkoden:
+[[filter]] med en [[lambda]] behåller de namn som inte börjar med en
+punkt, samma test som i [[ls-api.py]] skrivet på ett annat sätt, och
+[[shutil.get_terminal_size]] frågar hur bred terminalen är.  Lägg i
+stället märke till hur stor del av programmet kolumnerna tar.
+\end{onlyin}
+
+% The notes show the program whole, as one chunk; the slides, where it
+% does not fit on one frame, show the tangled file in two parts on
+% presentation-only frames.
+\begin{example}[\ensv{A program that lists in columns}%
+  {Ett program som listar i kolumner}] % sync english=2bbe2e swedish=9e0438
+  \label{ex:ls-py}
+\begin{onlyin}{english} % sync english=097d90 swedish=766f31
+The program [[ls.py]] prints the names in columns:
+\end{onlyin}
+\begin{onlyin}{swedish}
+Programmet [[ls.py]] skriver ut namnen i kolumner:
+\end{onlyin}
+<<[[ls.py]]>>=
+import os
+import shutil
+
+def main():
+    names = filter(lambda x: x[0] != ".", os.listdir("."))
+    filenames = sorted(names)
+    max_width_filename = max(map(len, filenames))
+    screen_width = shutil.get_terminal_size((80, 20)).columns
+    files_per_line = screen_width // (max_width_filename + 2)
+
+    for number, filename in enumerate(filenames, start=1):
+        print(f" {filename:{max_width_filename}s} ", end="")
+        if number % files_per_line == 0:
+            print()
+    if len(filenames) % files_per_line != 0:
+        print()
+
+if __name__ == "__main__":
+    main()
+@
+\end{example}
+
+\begin{frame}<presentation>[fragile]
+  \begin{example}[\texttt{ls.py}, 1/2]
+\begin{onlyin}{english} % sync english=097d90 swedish=766f31
+The program [[ls.py]] prints the names in columns:
+\end{onlyin}
+\begin{onlyin}{swedish}
+Programmet [[ls.py]] skriver ut namnen i kolumner:
+\end{onlyin}
+    \inputminted[firstline=1, lastline=10]{python}{examples/ls.py}
+  \end{example}
+\end{frame}
+
+\begin{frame}<presentation>[fragile]
+  \begin{example}[\texttt{ls.py}, 2/2]
+\begin{onlyin}{english} % sync english=5a114c swedish=868a24
+The rest of [[ls.py]]:
+\end{onlyin}
+\begin{onlyin}{swedish}
+Resten av [[ls.py]]:
+\end{onlyin}
+    \inputminted[firstline=12, lastline=21]{python}{examples/ls.py}
+  \end{example}
+\end{frame}
+
+\begin{frame}[fragile]
+  \begin{example}[\ensv{Running the column program}%
+    {När kolumnprogrammet körs}] % sync english=1ee1d3 swedish=fef007
+    \label{ex:ls-py-run}
+\begin{onlyin}{english} % sync english=f1f4a7 swedish=3b0f0c
+Run in [[demo]], [[ls.py]] sets the names out in columns, but more
+simply than [[ls]]: every column is as wide as the longest name, so six
+names need two lines where [[ls]] needed one:
+\end{onlyin}
+\begin{onlyin}{swedish}
+Kört i [[demo]] ställer [[ls.py]] upp namnen i kolumner, men enklare än
+[[ls]]: varje kolumn är lika bred som det längsta namnet, så sex namn
+behöver två rader där [[ls]] behövde en:
+\end{onlyin}
+    \runshell[transcript, cwd=demo, deps={examples/ls.py}]%
+      {python3 ../examples/ls.py}
+  \end{example}
+\end{frame}
+
+\begin{onlyin}{english} % sync english=1aa537 swedish=2c574c
+[[ls]] is itself a program of this kind.  It asks the operating system
+for the names through the operating system's own interface, the same
+one that [[os.listdir]] uses, and sets them out for a person, as
+[[ls.py]] does.  The file manager in \cref{fig:demo-gui} likewise gets
+the names from the operating system before it can draw a single icon.
+The two user interfaces of \cref{sec:gui-cli} are thus built on a
+programming interface.
+\end{onlyin}
+\begin{onlyin}{swedish}
+[[ls]] är självt ett program av det här slaget.  Det ber operativsystemet
+om namnen genom operativsystemets eget gränssnitt, samma som
+[[os.listdir]] använder, och ställer upp dem för en människa, som
+[[ls.py]] gör.  Filhanteraren i \cref{fig:demo-gui} får på samma sätt
+namnen från operativsystemet innan den kan rita en enda ikon.  De två
+användargränssnitten i \cref{sec:gui-cli} är alltså byggda på ett
+programmeringsgränssnitt.
+\end{onlyin}
+
+\mode<all>
+\decksection{\ensv{Both}{Båda}}% % sync english=b6c1d8 swedish=7d08b8
+  {\ensv{The command line serves both}%
+    {Kommandoraden tjänar båda}} % sync english=82cebf swedish=bc9729
+\mode*
+\label{sec:cli-both}
+
+\begin{onlyin}{english} % sync english=20a87e swedish=55f0a6
+\leavevmode\ltnote{%
+  Relevant learning objective: \ref{InterfacesLOBoth}.
+
+  A predict-the-output exercise, used here because it tests a
+  misconception: that a command's output is fixed, whoever reads it.
+  A student who holds it predicts \texttt{1}, since [[ls]] printed one
+  line in \cref{ex:ls}.  The premise the prediction needs (one line on
+  the screen) is shown, in \cref{ex:ls}; the critical aspect (that
+  [[ls]] can tell a person from a program) is not named until the run
+  in \cref{ex:ls-wc} has contradicted the prediction.
+}%
+We return to the command line with a new tool.  The program [[wc]],
+short for \emph{word count}, counts what it reads; with the
+\emph{option} [[-l]] it counts lines.  The bar [[|]], a \emph{pipe},
+sends what one command writes to another command instead of to the
+screen.
+\end{onlyin}
+\begin{onlyin}{swedish}
+\leavevmode\ltnote{%
+  Relevant lärandemål: \ref{InterfacesLOBoth}.
+
+  En övningsuppgift där studenten förutsäger utskriften, använd här
+  därför att den prövar en missuppfattning: att ett kommandos utskrift
+  är densamma vem som än läser den.  En student som har den förutsäger
+  \texttt{1}, eftersom [[ls]] skrev ut en rad i \cref{ex:ls}.
+  Förutsättningen som förutsägelsen behöver (en rad på skärmen) visas, i
+  \cref{ex:ls}; den kritiska aspekten (att [[ls]] kan skilja en
+  människa från ett program) namnges först när körningen i
+  \cref{ex:ls-wc} har motsagt förutsägelsen.
+}%
+Vi återvänder till kommandoraden med ett nytt verktyg.  Programmet
+[[wc]], kort för engelskans \foreignlanguage{english}{\emph{word
+count}} (ordräkning), räknar det som det läser; med \emph{flaggan}
+(\foreignlanguage{english}{option}) [[-l]] räknar det rader.  Strecket
+[[|]], ett \emph{rör} (\foreignlanguage{english}{pipe}), skickar det som
+ett kommando skriver till ett annat kommando i stället för till
+skärmen.
+\end{onlyin}
+
+\begin{frame}[fragile]
+  \begin{exercise}[\ensv{A prediction}{En förutsägelse}] % sync english=ee6a1c swedish=6bcb9e
+    \label{ex:predict-wc}
+\begin{onlyin}{english} % sync english=5f1f85 swedish=3d16a8
+In the terminal, [[ls]] wrote the six names of [[demo]] on one line.
+[[wc -l]] counts the lines it reads.  What does [[ls | wc -l]] print?
+\end{onlyin}
+\begin{onlyin}{swedish}
+I terminalen skrev [[ls]] ut de sex namnen i [[demo]] på en rad.
+[[wc -l]] räknar raderna som det läser.  Vad skriver [[ls | wc -l]] ut?
+\end{onlyin}
+  \end{exercise}
+\end{frame}
+
+\begin{frame}[fragile]
+  \begin{example}[\ensv{Counting the files}{Att räkna filerna}] % sync english=7f7523 swedish=cf80ad
+    \label{ex:ls-wc}
+\begin{onlyin}{english} % sync english=6147c7 swedish=dcd2d7
+The command line answers:
+\end{onlyin}
+\begin{onlyin}{swedish}
+Kommandoraden svarar:
+\end{onlyin}
+    \runshell[transcript, cwd=demo]{ls | wc -l}
+  \end{example}
+\end{frame}
+
+\begin{onlyin}{english} % sync english=14938b swedish=29d972
+Six lines, not one.  When a program reads what [[ls]] writes, [[ls]]
+writes one name per line, the form that is easiest for a program to
+take apart.  We can see it if we let [[cat]] read instead of [[wc]]:
+[[cat]] writes out what it reads, unchanged.
+\end{onlyin}
+\begin{onlyin}{swedish}
+Sex rader, inte en.  När ett program läser det som [[ls]] skriver,
+skriver [[ls]] ett namn per rad, den form som är lättast för ett program
+att ta isär.  Vi kan se det om vi låter [[cat]] läsa i stället för
+[[wc]]: [[cat]] skriver ut det som det läser, oförändrat.
+\end{onlyin}
+
+\begin{frame}[fragile]
+  \begin{example}[\ensv{What \texttt{ls} writes to a program}%
+    {Vad \texttt{ls} skriver till ett program}] % sync english=8519c0 swedish=082f02
+    \label{ex:ls-cat}
+\begin{onlyin}{english} % sync english=ab6166 swedish=1812b3
+Passed through [[cat]], the names come one per line:
+\end{onlyin}
+\begin{onlyin}{swedish}
+Genom [[cat]] kommer namnen ett per rad:
+\end{onlyin}
+    \runshell[transcript, cwd=demo]{ls | cat}
+  \end{example}
+\end{frame}
+
+\begin{onlyin}{english} % sync english=2b32b9 swedish=87e781
+So [[ls]] tells its two kinds of reader apart.  When its output goes to
+the terminal, a person reads it, and [[ls]] sets the names out for the
+eye; when it goes into a pipe, a program reads it, and [[ls]] writes
+what a program can use.  This is why a command line serves a person and
+a program at once.  It is a user interface, since you type the commands
+and read the answers; and since those commands and answers are text,
+programs can take your place on either side.  With the bar you can also
+join two programs whose makers never thought of each other: [[ls]] and
+[[wc]] were written separately, and neither knows the other.
+\end{onlyin}
+\begin{onlyin}{swedish}
+[[ls]] skiljer alltså sina två sorters läsare åt.  När utskriften går
+till terminalen läser en människa den, och [[ls]] ställer upp namnen för
+ögat; när den går in i ett rör läser ett program den, och [[ls]] skriver
+det som ett program kan använda.  Det är därför en kommandorad tjänar en
+människa och ett program på samma gång.  Den är ett användargränssnitt,
+eftersom du skriver kommandona och läser svaren; och eftersom
+kommandona och svaren är text kan program ta din plats på vilken sida
+som helst.  Med strecket kan du också koppla ihop två program vars
+upphovspersoner aldrig tänkte på varandra: [[ls]] och [[wc]] skrevs var
+för sig, och inget av dem känner till det andra.
+\end{onlyin}
+
+\begin{onlyin}{english} % sync english=543571 swedish=19ba41
+\leavevmode\ltnote{%
+  Relevant learning objectives: \ref{InterfacesLOKinds} and
+  \ref{InterfacesLOBoth}.
+
+  \textbf{Variation pattern}: contrast of two languages for one task.
+  \textbf{What stays invariant}: the task (the visible names of
+  [[demo]], one per line) and the output, identical in
+  \cref{ex:ls-api-run,ex:ls-grep}.  \textbf{What varies}: the language, a
+  Python program against a pipeline of two programs.  The students are
+  not expected to read either; the point is the trade-off the prose
+  names, so that the shell is not presented as simply better.
+}%
+The pipe also gives us a second way to do what [[ls-api.py]] does.
+[[ls -a]] lists all the names, those that start with a dot included,
+and [[grep -v]] drops the lines that match a pattern, here
+\mintinline{text}{'^[.]'}, a dot at the start of a line.
+\end{onlyin}
+\begin{onlyin}{swedish}
+\leavevmode\ltnote{%
+  Relevanta lärandemål: \ref{InterfacesLOKinds} och
+  \ref{InterfacesLOBoth}.
+
+  \textbf{Variationsmönster}: kontrast mellan två språk för en uppgift.
+  \textbf{Vad som hålls invariant}: uppgiften (de synliga namnen i
+  [[demo]], ett per rad) och utskriften, identisk i
+  \cref{ex:ls-api-run,ex:ls-grep}.  \textbf{Vad som varierar}: språket,
+  ett Pythonprogram mot en kedja av två program.  Studenterna förväntas
+  inte läsa något av dem; poängen är avvägningen som texten namnger, så
+  att skalet inte framställs som helt enkelt bättre.
+}%
+Röret ger oss också ett andra sätt att göra det som [[ls-api.py]] gör.
+[[ls -a]] listar alla namn, också de som börjar med en punkt, och
+[[grep -v]] tar bort de rader som matchar ett mönster, här
+\mintinline{text}{'^[.]'}, en punkt i början av en rad.
+\end{onlyin}
+
+\begin{frame}[fragile]
+  \begin{example}[\ensv{The same list from two programs}%
+    {Samma lista från två program}] % sync english=46f9d2 swedish=dff481
+    \label{ex:ls-grep}
+\begin{onlyin}{english} % sync english=d90a5e swedish=159249
+Two programs joined by a pipe give the same list as [[ls-api.py]]:
+\end{onlyin}
+\begin{onlyin}{swedish}
+Två program ihopkopplade med ett rör ger samma lista som
+[[ls-api.py]]:
+\end{onlyin}
+    \runshell[transcript, cwd=demo]{ls -a | grep -v '^[.]'}
+  \end{example}
+\end{frame}
+
+\begin{onlyin}{english} % sync english=56af2e swedish=9fb31e
+The shell says in one line what took [[ls-api.py]] several, because it
+joins programs that already exist.  The price is that each program has
+its own small language (the options [[-a]] and [[-v]], the pattern
+\mintinline{text}{'^[.]'}), and what passes between them is lines of
+text.  Python is one language throughout, and to it the names are data,
+a list of strings that the program can sort, count or set out in
+columns as it likes; but you write more yourself.  The lectures
+\emph{Commands and the file system} and \emph{Pipes and redirection}
+take the shell's side further.
+\end{onlyin}
+\begin{onlyin}{swedish}
+Skalet säger på en rad det som tog [[ls-api.py]] flera, eftersom det
+kopplar ihop program som redan finns.  Priset är att varje program har
+sitt eget lilla språk (flaggorna [[-a]] och [[-v]], mönstret
+\mintinline{text}{'^[.]'}), och att det som går mellan dem är textrader.
+Python är ett och samma språk hela vägen, och för det är namnen data, en
+lista av strängar som programmet kan sortera, räkna eller ställa upp i
+kolumner som det vill; men du skriver mer själv.  Föreläsningarna
+\emph{Kommandon och filsystemet} och \emph{Rör och omdirigering} går
+vidare på skalets sida.
+\end{onlyin}
+
+\begin{onlyin}{english} % sync english=253bc2 swedish=5c8b5b
+\leavevmode\ltnote{%
+  Relevant learning objective: \ref{InterfacesLOBoth}.
+
+  The reports task is posed here and solved in the lecture
+  \emph{Scripts}: this lecture needs the question, not the answer.
+  \Cref{ex:reports} asks how the task would be done in a file manager
+  before anything is said about the command line's way, so that the
+  student meets the cost of the GUI for a bulk task first-hand.  The
+  numbers (3287 files, 368 to pick) come from the runs and from the
+  generator, so they hold for the data the students can generate
+  themselves.
+}%
+Now a task where the difference counts.  The directory [[reports]]
+holds one report per day from 1 January 2001 to 31 December 2009, each
+a file named after its date.  [[wc]] counts them, and [[head]], which
+lets only the first lines through, shows how they are named:
+\end{onlyin}
+\begin{onlyin}{swedish}
+\leavevmode\ltnote{%
+  Relevant lärandemål: \ref{InterfacesLOBoth}.
+
+  Rapportuppgiften ställs här och löses i föreläsningen \emph{Skript}:
+  den här föreläsningen behöver frågan, inte svaret.  \Cref{ex:reports}
+  frågar hur uppgiften skulle göras i en filhanterare innan något sägs om
+  kommandoradens sätt, så att studenten själv möter vad ett GUI kostar
+  för en massuppgift.  Talen (3287 filer, 368 att välja) kommer från
+  körningarna och från generatorn, så de gäller för den data som
+  studenterna kan skapa själva.
+}%
+Nu en uppgift där skillnaden spelar roll.  Katalogen [[reports]]
+innehåller en rapport per dag från den 1 januari 2001 till den 31
+december 2009, var och en en fil som heter efter sitt datum.  [[wc]]
+räknar dem, och [[head]], som bara släpper igenom de första raderna,
+visar hur de heter:
+\end{onlyin}
+
+\begin{frame}[fragile]
+  \begin{example}[\ensv{The directory \texttt{reports}}%
+    {Katalogen \texttt{reports}}] % sync english=66af74 swedish=1d1dc7
+    \label{ex:reports-dir}
+\begin{onlyin}{english} % sync english=66f31c swedish=fa63af
+In the directory [[examples]]:
+\end{onlyin}
+\begin{onlyin}{swedish}
+I katalogen [[examples]]:
+\end{onlyin}
+    \runshell[transcript, cwd=examples]{ls reports | wc -l}
+    \runshell[transcript, cwd=examples]{ls reports | head -n 3}
+  \end{example}
+\end{frame}
+
+\begin{onlyin}{english} % sync english=b7d2a3 swedish=b4323e
+We made the reports with a short script, which writes one small file per
+day.  You will be able to read all of it after the lecture
+\emph{Scripts}; here it is, so that you can make the same reports
+yourself.  It runs through the years, the months and the days, and the
+number of days in a month comes from a small function, which knows that
+February has 29 days in a leap year.
+\end{onlyin}
+\begin{onlyin}{swedish}
+Vi skapade rapporterna med ett kort skript, som skriver en liten fil per
+dag.  Du kommer att kunna läsa hela det efter föreläsningen
+\emph{Skript}; här är det, så att du kan skapa samma rapporter själv.
+Det går igenom åren, månaderna och dagarna, och antalet dagar i en månad
+kommer från en liten funktion, som vet att februari har 29 dagar ett
+skottår.
+\end{onlyin}
+
+<<[[generate-reports.sh]]>>=
+#!/bin/sh
+<<function [[days_in_month]]>>
+
+mkdir -p reports
+for year in $(seq 2001 2009); do
+  for month in 01 02 03 04 05 06 07 08 09 10 11 12; do
+    for day in $(seq -w 1 "$(days_in_month "$year" "$month")"); do
+      echo "Report for $year-$month-$day" \
+        > "reports/$year-$month-$day.txt"
+    done
+  done
+done
+@
+
+\begin{onlyin}{english} % sync english=f3e3f2 swedish=78dcfa
+A year is a leap year if it is divisible by four, except a year
+divisible by 100 that is not divisible by 400:
+\end{onlyin}
+\begin{onlyin}{swedish}
+Ett år är ett skottår om det är delbart med fyra, utom ett år som är
+delbart med 100 men inte med 400:
+\end{onlyin}
+
+<<function [[days_in_month]]>>=
+days_in_month() {
+  case $2 in
+    04 | 06 | 09 | 11) echo 30 ;;
+    02)
+      if [ $((($1 % 4 == 0 && $1 % 100 != 0) || $1 % 400 == 0)) -eq 1 ]
+      then echo 29
+      else echo 28
+      fi
+      ;;
+    *) echo 31 ;;
+  esac
+}
+@
+
+\begin{frame}[fragile]
+  \begin{exercise}[\ensv{The summer reports}{Sommarrapporterna}] % sync english=aeafdd swedish=593eca
+    \label{ex:reports}
+\begin{onlyin}{english} % sync english=ba4fcf swedish=6fa5c9
+Put the contents of all the reports from the summers --- June, July and
+August --- of 2005 to 2008 into one file.  How would you do it in a file
+manager?  How long would it take, and how would you know that you had
+every report?  What would you need from a command line to do it there?
+\end{onlyin}
+\begin{onlyin}{swedish}
+Lägg innehållet i alla rapporter från somrarna --- juni, juli och
+augusti --- 2005 till 2008 i en fil.  Hur skulle du göra det i en
+filhanterare?  Hur lång tid skulle det ta, och hur skulle du veta att du
+fått med varje rapport?  Vad skulle du behöva av en kommandorad för att
+göra det där?
+\end{onlyin}
+  \end{exercise}
+\end{frame}
+
+\begin{onlyin}{english} % sync english=9f6f3a swedish=e7a8ad
+Count first: four summers of 92 days each make 368 reports, out of 3287.
+In a file manager you can sort the files by name and select one summer's
+run of files at a time, four times over, taking care not to miss one at
+either end; then the contents of 368 files have to be put together into
+one.  And what you did with the mouse is gone when you are done: if a
+year of reports is added, or someone asks how you picked them, you start
+again.  At the command line the choice is a pattern over the names, the
+years 2005 to 2008 and the months 06 to 08, and the work is a line of
+commands that you can write down and run again, on 368 files or on
+368\,000.  We write that line in the lecture \emph{Scripts}.
+\end{onlyin}
+\begin{onlyin}{swedish}
+Räkna först: fyra somrar med 92 dagar vardera blir 368 rapporter, av
+3287.  I en filhanterare kan du sortera filerna efter namn och markera
+en sommars följd av filer i taget, fyra gånger om, och se upp så att du
+inte missar någon i någon ände; sedan ska innehållet i 368 filer föras
+samman till en.  Och det du gjorde med musen är borta när du är klar:
+läggs ett år av rapporter till, eller frågar någon hur du valde ut dem,
+börjar du om.  På kommandoraden är valet ett mönster över namnen, åren
+2005 till 2008 och månaderna 06 till 08, och arbetet är en rad kommandon
+som du kan skriva ner och köra igen, på 368 filer eller på 368\,000.  Vi
+skriver den raden i föreläsningen \emph{Skript}.
+\end{onlyin}
+
+\mode<all>
+\decksection{\ensv{Where}{Var}}% % sync english=1daaa3 swedish=605298
+  {\ensv{Where you meet a command line}%
+    {Där du möter en kommandorad}} % sync english=1e259e swedish=31eaba
+\mode*
+\label{sec:where-cli}
+
+\begin{onlyin}{english} % sync english=44c0dc swedish=df9641
+\leavevmode\ltnote{%
+  Relevant learning objective: \ref{InterfacesLOWhere}.
+
+  \Cref{ex:where-cli} activates what the students already know or
+  guess about computing outside their own laptops before the section
+  lists the settings, so that each setting answers a guess.  Every
+  claim about the world in this section is backed in an appendix or in a
+  source the student can open, and is stated at the strength that
+  source supports: in particular, the section does not say that a
+  command line is faster or more efficient than a graphical interface,
+  since \cref{app:cli-efficiency} found no general advantage in
+  efficiency.
+}%
+The reports were a task on your own computer.  Some of the computers
+you will work with are not in front of you at all.
+\end{onlyin}
+\begin{onlyin}{swedish}
+\leavevmode\ltnote{%
+  Relevant lärandemål: \ref{InterfacesLOWhere}.
+
+  \Cref{ex:where-cli} aktiverar det som studenterna redan vet eller
+  gissar om datoranvändning utanför den egna datorn innan avsnittet
+  räknar upp sammanhangen, så att varje sammanhang svarar på en gissning.
+  Varje påstående om världen i avsnittet har sitt underlag i en bilaga
+  eller i en källa som studenten kan öppna, och står med den styrka som
+  källan bär: i synnerhet säger avsnittet inte att en kommandorad är
+  snabbare eller effektivare än ett grafiskt gränssnitt, eftersom
+  \cref{app:cli-efficiency} inte fann någon allmän fördel i
+  effektivitet.
+}%
+Rapporterna var en uppgift på din egen dator.  En del av de datorer som
+du kommer att arbeta med står inte framför dig alls.
+\end{onlyin}
+
+\begin{frame}[fragile]
+  \begin{exercise}[\ensv{Beyond your laptop}{Bortom din dator}] % sync english=c14631 swedish=a1c5b8
+    \label{ex:where-cli}
+\begin{onlyin}{english} % sync english=4d0e5b swedish=2b093f
+Where, besides your own computer, do you think you will need a command
+line?
+\end{onlyin}
+\begin{onlyin}{swedish}
+Var, förutom på din egen dator, tror du att du kommer att behöva en
+kommandorad?
+\end{onlyin}
+  \end{exercise}
+\end{frame}
+
+\begin{onlyin}{english} % sync english=a3d307 swedish=e8fdec
+A \emph{server} is a computer that you reach over the network rather
+than sit at.  KTH has one for its students, [[student-shell]], and the
+way in is the command [[ssh]], which logs you into the other computer
+over an encrypted connection and gives you a command line there; the
+course's guide to accessing the terminal shows you how.
+The fastest computers of research run Linux: every system on the
+TOP500, the list of the 500 fastest supercomputers submitted to it, has
+done so since November 2017, though smaller clusters are not
+counted\autocite{Top500OSFamily2026,Top500Participation2026}.
+High-performance computers are reached mainly through such a command
+line, over SSH, and it is the first way into the systems of the Swedish
+centres; but it is not the only one, since the Swedish centres also offer
+remote desktops, and centres abroad offer web portals and notebooks that
+thousands use\autocite{Lafayette2022SSH,NSCGettingStarted2026,%
+PDCSSHLogin2026,NSCGraphics2026,PDCInteractive2026,Miller2012CIPRES,%
+Strande2017Comet}.\footnote{The scientific basis is in
+\cref{app:hpc-cli}: it asks whether high-performance computers run Linux
+and are reached through a command line, and finds that every TOP500
+system runs Linux, though the list leaves smaller clusters out, and that
+a command line over SSH is the usual way in, but not the only one.}
+\end{onlyin}
+\begin{onlyin}{swedish}
+En \emph{server} är en dator som du når över nätverket i stället för att
+sitta vid den.  KTH har en för sina studenter, [[student-shell]], och
+vägen in är kommandot [[ssh]], som loggar in dig på den andra datorn
+över en krypterad förbindelse och ger dig en kommandorad där; kursens
+guide till terminalen visar dig hur.
+Forskningens snabbaste datorer kör Linux: varje system på TOP500,
+listan över de 500 snabbaste superdatorer som skickats in till den, har
+gjort det sedan november 2017, fast mindre kluster inte
+räknas\autocite{Top500OSFamily2026,Top500Participation2026}.
+Högpresterande datorer (\foreignlanguage{english}{high-performance
+computing}, HPC) nås huvudsakligen genom en sådan kommandorad, över
+SSH, och det är den första vägen in i de svenska centrens system; men den
+är inte den enda, eftersom de svenska centren också erbjuder
+fjärrskrivbord, och centrum utomlands erbjuder webbportaler och
+interaktiva anteckningsböcker (\foreignlanguage{english}{notebooks}) som
+tusentals använder\autocite{Lafayette2022SSH,NSCGettingStarted2026,%
+PDCSSHLogin2026,NSCGraphics2026,PDCInteractive2026,Miller2012CIPRES,%
+Strande2017Comet}.\footnote{Det vetenskapliga underlaget finns i
+\cref{app:hpc-cli}: den frågar om högpresterande datorer kör Linux och
+nås genom en kommandorad, och finner att varje TOP500-system kör Linux,
+fast listan utelämnar mindre kluster, och att en kommandorad över SSH är
+den vanliga vägen in, men inte den enda.}
+\end{onlyin}
+
+\begin{onlyin}{english} % sync english=f01a82 swedish=762518
+\leavevmode\ltnote{%
+  \Cref{ex:tor} is the author's first-hand account (author, 2026-11-19);
+  the students are not named.  It illustrates what a command line on a
+  remote computer is used for, and it is not evidence for the claim
+  about computing clusters, which \cref{app:hpc-cli} examines.
+}%
+One example comes from KTH.
+\end{onlyin}
+\begin{onlyin}{swedish}
+\leavevmode\ltnote{%
+  \Cref{ex:tor} är författarens egen berättelse (författaren,
+  2026-11-19); studenterna namnges inte.  Den belyser vad en kommandorad
+  på en fjärrdator används till, och den är inget belägg för påståendet
+  om beräkningskluster, som \cref{app:hpc-cli} prövar.
+}%
+Ett exempel kommer från KTH.
+\end{onlyin}
+
+\begin{frame}[fragile]
+  \begin{example}[\ensv{A simulation too large for a laptop}%
+    {En simulering för stor för en bärbar dator}] % sync english=f6d4cc swedish=d0cc37
+    \label{ex:tor}
+\begin{onlyin}{english} % sync english=5c7532 swedish=3cf919
+Two KTH students had to simulate the Tor network.  That could not be
+done on a laptop: it required a high-performance computer.  They got
+computing time on one in Linköping, and the only way in was SSH, that
+is, a command line.
+\end{onlyin}
+\begin{onlyin}{swedish}
+Två studenter vid KTH behövde simulera Tornätverket.  Det gick inte att
+göra på en bärbar dator: det krävde en högpresterande dator.  De fick
+beräkningstid på en i Linköping, och den enda vägen in var SSH, alltså
+en kommandorad.
+\end{onlyin}
+  \end{example}
+\end{frame}
+
+\begin{onlyin}{english} % sync english=472ca6 swedish=3e6b05
+When you do research, in a degree project, say, your experiments leave
+their results in files, and you will want to process them.  Guides to
+research computing advise doing that with programs and scripts rather
+than by hand\autocite{Sandve2013Ten,Wilson2014Best,Wilson2017Good}; one
+of them puts it as \textcquote[5]{Wilson2017Good}{write scripts for
+every stage of data processing}.  Work done by hand in a graphical
+program can go wrong at scale: in leading genomics journals,
+\textcquote{Ziemann2016Gene}{approximately one-fifth of papers with
+supplementary Excel gene lists contain erroneous gene name conversions},
+made by the spreadsheet's default settings.  A script is no guarantee
+either: of more than 9000 files of R code published with research data,
+74 per cent failed to run without error\autocite{Trisovic2022Large}.
+\end{onlyin}
+\begin{onlyin}{swedish}
+När du forskar, i ett examensarbete till exempel, lämnar dina experiment
+sina resultat i filer, och du kommer att vilja bearbeta dem.  Guider för
+datoranvändning i forskning råder dig att göra det med program och
+skript i stället för för
+hand\autocite{Sandve2013Ten,Wilson2014Best,Wilson2017Good}; en av dem
+uttrycker det som att man ska skriva skript för varje steg i
+databearbetningen\autocite[5]{Wilson2017Good}.  Arbete som görs för hand
+i ett grafiskt program kan gå fel i stor skala: i ledande tidskrifter i
+genomik innehöll ungefär en femtedel av artiklarna med genlistor i Excel
+som bilaga felaktigt omvandlade gennamn, orsakade av kalkylprogrammets
+standardinställningar\autocite{Ziemann2016Gene}.  Ett skript är ingen
+garanti heller: av mer än 9000 filer med R-kod som publicerats
+tillsammans med forskningsdata gick 74 procent inte att köra utan
+fel\autocite{Trisovic2022Large}.
+\end{onlyin}
+
+\begin{onlyin}{english} % sync english=bc4bdc swedish=aacf9c
+System administrators, who look after computers for others, have been
+asked which interface they use.  From a survey of 300
+administrators of firewalls, the authors sum up which interface the
+respondents found suited to which task:
+\textcquote[8]{Voronkov2019System}{\textins*{a}ll use cases associated with
+entering many similar rules
+on one computer or bulk changes on several computers at once require the
+use of a CLI}, and several of them named automation as a strength of
+command lines; yet in the same survey 60 per cent preferred graphical
+interfaces for managing firewalls, and 32 per cent command
+lines\autocite[1]{Voronkov2019System}.  Neither kind of interface is
+simply better.  A graphical interface is usually, though not always, the
+easier one to start with\autocite{Margono1995Study,Staggers2000Comparing,%
+DeLeon1983Trouble,Durham1998Learning}.  With practice, typing a command
+can become faster than choosing it from a menu, as an experiment showed
+for keyboard shortcuts, not for a shell\autocite{Remington2016With}; but
+many experienced users never switch to the shortcuts of the programs
+they use every day\autocite{Lane2005Hidden,Tak2013Satisficing}.  What a command
+line gives you for certain is what
+the reports showed: a line of commands that you can write down and run
+again, on any number of files.\footnote{The scientific basis for these
+paragraphs is in \cref{app:cli-efficiency}: it asks whether a command
+line is more efficient than a graphical interface or makes work more
+reproducible, and finds no general advantage in efficiency, and that
+running the steps as scripts is advised for reproducibility but has not
+been measured.}
+\end{onlyin}
+\begin{onlyin}{swedish}
+Systemadministratörer, som sköter datorer åt andra, har fått frågan
+vilket gränssnitt de använder.  Ur en enkät till 300
+administratörer av brandväggar sammanfattar författarna vilket
+gränssnitt de svarande ansåg passa vilken uppgift: alla användningsfall
+som gäller att föra in många likadana regler på en dator, eller ändringar
+i klump på flera datorer på en gång, kräver ett
+CLI\autocite[8]{Voronkov2019System}, och flera av dem nämnde
+automatisering som en styrka hos kommandorader; ändå föredrog 60 procent
+i samma enkät grafiska gränssnitt för att sköta brandväggar, och 32
+procent kommandorader\autocite[1]{Voronkov2019System}.  Ingen av
+sorterna är helt enkelt bättre.  Ett grafiskt gränssnitt är oftast, men
+inte alltid, det lättare att börja
+med\autocite{Margono1995Study,Staggers2000Comparing,DeLeon1983Trouble,%
+Durham1998Learning}.  Med övning kan det gå snabbare att skriva ett
+kommando än att välja det i en meny, som ett experiment visade för
+kortkommandon, inte för ett skal\autocite{Remington2016With}; men många
+erfarna användare går aldrig över till kortkommandona i de program som
+de använder varje dag\autocite{Lane2005Hidden,Tak2013Satisficing}.  Det som en
+kommandorad säkert ger dig är det som rapporterna visade: en rad
+kommandon som du kan skriva ner och köra igen, på hur många filer som
+helst.\footnote{Det vetenskapliga underlaget för de här styckena finns i
+\cref{app:cli-efficiency}: den frågar om en kommandorad är effektivare
+än ett grafiskt gränssnitt eller gör arbete mer reproducerbart
+(\foreignlanguage{english}{reproducible}), och finner ingen allmän fördel
+i effektivitet, och att det rekommenderas att köra stegen som skript för
+reproducerbarhetens skull, men att det inte har mätts.}
+\end{onlyin}
+
+\begin{onlyin}{english} % sync english=586658 swedish=61541b
+The command line you meet in these lectures runs on Linux, and on macOS
+and the BSD systems you meet one that is much the same.  That is because
+these systems share a history: the BSD systems, and macOS through them,
+descend from Unix, the system that Ritchie and Thompson described at
+Bell Laboratories in 1974, while Linux was written from scratch to
+imitate it.\footnote{The scientific basis is in \cref{app:unix-lineage}:
+it asks which of today's systems descend from Unix, and finds that the
+BSD systems and macOS do, that Linux imitates it, and that Android is
+built on the Linux kernel; the answer differs from one system to the
+next.}  Android, a system for mobile phones, is built on the Linux
+kernel, but the rest of it is not that of a Linux computer, so you
+cannot expect the same command line there.
+\end{onlyin}
+\begin{onlyin}{swedish}
+Den kommandorad som du möter i de här föreläsningarna körs på Linux, och
+på macOS och BSD-systemen möter du en som är nästan likadan.  Det beror på
+att systemen har en gemensam historia: BSD-systemen, och macOS genom
+dem, härstammar från Unix, det system som Ritchie och Thompson beskrev
+vid Bell Laboratories 1974, medan Linux skrevs från grunden för att
+efterlikna det.\footnote{Det vetenskapliga underlaget finns i
+\cref{app:unix-lineage}: den frågar vilka av dagens system som
+härstammar från Unix, och finner att BSD-systemen och macOS gör det, att
+Linux efterliknar det och att Android är byggt på Linuxkärnan; svaret är
+olika för olika system.}  Android, ett system för mobiltelefoner, är byggt
+på Linuxkärnan, men resten av systemet är inte som på en Linuxdator, så
+du kan inte räkna med samma kommandorad där.
+\end{onlyin}
+
+\mode<all>
+\section{\ensv{Summary}{Sammanfattning}} % sync english=8e76a9 swedish=c40567
+\mode*
+\label{sec:summary}
+
+\begin{frame}[fragile]
+  \begin{summary}
+\begin{onlyin}{english} % sync english=418e6a swedish=e19bc7
+An interface is where two sides meet.  What tells the three kinds apart
+is who is on the other side, and through what:
+\end{onlyin}
+\begin{onlyin}{swedish}
+Ett gränssnitt är där två sidor möts.  Det som skiljer de tre sorterna
+åt är vem som finns på andra sidan, och genom vad:
+\end{onlyin}
+    \begin{description}
+      \item[\ensv{GUI}{Grafiskt användargränssnitt}] % sync english=22fe7f swedish=8902fd
+\begin{onlyin}{english} % sync english=6dc817 swedish=ab2032
+a person, through pictures and pointing;
+\end{onlyin}
+\begin{onlyin}{swedish}
+en människa, genom bilder och pekande;
+\end{onlyin}
+      \item[\ensv{CLI}{Kommandoradsgränssnitt}] % sync english=e75979 swedish=88b18e
+\begin{onlyin}{english} % sync english=bf0e82 swedish=46ecf9
+a person, through typed text; and, since it is text, a program just as
+well;
+\end{onlyin}
+\begin{onlyin}{swedish}
+en människa, genom skriven text; och, eftersom det är text, lika gärna
+ett program;
+\end{onlyin}
+      \item[\ensv{API}{Programmeringsgränssnitt}] % sync english=c8e599 swedish=7b1de7
+\begin{onlyin}{english} % sync english=ae1e7d swedish=97b65b
+a program, through functions and data.
+\end{onlyin}
+\begin{onlyin}{swedish}
+ett program, genom funktioner och data.
+\end{onlyin}
+    \end{description}
+  \end{summary}
+\end{frame}
