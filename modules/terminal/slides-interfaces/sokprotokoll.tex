@@ -928,15 +928,16 @@ få tag på någon av dem.
 \end{onlyin}
 
 \paragraph{\ensv{Screening.}{Gallring.}} % sync english=156955 swedish=fe7361
-\begin{onlyin}{english} % sync english=4f75e4 swedish=b6361a
+\begin{onlyin}{english} % sync english=ca78f5 swedish=f0e2c4
 The searches returned 10\,405 records, 9\,744 after records of the same
 work from different databases were merged.  The hits in
 \cref{tab:cli-efficiency-queries} add up to 18\,372, more than the
 records, because a record that several queries return is counted in the
 table once for each of them.  A record is judged on its abstract.
 After the searches 1\,955 records had no abstract; their abstracts were
-then looked up by DOI in further databases, after which 829 still had
-none.  Screening subagents, language models (Claude Sonnet) that worked
+then looked up by DOI in further databases, in two runs, after which
+816 still had none.  Screening subagents, language models (Claude Sonnet) that
+worked
 for the agent from a written brief and a written statement of the
 research question, read the title and abstract of each of the
 10\,405 records.  For each they gave a verdict, one of four categories
@@ -961,10 +962,10 @@ which the two screens differed in verdict or in whether the record bears
 on the claim, kept 11 more and corrected the category of 33 excluded
 records.  Every decision is the agent's, and the author has not yet
 reviewed them.  Of the 10\,405 records, 361 were kept (205 supporting
-the claim, 156 qualifying it) and 10\,044 excluded: 3\,986 as \emph{not
-interfaces}, 2\,342 as \emph{tool only}, 1\,272 as \emph{other
-question}, 864 as \emph{no evidence}, 815 as \emph{no abstract} and 765
-as \emph{dataset record}.  The 815 include ten records whose abstract
+the claim, 156 qualifying it) and 10\,044 excluded: 3\,989 as \emph{not
+interfaces}, 2\,347 as \emph{tool only}, 1\,276 as \emph{other
+question}, 865 as \emph{no evidence}, 802 as \emph{no abstract} and 765
+as \emph{dataset record}.  The 802 include ten records whose abstract
 field held only other text, such as affiliations; the other 24 records
 without an abstract were decided as copies of a record of the same work
 that has one.  Two works that this appendix cites are among the
@@ -1000,8 +1001,9 @@ från olika databaser slagits samman.  Träffarna i
 posterna, eftersom en post som flera frågor ger räknas i tabellen en gång
 för var och en av dem.  En post bedöms på sin sammanfattning.  Efter
 sökningarna saknade 1\,955 poster sammanfattning; deras sammanfattningar
-söktes sedan upp via DOI i fler databaser, och därefter saknade 829 fortfarande
-en.  Gallringsagenter, språkmodeller (Claude Sonnet) som arbetade åt
+söktes sedan upp via DOI i fler databaser, i två omgångar, och därefter
+saknade 816 fortfarande en.  Gallringsagenter, språkmodeller (Claude Sonnet)
+som arbetade åt
 agenten utifrån en skriven instruktion och en skriven formulering av
 forskningsfrågan, läste titeln och sammanfattningen på var och en av de
 10\,405 posterna.  För varje post gav de ett beslut, en av fyra
@@ -1026,10 +1028,10 @@ agenten läste de 124 poster där de två gallringarna skilde sig i beslut
 eller i om posten rör påståendet, behöll 11 till och rättade kategorin för
 33 uteslutna poster.  Varje beslut är agentens, och författaren har ännu
 inte granskat dem.  Av de 10\,405 posterna behölls 361 (205 stödjande,
-156 kvalificerande) och 10\,044 uteslöts: 3\,986 som \emph{inte
-gränssnitt}, 2\,342 som \emph{bara verktyg}, 1\,272 som \emph{annan
-fråga}, 864 som \emph{inga belägg}, 815 som \emph{ingen sammanfattning}
-och 765 som \emph{datamängdspost}.  De 815 omfattar tio poster vars fält
+156 kvalificerande) och 10\,044 uteslöts: 3\,989 som \emph{inte
+gränssnitt}, 2\,347 som \emph{bara verktyg}, 1\,276 som \emph{annan
+fråga}, 865 som \emph{inga belägg}, 802 som \emph{ingen sammanfattning}
+och 765 som \emph{datamängdspost}.  De 802 omfattar tio poster vars fält
 för sammanfattning bara innehöll annan text, som författarnas
 institutioner; de övriga 24 posterna utan sammanfattning avgjordes som
 kopior av en post för samma verk som har en.  Två verk som bilagan citerar
@@ -1808,7 +1810,7 @@ skenbara missuppfattningar hör till representationen snarare än till dem
 \section{\ensv{Discussion and limitations}{Diskussion och begränsningar}} % sync english=634094 swedish=5d16d0
 \label{sec:cli-efficiency-discussion}
 
-\begin{onlyin}{english} % sync english=50d4bc swedish=33d3e8
+\begin{onlyin}{english} % sync english=8b7288 swedish=fece48
 The interface studies are old: most date from 1983 to 2000, when the
 graphical interface was new and the command lines compared were those
 of MS-DOS, early UNIX or special systems.  Several compare a legacy
@@ -1848,11 +1850,14 @@ excluded for want of an abstract, 39 of them from 2000 or earlier;
 among them are studies of the errors Unix users make, of learning UNIX,
 of the transition from menus to commands, of keyboard commands and
 menus, and further comparisons of command and graphical interfaces.  To
-these come the two studies that only the check by meaning found.  The
-look-up of abstracts was itself incomplete: Semantic Scholar limited the
-rate of requests and paused it repeatedly, and 311 look-ups in Crossref
-failed because of a fault in the tool's installation, so some of the
-records excluded as \emph{no abstract} may have one there.  The
+these come the two studies that only the check by meaning found.  In
+the first look-up of abstracts, 311 look-ups in Crossref failed because
+of a fault in the tool's installation; once it was repaired, a second
+look-up of the 829 records then without an abstract found abstracts for
+13, which a blind screen judged, and none of them bears on the claim.
+Semantic Scholar limited the rate of requests in both runs, so some of
+the records excluded as \emph{no abstract} may still have one there.
+The
 counts in \cref{tab:cli-efficiency-queries} carry the limits of the
 databases.  DBLP could not be searched at all.  OpenAlex was searched in
 titles and abstracts, not in full text, and its abstracts are
@@ -1910,12 +1915,14 @@ tidigare; bland dem finns studier av de fel som Unixanvändare gör, av att
 lära sig UNIX, av övergången från menyer till kommandon, av
 tangentbordskommandon och menyer, och ytterligare jämförelser av
 kommandogränssnitt och grafiska gränssnitt.  Till dem kommer de två
-studier som bara kontrollen efter betydelse hittade.  Uppslagningen av
-sammanfattningar var själv ofullständig: Semantic Scholar begränsade
-antalet förfrågningar och pausade den upprepade gånger, och 311
-uppslagningar i Crossref misslyckades på grund av ett fel i verktygets
-installation, så en del av de poster som uteslöts som \emph{ingen
-sammanfattning} kan ha en där.  Talen i
+studier som bara kontrollen efter betydelse hittade.  I den första
+uppslagningen av sammanfattningar misslyckades 311 uppslagningar i
+Crossref på grund av ett fel i verktygets installation; när det hade
+rättats hittade en andra uppslagning av de 829 poster som då saknade
+sammanfattning sammanfattningar för 13, som en blind gallring bedömde,
+och ingen av dem rör påståendet.  Semantic Scholar begränsade antalet
+förfrågningar i båda omgångarna, så en del av de poster som uteslöts som
+\emph{ingen sammanfattning} kan ändå ha en där.  Talen i
 \cref{tab:cli-efficiency-queries} bär databasernas gränser.  DBLP kunde
 inte genomsökas alls.  OpenAlex söktes i titlar och sammanfattningar,
 inte i fulltext, och dess sammanfattningar är ofullständiga, så den är
@@ -2131,17 +2138,20 @@ som relevanta för påståendet.
 %                     corrected)
 %   no-abstract rule: abstracts looked up by DOI (scholar enrich): 1955
 %                     without abstract after the searches, 829 after the
-%                     2026-11-19 enrich; 815 tagged no-abstract (incl. 10
-%                     with boilerplate only), 24 decided as copies.  The
-%                     enrich run was rate-limited by S2 and 311 Crossref
-%                     look-ups failed (certifi CA bundle missing in the
-%                     scholar venv at the time; present again 2026-11-20)
+%                     2026-11-19 enrich, 816 after the rerun of 2026-11-20
+%                     (13 gained an abstract, re-screened blind, none
+%                     bearing); 802 tagged no-abstract (incl. 10 with
+%                     boilerplate only), 24 decided as copies.  The first
+%                     enrich lost 311 Crossref look-ups (certifi CA bundle
+%                     missing in the scholar venv); the rerun had 0 TLS
+%                     errors; S2 rate-limited both runs (enrich-cli.log,
+%                     enrich2-cli.log)
 %   hit-list tables : scholar sessions export cli-efficiency -f table
 %                     --bearing-only --lang en|sv --label sok-cli-efficiency
 %                     --track "Claim B"|"Påstående B" --theme ...
 %                     --cited-from ltnotes.bib -o
 %                     litteratursokning/cli-efficiency-full(-sv) (not
-%                     hand-edited; 313 works listed, 118 cited)
+%                     hand-edited; 313 works listed, 128 cited)
 %   for the author's check:
 %     - the three ANTIKODE preprints "Terminal-Based Developer Experience:
 %       A Usability Analysis" (2026; doi:10.5281/zenodo.20775418 on OSF
@@ -2151,8 +2161,6 @@ som relevanta för påståendet.
 %     - Kendon2016Unix: full text unobtainable (not open access, ACM 403
 %       through the KTH tunnel); excluded as no-evidence, cited only as
 %       background.
-%     - a rerun of scholar enrich now that Crossref works may rescue some
-%       of the 815 no-abstract records.
 %   provenance      : ltnotes.bib (CLAIM/FOUND-VIA/QUOTE/VERIFIED)
 \begin{onlyin}{english} % sync english=609530 swedish=e63cc8
 \input{litteratursokning/cli-efficiency-full}
@@ -3787,7 +3795,7 @@ begreppsorden; det är skälet till att de är kända titlar.
 
 \paragraph{\ensv{Screening and exclusion criteria.}%
   {Gallring och uteslutningskriterier.}} % sync english=c0d3d3 swedish=e2519b
-\begin{onlyin}{english} % sync english=305cee swedish=e26085
+\begin{onlyin}{english} % sync english=ca8bd9 swedish=ef2eea
 The searches returned 1437 records, 1267 of them distinct.
 Screening subagents, language models (Claude Sonnet) that worked for
 the agent from a written brief and a written statement of the research
@@ -3839,7 +3847,9 @@ a copy of a record of the same work that has one, and four from an
 abstract or a full text found on the publisher's or an archive's page.
 Of the 1437 records the agent kept 71 (65 supporting the claim, six
 qualifying it); \cref{tab:sok-unix-lineage} lists them as 63 works, and
-marks those that the text cites.  Six records that bear on the claim
+marks 19 of them as cited: the text cites 21, but two are held in the
+search's record under variant titles, one with a chapter number and one
+with an edition in the title.  Six records that bear on the claim
 were excluded: five without an abstract, mostly from the 1980s, and the
 Unix History Repository as a \emph{dataset record}.
 \end{onlyin}
@@ -3897,7 +3907,9 @@ uteslöts så avgjordes en som kopia av en post för samma verk som har en,
 och fyra utifrån en sammanfattning eller en fulltext som hittades på
 förlagets eller ett arkivs sida.  Av de 1437 posterna behöll agenten 71
 (65 stödjande, sex kvalificerande); \cref{tab:sok-unix-lineage} listar
-dem som 63 verk, och markerar dem som texten citerar.  Sex poster som rör
+dem som 63 verk, och markerar 19 av dem som citerade: texten citerar 21,
+men två finns i sökningens uppteckning under varianter av sina titlar,
+en med ett kapitelnummer och en med en upplaga i titeln.  Sex poster som rör
 påståendet uteslöts: fem utan sammanfattning, de flesta från 1980-talet,
 och Unix History Repository som \emph{datamängdspost}.
 \end{onlyin}
