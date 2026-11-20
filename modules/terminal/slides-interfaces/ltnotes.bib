@@ -5429,3 +5429,550 @@
   year    = {2025},
   doi     = {10.22369/issn.2153-4136/16/1/5},
 }
+
+% === provenance: Skinner2019Factor ===
+% CLAIM: A single-site case study: monthly linear accelerator QA that took 5
+%   hours by the previous methods took 30 minutes once automation scripts
+%   drove the vendor's graphical program, with fewer error pathways.
+% FOUND-VIA: scholar session "cli-efficiency" (redone screening of 2026-11-19/20,
+%   kept by the agent); scholar prov found-via doi:10.1177/1533033819876897:
+%   scholar search 'TITLE-ABS-KEY((("command line" OR "command-line" OR
+%   "command language" OR "command languages" OR "command-based" OR
+%   "command-driven" OR "command interface" OR "command interfaces" OR "typed
+%   commands" OR shell OR Unix) OR (script OR scripts OR scripted OR
+%   scripting)) AND (reproducible OR reproducibility OR replicable OR
+%   replicability OR "reproducible research") AND ("point-and-click" OR
+%   "graphical user interface" OR "graphical interface" OR GUI OR "by hand" OR
+%   "manual steps" OR "manual data" OR "manual processing"))' -p scopus
+%   --limit 0. Metadata from Crossref. Full text from Europe PMC (PMC6843702,
+%   fullTextXML,
+%   https://www.ebi.ac.uk/europepmc/webservices/rest/PMC6843702/fullTextXML,
+%   read 2026-11-20); a text source that scholar's PDF cache cannot hold.
+% PICKED: case study of repeated work automated by scripts (theme practitioners);
+%   the clearest measured before/after among the B redo's new keeps; also
+%   shows that the scripts drive a graphical program, i.e. automation versus
+%   manual work, not CLI versus GUI.
+% QUOTE (abstract): "The previous methods at our institution required 5 hours to
+%   perform the mechanical and dosimetric monthly linear accelerator quality
+%   assurance tests. An improved workflow was developed to perform these tests
+%   with higher accuracy, with fewer error pathways, in significantly less
+%   time."; "These methods enable, in 30 minutes, measurement and analysis of
+%   20 of the 26 dosimetric and mechanical monthly tests recommended by
+%   TG-142."; (methods) "Treatment plans were combined with automation scripts
+%   that interface with Sun Nuclear's graphical user interface."
+% VERIFIED: full-text (Europe PMC XML, read 2026-11-20); one institution, the
+%   authors' own workflow; 20 of 26 tests covered; the article has no page
+%   numbers (article number 1533033819876897).
+% COUNTER: scholar session "cli-efficiency", counter queries C1-C7
+%   (tab:cli-efficiency-queries; C4 and C7 on scripts that fail to re-run) --
+%   they returned studies in which the graphical side held up and audits of
+%   research scripts that do not run again; none measures the same bulk task
+%   at a command line and in a graphical interface, and none disputes this
+%   study's own figures, so it is cited at the strength of its design and the
+%   chapter keeps the limit "automation against manual work, not a command
+%   line against a graphical interface".
+% DATE: 2026-11-20
+@article{Skinner2019Factor,
+  author       = {Skinner, Lawrie B. and Yang, Yong and Hsu, Annie and Xing, Lei
+                  and Yu, Amy S. and Niedermayr, Thomas},
+  title        = {Factor 10 Expedience of Monthly Linac Quality Assurance via
+                  an Ion Chamber Array and Automation Scripts},
+  journaltitle = {Technology in Cancer Research \& Treatment},
+  year         = {2019},
+  volume       = {18},
+  eid          = {1533033819876897},
+  doi          = {10.1177/1533033819876897},
+}
+
+% === provenance: Mandal2025Semi ===
+% CLAIM: A case study: Python scripting in ArcGIS Pro for 48 flood scenarios
+%   reduced processing time by about 85 per cent compared with manual
+%   processing.
+% FOUND-VIA: scholar session "cli-efficiency" (redone screening of 2026-11-19/20,
+%   kept by the agent); scholar prov found-via doi:10.1007/s11069-025-07361-6:
+%   scholar search '(("command line" OR "command-line" OR "command language"
+%   OR "command languages" OR "command-based" OR "command-driven" OR "command
+%   interface" OR "command interfaces" OR "typed commands" OR shell OR Unix)
+%   OR (script OR scripts OR scripted OR scripting)) AND (reproducible OR
+%   reproducibility OR replicable OR replicability OR "reproducible research")
+%   AND ("point-and-click" OR "graphical user interface" OR "graphical
+%   interface" OR GUI OR "by hand" OR "manual steps" OR "manual data" OR
+%   "manual processing")' -p wos --limit 0 (and 2 further queries). Metadata
+%   from Crossref. Full text not obtainable: Springer served an HTML page
+%   instead of the PDF, also through the KTH tunnel (fetch_pdf.py,
+%   2026-11-20).
+% PICKED: case study of bulk work (48 scenarios) automated by a script, with a
+%   measured time reduction; corroboration among the B redo's new keeps.
+% QUOTE (abstract): "significantly reducing processing time by approximately 85%
+%   while ensuring uniformity across scenarios. The workflow was applied to
+%   generate 48 distinct flood scenarios"
+% VERIFIED: abstract only, cited as corroboration (the session record's abstract); the comparison with
+%   manual processing and how the 85 per cent was measured are not described
+%   in the abstract.
+% COUNTER: scholar session "cli-efficiency", counter queries C1-C7
+%   (tab:cli-efficiency-queries; C4 and C7 on scripts that fail to re-run) --
+%   they returned studies in which the graphical side held up and audits of
+%   research scripts that do not run again; none measures the same bulk task
+%   at a command line and in a graphical interface, and none disputes this
+%   study's own figures, so it is cited at the strength of its design and the
+%   chapter keeps the limit "automation against manual work, not a command
+%   line against a graphical interface".
+% DATE: 2026-11-20
+@article{Mandal2025Semi,
+  author       = {Mandal, A. K. and Thapa Chhetri, Madan and Bloetscher, Fred
+                  and Yong, Yan and Su, Hongbo},
+  title        = {Semi-automated workflow for multi-basin, multi-scenario flood
+                  risk modeling, mapping, and impact assessment},
+  journaltitle = {Natural Hazards},
+  year         = {2025},
+  volume       = {121},
+  number       = {12},
+  pages        = {14425--14441},
+  doi          = {10.1007/s11069-025-07361-6},
+}
+
+% === provenance: Pinto2026Semi ===
+% CLAIM: A case study: a scripted PyQGIS workflow produced in about one hour what
+%   an estimated 16-32 hours of manual point-and-click GIS work would.
+% FOUND-VIA: scholar session "cli-efficiency" (redone screening of 2026-11-19/20,
+%   kept by the agent); scholar prov found-via
+%   doi:10.1007/978-3-032-41327-7_21: scholar search 'TITLE-ABS-KEY((("command
+%   line" OR "command-line" OR "command language" OR "command languages" OR
+%   "command-based" OR "command-driven" OR "command interface" OR "command
+%   interfaces" OR "typed commands" OR shell OR Unix) OR (script OR scripts OR
+%   scripted OR scripting)) AND (reproducible OR reproducibility OR replicable
+%   OR replicability OR "reproducible research") AND ("point-and-click" OR
+%   "graphical user interface" OR "graphical interface" OR GUI OR "by hand" OR
+%   "manual steps" OR "manual data" OR "manual processing"))' -p scopus
+%   --limit 0 (and 1 further queries). Metadata from Crossref (book chapter,
+%   CCIS, pp. 320-335; Crossref lists six authors). Full text not obtainable:
+%   Springer served HTML instead of the PDF, also through the KTH tunnel
+%   (2026-11-20).
+% PICKED: case study of repeated GIS work replaced by a script, with a time
+%   comparison; corroboration.
+% QUOTE (abstract): "Assuming an eight-hour working day, the equivalent manual
+%   procedure required an estimated 16-32 h, whereas the scripted workflow
+%   reaches the same products in about one hour"
+% VERIFIED: abstract only, cited as corroboration; the manual time is an estimate, not a measurement, as the
+%   abstract says.
+% COUNTER: scholar session "cli-efficiency", counter queries C1-C7
+%   (tab:cli-efficiency-queries; C4 and C7 on scripts that fail to re-run) --
+%   they returned studies in which the graphical side held up and audits of
+%   research scripts that do not run again; none measures the same bulk task
+%   at a command line and in a graphical interface, and none disputes this
+%   study's own figures, so it is cited at the strength of its design and the
+%   chapter keeps the limit "automation against manual work, not a command
+%   line against a graphical interface".
+% DATE: 2026-11-20
+@incollection{Pinto2026Semi,
+  author       = {Pinto, Carlos Dami{\'a}n and Morales, Solange and N{\'u}{\~n}ez,
+                  Mayra Alejandra and Naranjo-Mantilla, Marisol and
+                  Jord{\'a}n-Bue{\~n}ano, Nancy and Abril, Andr{\'e}s},
+  title        = {Semi-automated Watershed Delineation and Morphometric
+                  Analysis in {QGIS}: A {PyQGIS} Workflow for {Chimborazo},
+                  {Ecuador}},
+  booktitle    = {Communications in Computer and Information Science},
+  publisher    = {Springer Nature Switzerland},
+  year         = {2026},
+  pages        = {320--335},
+  doi          = {10.1007/978-3-032-41327-7_21},
+}
+
+% === provenance: Colaizzi2025Algorithms ===
+% CLAIM: A case study: MATLAB algorithms that process weighing lysimeter data
+%   reduced processing time compared with the spreadsheet used before, with
+%   small discrepancies in the results.
+% FOUND-VIA: scholar session "cli-efficiency" (redone screening of 2026-11-19/20,
+%   kept by the agent); scholar prov found-via doi:10.13031/ja.16404: scholar
+%   search 'title_and_abstract.search:(spreadsheet OR spreadsheets) AND
+%   (reproducible OR reproducibility OR replicable OR replicability OR
+%   "reproducible research") AND (error OR errors)' -p openalex --limit 0.
+%   Metadata from Crossref. Full text fetched into scholar's cache with
+%   fetch_pdf.py (cf996796fa96e8e4, 2026-11-20).
+% PICKED: case study comparing scripted processing with the spreadsheet previously
+%   used for the same repeated work; corroboration.
+% QUOTE (p. 729, abstract): "The program reduced processing time required
+%   compared with a spreadsheet that had been used for the same purpose."
+% VERIFIED: full-text (PDF in scholar's cache, read 2026-11-20); the reduction is
+%   stated, not quantified, in the abstract.
+% COUNTER: scholar session "cli-efficiency", counter queries C1-C7
+%   (tab:cli-efficiency-queries; C4 and C7 on scripts that fail to re-run) --
+%   they returned studies in which the graphical side held up and audits of
+%   research scripts that do not run again; none measures the same bulk task
+%   at a command line and in a graphical interface, and none disputes this
+%   study's own figures, so it is cited at the strength of its design and the
+%   chapter keeps the limit "automation against manual work, not a command
+%   line against a graphical interface".
+% DATE: 2026-11-20
+@article{Colaizzi2025Algorithms,
+  author       = {Colaizzi, Paul D. and Marek, Gary W. and Evett, Steven R. and
+                  Copeland, Karen S. and Ruthardt, Brice B.},
+  title        = {Algorithms to Process Weighing Lysimeter Data},
+  journaltitle = {Journal of the ASABE},
+  year         = {2025},
+  volume       = {68},
+  number       = {5},
+  pages        = {729--752},
+  doi          = {10.13031/ja.16404},
+}
+
+% === provenance: Khakim2026Deterministic ===
+% CLAIM: A case study: an automated Python workflow cut the processing time of
+%   asphalt rheology reports from 7.47 to 1.38 minutes per sample on 20
+%   historical datasets, compared with manual spreadsheet procedures.
+% FOUND-VIA: scholar session "cli-efficiency" (redone screening of 2026-11-19/20,
+%   kept by the agent); scholar prov found-via doi:10.58499/jatan.v43i1.1442:
+%   scholar search 'title_and_abstract.search:(spreadsheet OR spreadsheets)
+%   AND (reproducible OR reproducibility OR replicable OR replicability OR
+%   "reproducible research") AND (error OR errors)' -p openalex --limit 0.
+%   Metadata from Crossref. Full text not obtainable: the journal's site
+%   (binamarga.pu.go.id) did not answer, directly or through the KTH tunnel
+%   (2026-11-20).
+% PICKED: case study with a paired comparison of scripted and manual spreadsheet
+%   processing; corroboration.
+% QUOTE (abstract): "the automated computational system reduced the average
+%   processing time per sample from 7.47 minutes to 1.38 minutes (t(19) =
+%   20.32, p < 0.001)"
+% VERIFIED: abstract only, cited as corroboration; a post-facto comparison on 20 historical datasets.
+% COUNTER: scholar session "cli-efficiency", counter queries C1-C7
+%   (tab:cli-efficiency-queries; C4 and C7 on scripts that fail to re-run) --
+%   they returned studies in which the graphical side held up and audits of
+%   research scripts that do not run again; none measures the same bulk task
+%   at a command line and in a graphical interface, and none disputes this
+%   study's own figures, so it is cited at the strength of its design and the
+%   chapter keeps the limit "automation against manual work, not a command
+%   line against a graphical interface".
+% DATE: 2026-11-20
+@article{Khakim2026Deterministic,
+  author       = {Khakim, Muhammad Sultonul and Wardhono, Arie and Widayanti,
+                  Ari and Kusnianti, Neni and Vidyaning Viarsami, Vita},
+  title        = {Deterministic Computational Validation for Enhancing
+                  Precision and Efficiency in Asphalt Rheology Test Reporting},
+  journaltitle = {Jurnal Jalan Jembatan},
+  year         = {2026},
+  volume       = {43},
+  number       = {1},
+  doi          = {10.58499/jatan.v43i1.1442},
+}
+
+% === provenance: Sledziowski2026Expert ===
+% CLAIM: A conference abstract: an automated workflow computed in a few minutes
+%   the morphometric parameters that took eight hours of manual analysis.
+% FOUND-VIA: scholar session "cli-efficiency" (redone screening of 2026-11-19/20,
+%   kept by the agent); scholar prov found-via doi:10.5194/epsc2026-422:
+%   scholar search 'title_and_abstract.search:(("command line" OR
+%   "command-line" OR "command language" OR "command languages" OR
+%   "command-based" OR "command-driven" OR "command interface" OR "command
+%   interfaces" OR "typed commands" OR shell OR Unix) OR (script OR scripts OR
+%   scripted OR scripting)) AND (reproducible OR reproducibility OR replicable
+%   OR replicability OR "reproducible research") AND ("point-and-click" OR
+%   "graphical user interface" OR "graphical interface" OR GUI OR "by hand" OR
+%   "manual steps" OR "manual data" OR "manual processing")' -p openalex
+%   --limit 0. Metadata from Crossref (posted content, Copernicus, EPSC 2026
+%   abstract). The abstract is the whole contribution.
+% PICKED: a case of repeated manual measurement replaced by a script, with a time
+%   comparison; corroboration, grey literature (a conference abstract).
+% QUOTE (abstract): "we compared the morphometric parameters obtained during
+%   eight hours of manual analysis with those automatically calculated by
+%   MarsCONE in only a few minutes"
+% VERIFIED: abstract only, cited as corroboration (a conference abstract, read from the session record); not
+%   peer reviewed as a paper.
+% COUNTER: scholar session "cli-efficiency", counter queries C1-C7
+%   (tab:cli-efficiency-queries; C4 and C7 on scripts that fail to re-run) --
+%   they returned studies in which the graphical side held up and audits of
+%   research scripts that do not run again; none measures the same bulk task
+%   at a command line and in a graphical interface, and none disputes this
+%   study's own figures, so it is cited at the strength of its design and the
+%   chapter keeps the limit "automation against manual work, not a command
+%   line against a graphical interface".
+% DATE: 2026-11-20
+@misc{Sledziowski2026Expert,
+  author       = {{\'S}ledziowski, Jakub and Pieterek, Bartosz and Jones,
+                  Thomas J.},
+  title        = {From Expert Mapping to Automated Planetary Geomorphometry:
+                  The {MarsCONE} Workflow for Cone Analysis},
+  howpublished = {Conference abstract EPSC2026-422, Europlanet Science
+                  Congress},
+  publisher    = {Copernicus},
+  year         = {2026},
+  doi          = {10.5194/epsc2026-422},
+}
+
+% === provenance: Kiseleva2018Proteomic ===
+% CLAIM: A case study: a scripted pipeline analysed 192 mass-spectrometry files
+%   in 11 hours, an efficiency the authors call unobtainable by manual work.
+% FOUND-VIA: scholar session "cli-efficiency" (redone screening of 2026-11-19/20,
+%   kept by the agent); scholar prov found-via doi:10.1142/s021972001740011x:
+%   scholar search 'TITLE-ABS-KEY((("command line" OR "command-line" OR
+%   "command language" OR "command languages" OR "command-based" OR
+%   "command-driven" OR "command interface" OR "command interfaces" OR "typed
+%   commands" OR shell OR Unix) OR (script OR scripts OR scripted OR
+%   scripting)) AND (reproducible OR reproducibility OR replicable OR
+%   replicability OR "reproducible research") AND ("point-and-click" OR
+%   "graphical user interface" OR "graphical interface" OR GUI OR "by hand" OR
+%   "manual steps" OR "manual data" OR "manual processing"))' -p scopus
+%   --limit 0. Metadata from Crossref. Full text not obtainable (World
+%   Scientific; fetch_pdf.py through the KTH tunnel returned no PDF,
+%   2026-11-20).
+% PICKED: case study of bulk data processing automated by a script; corroboration;
+%   no measured manual comparison.
+% QUOTE (abstract): "We added homemade java-script to automatize pipeline from
+%   file picking to report generation. These settings resulted in rise of the
+%   efficiency of our customized pipeline unobtainable by manual scouting: the
+%   analysis of 192 files searched against human proteome (42153 entries)
+%   downloaded from UniProt took 11 h."
+% VERIFIED: abstract only, cited as corroboration; the manual alternative is not measured.
+% COUNTER: scholar session "cli-efficiency", counter queries C1-C7
+%   (tab:cli-efficiency-queries; C4 and C7 on scripts that fail to re-run) --
+%   they returned studies in which the graphical side held up and audits of
+%   research scripts that do not run again; none measures the same bulk task
+%   at a command line and in a graphical interface, and none disputes this
+%   study's own figures, so it is cited at the strength of its design and the
+%   chapter keeps the limit "automation against manual work, not a command
+%   line against a graphical interface".
+% DATE: 2026-11-20
+@article{Kiseleva2018Proteomic,
+  author       = {Kiseleva, Olga and Poverennaya, Ekaterina and Shargunov,
+                  Alexander and Lisitsa, Andrey},
+  title        = {Proteomic {Cinderella}: Customized analysis of bulky {MS/MS}
+                  data in one night},
+  journaltitle = {Journal of Bioinformatics and Computational Biology},
+  year         = {2018},
+  volume       = {16},
+  number       = {1},
+  eid          = {1740011},
+  doi          = {10.1142/S021972001740011X},
+}
+
+% === provenance: Fung2021QIIME ===
+% CLAIM: A meeting abstract: three novices used a shell-script pipeline for QIIME
+%   2; two of three reached the endpoints, with 228 keystrokes where the
+%   manual route would take 11,594 characters.
+% FOUND-VIA: scholar session "cli-efficiency" (redone screening of 2026-11-19/20,
+%   kept by the agent); scholar prov found-via
+%   doi:10.1096/fasebj.2021.35.s1.00394: scholar search
+%   'title_and_abstract.search:("command line" OR "command-line" OR "command
+%   language" OR "command languages" OR "command-based" OR "command-driven" OR
+%   "command interface" OR "command interfaces" OR "typed commands" OR shell
+%   OR Unix) AND (novice OR novices OR beginner OR beginners OR "new users" OR
+%   "casual users" OR "occasional users" OR "inexperienced users" OR
+%   learnability OR "ease of learning" OR "ease of use") AND (difficult OR
+%   difficulty OR difficulties OR errors OR mistakes OR misconception OR
+%   misconceptions OR barrier OR barriers OR "hard to learn")' -p openalex
+%   --limit 0. Metadata from Crossref (FASEB Journal 35(S1), meeting
+%   abstract). Full text not obtainable; the abstract is the whole
+%   contribution.
+% PICKED: a small user study (n = 3) of scripted versus manual steps; grey
+%   literature.
+% QUOTE (abstract): "The pipeline was trialed with 3 novices"; "2 out of 3 trials
+%   were successful in meeting these endpoints within 2 weeks"; "Using the
+%   fewest possible keystrokes, this analysis would have taken 11,594
+%   characters over roughly 40 hours if done manually. Using our QIIME 2
+%   automation, these endpoints were completed with 228 user keystrokes."
+% VERIFIED: abstract only, cited as corroboration (a meeting abstract); the manual figure is an estimate,
+%   not a measured trial.
+% COUNTER: scholar session "cli-efficiency", counter queries C1-C7
+%   (tab:cli-efficiency-queries; C4 and C7 on scripts that fail to re-run) --
+%   they returned studies in which the graphical side held up and audits of
+%   research scripts that do not run again; none measures the same bulk task
+%   at a command line and in a graphical interface, and none disputes this
+%   study's own figures, so it is cited at the strength of its design and the
+%   chapter keeps the limit "automation against manual work, not a command
+%   line against a graphical interface".
+% DATE: 2026-11-20
+@article{Fung2021QIIME,
+  author       = {Fung, Calvin and Rusling, Matthew and Lampeter, Thomas and
+                  Love, Charles and Yuan, Li-Lian},
+  title        = {{QIIME} 2 Automation for Microbiome Analysis: An Opportunity
+                  to Reduce Barriers to Entry While Improving Analytic Speed
+                  and Reliability},
+  journaltitle = {The FASEB Journal},
+  year         = {2021},
+  volume       = {35},
+  number       = {S1},
+  note         = {Meeting abstract},
+  doi          = {10.1096/fasebj.2021.35.S1.00394},
+}
+
+% === provenance: Tomasic2006Workflow ===
+% CLAIM: A technical report: in a user study, a workflow script generated by
+%   demonstration was more efficient than manual updates in a forms system
+%   once a batch held more than eight form changes.
+% FOUND-VIA: scholar session "cli-efficiency" (redone screening of 2026-11-19/20,
+%   kept by the agent); scholar prov found-via doi:10.21236/ada456801: scholar
+%   search 'title_and_abstract.search:(("command line" OR "command-line" OR
+%   "command language" OR "command languages" OR "command-based" OR
+%   "command-driven" OR "command interface" OR "command interfaces" OR "typed
+%   commands" OR shell OR Unix) OR (script OR scripts OR scripted OR
+%   scripting)) AND (reproducible OR reproducibility OR replicable OR
+%   replicability OR "reproducible research") AND ("point-and-click" OR
+%   "graphical user interface" OR "graphical interface" OR GUI OR "by hand" OR
+%   "manual steps" OR "manual data" OR "manual processing")' -p openalex
+%   --limit 0. Metadata from Crossref (report, Defense Technical Information
+%   Center, 2006). Full text not obtainable: apps.dtic.mil returned no PDF
+%   (2026-11-20).
+% PICKED: a small user study with a break-even point between scripted and manual
+%   repeated updates; a technical report.
+% QUOTE (abstract): "a user study show that if a batch update contains more than
+%   8 form changes, WbE is more efficient to use than manual updates"
+% VERIFIED: abstract only, cited as corroboration (a technical report); sample size and measures not given
+%   in the abstract.
+% COUNTER: scholar session "cli-efficiency", counter queries C1-C7
+%   (tab:cli-efficiency-queries; C4 and C7 on scripts that fail to re-run) --
+%   they returned studies in which the graphical side held up and audits of
+%   research scripts that do not run again; none measures the same bulk task
+%   at a command line and in a graphical interface, and none disputes this
+%   study's own figures, so it is cited at the strength of its design and the
+%   chapter keeps the limit "automation against manual work, not a command
+%   line against a graphical interface".
+% DATE: 2026-11-20
+@report{Tomasic2006Workflow,
+  author       = {Tomasic, Anthony and McGuire, R. M. and Myers, Brad},
+  title        = {Workflow by Example: Automating Database Interactions via
+                  Induction},
+  type         = {techreport},
+  institution  = {Defense Technical Information Center},
+  year         = {2006},
+  doi          = {10.21236/ADA456801},
+}
+
+% === provenance: Shiro2026Block ===
+% CLAIM: A preliminary experiment with ten participants: building a training
+%   environment on OpenStack took a median 530.5 s with the command line and
+%   700.0 s with the Horizon web interface; a block-programming tool was
+%   faster than both.
+% FOUND-VIA: scholar session "cli-efficiency" (redone screening of 2026-11-19/20,
+%   kept by the agent); scholar prov found-via doi:10.1016/j.cose.2026.105171:
+%   scholar search '("command line" OR "command-line" OR "command language" OR
+%   "command languages" OR "command-based" OR "command-driven" OR "command
+%   interface" OR "command interfaces" OR "typed commands" OR shell OR Unix)
+%   AND ("graphical user interface" OR "graphical interface" OR GUI OR GUIs OR
+%   "direct manipulation" OR menu OR menus OR "menu-driven" OR
+%   "point-and-click" OR icon OR icons OR iconic) AND ("task performance" OR
+%   "user performance" OR "completion time" OR "task time" OR speed OR
+%   efficiency OR errors OR "error rate" OR productivity)' -p wos --limit 0
+%   (and 2 further queries). Metadata from Crossref (Computers & Security 172,
+%   2027 issue, article 105171). Full text not obtainable: ScienceDirect
+%   returned 403 (2026-11-20).
+% PICKED: the only new keep that compares a command line with a graphical
+%   interface on the same task; preliminary and small.
+% QUOTE (abstract): "A preliminary user experiment with 10 participants indicated
+%   that the proposed method significantly reduced construction time compared
+%   to existing interfaces: by 35% compared to OpenStack Horizon (median:
+%   455.5 s vs. 700.0 s, |r| = 1.00) and by 14% compared to the CLI (median:
+%   455.5 s vs. 530.5 s, |r| = .71)"
+% VERIFIED: abstract only, cited as corroboration; the CLI-versus-Horizon difference is derived from the two
+%   reported medians, not tested in the abstract.
+% COUNTER: scholar session "cli-efficiency", counter queries C1-C7
+%   (tab:cli-efficiency-queries; C4 and C7 on scripts that fail to re-run) --
+%   they returned studies in which the graphical side held up and audits of
+%   research scripts that do not run again; none measures the same bulk task
+%   at a command line and in a graphical interface, and none disputes this
+%   study's own figures, so it is cited at the strength of its design and the
+%   chapter keeps the limit "automation against manual work, not a command
+%   line against a graphical interface".
+% DATE: 2026-11-20
+@article{Shiro2026Block,
+  author       = {Shiro, Asuka and Mohri, Masami and Shiraishi, Yoshiaki},
+  title        = {A block programming approach for cybersecurity training
+                  environment construction},
+  journaltitle = {Computers \& Security},
+  year         = {2027},
+  volume       = {172},
+  eid          = {105171},
+  doi          = {10.1016/j.cose.2026.105171},
+}
+
+% === provenance: Allen2021Source ===
+% CLAIM: Authors speak loosely of descent: a book chapter counts Linux, BSD, Mac
+%   OS X and Android among the systems that "count Unix as an ancestor".
+% FOUND-VIA: scholar session "unix-lineage" (redone screening of 2026-11-19/20, kept
+%   by the agent); scholar prov found-via hash:050fccd91703f0a0: scholar
+%   search '(BSD OR "Berkeley Software Distribution" OR FreeBSD OR NetBSD OR
+%   OpenBSD) AND Unix AND (history OR descendant OR descendants OR lineage OR
+%   derived OR origins)' -p ieee --limit 0 (and 1 further queries). Metadata
+%   from Crossref (doi 10.7551/mitpress/10993.003.0019, MIT Press, pp.
+%   273-296; the session record has no DOI). Full text not obtainable
+%   (fetch_pdf.py, 2026-11-20).
+% PICKED: a descent-wording qualifier kept in the D redo; shows Linux and Android
+%   counted with BSD as descendants.
+% QUOTE (abstract): "Many modern operating systems—Linux, BSD, the BSD derivative
+%   Mac OS X, the Linux-derived mobile operating system Android—count Unix as
+%   an ancestor"
+% VERIFIED: abstract only (the chapter abstract in the session record).
+% COUNTER: scholar session "unix-lineage", counter queries C1-C4
+%   (tab:unix-lineage-queries) -- returned no source that disputes the
+%   lineage; this record is itself one of the qualifying (descent-wording)
+%   records, cited for its wording only.
+% DATE: 2026-11-20
+@incollection{Allen2021Source,
+  author       = {Allen, Ben},
+  title        = {Source Code Isn't},
+  booktitle    = {Your Computer Is on Fire},
+  publisher    = {The MIT Press},
+  year         = {2021},
+  pages        = {273--296},
+  doi          = {10.7551/mitpress/10993.003.0019},
+}
+
+% === provenance: Negus2015Starting ===
+% CLAIM: A Linux textbook traces the history of Linux from early UNIX systems and
+%   BSD: descent wording for an imitation.
+% FOUND-VIA: scholar session "unix-lineage" (redone screening of 2026-11-19/20, kept
+%   by the agent); scholar prov found-via doi:10.1002/9781119209539.ch1:
+%   scholar search 'title_and_abstract.search:(BSD OR "Berkeley Software
+%   Distribution" OR FreeBSD OR NetBSD OR OpenBSD) AND Unix AND (history OR
+%   descendant OR descendants OR lineage OR derived OR origins)' -p openalex
+%   --limit 0. Metadata from Crossref (chapter 1 of Linux Bible, Wiley, pp.
+%   1-27; no author in Crossref) and OpenAlex W2176227507 (author Christopher
+%   Negus).
+% PICKED: a descent-wording qualifier kept in the D redo (textbook).
+% QUOTE (abstract): "The history of the Linux operating system can be tracked
+%   from early UNIX systems that were distributed free to colleges and
+%   improved by initiatives such as the Berkeley Software Distribution (BSD)."
+% VERIFIED: abstract only (the chapter abstract in the session record).
+% COUNTER: scholar session "unix-lineage", counter queries C1-C4
+%   (tab:unix-lineage-queries) -- returned no source that disputes the
+%   lineage; this record is itself one of the qualifying (descent-wording)
+%   records, cited for its wording only.
+% DATE: 2026-11-20
+@incollection{Negus2015Starting,
+  author       = {Negus, Christopher},
+  title        = {Starting with {Linux}},
+  booktitle    = {Linux Bible},
+  publisher    = {Wiley},
+  year         = {2015},
+  pages        = {1--27},
+  doi          = {10.1002/9781119209539.ch1},
+}
+
+% === provenance: Lucas2007Absolute ===
+% CLAIM: The description of a FreeBSD book calls FreeBSD, a descendant of Unix,
+%   "Unix-like": the word is used for descendants too.
+% FOUND-VIA: scholar session "unix-lineage" (redone screening of 2026-11-19/20, kept
+%   by the agent); scholar prov found-via hash:81414baaa06022d8: scholar
+%   search 'title_and_abstract.search:Linux AND ("Unix-like" OR "Unix like" OR
+%   "Unix clone" OR "clone of Unix" OR "Linux history" OR "history of Linux")'
+%   -p openalex --limit 0. Metadata from OpenAlex W2338512250 (2007-11-15, No
+%   Starch Press) and Open Library ISBN 9781593271510 (Michael W. Lucas, No
+%   Starch Press, which dates the print 2008).
+% PICKED: a descent-wording qualifier kept in the D redo; its record's abstract is
+%   the publisher's description of the book.
+% QUOTE (abstract, the publisher's description): "FreeBSD-the powerful, flexible,
+%   and free Unix-like operating system-is the preferred server for many
+%   enterprises."
+% VERIFIED: abstract only: the record's abstract is the publisher's description of
+%   the book, cited for its wording only, not for any fact about FreeBSD.
+% COUNTER: scholar session "unix-lineage", counter queries C1-C4
+%   (tab:unix-lineage-queries) -- returned no source that disputes the
+%   lineage; this record is itself one of the qualifying (descent-wording)
+%   records, cited for its wording only.
+% DATE: 2026-11-20
+@book{Lucas2007Absolute,
+  author       = {Lucas, Michael W.},
+  title        = {Absolute {FreeBSD}},
+  edition      = {2},
+  publisher    = {No Starch Press},
+  year         = {2007},
+  isbn         = {9781593271510},
+}

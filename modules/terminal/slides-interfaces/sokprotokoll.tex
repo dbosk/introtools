@@ -1062,7 +1062,7 @@ utesluts om den är något av följande.
 \end{onlyin}
 
 \paragraph{\ensv{Reading.}{Läsning.}} % sync english=0b0b47 swedish=47095f
-\begin{onlyin}{english} % sync english=b08810 swedish=258b97
+\begin{onlyin}{english} % sync english=c72407 swedish=cea7cd
 The agent read in full every cited source that it could obtain: the
 report of
 \textcite{Margono1995Study}, the paper of \textcite{Chen2007Comparing},
@@ -1073,8 +1073,10 @@ survey of \textcite{Voronkov2019System}, the guides of
 \textcite{Abeysooriya2021Gene}, \textcite{Trisovic2022Large} and
 \textcite{Saju2025Computational}, the comparison of
 \textcite{Magar2025Data}, the interview study of
-\textcite{Doyle2007Why}, the reanalysis of \textcite{Baggerly2009Deriving}
-and the thesis of \textcite{Nust2022Infrastructures}.  Most interface studies
+\textcite{Doyle2007Why}, the reanalysis of \textcite{Baggerly2009Deriving},
+the thesis of \textcite{Nust2022Infrastructures} and the case studies of
+\textcite{Skinner2019Factor} and \textcite{Colaizzi2025Algorithms}.
+Most interface studies
 of the 1980s and
 1990s appeared with publishers that refused the university's network
 access or stopped it with a bot check; every other cited source was
@@ -1090,8 +1092,10 @@ guiderna av \textcite{Sandve2013Ten}, \textcite{Wilson2014Best} och
 \textcite{Abeysooriya2021Gene}, \textcite{Trisovic2022Large} och
 \textcite{Saju2025Computational}, jämförelsen av
 \textcite{Magar2025Data}, intervjustudien av \textcite{Doyle2007Why},
-omanalysen av \textcite{Baggerly2009Deriving} och avhandlingen av
-\textcite{Nust2022Infrastructures}.  De flesta gränssnittsstudierna från 1980-
+omanalysen av \textcite{Baggerly2009Deriving}, avhandlingen av
+\textcite{Nust2022Infrastructures} och fallstudierna av
+\textcite{Skinner2019Factor} och \textcite{Colaizzi2025Algorithms}.  De
+flesta gränssnittsstudierna från 1980-
 och 1990-talen kom ut hos
 förlag som nekade universitetets nätverk åtkomst eller stoppade det med
 en kontroll mot robotar; varje annan citerad källa lästes bara i sin
@@ -1102,7 +1106,7 @@ sammanfattning.
 \label{sec:cli-efficiency-results}
 
 \paragraph{\ensv{Efficiency.}{Effektivitet.}} % sync english=e29307 swedish=05a6b6
-\begin{onlyin}{english} % sync english=70d83c swedish=556f1c
+\begin{onlyin}{english} % sync english=fddc9f swedish=9932de
 The experiments that compare command interfaces with menu, iconic or
 direct-manipulation interfaces do not show a general advantage for
 either side.  The broadest of them measured 76 users with seven systems
@@ -1213,8 +1217,35 @@ repeated over many files and saved as a script.  One recent comparison
 of design workflows reports that \textcquote{Saddi2026Human}
 {automation, scalability, and repeatability are more likely to be
 achieved with CLI-based workflows}, but its abstract gives neither
-sample nor numbers.  Beyond it we found only what practitioners
-report.  System administrators, the users who
+sample nor numbers.  What comes nearest to a measurement are case
+studies and small user studies of automation, and they compare a script
+with the same work done by hand, not a command line with a graphical
+interface.  Monthly quality assurance of a linear accelerator took
+30~minutes instead of five hours once scripts drove the vendor's graphical
+program\autocite{Skinner2019Factor}; Python in a GIS cut the processing
+time of 48 flood scenarios by about 85~per~cent
+\autocite{Mandal2025Semi}, and a scripted GIS workflow did in about an
+hour what was estimated at 16 to 32 hours by hand
+\autocite{Pinto2026Semi}; scripts reduced processing time compared with
+a spreadsheet for lysimeter data\autocite{Colaizzi2025Algorithms} and,
+from 7.47 to 1.38 minutes a sample, for asphalt tests
+\autocite{Khakim2026Deterministic}; a conference abstract reports minutes where
+manual analysis took eight hours\autocite{Sledziowski2026Expert}, and a
+scripted pipeline analysed 192 files in 11 hours, an efficiency its
+authors call unobtainable by hand\autocite{Kiseleva2018Proteomic}.  Two small
+user
+studies agree: three novices given a shell-script pipeline needed 228
+keystrokes where the manual route would take an estimated 11\,594
+characters, and two of the three reached the endpoints
+\autocite{Fung2021QIIME}, and in a technical report a generated script
+was more efficient than manual updates once a batch held more than
+eight changes\autocite{Tomasic2006Workflow}.  The one comparison of a
+command line with a graphical interface on the same task among them is a
+preliminary experiment with 10 participants, in which building an
+environment on a cloud platform took a median 530.5~s with its command
+line and 700.0~s with its web interface\autocite{Shiro2026Block}.
+Beyond these we found what practitioners report.  System administrators, the
+users who
 do such work daily, mostly use command lines although graphical tools
 are offered, and \textcquote{Takayama2006Trust}{many of these power
 users perceive CLIs as more effective than GUIs}; interviews and a
@@ -1359,8 +1390,35 @@ som upprepas över många filer och sparas som ett skript.  En nyligen
 gjord jämförelse av designarbetsflöden rapporterar att
 \foreigntextcquote{english}{Saddi2026Human}{automation, scalability,
 and repeatability are more likely to be achieved with CLI-based
-workflows}, men dess sammanfattning ger varken urval eller siffror.
-Utöver den hittade vi bara vad yrkesverksamma rapporterar.
+workflows}, men dess sammanfattning ger varken urval eller siffror.  Det
+som kommer närmast en mätning är fallstudier och små användarstudier av
+automatisering, och de jämför ett skript med samma arbete gjort för hand,
+inte en kommandorad med ett grafiskt gränssnitt.  Den månatliga
+kvalitetskontrollen av en linjäraccelerator tog 30~minuter i stället för
+fem timmar sedan skript fått styra leverantörens grafiska program
+\autocite{Skinner2019Factor}; Python i ett GIS minskade
+bearbetningstiden för 48 översvämningsscenarier med omkring 85~procent
+\autocite{Mandal2025Semi}, och ett skriptat GIS-flöde gjorde på ungefär
+en timme det som uppskattades till 16 till 32 timmar för hand
+\autocite{Pinto2026Semi}; skript minskade bearbetningstiden jämfört med
+ett kalkylblad för lysimeterdata\autocite{Colaizzi2025Algorithms} och,
+från 7,47 till 1,38 minuter per prov, för asfaltsprovningar
+\autocite{Khakim2026Deterministic}; en konferenssammanfattning rapporterar
+minuter där manuell analys tog åtta timmar\autocite{Sledziowski2026Expert},
+och ett skriptat analysflöde gick igenom 192 filer på elva timmar, en
+effektivitet som författarna kallar omöjlig att nå för hand
+\autocite{Kiseleva2018Proteomic}.
+Två små användarstudier håller med: tre nybörjare som fick ett flöde av
+skalskript behövde 228 tangenttryckningar där den manuella vägen
+uppskattades till 11\,594 tecken, och två av de tre nådde målen
+\autocite{Fung2021QIIME}, och i en teknisk rapport var ett genererat
+skript effektivare än manuella uppdateringar när en omgång innehöll fler
+än åtta ändringar\autocite{Tomasic2006Workflow}.  Den enda jämförelsen
+bland dem av en kommandorad med ett grafiskt gränssnitt på samma uppgift
+är ett preliminärt experiment med tio deltagare, där det tog i median
+530,5~s att bygga en miljö på en molnplattform med dess kommandorad och
+700,0~s med dess webbgränssnitt\autocite{Shiro2026Block}.  Utöver dessa
+hittade vi vad yrkesverksamma rapporterar.
 Systemadministratörer, de användare som gör sådant arbete dagligen,
 använder mest kommandorader fastän grafiska verktyg erbjuds, och
 \foreigntextcquote{english}{Takayama2006Trust}{many of these power users
@@ -1750,7 +1808,7 @@ skenbara missuppfattningar hör till representationen snarare än till dem
 \section{\ensv{Discussion and limitations}{Diskussion och begränsningar}} % sync english=634094 swedish=5d16d0
 \label{sec:cli-efficiency-discussion}
 
-\begin{onlyin}{english} % sync english=a0c911 swedish=e41c3b
+\begin{onlyin}{english} % sync english=50d4bc swedish=33d3e8
 The interface studies are old: most date from 1983 to 2000, when the
 graphical interface was new and the command lines compared were those
 of MS-DOS, early UNIX or special systems.  Several compare a legacy
@@ -1771,6 +1829,11 @@ samples are small, from eight experts \autocite{Chen2007Comparing} to
 98 nurses \autocite{Staggers2000Comparing}, and the practitioners'
 reports are surveys of preference and opinion
 \autocite{Takayama2006Trust,Voronkov2019System,Murillo2014Empowering}.
+The case studies of automation each report one site, by the people who
+built the automation, and apart from the linear accelerator and the
+lysimeter study we read them in abstract only; two of the reports are
+meeting or conference abstracts, one is a technical report, and the one
+comparison with a graphical interface is a preliminary experiment.
 The audits of research code measure whether published scripts run
 again, mostly in R; they do not compare scripts with manual work.
 
@@ -1800,7 +1863,7 @@ bear on the claim, and the blind screens covered a sample and the
 excluded records of low confidence; a relevant study that the screeners
 excluded with confidence, because its abstract hides its bearing, would
 be missed.  Of the 313 works that \cref{tab:sok-cli-efficiency} lists as
-bearing on the claim, we cite 118; the other 195 are kept but not cited.
+bearing on the claim, we cite 128; the other 185 are kept but not cited.
 The study of firewall administrators is cited in its first arXiv
 version, which is the one we read; its published version carries a
 different title.
@@ -1826,7 +1889,13 @@ lönar sig för dem som kan dem, inte för att de prövar ett skal.  Urvalen
 sjuksköterskor \autocite{Staggers2000Comparing}, och de yrkesverksammas
 rapporter är enkäter om preferens och åsikt
 \autocite{Takayama2006Trust,Voronkov2019System,Murillo2014Empowering}.
-Granskningarna av forskningskod mäter om publicerade skript går att köra
+Fallstudierna av automatisering rapporterar var sin arbetsplats, av dem
+som byggde automatiseringen, och utom studierna av linjäracceleratorn och
+lysimetern läste vi dem bara i sammanfattning; två av rapporterna är
+sammanfattningar från möten eller konferenser, en är en teknisk rapport,
+och den enda jämförelsen med ett grafiskt gränssnitt är ett preliminärt
+experiment.  Granskningarna av forskningskod mäter om publicerade skript går
+att köra
 igen, mest i R; de jämför inte skript med manuellt arbete.
 
 Vår åtkomst till källorna begränsar läsningen.  De flesta
@@ -1857,7 +1926,7 @@ blinda gallringarna täckte ett urval och de uteslutna posterna med låg
 konfidens; en relevant studie som gallringsagenterna uteslöt med
 säkerhet, eftersom dess sammanfattning döljer att den rör påståendet,
 skulle missas.  Av de 313 verk som \cref{tab:sok-cli-efficiency} listar
-som relevanta för påståendet citerar vi 118; de övriga 195 behålls men
+som relevanta för påståendet citerar vi 128; de övriga 185 behålls men
 citeras inte.  Studien av brandväggsadministratörer citeras i sin första
 arXiv-version, som är den vi läste; dess publicerade version har en annan
 titel.
@@ -1866,7 +1935,7 @@ titel.
 \section{\ensv{Conclusion}{Slutsats}} % sync english=89db2a swedish=c3cc6f
 \label{sec:cli-efficiency-conclusion}
 
-\begin{onlyin}{english} % sync english=0d0d90 swedish=76ef18
+\begin{onlyin}{english} % sync english=3c1f86 swedish=7b634a
 No, not as a general rule: the evidence supports a weaker claim than
 the one we tested.  For single tasks, the 33 studies in
 \cref{sec:cli-efficiency-results} that compare command interfaces with
@@ -1878,9 +1947,16 @@ command becomes faster than choosing it from a menu with practice is
 supported by the one experiment that measured it, one of 11 studies of
 keyboard shortcuts in graphical programs, and so for shortcuts rather
 than a shell.  For repeated or bulk tasks saved as scripts we found no
-controlled experiment, only the consistent report of system
-administrators that bulk changes need a command line, with many of them
-(64 of 309 coded remarks on its strengths) naming automation.  That
+controlled comparison of the same task at a command line and in a
+graphical interface.  Case studies and two small user studies report
+large savings in time when a script replaces manual steps, but they
+measure automation against manual work, not a command line against a
+graphical interface; one preliminary experiment with 10 participants
+measured a shorter median time with a cloud platform's command line than
+with its web interface; and
+system administrators consistently report that bulk changes need a
+command line, with many of them (64 of 309 coded remarks on its
+strengths) naming automation.  That
 scripted work is easier to
 reproduce is advice, resting on experience, beside evidence that manual
 work in a spreadsheet corrupts data at scale and that most published
@@ -1911,10 +1987,17 @@ nykomlingar.  Att det med övning går snabbare att skriva ett kommando än
 att välja det i en meny stöds av det enda experiment som mätte det, en
 av elva studier av kortkommandon i grafiska program, och alltså för
 kortkommandon snarare än ett skal.  För upprepade uppgifter och
-massuppgifter som sparas som skript hittade vi inget kontrollerat
-experiment, bara systemadministratörernas samstämmiga rapport att
-massändringar kräver en kommandorad, där många av dem (64 av 309 kodade
-kommentarer om dess styrkor) nämnde automatisering.  Att
+massuppgifter som sparas som skript hittade vi ingen kontrollerad
+jämförelse av samma uppgift på en kommandorad och i ett grafiskt
+gränssnitt.  Fallstudier och två små användarstudier rapporterar stora
+tidsvinster när ett skript ersätter manuella steg, men de mäter
+automatisering mot manuellt arbete, inte en kommandorad mot ett grafiskt
+gränssnitt; ett preliminärt experiment med tio deltagare mätte en kortare
+mediantid med en molnplattforms kommandorad än med dess webbgränssnitt;
+och
+systemadministratörerna rapporterar samstämmigt att massändringar kräver
+en kommandorad, där många av dem (64 av 309 kodade kommentarer om dess
+styrkor) nämnde automatisering.  Att
 skriptat arbete är lättare att reproducera är ett råd,
 som vilar på erfarenhet, bredvid belägg för att manuellt arbete i ett
 kalkylblad förvanskar data i stor skala och att de flesta publicerade
@@ -3975,7 +4058,7 @@ gränssnittet, utan någon gemensam kod från början.
 
 \paragraph{\ensv{\enquote{Unix-like} is a loose word.}%
   {\enquote{Unixliknande} är ett löst ord.}} % sync english=2d419a swedish=9d034d
-\begin{onlyin}{english} % sync english=bcd4c4 swedish=383196
+\begin{onlyin}{english} % sync english=c60ff2 swedish=79b940
 The word has no definition that everyone uses.
 A user group tried to set criteria for Unix-like systems already in
 1982\autocite{Mason1982Criteria}.
@@ -3992,7 +4075,13 @@ An article on Linux distributions says that Linux is
 operating system} (its Korean abstract says, in our reading, that Linux
 was regarded as an imitation of Unix), and a book on open source
 opens with a chapter on \enquote{How UNIX Gave Birth to
-Linux}\autocite{Meeker2008OpenSource}.
+Linux}\autocite{Meeker2008OpenSource}; in the same loose way a book
+chapter says that Linux, BSD, Mac OS X and Android
+\textcquote{Allen2021Source}{count Unix as an ancestor}, a book on Linux
+writes that \textcquote{Negus2015Starting}{\textins*{t}he history of the Linux
+operating system can be tracked from early UNIX systems}, and the
+publisher's description of a FreeBSD book calls FreeBSD, a descendant,
+\textcquote{Lucas2007Absolute}{Unix-like}.
 Where sources write that Linux descends from Unix they mean its design
 inheritance, and the code histories reported for the BSD systems and
 for Linux do not support more.
@@ -4021,7 +4110,14 @@ En artikel om Linuxdistributioner säger att Linux är
 the UNIX operating system} (dess koreanska sammanfattning säger, i vår
 läsning, att Linux sågs som en efterlikning av Unix), och en bok om
 öppen källkod börjar med ett kapitel om \enquote{How UNIX Gave Birth to
-Linux}\autocite{Meeker2008OpenSource}.
+Linux}\autocite{Meeker2008OpenSource}; på samma lösa sätt säger ett
+bokkapitel att Linux, BSD, Mac OS X och Android
+\foreigntextcquote{english}{Allen2021Source}{count Unix as an ancestor},
+en bok om Linux skriver att
+\foreigntextcquote{english}{Negus2015Starting}{\textins*{t}he history of
+the Linux operating system can be tracked from early UNIX systems}, och
+förlagets beskrivning av en bok om FreeBSD kallar FreeBSD, en ättling,
+\foreigntextcquote{english}{Lucas2007Absolute}{Unix-like}.
 Där källor skriver att Linux härstammar från Unix menar de dess arv i
 utformningen, och de kodhistorier som redovisas för BSD-systemen och
 för Linux stöder inte mer.
