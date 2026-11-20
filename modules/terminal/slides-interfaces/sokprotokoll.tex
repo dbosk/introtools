@@ -928,42 +928,50 @@ få tag på någon av dem.
 \end{onlyin}
 
 \paragraph{\ensv{Screening.}{Gallring.}} % sync english=156955 swedish=fe7361
-\begin{onlyin}{english} % sync english=6d59a7 swedish=3600b3
+\begin{onlyin}{english} % sync english=4f75e4 swedish=b6361a
 The searches returned 10\,405 records, 9\,744 after records of the same
 work from different databases were merged.  The hits in
 \cref{tab:cli-efficiency-queries} add up to 18\,372, more than the
 records, because a record that several queries return is counted in the
-table once for each of them.  A record is judged on its
-abstract, so a record without one is excluded unless one can be found.
-After the searches 1\,955 records had no abstract.  Three of them were
-cited sources whose duplicate record held the abstract, which the
-agent copied, and five were duplicates of cited sources.  For the other
-1\,947 the agent looked up the abstract by DOI, in Semantic Scholar and
-then in Crossref: 464 gained one (393 from Semantic Scholar, 71 from
-Crossref), and the agent excluded the remaining 1\,483, of which 557
-had no DOI, as \emph{no abstract}.  All other records were classified
-against a written statement of the research question by a language
-model (Claude Sonnet~5.5) from title and abstract, as supporting the
-claim, qualifying it, an adjacent subject or off topic, and every
-excluded record was given one of the labelled criteria below.  An AI
-agent, a language model working with the tool, then read the titles of
-all records the model kept as supporting or qualifying and of those it
-excluded with a confidence below 0.7, and the abstracts of those that
-might bear on the claim.  Then it read the abstract of every record
-still labelled supporting or qualifying and not yet cited, 154 works:
-69 were confirmed and are cited below, 77 were relabelled and excluded,
-six were further records of cited works, and two whose authors could not
-be verified are not cited.  In all the agent recorded 272 decisions
-besides applying the \emph{no abstract} rule, which the author has not yet
-reviewed and no person has yet checked:
-the 121 cited sources were kept with the theme under which they are
-cited, and 151 records were excluded, among them 26 duplicates of
-cited sources.  Of the 10\,405 records, 210 were kept (66 supporting
-the claim, 66 qualifying it, 78 on an adjacent subject) and 10\,195
-excluded: 2\,670 as \emph{not interfaces}, 2\,668 as \emph{tool
-only}, 1\,483 as \emph{no abstract}, 1\,327 as \emph{other question},
-1\,218 as \emph{no evidence}, 803 as \emph{dataset record} and 26 as
-duplicates of cited sources.  The criteria are these: a record is
+table once for each of them.  A record is judged on its abstract.
+After the searches 1\,955 records had no abstract; their abstracts were
+then looked up by DOI in further databases, after which 829 still had
+none.  Screening subagents, language models (Claude Sonnet) that worked
+for the agent from a written brief and a written statement of the
+research question, read the title and abstract of each of the
+10\,405 records.  For each they gave a verdict, one of four categories
+(supporting the claim, qualifying it, an adjacent subject or off topic),
+for an excluded record one of the criteria below, a confidence and a
+reason drawn from the abstract.  A record without an abstract was always
+excluded as \emph{no abstract}, with the category its title suggested.
+The agent then read every record that the screeners kept and every
+record with an abstract that they excluded although it bears on the
+claim, 523 in all, and recorded all the decisions.  In doing so it applied the
+author's rule for the categories (20 November 2026): a study in which a
+graphical interface is easier for novices or learners supports the
+claim's part that command lines are harder for novices, and a study in
+which a graphical interface is as good or better on efficiency, or in
+which the results are equal or mixed, qualifies the claim.  To check the
+screening, a second screen, blind to the first, read a sample of 100
+records: it agreed on the verdict for 95 and on the category with a
+kappa of 0.57.  A further blind screen read all 759 records with an
+abstract that the first screen had excluded with a confidence below 0.7:
+it agreed on the verdict for 742, and the agent read the 124 records on
+which the two screens differed in verdict or in whether the record bears
+on the claim, kept 11 more and corrected the category of 33 excluded
+records.  Every decision is the agent's, and the author has not yet
+reviewed them.  Of the 10\,405 records, 361 were kept (205 supporting
+the claim, 156 qualifying it) and 10\,044 excluded: 3\,986 as \emph{not
+interfaces}, 2\,342 as \emph{tool only}, 1\,272 as \emph{other
+question}, 864 as \emph{no evidence}, 815 as \emph{no abstract} and 765
+as \emph{dataset record}.  The 815 include ten records whose abstract
+field held only other text, such as affiliations; the other 24 records
+without an abstract were decided as copies of a record of the same work
+that has one.  Two works that this appendix cites are among the
+excluded: the teachers' report of \textcite{Kendon2016Unix}, which states
+no data, and the interview study of \textcite{Doyle2007Why}, which
+concerns teachers' conceptions, not users; both are cited as background.
+The criteria are these: a record is
 excluded if it is one of the following.
 \begin{description}
   \item[No abstract] It has no abstract, and none could be found from
@@ -990,39 +998,46 @@ Sökningarna gav 10\,405 poster, 9\,744 efter att poster för samma verk
 från olika databaser slagits samman.  Träffarna i
 \cref{tab:cli-efficiency-queries} blir sammanlagt 18\,372, fler än
 posterna, eftersom en post som flera frågor ger räknas i tabellen en gång
-för var och en av dem.  En post bedöms på sin
-sammanfattning, så en post utan sammanfattning utesluts om ingen kan
-hittas.  Efter sökningarna saknade 1\,955 poster sammanfattning.  Tre av
-dem var citerade källor vars dubblettpost hade sammanfattningen, som
-agenten kopierade, och fem var dubbletter av citerade källor.  För de
-övriga 1\,947 slog agenten upp sammanfattningen via DOI, i Semantic
-Scholar och sedan i Crossref: 464 fick en (393 från Semantic Scholar, 71
-från Crossref), och agenten uteslöt de återstående 1\,483, varav 557
-saknade DOI, som \emph{ingen sammanfattning}.  Alla andra poster klassades mot
-en
-skriven formulering av forskningsfrågan av en språkmodell (Claude
-Sonnet~5.5) utifrån titel och sammanfattning, som stödjande,
-kvalificerande, angränsande ämne eller utanför ämnet, och varje utesluten
-post fick ett av de namngivna kriterierna nedan.  En AI-agent, en
-språkmodell som arbetade med verktyget, läste sedan titlarna på alla
-poster som modellen behöll som stödjande eller kvalificerande och på dem
-som den uteslöt med en konfidens under 0,7, och sammanfattningarna av
-dem som kunde röra påståendet.  Därefter läste den sammanfattningen av
-varje post som fortfarande var märkt stödjande eller kvalificerande och
-ännu inte citerad, 154 verk: 69 bekräftades och citeras nedan, 77
-märktes om och uteslöts, sex var ytterligare poster för citerade verk,
-och två vars författare inte kunde kontrolleras citeras inte.
-Sammanlagt registrerade agenten 272 beslut utöver att den tillämpade
-regeln om \emph{ingen sammanfattning}, beslut som författaren ännu inte har
-granskat och ingen
-människa ännu har kontrollerat: de 121 citerade källorna behölls med det
-tema som de citeras under, och 151 poster uteslöts, bland dem 26
-dubbletter av citerade källor.  Av de 10\,405 posterna behölls 210 (66
-stödjande, 66 kvalificerande, 78 om ett angränsande ämne) och 10\,195
-uteslöts: 2\,670 som \emph{inte gränssnitt}, 2\,668 som \emph{bara
-verktyg}, 1\,483 som \emph{ingen sammanfattning}, 1\,327 som \emph{annan
-fråga}, 1\,218 som \emph{inga belägg}, 803 som \emph{datamängdspost} och
-26 som dubbletter av citerade källor.  Kriterierna är dessa: en post
+för var och en av dem.  En post bedöms på sin sammanfattning.  Efter
+sökningarna saknade 1\,955 poster sammanfattning; deras sammanfattningar
+söktes sedan upp via DOI i fler databaser, och därefter saknade 829 fortfarande
+en.  Gallringsagenter, språkmodeller (Claude Sonnet) som arbetade åt
+agenten utifrån en skriven instruktion och en skriven formulering av
+forskningsfrågan, läste titeln och sammanfattningen på var och en av de
+10\,405 posterna.  För varje post gav de ett beslut, en av fyra
+kategorier (stödjande, kvalificerande, angränsande ämne eller utanför
+ämnet), för en utesluten post ett av kriterierna nedan, en konfidens och
+ett skäl hämtat ur sammanfattningen.  En post utan sammanfattning
+uteslöts alltid som \emph{ingen sammanfattning}, med den kategori som
+dess titel antydde.  Agenten läste sedan varje post som gallringsagenterna
+behöll och varje post med sammanfattning som de uteslöt fastän den rör
+påståendet, 523 sammanlagt, och registrerade alla beslut.  Då tillämpade den
+författarens regel för kategorierna (20 november 2026): en studie där ett
+grafiskt gränssnitt är lättare för nybörjare eller elever stöder
+påståendets del om att kommandorader är svårare för nybörjare, och en
+studie där ett grafiskt gränssnitt är lika bra eller bättre i
+effektivitet, eller där resultaten är lika eller blandade, kvalificerar
+påståendet.  För att kontrollera gallringen läste en andra gallring, blind
+för den första, ett urval av 100 poster: den gav samma beslut för 95 och
+samma kategori med en kappa på 0,57.  Ytterligare en blind gallring läste
+alla 759 poster med sammanfattning som den första gallringen hade
+uteslutit med en konfidens under 0,7: den gav samma beslut för 742, och
+agenten läste de 124 poster där de två gallringarna skilde sig i beslut
+eller i om posten rör påståendet, behöll 11 till och rättade kategorin för
+33 uteslutna poster.  Varje beslut är agentens, och författaren har ännu
+inte granskat dem.  Av de 10\,405 posterna behölls 361 (205 stödjande,
+156 kvalificerande) och 10\,044 uteslöts: 3\,986 som \emph{inte
+gränssnitt}, 2\,342 som \emph{bara verktyg}, 1\,272 som \emph{annan
+fråga}, 864 som \emph{inga belägg}, 815 som \emph{ingen sammanfattning}
+och 765 som \emph{datamängdspost}.  De 815 omfattar tio poster vars fält
+för sammanfattning bara innehöll annan text, som författarnas
+institutioner; de övriga 24 posterna utan sammanfattning avgjordes som
+kopior av en post för samma verk som har en.  Två verk som bilagan citerar
+är bland de uteslutna: lärarrapporten av \textcite{Kendon2016Unix}, som
+inte redovisar några data, och intervjustudien av \textcite{Doyle2007Why},
+som gäller lärares uppfattningar, inte användare; båda citeras som
+bakgrund.
+Kriterierna är dessa: en post
 utesluts om den är något av följande.
 \begin{description}
   \item[Ingen sammanfattning] Den saknar sammanfattning, och ingen
@@ -1047,7 +1062,7 @@ utesluts om den är något av följande.
 \end{onlyin}
 
 \paragraph{\ensv{Reading.}{Läsning.}} % sync english=0b0b47 swedish=47095f
-\begin{onlyin}{english} % sync english=fa45f5 swedish=e3be0b
+\begin{onlyin}{english} % sync english=b08810 swedish=258b97
 The agent read in full every cited source that it could obtain: the
 report of
 \textcite{Margono1995Study}, the paper of \textcite{Chen2007Comparing},
@@ -1057,8 +1072,10 @@ survey of \textcite{Voronkov2019System}, the guides of
 \textcite{Wilson2017Good}, the audits of \textcite{Ziemann2016Gene},
 \textcite{Abeysooriya2021Gene}, \textcite{Trisovic2022Large} and
 \textcite{Saju2025Computational}, the comparison of
-\textcite{Magar2025Data} and the interview study of
-\textcite{Doyle2007Why}.  Most interface studies of the 1980s and
+\textcite{Magar2025Data}, the interview study of
+\textcite{Doyle2007Why}, the reanalysis of \textcite{Baggerly2009Deriving}
+and the thesis of \textcite{Nust2022Infrastructures}.  Most interface studies
+of the 1980s and
 1990s appeared with publishers that refused the university's network
 access or stopped it with a bot check; every other cited source was
 read in its abstract only.
@@ -1072,8 +1089,10 @@ guiderna av \textcite{Sandve2013Ten}, \textcite{Wilson2014Best} och
 \textcite{Wilson2017Good}, granskningarna av \textcite{Ziemann2016Gene},
 \textcite{Abeysooriya2021Gene}, \textcite{Trisovic2022Large} och
 \textcite{Saju2025Computational}, jämförelsen av
-\textcite{Magar2025Data} och intervjustudien av \textcite{Doyle2007Why}.
-De flesta gränssnittsstudierna från 1980- och 1990-talen kom ut hos
+\textcite{Magar2025Data}, intervjustudien av \textcite{Doyle2007Why},
+omanalysen av \textcite{Baggerly2009Deriving} och avhandlingen av
+\textcite{Nust2022Infrastructures}.  De flesta gränssnittsstudierna från 1980-
+och 1990-talen kom ut hos
 förlag som nekade universitetets nätverk åtkomst eller stoppade det med
 en kontroll mot robotar; varje annan citerad källa lästes bara i sin
 sammanfattning.
@@ -1371,7 +1390,7 @@ analys ta en minut där manuell analys tar en expert timmar
 \end{onlyin}
 
 \paragraph{\ensv{Reproducibility.}{Reproducerbarhet.}} % sync english=32663b swedish=3a7076
-\begin{onlyin}{english} % sync english=cf89e1 swedish=73541a
+\begin{onlyin}{english} % sync english=4580e3 swedish=f0a06a
 The advice is clear and widely repeated.  Among rules for reproducible
 computational research, \textcquote[2]{Sandve2013Ten}{\textins*{w}henever
 possible, rely on the execution of programs instead of manual
@@ -1420,7 +1439,7 @@ at scale: in leading genomics journals \textcquote{Ziemann2016Gene}
 {approximately one-fifth of papers with supplementary Excel gene lists
 contain erroneous gene name conversions}, made by the spreadsheet's
 default settings, and five years later the share had grown to
-\textcquote{Abeysooriya2021Gene}{30.9\% (3,436/11,117) of articles with
+\textcquote[1]{Abeysooriya2021Gene}{30.9\% (3,436/11,117) of articles with
 supplementary Excel gene lists}.  But a script is no guarantee either:
 of more than 9000 R files published with research data,
 \textcquote{Trisovic2022Large}{74\% of R files failed to complete
@@ -1440,16 +1459,18 @@ the \enquote{good enough} practices name data-cleaning tools that
 also automatically keep track of each step in the process}.  The only
 comparison of the same analysis done in a spreadsheet and by script
 that we found is a preprint in which its author did one analysis of
-one data set both ways and found \textcquote{Magar2025Data}{that Excel
+one data set both ways and found \textcquote[2]{Magar2025Data}{that Excel
 is only efficient and error-free to the extent of basic analysis and
 simple outputs}.  We found no study in which someone else redid work
 first done by script or by hand in a graphical program.
 
 Further studies point both ways here too.  Excel's corruption of
 supplementary data continues year after year
-\autocite{DeRijk2018Opentsv}, a forensic reanalysis traced errors in
-published gene signatures to simple data management
-\autocite{Master2010Getting}, and none of 10 hydrological models built
+\autocite{DeRijk2018Opentsv}, a forensic reanalysis of published gene
+signatures found their errors to be simple ones, such as row or column
+offsets, which \textcquote[sec.~7.1]{Baggerly2009Deriving}{are easy to
+make, particularly if working with Excel}, and none of 10 hydrological models
+built
 through a graphical interface could easily be reproduced
 \autocite{Chawanda2020User}.  But code fails too: two thirds of the
 example code on model cards did not run \autocite{Yao2026Understanding},
@@ -1513,7 +1534,7 @@ tidskrifter i genomik
 papers with supplementary Excel gene lists contain erroneous gene name
 conversions}, orsakade av kalkylprogrammets standardinställningar, och
 fem år senare hade andelen vuxit till
-\foreigntextcquote{english}{Abeysooriya2021Gene}{30.9\%
+\foreigntextcquote{english}[1]{Abeysooriya2021Gene}{30.9\%
 (3,436/11,117) of articles with supplementary Excel gene lists}.  Men
 ett skript är ingen garanti heller: av mer än 9000 R-filer som
 publicerats med forskningsdata
@@ -1537,15 +1558,17 @@ interface but also automatically keep track of each step in the
 process}.  Den enda jämförelse av samma analys gjord i ett kalkylblad och
 med skript som vi hittade är en förhandspublikation där författaren
 gjorde en analys av en datamängd på båda sätten och fann
-\foreigntextcquote{english}{Magar2025Data}{that Excel is only efficient
+\foreigntextcquote{english}[2]{Magar2025Data}{that Excel is only efficient
 and error-free to the extent of basic analysis and simple outputs}.  Vi
 hittade ingen studie där någon annan gjorde om arbete som först gjorts
 med skript eller för hand i ett grafiskt program.
 
 Ytterligare studier pekar åt båda hållen även här.  Excels förvanskning
 av bilagedata fortsätter år efter år \autocite{DeRijk2018Opentsv}, en
-kriminalteknisk omanalys spårade fel i publicerade gensignaturer till
-enkel datahantering \autocite{Master2010Getting}, och ingen av tio
+kriminalteknisk omanalys av publicerade gensignaturer fann att felen var
+enkla, som förskjutna rader eller kolumner, och enligt författarna lätta
+att göra, särskilt i Excel\autocite[avsnitt~7.1]{Baggerly2009Deriving},
+och ingen av tio
 hydrologiska modeller som byggts genom ett grafiskt gränssnitt gick lätt
 att återskapa \autocite{Chawanda2020User}.  Men kod fallerar också: två
 tredjedelar av exempelkoden på modellkort gick inte att köra
@@ -1561,12 +1584,12 @@ Willems2026Insights,Nust2022Infrastructures,Nong2023Open}.
 \end{onlyin}
 
 \paragraph{\ensv{Novices.}{Nybörjare.}} % sync english=418c40 swedish=545f0f
-\begin{onlyin}{english} % sync english=1dd30a swedish=3b590c
+\begin{onlyin}{english} % sync english=eabb2c swedish=4452ee
 That newcomers find a command line harder at first is supported, but
 not without exceptions.  Novices made more errors and took longer with
 typed commands than with direct manipulation, and their errors were
 those of a typed language: in the words of the experimenters,
-\textcquote{Margono1995Study}{\textins*{f}orgetting the punctuation,
+\textcquote[10]{Margono1995Study}{\textins*{f}orgetting the punctuation,
 adding unnecessary spaces, and omitting the parameters in such commands
 as copy and rename were among the common problems the subjects had on
 the IBM PC}.  Composing complex UNIX commands strained novices so that
@@ -1602,8 +1625,9 @@ web environment, though they felt less at ease with it
 \autocite{Cooper2020Exploring}.  How commands are named matters more
 than whether they are natural words: names that told operations with
 different syntax apart \textcquote{Landauer1983Natural}{greatly reduced
-difficulty}.  That many students arrive without any experience of a
-command line is reported by teachers \autocite{Kendon2016Unix}, and
+difficulty}.  As background, teachers describe, in a report without
+data, that many students arrive without any experience of a command line
+\autocite{Kendon2016Unix}, and
 among computing teachers \textcquote{Doyle2007Why}{Unix as a command
 line interface superior to GUIs} is itself one of their conceptions of
 Unix, a less developed one than Unix as a tool for solving problems.
@@ -1643,7 +1667,7 @@ Att nykomlingar till en början tycker att en kommandorad är svårare har
 stöd, men inte utan undantag.  Nybörjare gjorde fler fel och tog längre
 tid med skrivna kommandon än med direkt manipulation, och deras fel var
 ett skrivet språks: med försöksledarnas ord
-\foreigntextcquote{english}{Margono1995Study}{\textins*{f}orgetting the
+\foreigntextcquote{english}[10]{Margono1995Study}{\textins*{f}orgetting the
 punctuation, adding unnecessary spaces, and omitting the parameters in
 such commands as copy and rename were among the common problems the
 subjects had on the IBM PC}.  Att sätta ihop komplexa UNIX-kommandon
@@ -1682,8 +1706,9 @@ en webbmiljö, fastän de kände sig mindre hemma i den
 \autocite{Cooper2020Exploring}.  Hur kommandon heter spelar större roll
 än om de är naturliga ord: namn som skilde operationer med olika syntax
 åt \foreigntextcquote{english}{Landauer1983Natural}{greatly reduced
-difficulty}.  Att många studenter kommer utan någon erfarenhet av en
-kommandorad rapporteras av lärare \autocite{Kendon2016Unix}, och bland
+difficulty}.  Som bakgrund beskriver lärare, i en rapport utan data, att
+många studenter kommer utan någon erfarenhet av en kommandorad
+\autocite{Kendon2016Unix}, och bland
 datavetenskapslärare är
 \foreigntextcquote{english}{Doyle2007Why}{Unix as a command line
 interface superior to GUIs} själv en av deras uppfattningar om Unix, en
@@ -1725,7 +1750,7 @@ skenbara missuppfattningar hör till representationen snarare än till dem
 \section{\ensv{Discussion and limitations}{Diskussion och begränsningar}} % sync english=634094 swedish=5d16d0
 \label{sec:cli-efficiency-discussion}
 
-\begin{onlyin}{english} % sync english=08377c swedish=2cf9d4
+\begin{onlyin}{english} % sync english=a0c911 swedish=e41c3b
 The interface studies are old: most date from 1983 to 2000, when the
 graphical interface was new and the command lines compared were those
 of MS-DOS, early UNIX or special systems.  Several compare a legacy
@@ -1755,34 +1780,30 @@ stopped it with a bot check, so the agent read them in abstract only,
 and an
 abstract reports a finding without its conditions.  The rule that a
 record without an abstract is excluded weighs most on the oldest
-studies: 62 records that the model had kept from their titles alone
-were excluded for want of an abstract.  Of these, 24 bear on the claim
-by their titles and could not be obtained, most of them from 1982 to
-1998; among them are studies of the errors Unix users make, of
-learning UNIX, of the transition from menus to commands, of command
-reuse in the shell, of interface style and problem solving, of keyboard
-shortcuts, and 17 further comparisons of command and graphical
-interfaces.  To these come the two studies that only the check by
-meaning found.  The counts in \cref{tab:cli-efficiency-queries} carry
-the limits of the databases.  DBLP could not be searched at all.
-OpenAlex was searched in titles and abstracts, not in full text, and its
-abstracts are incomplete, so it does not equal the same search in Web
-of Science.  The screening was done by a language model, mostly from
-abstracts, and the agent read only the titles of the records it kept
-or was
-unsure of, and abstracts where a
-title suggested a bearing; a relevant study it excluded with confidence
-would be missed.  Of the 124 works that \cref{tab:sok-cli-efficiency}
-lists as bearing on the claim, we cite 121; 52 were read in full or in
-their abstracts with a quote for each claim they carry, and the other
-69, the further studies of the results, only in their abstracts, each
-with one quote that we checked against the abstract word for word.  The
-three that are not cited are an earlier comparison of performance and
-preference in the two kinds of environment whose abstract states no
-result, a book chapter whose authors the metadata does not give, and a
-preprint whose author is given only by a first name.  The study of
-firewall administrators is cited in its first arXiv version, which is
-the one we read; its published version carries a different title.
+studies: 57 records whose titles suggest a bearing on the claim were
+excluded for want of an abstract, 39 of them from 2000 or earlier;
+among them are studies of the errors Unix users make, of learning UNIX,
+of the transition from menus to commands, of keyboard commands and
+menus, and further comparisons of command and graphical interfaces.  To
+these come the two studies that only the check by meaning found.  The
+look-up of abstracts was itself incomplete: Semantic Scholar limited the
+rate of requests and paused it repeatedly, and 311 look-ups in Crossref
+failed because of a fault in the tool's installation, so some of the
+records excluded as \emph{no abstract} may have one there.  The
+counts in \cref{tab:cli-efficiency-queries} carry the limits of the
+databases.  DBLP could not be searched at all.  OpenAlex was searched in
+titles and abstracts, not in full text, and its abstracts are
+incomplete, so it does not equal the same search in Web of Science.
+The screening was done by language models from titles and abstracts.
+The agent read only the records that the screeners kept or judged to
+bear on the claim, and the blind screens covered a sample and the
+excluded records of low confidence; a relevant study that the screeners
+excluded with confidence, because its abstract hides its bearing, would
+be missed.  Of the 313 works that \cref{tab:sok-cli-efficiency} lists as
+bearing on the claim, we cite 118; the other 195 are kept but not cited.
+The study of firewall administrators is cited in its first arXiv
+version, which is the one we read; its published version carries a
+different title.
 \end{onlyin}
 \begin{onlyin}{swedish}
 Gränssnittsstudierna är gamla: de flesta är från 1983 till 2000, när
@@ -1814,35 +1835,32 @@ eller stoppade det med en kontroll mot robotar, så agenten läste dem
 bara i
 sammanfattning, och en sammanfattning redovisar ett fynd utan dess
 villkor.  Regeln att en post utan sammanfattning utesluts väger tyngst
-på de äldsta studierna: 62 poster som modellen hade behållit enbart på
-sina titlar uteslöts i brist på sammanfattning.  Av dem rör 24
-påståendet enligt sina titlar och gick inte att få tag på, de flesta
-från 1982 till 1998; bland dem finns studier av de fel som
-Unixanvändare gör, av att lära sig UNIX, av övergången från menyer till
-kommandon, av återanvändning av kommandon i skalet, av gränssnittsstil
-och problemlösning, av kortkommandon, och 17 ytterligare jämförelser av
+på de äldsta studierna: 57 poster vars titlar antyder att de rör
+påståendet uteslöts i brist på sammanfattning, 39 av dem från 2000 eller
+tidigare; bland dem finns studier av de fel som Unixanvändare gör, av att
+lära sig UNIX, av övergången från menyer till kommandon, av
+tangentbordskommandon och menyer, och ytterligare jämförelser av
 kommandogränssnitt och grafiska gränssnitt.  Till dem kommer de två
-studier som bara kontrollen efter betydelse hittade.  Talen i
+studier som bara kontrollen efter betydelse hittade.  Uppslagningen av
+sammanfattningar var själv ofullständig: Semantic Scholar begränsade
+antalet förfrågningar och pausade den upprepade gånger, och 311
+uppslagningar i Crossref misslyckades på grund av ett fel i verktygets
+installation, så en del av de poster som uteslöts som \emph{ingen
+sammanfattning} kan ha en där.  Talen i
 \cref{tab:cli-efficiency-queries} bär databasernas gränser.  DBLP kunde
 inte genomsökas alls.  OpenAlex söktes i titlar och sammanfattningar,
 inte i fulltext, och dess sammanfattningar är ofullständiga, så den är
-inte likvärdig med samma sökning i Web of Science.  Gallringen gjordes
-av en språkmodell, mest utifrån sammanfattningar, och agenten läste
-bara
-titlarna på de poster som den behöll eller var osäker på, och
-sammanfattningar där en titel antydde att posten rörde påståendet; en
-relevant studie som den uteslöt med säkerhet skulle missas.  Av de 124
-verk som \cref{tab:sok-cli-efficiency} listar som relevanta för
-påståendet citerar vi 121; 52 lästes i sin helhet eller i sina
-sammanfattningar med ett citat för varje påstående de bär, och de andra
-69, resultatens ytterligare studier, bara i sina sammanfattningar, var
-och en med ett citat som vi kontrollerade mot sammanfattningen ord för
-ord.  De tre som inte citeras är en tidigare jämförelse av prestation
-och preferens i de två slagen av miljö vars sammanfattning inte anger
-något resultat, ett bokkapitel vars författare metadata inte anger, och
-en förhandspublikation vars författare bara anges med förnamn.  Studien
-av brandväggsadministratörer citeras i sin första arXiv-version, som är
-den vi läste; dess publicerade version har en annan titel.
+inte likvärdig med samma sökning i Web of Science.  Gallringen gjordes av
+språkmodeller utifrån titlar och sammanfattningar.  Agenten läste bara de
+poster som gallringsagenterna behöll eller bedömde rör påståendet, och de
+blinda gallringarna täckte ett urval och de uteslutna posterna med låg
+konfidens; en relevant studie som gallringsagenterna uteslöt med
+säkerhet, eftersom dess sammanfattning döljer att den rör påståendet,
+skulle missas.  Av de 313 verk som \cref{tab:sok-cli-efficiency} listar
+som relevanta för påståendet citerar vi 118; de övriga 195 behålls men
+citeras inte.  Studien av brandväggsadministratörer citeras i sin första
+arXiv-version, som är den vi läste; dess publicerade version har en annan
+titel.
 \end{onlyin}
 
 \section{\ensv{Conclusion}{Slutsats}} % sync english=89db2a swedish=c3cc6f
@@ -1920,18 +1938,18 @@ ett skript i sig gör arbete reproducerbart.
 \section{\ensv{Further work}{Fortsatt arbete}} % sync english=a44494 swedish=969e69
 \label{sec:cli-efficiency-further}
 
-\begin{onlyin}{english} % sync english=64ade8 swedish=6f1b07
+\begin{onlyin}{english} % sync english=1c6b4c swedish=917c95
 This search left work undone.  DBLP could not be searched, and the
 older interface studies were read in abstract only; the full texts of
 \textcite{Whiteside1985User}, \textcite{Antin1988Empirical},
 \textcite{Durham1998Learning} and \textcite{Staggers2000Comparing}
 would show the conditions under which each result held, and the full
 text of \textcite{Remington2016With} how far its keystroke commands
-resemble a shell.  The 26 studies mentioned in
-\cref{sec:cli-efficiency-discussion} could not be obtained at all; with
-19 comparisons of command and graphical interfaces among them unread, the
-balance of the
-efficiency results could still shift.  We
+resemble a shell.  The 59 records named in
+\cref{sec:cli-efficiency-discussion}, the 57 excluded for want of an
+abstract and the two that only the check by meaning found, were not
+read at all; with comparisons of command and graphical interfaces among
+them unread, the balance of the efficiency results could still shift.  We
 searched OpenAlex in titles and abstracts only, and did not follow
 citations from the studies we read, which in a field whose
 classic studies have few abstracts would likely find more.
@@ -1955,10 +1973,11 @@ av \textcite{Whiteside1985User}, \textcite{Antin1988Empirical},
 \textcite{Durham1998Learning} och \textcite{Staggers2000Comparing}
 skulle visa under vilka villkor varje resultat gällde, och fulltexten av
 \textcite{Remington2016With} hur mycket dess tangentkommandon liknar ett
-skal.  De 26 studier som nämns i \cref{sec:cli-efficiency-discussion}
-gick inte att få tag på alls; med 19 jämförelser av kommandogränssnitt
-och grafiska gränssnitt bland dem olästa kan balansen i effektivitetsresultaten
-fortfarande skifta.
+skal.  De 59 poster som nämns i \cref{sec:cli-efficiency-discussion},
+de 57 som uteslöts i brist på sammanfattning och de två som bara
+kontrollen efter betydelse hittade, lästes inte alls; med jämförelser av
+kommandogränssnitt och grafiska gränssnitt bland dem olästa kan balansen
+i effektivitetsresultaten fortfarande skifta.
 Vi sökte i OpenAlex bara i titlar och sammanfattningar, och följde inte
 citeringar från de studier vi läste, vilket i ett fält vars klassiska
 studier har få sammanfattningar troligen skulle hitta fler.
@@ -2009,24 +2028,48 @@ som relevanta för påståendet.
 %                     Method section and tab:cli-efficiency-queries
 %   semantic check  : the backing-claims skill's scripts/semantic_check.py,
 %                     7 questions before the repair, 3 after
-%   classification  : scholar llm context + llm classify --no-examples
-%                     --no-enrich -n 100, model anthropic/claude-sonnet-5-5;
-%                     272 agent decisions in all (an AI agent, not the
-%                     author) via scholar sessions decide (see Screening);
-%                     read by the agent: titles of all kept
-%                     supports/qualifies rows and of the discarded rows
-%                     with confidence < 0.7, abstracts where relevant, and
-%                     the abstracts of the 154 works of the corroboration
-%                     round
-%   no-abstract rule: abstracts looked up by DOI in S2, then Crossref; 464
-%                     rescued and reclassified, 1483 tagged no-abstract
-%   table caption   : hand-edited after export in both languages (scholar
-%                     calls uncategorised discards "duplicates or other
-%                     versions")
+%   screening       : redo of 2026-11-19/20 (replaces the earlier llm
+%                     classify round): sonnet screening subagents read
+%                     title and abstract of all 10405 records against a
+%                     written brief and the session's context, one verdict,
+%                     category, exclusion, confidence and reason each; one
+%                     agent ("claims-bd-redo (review)") read all 523
+%                     screener keeps and bearing discards with an abstract
+%                     and wrote every decision with scholar sessions
+%                     decide (decision_source agent, reason in
+%                     agent_reason); category rule confirmed by the author
+%                     2026-11-20 (GUI easier for novices -> supports the
+%                     novice part; GUI as good or better on efficiency, no
+%                     difference or mixed -> qualifies); blind second
+%                     screen of 100 (verdict 95/100, category kappa 0.57);
+%                     blind census of the 759 discards with an abstract and
+%                     confidence < 0.7 (seed 20261122; verdict 742/759,
+%                     124 disagreements read, 11 keeps added, 33 categories
+%                     corrected)
+%   no-abstract rule: abstracts looked up by DOI (scholar enrich): 1955
+%                     without abstract after the searches, 829 after the
+%                     2026-11-19 enrich; 815 tagged no-abstract (incl. 10
+%                     with boilerplate only), 24 decided as copies.  The
+%                     enrich run was rate-limited by S2 and 311 Crossref
+%                     look-ups failed (certifi CA bundle missing in the
+%                     scholar venv at the time; present again 2026-11-20)
 %   hit-list tables : scholar sessions export cli-efficiency -f table
 %                     --bearing-only --lang en|sv --label sok-cli-efficiency
-%                     --track "Claim B"|"Påstående B" --theme ... -o
-%                     litteratursokning/cli-efficiency-full(-sv)
+%                     --track "Claim B"|"Påstående B" --theme ...
+%                     --cited-from ltnotes.bib -o
+%                     litteratursokning/cli-efficiency-full(-sv) (not
+%                     hand-edited; 313 works listed, 118 cited)
+%   for the author's check:
+%     - the three ANTIKODE preprints "Terminal-Based Developer Experience:
+%       A Usability Analysis" (2026; doi:10.5281/zenodo.20775418 on OSF
+%       Preprints, 10.5281/zenodo.20781857, 10.5281/zenodo.20775683), kept
+%       as supports/experiment at 0.45-0.5: they look self-published and
+%       promotional, with suspiciously precise figures; not cited.
+%     - Kendon2016Unix: full text unobtainable (not open access, ACM 403
+%       through the KTH tunnel); excluded as no-evidence, cited only as
+%       background.
+%     - a rerun of scholar enrich now that Crossref works may rescue some
+%       of the 815 no-abstract records.
 %   provenance      : ltnotes.bib (CLAIM/FOUND-VIA/QUOTE/VERIFIED)
 \begin{onlyin}{english} % sync english=609530 swedish=e63cc8
 \input{litteratursokning/cli-efficiency-full}
@@ -2414,7 +2457,7 @@ saknade sammanfattning fick den beslutet från den kopia som hade en.
 \end{onlyin}
 
 \paragraph{\ensv{Screening.}{Gallring.}} % sync english=156955 swedish=fe7361
-\begin{onlyin}{english} % sync english=4b2274 swedish=0abf60
+\begin{onlyin}{english} % sync english=bca556 swedish=cd3db8
 A record is judged on its abstract, so a record without one is excluded
 unless one can be found.  After the searches 2\,781 records had no
 abstract, most of them from Scopus and Semantic Scholar, whose search
@@ -2449,8 +2492,9 @@ carry two of, the exclusions were 5\,016 \emph{no access mode},
 record} and 381 \emph{no evidence}.  We read the agent's notes on all
 278 kept records, and the abstracts, or the full texts where they could
 be obtained, of those we cite.  \Cref{tab:sok-hpc-cli} counts
-fewer, 79 supporting and 182 qualifying among 10\,449 works,
-because it also merges records whose titles differ only in case,
+fewer, 261 among 10\,449 works (32 cited, 68 other supporting and 161
+other qualifying), because it also merges records whose titles differ only in
+case,
 punctuation or year, which the session keeps apart.
 \end{onlyin}
 \begin{onlyin}{swedish}
@@ -2490,9 +2534,10 @@ uteslutningarna 5\,016 \emph{inget åtkomstsätt}, 3\,325 \emph{inte
 HPC}, 1\,933 \emph{ingen sammanfattning}, 386 \emph{datamängdspost} och
 381 \emph{inga belägg}.  Vi läste agentens anteckningar om alla 278
 behållna poster, och sammanfattningarna, eller fulltexterna där de gick
-att få tag på, av dem som vi citerar.  \Cref{tab:sok-hpc-cli-sv} räknar
-färre, 79 stödjande och 182 kvalificerande bland 10\,449 verk,
-eftersom den också slår samman poster vars titlar bara skiljer sig i
+att få tag på, av dem som vi citerar.  \Cref{tab:sok-hpc-cli} räknar
+färre, 261 bland 10\,449 verk (32 citerade, 68 andra stödjande och 161
+andra kvalificerande), eftersom den också slår samman poster vars titlar bara
+skiljer sig i
 versaler, skiljetecken eller år, vilka sessionen håller isär.
 \end{onlyin}
 
@@ -3193,12 +3238,12 @@ inte att du kommer att göra det.
 
 \section{\ensv{Hits bearing on the claim}{Träffar som rör påståendet}} % sync english=b678a6 swedish=eaf510
 
-\begin{onlyin}{english} % sync english=79705c swedish=a4172b
+\begin{onlyin}{english} % sync english=79705c swedish=ee16ba
 \Cref{tab:sok-hpc-cli} lists the records that the model and the agent
 kept as bearing on the claim.
 \end{onlyin}
 \begin{onlyin}{swedish}
-\Cref{tab:sok-hpc-cli-sv} listar de poster som modellen och agenten
+\Cref{tab:sok-hpc-cli} listar de poster som modellen och agenten
 behöll
 som relevanta för påståendet.
 \end{onlyin}
@@ -3259,17 +3304,24 @@ som relevanta för påståendet.
 %   hit-list tables : scholar sessions export hpc-cli -f table
 %                     --bearing-only --lang en|sv --label sok-hpc-cli
 %                     --track "Claim C"|"Påstående C" --theme ... -o
-%                     litteratursokning/hpc-cli-full(-sv) (not hand-edited;
-%                     the caption counts by unique hits, 10449, and reads
-%                     "0 cited" since agent keeps await the author)
+%                     litteratursokning/hpc-cli-full(-sv) --cited-from
+%                     ltnotes.bib (not hand-edited; the caption counts by
+%                     unique hits, 10449; a row is cited when ltnotes.bib
+%                     cites the work).  The table wraps its one Cyrillic
+%                     title in \scholarnonlatin; the group below sets it
+%                     in T2A (declared in preamble.tex) instead of the
+%                     table's fallback marker.
 %   provenance      : ltnotes.bib (CLAIM/FOUND-VIA/PICKED/QUOTE/VERIFIED/
 %                     COUNTER/DATE)
+\begingroup
+\newcommand{\scholarnonlatin}[1]{{\fontencoding{T2A}\selectfont #1}}%
 \begin{onlyin}{english} % sync english=669266 swedish=f33544
 \input{litteratursokning/hpc-cli-full}
 \end{onlyin}
 \begin{onlyin}{swedish}
 \input{litteratursokning/hpc-cli-full-sv}
 \end{onlyin}
+\endgroup
 
 % --- Appendix D: the Unix lineage, from the search of 2026-11-18
 % (scholar session unix-lineage).
@@ -3652,70 +3704,119 @@ begreppsorden; det är skälet till att de är kända titlar.
 
 \paragraph{\ensv{Screening and exclusion criteria.}%
   {Gallring och uteslutningskriterier.}} % sync english=c0d3d3 swedish=e2519b
-\begin{onlyin}{english} % sync english=359b54 swedish=cd5ae5
+\begin{onlyin}{english} % sync english=305cee swedish=e26085
 The searches returned 1437 records, 1267 of them distinct.
-We classified all of them against the claim with a language model
-(\texttt{claude-sonnet-5-5}, without examples), one category each:
-supports the claim, qualifies it, adjacent subtopic, or off-topic false
-hit.
-An AI agent, a language model working with the tool, read the title of
-every record that the model labelled as supporting (100) or qualifying
-(nine), and the abstract where there was one, and decided; many have no
-abstract.  The author has not yet reviewed these decisions.
-A record is excluded if it is one of the following.
+Screening subagents, language models (Claude Sonnet) that worked for
+the agent from a written brief and a written statement of the research
+question, read the title and abstract of each record.  For each they
+gave a verdict, one of four categories (supports the claim, qualifies
+it, adjacent subtopic, or off-topic false hit), for an excluded record
+exactly one of the criteria below, a confidence and a reason drawn from
+the abstract.  The statement carries amendments that the author
+approved on 19 November 2026: it includes the claim's part on Android's
+userland, and a record that states a relation to Unix only in passing,
+with no evidence or source of its own, is an adjacent subtopic excluded
+as \emph{no evidence}, unless it is a textbook, or the vendor's or the
+project's own documentation, stating the fact; that supports the claim.
+A record without an abstract was excluded as \emph{no abstract}.  The
+agent then read every record that the screeners kept or judged to bear
+on the claim, 84 in all, looked up an abstract or the full text for
+the 11 of them that had none, and recorded all the decisions; during
+this review it added the criterion \emph{other question}.  To check
+the screening, a second screen, blind to the first, read a sample of
+100 records: it agreed on the verdict for 98 and on the category with a
+kappa of 0.62.  Every decision is the agent's, and the author has not
+yet reviewed them.  A record is excluded if it is one of the following.
 \begin{description}
   \item[Tool use only] It uses Unix, Linux, Android or macOS only as the
-    environment, platform or tool of the study (738 records).
+    environment, platform or tool of the study (429 records).
   \item[App level only] It studies applications, malware, permissions or
     security on one of these systems and says nothing about how the
-    system relates to Unix or Linux (162 records).
+    system relates to Unix or Linux (99 records).
   \item[Kernel internals] It studies one mechanism inside a kernel
     (scheduling, drivers, memory, file systems) and says nothing about
-    lineage or classification (275 records).
+    lineage or classification (214 records).
   \item[No evidence] It is an opinion, a user manual or an overview with
-    no evidence of its own, no source and no stated method
-    (229 records).
+    no evidence of its own, no source and no stated method, or it states
+    a relation to Unix only in passing (204 records).
+  \item[Not an operating system] It uses the words in another sense,
+    such as Unix time, a shell in another sense or android robots, or
+    belongs to another field (240 records).
+  \item[Dataset record] It is a dataset, supplementary file, erratum,
+    bulletin or other record that is not an article (42 records).
+  \item[Other question] It is work on operating systems, Unix or the
+    history of software on a different question, with no statement on
+    how a system relates to Unix (one record).
+  \item[No abstract] It has no abstract (137 records).
 \end{description}
-(A record can meet more than one criterion.)
-Of these 109 records the agent kept 31, which are 26 distinct works;
-\cref{tab:sok-unix-lineage} lists them, and marks those that the text
-cites.
-The other 78, mostly user manuals and security books about Mac OS X and
-compilations of encyclopaedia text, were excluded as \emph{no evidence} or
-\emph{app level only}.
+In all 140 records have no abstract.  Of the 137 excluded as \emph{no
+abstract}, two have an abstract field that holds only other text; of
+the five records without an abstract that were not, one was decided as
+a copy of a record of the same work that has one, and four from an
+abstract or a full text found on the publisher's or an archive's page.
+Of the 1437 records the agent kept 71 (65 supporting the claim, six
+qualifying it); \cref{tab:sok-unix-lineage} lists them as 63 works, and
+marks those that the text cites.  Six records that bear on the claim
+were excluded: five without an abstract, mostly from the 1980s, and the
+Unix History Repository as a \emph{dataset record}.
 \end{onlyin}
 \begin{onlyin}{swedish}
 Sökningarna gav 1437 poster, varav 1267 olika.
-Vi klassade alla mot påståendet med en språkmodell
-(\texttt{claude-sonnet-5-5}, utan exempel), en kategori var: stöder
-påståendet, kvalificerar det, angränsande delämne eller felträff utanför
-ämnet.
-En AI-agent, en språkmodell som arbetade med verktyget, läste titeln på
-varje post som modellen märkte som stödjande (100)
-eller kvalificerande (nio), och sammanfattningen där det fanns en, och
-avgjorde; många saknar sammanfattning.  Författaren har ännu inte
-granskat de besluten.
-En post utesluts om den är något av följande.
+Gallringsagenter, språkmodeller (Claude Sonnet) som arbetade åt agenten
+utifrån en skriven instruktion och en skriven formulering av
+forskningsfrågan, läste titeln och sammanfattningen på varje post.  För
+varje post gav de ett beslut, en av fyra kategorier (stöder påståendet,
+kvalificerar det, angränsande delämne eller felträff utanför ämnet), för
+en utesluten post exakt ett av kriterierna nedan, en konfidens och ett
+skäl hämtat ur sammanfattningen.  Formuleringen har tillägg som
+författaren godkände den 19 november 2026: den omfattar påståendets del
+om Androids användarland, och en post som nämner en relation till Unix
+bara i förbigående, utan egna belägg eller egen källa, är ett
+angränsande delämne som utesluts som \emph{inga belägg}, utom när den är
+en lärobok, eller leverantörens eller projektets egen dokumentation, som
+anger faktumet; då stöder den påståendet.  En post utan sammanfattning
+uteslöts som \emph{ingen sammanfattning}.  Agenten läste sedan varje post
+som gallringsagenterna behöll eller bedömde rör påståendet, 84
+sammanlagt, sökte upp en sammanfattning eller fulltexten för de 11 av dem
+som saknade sammanfattning, och registrerade alla beslut; under den
+granskningen lade den till kriteriet \emph{annan fråga}.  För att
+kontrollera gallringen läste en andra gallring, blind för den första,
+ett urval av 100 poster: den gav samma beslut för 98 och samma kategori
+med en kappa på 0,62.  Varje beslut är agentens, och författaren har
+ännu inte granskat dem.  En post utesluts om den är något av följande.
 \begin{description}
   \item[Bara verktyg] Den använder Unix, Linux, Android eller macOS bara
-    som studiens miljö, plattform eller verktyg (738 poster).
+    som studiens miljö, plattform eller verktyg (429 poster).
   \item[Bara appnivå] Den studerar program, skadlig kod, behörigheter
     eller säkerhet i ett av systemen och säger inget om hur systemet
-    förhåller sig till Unix eller Linux (162 poster).
+    förhåller sig till Unix eller Linux (99 poster).
   \item[Kärnans inre] Den studerar en mekanism inuti en kärna
     (schemaläggning, drivrutiner, minne, filsystem) och säger inget om
-    släktlinje eller klassificering (275 poster).
+    släktlinje eller klassificering (214 poster).
   \item[Inga belägg] Den är en åsikt, en användarmanual eller en
-    översikt utan egna belägg, utan källa och utan angiven metod (229
+    översikt utan egna belägg, utan källa och utan angiven metod, eller
+    den nämner en relation till Unix bara i förbigående (204 poster).
+  \item[Inte ett operativsystem] Den använder orden i en annan mening,
+    som Unixtid, skal i en annan mening eller androider som robotar,
+    eller hör till ett annat område (240 poster).
+  \item[Datamängdspost] Den är en datamängd, en bilagefil, en rättelse,
+    ett bulletinblad eller en annan post som inte är en artikel (42
     poster).
+  \item[Annan fråga] Den gäller operativsystem, Unix eller programvarans
+    historia men en annan fråga, utan något om hur ett system förhåller
+    sig till Unix (en post).
+  \item[Ingen sammanfattning] Den saknar sammanfattning (137 poster).
 \end{description}
-(En post kan uppfylla mer än ett kriterium.)
-Av de 109 posterna behöll agenten 31, som är 26 olika verk;
-\cref{tab:sok-unix-lineage} listar dem, och markerar dem som texten
-citerar.
-De övriga 78, mest användarmanualer och säkerhetsböcker om Mac OS X och
-sammanställningar av uppslagstext, uteslöts som \emph{inga belägg} eller
-\emph{bara appnivå}.
+Sammanlagt saknar 140 poster sammanfattning.  Av de 137 som uteslöts som
+\emph{ingen sammanfattning} har två ett fält för sammanfattning som bara
+innehåller annan text; av de fem poster utan sammanfattning som inte
+uteslöts så avgjordes en som kopia av en post för samma verk som har en,
+och fyra utifrån en sammanfattning eller en fulltext som hittades på
+förlagets eller ett arkivs sida.  Av de 1437 posterna behöll agenten 71
+(65 stödjande, sex kvalificerande); \cref{tab:sok-unix-lineage} listar
+dem som 63 verk, och markerar dem som texten citerar.  Sex poster som rör
+påståendet uteslöts: fem utan sammanfattning, de flesta från 1980-talet,
+och Unix History Repository som \emph{datamängdspost}.
 \end{onlyin}
 
 \section{\ensv{Results}{Resultat}} % sync english=219c4a swedish=6e45f9
@@ -3746,7 +3847,7 @@ tillbaka till det här systemet.
 
 \paragraph{\ensv{The BSD systems descend from Unix.}%
   {BSD-systemen härstammar från Unix.}} % sync english=647f9c swedish=640f43
-\begin{onlyin}{english} % sync english=3d863f swedish=d3e52c
+\begin{onlyin}{english} % sync english=794c4e swedish=657e40
 McKusick, who worked on the Berkeley systems himself, tells how Berkeley
 began with Bell Labs' Unix and added to it.
 The first release for the VAX machine
@@ -3754,15 +3855,15 @@ The first release for the VAX machine
 standard 32/V utilities, and the additions from 2BSD}, and 32/V was
 Bell Labs' own port of Unix to the VAX.
 Spinellis's repository of Unix history has the same lineage as its
-backbone: it was built from \textcquote{Spinellis2016Repository}{24
+backbone: it was built from \textcquote[1372]{Spinellis2016Repository}{24
 snapshots of systems developed at Bell Labs, the University of California
 at Berkeley, and the 386BSD team, two legacy repositories, and the modern
 repository of the open source FreeBSD system}, and it speaks of
-\textcquote{Spinellis2016Repository}{BSD Unix descendants}, among them
+\textcquote[1384]{Spinellis2016Repository}{BSD Unix descendants}, among them
 FreeBSD, NetBSD and OpenBSD.
 In the same author's architecture study, a footnote explains that
 \enquote{Unix} stands for both the Bell Labs systems and for
-\textcquote{SpinellisAvgeriou2021}{Unix-like systems, such as FreeBSD,
+\textcquote[1134]{SpinellisAvgeriou2021}{Unix-like systems, such as FreeBSD,
 that descended from them}.
 The conference version of the repository paper%
 \autocite{Spinellis2015Repository}, a measurement of the similarity of
@@ -3796,15 +3897,15 @@ Den första utgåvan för VAX-maskinen
 memory kernel, the standard 32/V utilities, and the additions from
 2BSD}, och 32/V var Bell Labs egen överföring av Unix till VAX.
 Spinellis arkiv över Unix historia har samma släktlinje som ryggrad: det
-byggdes av \foreigntextcquote{english}{Spinellis2016Repository}{24
+byggdes av \foreigntextcquote{english}[1372]{Spinellis2016Repository}{24
 snapshots of systems developed at Bell Labs, the University of California
 at Berkeley, and the 386BSD team, two legacy repositories, and the modern
 repository of the open source FreeBSD system}, och det talar om
-\foreigntextcquote{english}{Spinellis2016Repository}{BSD Unix
+\foreigntextcquote{english}[1384]{Spinellis2016Repository}{BSD Unix
 descendants}, bland dem FreeBSD, NetBSD och OpenBSD.
 I samma författares arkitekturstudie förklarar en fotnot att
 \enquote{Unix} står både för systemen från Bell Labs och för
-\foreigntextcquote{english}{SpinellisAvgeriou2021}{Unix-like systems,
+\foreigntextcquote{english}[1134]{SpinellisAvgeriou2021}{Unix-like systems,
 such as FreeBSD, that descended from them}.
 Konferensversionen av artikeln om arkivet%
 \autocite{Spinellis2015Repository}, en mätning av hur lika
@@ -3832,7 +3933,7 @@ produkter nämnde inget BSD-system när vi läste dem.
 
 \paragraph{\ensv{Linux is Unix-like, written from scratch.}%
   {Linux är Unixliknande, skrivet från grunden.}} % sync english=13287c swedish=7fca7f
-\begin{onlyin}{english} % sync english=3700b1 swedish=e497ad
+\begin{onlyin}{english} % sync english=26488a swedish=2a1c93
 Torvalds announced the system in August 1991 as
 \textcquote{Torvalds1992History}{a (free) operating system (just a hobby,
 won't be big and professional like gnu) for 386(486) AT clones}, and
@@ -3845,7 +3946,7 @@ loosely-knit team of hackers across the Net}, which
 \textcquote{LinuxKernelDocs2026Readme}{aims towards POSIX and Single UNIX
 Specification compliance}.
 An independent business-history article agrees:
-\textcquote{Takahashi2013Unix}{Torvalds created Linux from the ground
+\textcquote[132]{Takahashi2013Unix}{Torvalds created Linux from the ground
 up as a student at the University of Helsinki, not infringing on the
 AT\&T license}, in the years of the licence dispute over BSD.
 That is the relation we call Unix-like: imitation of the interface, with
@@ -3865,7 +3966,7 @@ assistance from a loosely-knit team of hackers across the Net}, som
 \foreigntextcquote{english}{LinuxKernelDocs2026Readme}{aims towards
 POSIX and Single UNIX Specification compliance}.
 En oberoende artikel i företagshistoria håller med:
-\foreigntextcquote{english}{Takahashi2013Unix}{Torvalds created Linux
+\foreigntextcquote{english}[132]{Takahashi2013Unix}{Torvalds created Linux
 from the ground up as a student at the University of Helsinki, not
 infringing on the AT\&T license}, under åren med licenstvisten om BSD.
 Det är det förhållande som vi kallar Unixliknande: efterlikning av
@@ -4120,7 +4221,7 @@ citerar den inte som det.
 
 \section{\ensv{Discussion and limitations}{Diskussion och begränsningar}} % sync english=634094 swedish=5d16d0
 
-\begin{onlyin}{english} % sync english=c958f5 swedish=31da9e
+\begin{onlyin}{english} % sync english=2ffcdb swedish=28408d
 The evidence is of two kinds, and the limits differ.
 The statements about each system's origin come from documents written by
 the people involved or by the system's own project (Ritchie and Thompson,
@@ -4138,15 +4239,16 @@ refutes any part of it, and the qualifying sources concern wording and the
 Android user space.
 
 The limits are facts about our data and tools.
-The screening was at title level: the agent decided on the 109 records
-that the
-model sorted as bearing on the claim mostly by their titles, reading an
-abstract where one was available, so a relevant study with an
-unrevealing title may have been excluded.
+The screening was done by language models from titles and abstracts;
+the agent read only the records that the screeners kept or judged to
+bear on the claim, and the blind screen covered a sample, so a relevant
+study whose abstract hides its bearing may have been excluded.
 The searches did not go through the university's network, and Scopus
 returns abstracts only there, so the Scopus records came without
-abstracts; for those records both the model and the agent had the
-title alone.
+abstracts; a look-up by DOI in other databases found abstracts for 62
+of the 202 records that lacked one, and the 140 that still lack one were
+excluded, except the five that the agent could decide from another
+source.
 Semantic Scholar and DBLP could not be searched, and IEEE Xplore was
 searched only for the first four queries, so conference papers that only
 IEEE Xplore indexes are possibly missing for the macOS, Android and
@@ -4202,14 +4304,16 @@ motsäger någon del av det, och de kvalificerande källorna gäller
 ordval och Androids användarmiljö.
 
 Gränserna är fakta om våra data och verktyg.
-Gallringen gjordes på titelnivå: agenten avgjorde de 109 poster som
-modellen
-sorterade som relevanta för påståendet mest efter deras titlar, och
-läste en sammanfattning där en fanns, så en relevant studie med en
-intetsägande titel kan ha uteslutits.
+Gallringen gjordes av språkmodeller utifrån titlar och sammanfattningar;
+agenten läste bara de poster som gallringsagenterna behöll eller bedömde
+rör påståendet, och den blinda gallringen täckte ett urval, så en
+relevant studie vars sammanfattning döljer att den rör påståendet kan ha
+uteslutits.
 Sökningarna gick inte genom universitetets nätverk, och Scopus ger
 sammanfattningar bara där, så Scopus poster kom utan sammanfattningar;
-för de posterna hade både modellen och agenten bara titeln.
+en uppslagning via DOI i andra databaser hittade sammanfattningar för 62
+av de 202 poster som saknade en, och de 140 som fortfarande saknar en
+uteslöts, utom de fem som agenten kunde avgöra utifrån en annan källa.
 Semantic Scholar och DBLP kunde inte genomsökas, och IEEE Xplore
 genomsöktes bara för de fyra första frågorna, så konferensbidrag som
 bara IEEE Xplore indexerar kan saknas för frågorna om macOS, Android och
@@ -4397,15 +4501,30 @@ som relevanta för påståendet.
 %                     failed); s2: key rejected, HTTP 403; dblp: failed,
 %                     anti-bot page; not through the KTH tunnel, so Scopus
 %                     returned no abstracts
-%   classification  : scholar llm context + llm classify --no-examples,
-%                     model anthropic/claude-sonnet-5-5; 109 supports or
-%                     qualifies rows read at title (and abstract where one
-%                     existed) level, 31 rows (26 works) kept, 78 rows
-%                     discarded as no-evidence or app-level-only
+%   screening       : redo of 2026-11-19/20 (replaces the earlier llm
+%                     classify round): sonnet screening subagents read
+%                     title and abstract of all 1437 records against a
+%                     written brief and the context v3 (the author's four
+%                     amendments of 2026-11-19, incl. rule 4: a passing
+%                     mention is adjacent + no-evidence, a textbook or the
+%                     vendor's or project's documentation supports);
+%                     v3.1 adds other-question, a label added during the
+%                     review (2026-11-20); one agent ("claims-bd-redo
+%                     (review)") read all 84 screener keeps and bearing
+%                     discards, looked up abstracts or full texts for the
+%                     11 without one, and wrote every decision with
+%                     scholar sessions decide (decision_source agent);
+%                     blind second screen of 100 (verdict 98/100, category
+%                     kappa 0.62)
+%   no-abstract rule: enrich found abstracts for 62 of 202; 140 still
+%                     without, 137 tagged no-abstract (2 with boilerplate
+%                     only), 5 decided from a copy or another source
 %   hit-list tables : scholar sessions export unix-lineage -f table
 %                     --bearing-only --lang en|sv --label sok-unix-lineage
-%                     --track "Claim D"|"Påstående D" --theme ... -o
-%                     litteratursokning/unix-lineage-full(-sv)
+%                     --track "Claim D"|"Påstående D" --theme ...
+%                     --cited-from ltnotes.bib -o
+%                     litteratursokning/unix-lineage-full(-sv) (not
+%                     hand-edited; 71 kept, 63 works listed, 18 cited)
 %   provenance      : ltnotes.bib (CLAIM/FOUND-VIA/QUOTE/VERIFIED)
 \begin{onlyin}{english} % sync english=2a400c swedish=2d84d4
 \input{litteratursokning/unix-lineage-full}

@@ -1,5 +1,8 @@
 \usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
+% T2A only for the one Cyrillic title in appendix C's hit list
+% (\scholarnonlatin, set around its \input); T1, the last, stays the
+% default encoding.
+\usepackage[T2A,T1]{fontenc}
 % Both languages of the course.  The main language is the edition: the
 % driver passes it, \PassOptionsToPackage{main=british}{babel} or
 % main=swedish, and didactic's onlyin blocks and \ensv follow it.

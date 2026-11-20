@@ -205,7 +205,10 @@
 % FOUND-VIA: topic query S1 (Unix history, lineage ...) on 2026-11-18 (see the chapter's query table; whether every provider returned it is recorded there); metadata via Crossref api.crossref.org/works/10.1007/s10664-016-9445-5 (Empirical Software Engineering 22, 1372-1404, 2016); full text from the author's site https://www.spinellis.gr/pubs/jrnl/2016-EMPSE-unix-history/html/journal.pdf with scripts/fetch_pdf.py --text. (The DOI 10.1109/MSR.2015.6 that a web search returned is the proceedings front matter; the conference paper is 10.1109/msr.2015.64.)
 % PICKED: peer-reviewed journal version of the MSR 2015 data paper; an independent scholarly source for the BSD lineage (not Apple, the Open Group or a BSD insider); chosen over the shorter conference version.
 % QUOTE (abstract): "It has been created by synthesizing with custom software 24 snapshots of systems developed at Bell Labs, the University of California at Berkeley, and the 386BSD team, two legacy repositories, and the modern repository of the open source FreeBSD system." (section on the FreeBSD tags): "Two other BSD Unix descendants that could have been imported in the place of FreeBSD or in parallel with it are NetBSD and OpenBSD." (section on BSD-4 4 Lite1): "Consequently, efforts such as FreeBSD and NetBSD rebased their work on this code base."
-% VERIFIED: full text read; page numbers not visible in the plain text (cited without a locator).
+% VERIFIED: full text read; pages from the author's copy in scholar's cache
+%   (14a8adb3f0459306, running heads of Empir Software Eng 22:1372-1404):
+%   "24 snapshots ..." p. 1372, "BSD Unix descendants" p. 1384
+%   (re-checked 2026-11-20).
 % COUNTER: nothing found that disputes the lineage; the paper itself notes AT&T-derived files were removed in the 1994 release.
 % DATE: 2026-11-18
 @article{Spinellis2016Repository,
@@ -343,7 +346,9 @@
 % FOUND-VIA: scholar session on 2026-11-18, support queries S1 and S2 (Web of Science, Scopus, IEEE Xplore and OpenAlex title-and-abstract all returned it); DOI 10.1109/tse.2019.2892149, metadata checked against Crossref (volume 47, issue 6, pp. 1134-1163, 2021); full text fetched with scripts/fetch_pdf.py --text.
 % PICKED: peer-reviewed, independent of the vendors, and it states its own use of the terms in a footnote; chosen over the shorter data papers (Spinellis2016Repository) for the footnote on terminology.
 % QUOTE (footnote 1, p. 1): "UNIX is a registered trademark of The Open Group. For the sake of simplicity, in this paper we use the word "Unix" to refer both to UNIX systems developed at Bell Labs and to Unix-like systems, such as FreeBSD, that descended from them." Abstract: "Along main Unix releases leading to the FreeBSD lineage we examine core architectural design decisions, the number of features, and code complexity".
-% VERIFIED: full text read; the page number "p. 1" is the first page of the article (the footnote stands at the foot of the title page).
+% VERIFIED: full text read; the footnote stands at the foot of the
+%   article's first page, p. 1134 (scholar's cache 8a870d3fa4941f25,
+%   re-checked 2026-11-20).
 % COUNTER: the footnote also shows that scholars use "Unix-like" for descendants, so the deck's contrast between Unix-like (imitation) and descended systems needs its own definition; see the chapter's discussion.
 % DATE: 2026-11-18
 @article{SpinellisAvgeriou2021,
@@ -362,7 +367,9 @@
 % FOUND-VIA: scholar session on 2026-11-18, support query S3 (OpenAlex title-and-abstract); DOI 10.7880/abas.12.123 (open access at J-STAGE); metadata checked against Crossref (Annals of Business Administrative Science 12(3), pp. 123-137, 2013); full text fetched with scripts/fetch_pdf.py --text.
 % PICKED: a peer-reviewed business-history article that tells the licence story of both BSD and Linux from standard secondary histories (Salus, Wayner); independent of Apple, Google and the Open Group. Not a primary source for the code history, which McKusick1999Berkeley and Torvalds1992History are.
 % QUOTE (section 1, p. 123): "Linux is a UNIX-like operating system (OS)"; (section 3, p. 126): "UC Berkeley's version of UNIX, BSD, was representative of such derivatives"; (section 5): "Linus Benedict Torvalds created Linux from the ground up as a student at the University of Helsinki, not infringing on the AT&T license."
-% VERIFIED: full text read; page numbers read from the running heads (123 and 126 confirmed; the third quote is on a later page not noted).
+% VERIFIED: full text read; page numbers read from the running heads (123
+%   and 126; the quote "Torvalds created Linux from the ground up ..." is
+%   on p. 132, scholar's cache 51e2c29d463a4831, re-checked 2026-11-20).
 % COUNTER: none found that disputes the licence history; the same article notes that "Linux" often names the whole system built on the kernel.
 % DATE: 2026-11-18
 @article{Takahashi2013Unix,
@@ -847,6 +854,8 @@
 %   limited computer background"), so it backs B3, not B1 for experts.
 %   Year: the DRUM record is dated 1995-04-13; the report itself carries
 %   no date, and the earlier publication of the study was not verified.
+%   Page: the quote is on p. 10 of the PDF, which prints no page numbers
+%   (scholar's cache 5464fdca3f1cbd75, re-checked 2026-11-20).
 % COUNTER: counter-side source for B1 (novices, one-off tasks).
 % DATE: 2026-11-18
 @techreport{Margono1995Study,
@@ -1603,6 +1612,8 @@
 % VERIFIED: full text (PDF, read 2026-11-18). Crossref lists a "new
 %   version" of the article (2021-08-11), flagged [CORRECTED] by scholar's
 %   currency check; the PDF read is the publisher's current one.
+%   Page: the quote is on p. 1 (scholar's cache b478027d6c0328e7,
+%   re-checked 2026-11-20).
 % COUNTER: as for Ziemann2016Gene.
 % DATE: 2026-11-18
 @article{Abeysooriya2021Gene,
@@ -2116,6 +2127,8 @@
 % VERIFIED: full text (Research Square PDF, read 2026-11-18); a preprint,
 %   not peer reviewed, with no participants: the author is the only
 %   analyst.
+%   Page: the quote is on p. 2 of 17 (scholar's cache d86be043e0dd9888,
+%   re-checked 2026-11-20).
 % COUNTER: none specific.
 % DATE: 2026-11-18
 @online{Magar2025Data,
@@ -2640,6 +2653,53 @@
   number = {3},
   pages = {137--150},
   doi = {10.1007/s10055-008-0091-0},
+}
+
+% === provenance: Baggerly2009Deriving ===
+% CLAIM: A forensic reanalysis of published microarray signatures of drug
+%   sensitivity found that their errors were simple ones (row or column
+%   offsets, reversed labels), which the authors call easy to make,
+%   particularly when working with Excel.
+% FOUND-VIA: known item: the primary study behind Master2010Getting (a
+%   commentary on it, kept from scholar session "cli-efficiency", S7);
+%   metadata from Crossref (query.bibliographic "Baggerly Coombes forensic
+%   bioinformatics reproducible research high-throughput biology",
+%   2026-11-20, DOI 10.1214/09-AOAS291); the publisher's PDF did not
+%   download (also through the KTH tunnel), so the authors' arXiv reprint
+%   (1010.1092v1, "reprint of the original article", pagination differs)
+%   was fetched into scholar's cache with fetch_pdf.py.
+% PICKED: the primary source, replacing the commentary (author's request,
+%   2026-11-20).
+% QUOTE (abstract): "we show in five case studies that the results
+%   incorporate several simple errors that may be putting patients at risk.
+%   One theme that emerges is that the most common errors are simple (e.g.,
+%   row or column offsets)"; (sec. 7.1): "These mistakes are easy to make,
+%   particularly if working with Excel or if working with 0/1 labels instead
+%   of names"
+% VERIFIED: full-text; the arXiv reprint read in scholar's cache
+%   (86c9aeb490fd8a7f), sections 1 and 7.1; applies because the study is the
+%   forensic reanalysis that the chapter describes. Cited by section, since
+%   the reprint's pages differ from the journal's.
+% COUNTER: WebSearch "Baggerly Coombes forensic bioinformatics Potti
+%   response rebuttal retraction Duke gene signatures" (2026-11-20) -- the
+%   original authors called the criticisms minor and a Duke review first
+%   cleared them, but several of the papers were later retracted (secondary
+%   sources: Retraction Watch, The Cancer Letter); nothing found that
+%   disputes the errors the reanalysis documents.
+% DATE: 2026-11-20
+@article{Baggerly2009Deriving,
+  author       = {Baggerly, Keith A. and Coombes, Kevin R.},
+  title        = {Deriving Chemosensitivity from Cell Lines: Forensic
+                  Bioinformatics and Reproducible Research in
+                  High-Throughput Biology},
+  journaltitle = {The Annals of Applied Statistics},
+  year         = {2009},
+  volume       = {3},
+  number       = {4},
+  pages        = {1309--1334},
+  doi          = {10.1214/09-AOAS291},
+  eprint       = {1010.1092},
+  eprinttype   = {arXiv},
 }
 
 % === provenance: Master2010Getting ===

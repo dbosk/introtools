@@ -1376,7 +1376,7 @@ kommandorad?
   \end{exercise}
 \end{frame}
 
-\begin{onlyin}{english} % sync english=43f7c1 swedish=c6946e
+\begin{onlyin}{english} % sync english=a3d307 swedish=e8fdec
 A \emph{server} is a computer that you reach over the network rather
 than sit at.  KTH has one for its students, [[student-shell]], and the
 way in is the command [[ssh]], which logs you into the other computer
@@ -1391,7 +1391,8 @@ line, over SSH, and it is the first way into the systems of the Swedish
 centres; but it is not the only one, since the Swedish centres also offer
 remote desktops, and centres abroad offer web portals and notebooks that
 thousands use\autocite{Lafayette2022SSH,NSCGettingStarted2026,%
-NSCGraphics2026,Strande2017Comet}.\footnote{The scientific basis is in
+PDCSSHLogin2026,NSCGraphics2026,PDCInteractive2026,Miller2012CIPRES,%
+Strande2017Comet}.\footnote{The scientific basis is in
 \cref{app:hpc-cli}: it asks whether high-performance computers run Linux
 and are reached through a command line, and finds that every TOP500
 system runs Linux, though the list leaves smaller clusters out, and that
@@ -1414,8 +1415,8 @@ SSH, och det är den första vägen in i de svenska centrens system; men den
 fjärrskrivbord, och centrum utomlands erbjuder webbportaler och
 interaktiva anteckningsböcker (\foreignlanguage{english}{notebooks}) som
 tusentals använder\autocite{Lafayette2022SSH,NSCGettingStarted2026,%
-NSCGraphics2026,Strande2017Comet}.\footnote{Det vetenskapliga underlaget finns
-i
+PDCSSHLogin2026,NSCGraphics2026,PDCInteractive2026,Miller2012CIPRES,%
+Strande2017Comet}.\footnote{Det vetenskapliga underlaget finns i
 \cref{app:hpc-cli}: den frågar om högpresterande datorer kör Linux och
 nås genom en kommandorad, och finner att varje TOP500-system kör Linux,
 fast listan utelämnar mindre kluster, och att en kommandorad över SSH är
